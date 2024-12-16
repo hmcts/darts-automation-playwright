@@ -1601,9 +1601,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cucumber-playwright@workspace:.":
+"darts-automation-playwright@workspace:.":
   version: 0.0.0-use.local
-  resolution: "cucumber-playwright@workspace:."
+  resolution: "darts-automation-playwright@workspace:."
   dependencies:
     "@cucumber/cucumber": 11.0.1
     "@cucumber/html-formatter": 21.7.0
