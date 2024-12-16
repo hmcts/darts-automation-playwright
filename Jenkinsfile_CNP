@@ -86,6 +86,10 @@ withNightlyPipeline(type, product, component) {
   enableFullFunctionalTest(90)
   // enableSlackNotifications('#darts-builds')
 
+  afterSuccess('build') {
+    yarnBuilder.yarn('playwright install')
+  }
+
   before('fullFunctionalTest') {
     // set the tags to run on the master build
     env.INCLUDE_TAGS = "@smoketest"
