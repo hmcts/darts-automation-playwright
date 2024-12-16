@@ -94,20 +94,18 @@ withNightlyPipeline(type, product, component) {
 
   before('fullFunctionalTest') {
     // set the tags to run on the master build
-    
     env.INCLUDE_TAGS = "@smoketest"
   }
 
-  // afterAlways('fullFunctionalTest') {
-  //   publishHTML target: [
-  //     allowMissing         : true,
-  //     alwaysLinkToLastBuild: true,
-  //     keepAll              : true,
-  //     reportDir            : "test-results/html",
-  //     reportFiles          : "results.html",
-  //     reportName           : "Cucumber Test Report"
-  //   ]
-  //   steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'test-results/functionalTest/cucumber.xml'
-  //   steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'automation.log'
-  // }
+  afterAlways('fullFunctionalTest') {
+    publishHTML target: [
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports",
+      reportFiles          : "report.html",
+      reportName           : "Cucumber Test Report"
+    ]
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/cucumber-report.json'
+  }
 }
