@@ -3,7 +3,7 @@
 
 import uk.gov.hmcts.contino.GradleBuilder
 
-def type = "java"
+def type = "nodejs"
 def product = "darts"
 def component = "automation-playwright"
 
