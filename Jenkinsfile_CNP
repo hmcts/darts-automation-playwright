@@ -78,6 +78,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 GradleBuilder builder = new GradleBuilder(this, product)
 
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
 // this "Jenkinsfile_CNP" file defines the build to run on PRs and master branch, not nightly
 // we are only using the "withNightlyPipeline" function here as it better suits the steps we require e.g. check, build and functional tests
 // but rest assured this will not run nightly, that is defined by the "Jenkinsfile_nightly"
@@ -92,6 +94,7 @@ withNightlyPipeline(type, product, component) {
 
   before('fullFunctionalTest') {
     // set the tags to run on the master build
+    
     env.INCLUDE_TAGS = "@smoketest"
   }
 
