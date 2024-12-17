@@ -85,12 +85,18 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 GradleBuilder builder = new GradleBuilder(this, product)
 
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
 // this "Jenkinsfile_nightly" file defines the build to run "nightly"
 // here we run the same "withNightlyPipeline" as the Jenkinsfile_CNP
 withNightlyPipeline(type, product, component) {
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(180)
   // enableSlackNotifications('#darts-builds')
+  
+  afterSuccess('build') {
+    yarnBuilder.yarn('playwright install')
+  }
 
   before('fullFunctionalTest') {
     // set the tags to run on the nightly build
