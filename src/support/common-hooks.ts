@@ -12,6 +12,7 @@ import {
   Browser,
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
+import sql from './db';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 const tracesDir = 'traces';
@@ -95,4 +96,5 @@ After(async function (this: ICustomWorld, { result }) {
 
 AfterAll(async function () {
   await browser.close();
+  await sql.end();
 });

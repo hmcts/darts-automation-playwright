@@ -1,13 +1,25 @@
 import { config } from './config';
 
-export interface UserCredentials {
+export interface DartsPortalUserCredential {
   username: string;
   password: string;
   type: 'INTERNAL' | 'EXTERNAL';
   role: string;
 }
 
-const credentials: Record<string, UserCredentials> = {
+export interface ExternalServiceUserCredential {
+  username: string;
+  password: string;
+}
+
+const externalServiceUserCredentials: Record<string, ExternalServiceUserCredential> = {
+  DAR_PC: {
+    username: config.usernames.VIQ_EXTERNAL_USERNAME!,
+    password: config.passwords.VIQ_EXTERNAL_PASSWORD!,
+  },
+};
+
+const dartsPortalUserCredentials: Record<string, DartsPortalUserCredential> = {
   EXTERNAL: {
     username: 'dartsautomationuser@HMCTS.net',
     password: config.passwords.AUTOMATION_PASSWORD!,
@@ -70,6 +82,10 @@ const credentials: Record<string, UserCredentials> = {
   },
 };
 
-export const getCredentials = (userType: string): UserCredentials => {
-  return credentials[userType.toUpperCase()];
-};
+export const getDartsPortalUserCredentials = (
+  userType: keyof typeof dartsPortalUserCredentials,
+): DartsPortalUserCredential => dartsPortalUserCredentials[userType.toUpperCase()];
+
+export const getExternalUserCredentials = (
+  userType: keyof typeof externalServiceUserCredentials,
+): ExternalServiceUserCredential => externalServiceUserCredentials[userType.toUpperCase()];

@@ -1,11 +1,14 @@
 import { ICustomWorld } from '../../support/custom-world';
-import { getCredentials, UserCredentials } from '../../support/credentials';
+import {
+  getDartsPortalUserCredentials,
+  DartsPortalUserCredential,
+} from '../../support/credentials';
 import { When } from '@cucumber/cucumber';
 import { BrowserContext, expect } from '@playwright/test';
 import { LoginPage, ExternalLoginPage, InternalLoginPage, BasePage } from '../../page-objects';
 
 type DartsBrowserContext = BrowserContext & {
-  user: UserCredentials;
+  user: DartsPortalUserCredential;
 };
 
 When(
@@ -17,7 +20,7 @@ When(
     const externalLoginPage = new ExternalLoginPage(page);
     // const stubLoginPage = new StubLoginPage(page);
 
-    const userCredentials = getCredentials(role);
+    const userCredentials = getDartsPortalUserCredentials(role);
     await loginPage.goto();
 
     // await stubLoginPage.login(userCredentials.role);
@@ -46,7 +49,7 @@ When(
     const loginPage = new LoginPage(page);
     const externalLoginPage = new ExternalLoginPage(page);
 
-    const userCredentials = getCredentials(role);
+    const userCredentials = getDartsPortalUserCredentials(role);
     await loginPage.goto();
 
     await externalLoginPage.login(userCredentials);

@@ -2,10 +2,7 @@ import { ICustomWorld } from '../../support/custom-world';
 import { Given, When, Then } from '@cucumber/cucumber';
 import { LoginPage } from '../../page-objects/login';
 import { BasePage, ExternalLoginPage } from '../../page-objects';
-
-interface DataTable {
-  rawTable: [string[], string[]];
-}
+import { DataTable } from '../../support/data-table';
 
 Given('I am on the landing page', async function (this: ICustomWorld) {
   const loginPage = new LoginPage(this.page!);
