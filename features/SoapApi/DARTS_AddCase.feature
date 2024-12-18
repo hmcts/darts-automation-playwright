@@ -138,58 +138,57 @@ Feature: AddCase using SOAP
       | courthouse         | caseNumber  | defendant1      | judgeName  | prosecutors     | defenders     |
       | HARROW CROWN COURT | T{{seq}}606 | test defendent1 | test judge | test prosecutor | test defender |
 
-# @DMP-1706
-# Scenario: addCase successful baseline
-#   Given I authenticate from the VIQ source system
-# 	When I call POST SOAP API using soap action addCase and body:
-# 	"""
-# <document xmlns="">
-# <![CDATA[<case type="" id="T{{seq}}607">
-#   <courthouse>Harrow Crown Court</courthouse>
-#   <courtroom>1</courtroom>
-#   <defendants>
-#     <defendant>test defendent1</defendant>
-#   </defendants>
-#   <judges>
-#     <judge>test judge</judge>
-#   </judges>
-#   <prosecutors>
-#     <prosecutor>test prosecutor</prosecutor>
-#   </prosecutors>
-#   <defenders>
-#     <defender>test defender</defender>
-#   </defenders>
-# </case>]]>
-# </document>
-# 	"""
-# 	Then the API status code is 200
+  @DMP-1706
+  Scenario: addCase successful baseline
+    Given I authenticate from the "VIQ" source system
+    When I call POST SOAP API using soap action "addCase" and body:
+      """
+      <document xmlns="">
+      <![CDATA[<case type="" id="T{{seq}}607">
+      <courthouse>HARROW CROWN COURT</courthouse>
+      <courtroom>1</courtroom>
+      <defendants>
+      <defendant>test defendent1</defendant>
+      </defendants>
+      <judges>
+      <judge>test judge</judge>
+      </judges>
+      <prosecutors>
+      <prosecutor>test prosecutor</prosecutor>
+      </prosecutors>
+      <defenders>
+      <defender>test defender</defender>
+      </defenders>
+      </case>]]>
+      </document>
+      """
+    Then the API status code is 200
 
-
-# @DMP-1706
-# Scenario: addCase invalid court name fails
-#   Given I authenticate from the VIQ source system
-# 	When I call POST SOAP API using soap action addCase and body:
-# 	"""
-# <document xmlns="">
-# <![CDATA[<case type="" id="T{{seq}}607">
-#   <courthouse>No Crown Court</courthouse>
-#   <courtroom>1</courtroom>
-#   <defendants>
-#     <defendant>test defendent1</defendant>
-#   </defendants>
-#   <judges>
-#     <judge>test judge</judge>
-#   </judges>
-#   <prosecutors>
-#     <prosecutor>test prosecutor</prosecutor>
-#   </prosecutors>
-#   <defenders>
-#     <defender>test defender</defender>
-#   </defenders>
-# </case>]]>
-# </document>
-# 	"""
-# 	Then the API status code is 404
+  @DMP-1706
+  Scenario: addCase invalid court name fails
+    Given I authenticate from the "VIQ" source system
+    When I call POST SOAP API using soap action "addCase" and body:
+      """
+      <document xmlns="">
+      <![CDATA[<case type="" id="T{{seq}}607">
+      <courthouse>NO CROWN COURT</courthouse>
+      <courtroom>1</courtroom>
+      <defendants>
+      <defendant>test defendent1</defendant>
+      </defendants>
+      <judges>
+      <judge>test judge</judge>
+      </judges>
+      <prosecutors>
+      <prosecutor>test prosecutor</prosecutor>
+      </prosecutors>
+      <defenders>
+      <defender>test defender</defender>
+      </defenders>
+      </case>]]>
+      </document>
+      """
+    Then the API status code is 404
 
 
 # @DMP-1706

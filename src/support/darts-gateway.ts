@@ -15,19 +15,25 @@ import {
 import { getExternalUserCredentials } from './credentials';
 
 const DARTS_SERVICE_PATH = '/service/darts';
-const CACHE_KEY = 'darts_gateway_api_response';
+const CACHE_KEY = 'darts_soap_response';
 
 type UserType = 'XHIBIT' | 'DAR_PC';
 
+// TODO: need to be able to use proxy and gateway
 export default class DartsGateway {
   private static request = supertest(config.DARTS_GATEWAY);
 
-  private static buildSoapRequest(operation: string, xml: string, userType: UserType): string {
+  private static buildSoapRequest(
+    operation: string,
+    xml: string,
+    includesDocumentTag: boolean,
+    userType: UserType,
+  ): string {
     const soapHeader = soapHeaderWithAuth(getExternalUserCredentials(userType));
     return `${XML_HEADER}
 ${SOAP_ENVELOPE_OPEN}
   ${soapHeader}
-  ${soapBody(operation, xml)}
+  ${soapBody(operation, xml, includesDocumentTag)}
 ${SOAP_ENVELOPE_CLOSE}`;
   }
 
@@ -35,6 +41,7 @@ ${SOAP_ENVELOPE_CLOSE}`;
     soapAction: string,
     soapEnvelope: string,
   ): Promise<supertest.Test> {
+    // console.log('Performing DARTS Gateway SOAP request', soapAction, soapEnvelope);
     return await this.request
       .post(DARTS_SERVICE_PATH)
       .set('Content-Type', 'text/xml')
@@ -42,10 +49,13 @@ ${SOAP_ENVELOPE_CLOSE}`;
       .send(soapEnvelope);
   }
 
-  static async addCase(caseXml: string): Promise<void> {
+  static async addCase(
+    caseXml: string,
+    { includesDocumentTag }: { includesDocumentTag?: boolean } = {},
+  ): Promise<void> {
     const response = await this.gatewayCall(
       'addCase',
-      this.buildSoapRequest('addCase', caseXml, 'DAR_PC'),
+      this.buildSoapRequest('addCase', caseXml, includesDocumentTag ?? false, 'DAR_PC'),
     );
     expect(response.status).toEqual(200);
     cache.put(CACHE_KEY, response.text);

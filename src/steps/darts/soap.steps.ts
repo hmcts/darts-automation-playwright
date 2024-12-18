@@ -75,6 +75,15 @@ When('I create a case', async function (this: ICustomWorld, dataTable: DataTable
   await DartsGateway.addCase(xmlescape(caseXml));
 });
 
+When(
+  'I call POST SOAP API using soap action {string} and body:',
+  async function (this: ICustomWorld, soapAction: string, soapBody: string) {
+    if (soapAction === 'addCase') {
+      await DartsGateway.addCase(soapBody, { includesDocumentTag: true });
+    }
+  },
+);
+
 Then('the API status code is {int}', async function (this: ICustomWorld, statusCode: number) {
   const response = DartsGateway.getResponseCodeAndMessage();
   expect(response.code).toBe(statusCode);

@@ -38,12 +38,12 @@ export const soapHeaderWithAuth = ({
     </ServiceContext>
   </S:Header>`;
 
-export const soapBody = (soapAction: string, document: string) => `
+export const soapBody = (soapAction: string, document: string, includesDocumentTag: boolean) => `
 <S:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <${soapAction} xmlns="http://com.synapps.mojdarts.service.com">
-    <document xmlns="">
+    ${includesDocumentTag ? '' : '<document xmlns="">'}
       ${document}
-    </document>
+    ${includesDocumentTag ? '' : '</document>'}
   </${soapAction}>
 </S:Body>
 `;
