@@ -22,15 +22,20 @@ export const config = {
   browserOptions,
   DARTS_PORTAL: process.env.DARTS_PORTAL ?? 'https://darts.staging.apps.hmcts.net',
   DARTS_GATEWAY: process.env.DARTS_GATEWAY ?? 'http://darts-gateway.staging.platform.hmcts.net',
+  DARTS_PROXY: process.env.DARTS_PROXY ?? 'http://darts-proxy.staging.platform.hmcts.net',
+  DARTS_GATEWAY_SERVICE_PATH: '/service/darts',
+  DARTS_PROXY_SERVICE_PATH: '/service/darts/DARTSService',
   usernames: {
-    VIQ_EXTERNAL_USERNAME: process.env.VIQ_EXTERNAL_USERNAME,
+    VIQ_USERNAME: process.env.VIQ_EXTERNAL_USERNAME,
+    XHIBIT_USERNAME: process.env.XHIBIT_EXTERNAL_USERNAME,
   },
   passwords: {
     AUTOMATION_PASSWORD: process.env.AUTOMATION_PASSWORD,
     AUTOMATION_INTERNAL_PASSWORD: process.env.AUTOMATION_INTERNAL_PASSWORD,
     AUTOMATION_EXTERNAL_PASSWORD: process.env.AUTOMATION_EXTERNAL_PASSWORD,
     AUTOMATION_REQUESTER_APPROVER_PASSWORD: process.env.AUTOMATION_REQUESTER_APPROVER_PASSWORD,
-    VIQ_EXTERNAL_PASSWORD: process.env.VIQ_EXTERNAL_PASSWORD,
+    VIQ_PASSWORD: process.env.VIQ_EXTERNAL_PASSWORD,
+    XHIBIT_PASSWORD: process.env.XHIBIT_EXTERNAL_PASSWORD,
   },
 
   database: {

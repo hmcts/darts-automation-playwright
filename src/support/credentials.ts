@@ -10,12 +10,19 @@ export interface DartsPortalUserCredential {
 export interface ExternalServiceUserCredential {
   username: string;
   password: string;
+  useToken: boolean;
 }
 
 const externalServiceUserCredentials: Record<string, ExternalServiceUserCredential> = {
-  DAR_PC: {
-    username: config.usernames.VIQ_EXTERNAL_USERNAME!,
-    password: config.passwords.VIQ_EXTERNAL_PASSWORD!,
+  VIQ: {
+    username: config.usernames.VIQ_USERNAME!,
+    password: config.passwords.VIQ_PASSWORD!,
+    useToken: false,
+  },
+  XHIBIT: {
+    username: config.usernames.XHIBIT_USERNAME!,
+    password: config.passwords.XHIBIT_PASSWORD!,
+    useToken: true,
   },
 };
 

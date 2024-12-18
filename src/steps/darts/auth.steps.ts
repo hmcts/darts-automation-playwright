@@ -1,11 +1,12 @@
+import { Given, When } from '@cucumber/cucumber';
+import { BrowserContext, expect } from '@playwright/test';
 import { ICustomWorld } from '../../support/custom-world';
 import {
   getDartsPortalUserCredentials,
   DartsPortalUserCredential,
 } from '../../support/credentials';
-import { Given, When } from '@cucumber/cucumber';
-import { BrowserContext, expect } from '@playwright/test';
 import { LoginPage, ExternalLoginPage, InternalLoginPage, BasePage } from '../../page-objects';
+import DartsSoapService from '../../support/darts-soap-service';
 
 type DartsBrowserContext = BrowserContext & {
   user: DartsPortalUserCredential;
@@ -82,9 +83,8 @@ When('I Sign out', async function (this: ICustomWorld) {
 
 Given(
   'I authenticate from the {string} source system',
-  async function (this: ICustomWorld, source: 'VIQ') {
-    if (source === 'VIQ') {
-      // do nothing
-    }
+  async function (this: ICustomWorld, source: 'VIQ' | 'XHIBIT') {
+    // generate and store token for SOAP request, if required
+    await DartsSoapService.register(source);
   },
 );

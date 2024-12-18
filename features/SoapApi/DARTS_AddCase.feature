@@ -101,7 +101,7 @@ Feature: AddCase using SOAP
       | courthouse         | caseNumber  | defendantName | judgeName | prosecutors | defenders |
       | HARROW CROWN COURT | T{{seq}}604 | MISSING       | MISSING   | MISSING     | MISSING   |
 
-  # This scenario isn't run during the darts-automation nightly run, not sure why
+  # TODO: @broken added here. This scenario isn't run during the darts-automation nightly run, not sure why.
   @DMP-1706 @ClientProblemException @review @broken
   Scenario Outline: SOAP addCase with participant elements empty
     Given I see table "COURTCASE" column "count(cas_id)" is "0" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>"
@@ -190,31 +190,30 @@ Feature: AddCase using SOAP
       """
     Then the API status code is 404
 
-
-# @DMP-1706
-# Scenario: addCase access fron XHIBIT fails
-#   Given I authenticate from the XHIBIT source system
-# 	When I call POST SOAP API using soap action addCase and body:
-# 	"""
-# <document xmlns="">
-# <![CDATA[<case type="" id="T{{seq}}607">
-#   <courthouse>Harrow Crown Court</courthouse>
-#   <courtroom>1</courtroom>
-#   <defendants>
-#     <defendant>test defendent1</defendant>
-#   </defendants>
-#   <judges>
-#     <judge>test judge</judge>
-#   </judges>
-#   <prosecutors>
-#     <prosecutor>test prosecutor</prosecutor>
-#   </prosecutors>
-#   <defenders>
-#     <defender>test defender</defender>
-#   </defenders>
-# </case>]]>
-# </document>
-# 	"""
-# 	Then the API status code is 500
+  @DMP-1706
+  Scenario: addCase access from XHIBIT fails
+    Given I authenticate from the "XHIBIT" source system
+    When I call POST SOAP API using soap action "addCase" and body:
+      """
+      <document xmlns="">
+      <![CDATA[<case type="" id="T{{seq}}607">
+      <courthouse>HARROW CROWN COURT</courthouse>
+      <courtroom>1</courtroom>
+      <defendants>
+      <defendant>test defendent1</defendant>
+      </defendants>
+      <judges>
+      <judge>test judge</judge>
+      </judges>
+      <prosecutors>
+      <prosecutor>test prosecutor</prosecutor>
+      </prosecutors>
+      <defenders>
+      <defender>test defender</defender>
+      </defenders>
+      </case>]]>
+      </document>
+      """
+    Then the API status code is 500
 
 
