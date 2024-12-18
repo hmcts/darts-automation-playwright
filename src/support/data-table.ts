@@ -4,7 +4,7 @@ export interface DataTable {
 
 export const dataTableToObject = <T>(dataTable: DataTable): T => {
   const data = dataTable.rawTable;
-  const obj = {} as unknown as T;
+  const obj: Record<string, unknown> = {};
   data[0].forEach((key, index) => {
     const val = data[1][index];
     if (val === 'MISSING') {
@@ -13,5 +13,5 @@ export const dataTableToObject = <T>(dataTable: DataTable): T => {
       obj[key] = val;
     }
   });
-  return obj;
+  return obj as T;
 };

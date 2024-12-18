@@ -67,9 +67,7 @@ export class BasePage {
     const matchingCookie = cookies.find((c) => c.name === cookieName);
     expect(matchingCookie).toBeDefined();
     if (matchingCookie) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const decodedCookie = JSON.parse(decodeURIComponent(matchingCookie.value));
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(`${decodedCookie[key]}`).toBe(value);
     }
   }

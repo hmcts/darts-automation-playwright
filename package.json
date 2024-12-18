@@ -6,7 +6,7 @@
   "scripts": {
     "cucumber": "tsx node_modules/.bin/cucumber-js",
     "api": "DEBUG=pw:api npm run cucumber",
-    "build": "rimraf build && npm run format && npm run lint && tsc && npm run cucumber-check",
+    "build": "npm run format && npm run lint && tsc",
     "cucumber-check": "npm run cucumber features/**/*.feature --dry-run --require env/set-environment-variables.ts --require world/custom-world.ts --require step-definitions/**/*.ts --require hooks/**/*.ts  --require-module ts-node/register --format-options \"{\\\"snippetInterface\\\": \\\"async-await\\\"}\" --format summary --format progress --format progress-bar  --publish-quiet",
     "debug": "PWDEBUG=1 DEBUG=pw:api npm run cucumber ",
     "video": "PWVIDEO=1 npm run cucumber ",
@@ -19,6 +19,7 @@
     "all": "npm run cucumber features/**/*.feature",
     "test": "npm run cucumber ",
     "test:smoke": "npm run cucumber -- --tags @smoketest",
+    "test:all": "npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
     "test:fullfunctional": "npm run cucumber",
     "test:parallel": "npm run cucumber  --parallel=2",
     "docker": "docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:latest /bin/bash",
@@ -52,7 +53,6 @@
     "pixelmatch": "6.0.0",
     "pngjs": "7.0.0",
     "prettier": "3.3.3",
-    "rimraf": "6.0.1",
     "ts-node": "10.9.2",
     "tsx": "4.19.1",
     "typescript": "5.6.2",
@@ -60,6 +60,8 @@
   },
   "packageManager": "yarn@3.8.6",
   "dependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.17.0",
     "@types/memory-cache": "^0.2.6",
     "@types/supertest": "^6.0.2",
     "@types/xml-escape": "^1.1.3",

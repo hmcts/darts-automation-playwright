@@ -58,7 +58,7 @@
   },
   "exclude": ["node_modules"],
   "include": ["src"],
-  "files": ["cucumber.js", "eslint.config.js"],
+  "files": ["cucumber.js", "eslint.config.mjs"],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
