@@ -58,7 +58,7 @@
     "typescript": "5.6.2",
     "typescript-eslint": "^8.7.0"
   },
-  "packageManager": "yarn@3.8.6",
+  "packageManager": "yarn@3.8.7",
   "dependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.17.0",
