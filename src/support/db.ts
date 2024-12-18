@@ -30,16 +30,32 @@ left join darts.case_judge_ae using (cas_id)
 join darts.judge jud using (jud_id)
 `;
 
+const EVENT_JOIN = `
+darts.court_case cas
+left join darts.hearing hea on hea.cas_id = cas.cas_id
+left join darts.hearing_event_ae he on he.hea_id = hea.hea_id
+left join darts.event eve on eve.eve_id = he.eve_id
+left join darts.event_handler evh on evh.evh_id = eve.evh_id
+left join darts.courtroom ctr on ctr.ctr_id = hea.ctr_id
+left join darts.courthouse cth on ctr.cth_id = cth.cth_id
+`;
+
 export const tableName = (tableName: string): string => {
   switch (tableName) {
     case 'COURTCASE':
       return COURT_CASE_JOIN;
     case 'CASE_JUDGE':
       return CASE_JUDGE_JOIN;
+    case 'EVENT':
+      return EVENT_JOIN;
     default:
       return tableName;
   }
 };
 
-export const getSingleValueFromResult = (result: SqlResult): string | number =>
-  result[0][Object.keys(result[0])[0]];
+export const getSingleValueFromResult = (result: SqlResult): string | number => {
+  if (result.length === 0) {
+    throw new Error('Single value result expected, none found');
+  }
+  return result[0][Object.keys(result[0])[0]];
+};

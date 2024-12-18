@@ -1,5 +1,49 @@
 import { ExternalServiceUserCredential } from './credentials';
 
+interface Defendant {
+  defendant: string;
+}
+interface Judge {
+  judge: string;
+}
+interface Prosecutor {
+  prosecutor: string;
+}
+interface Defender {
+  defender: string;
+}
+
+interface CaseNumber {
+  case_number: string;
+}
+
+export interface AddCaseObject {
+  case: {
+    $type: string;
+    $id: string;
+    courthouse: string;
+    defendants: Defendant[];
+    judges: Judge[];
+    prosecutors: Prosecutor[];
+    defenders: Defender[];
+  };
+}
+
+export interface AddLogEntryObject {
+  log_entry: {
+    $Y: string;
+    $M: string;
+    $D: string;
+    $H: string;
+    $MIN: string;
+    $S: string;
+    courthouse: string;
+    courtroom: string;
+    case_numbers: CaseNumber[];
+    text: string;
+  };
+}
+
 export interface SoapResponseCodeAndMessage {
   code: number;
   message: string;
@@ -10,6 +54,9 @@ export interface GatewaySoapResponse {
     'SOAP-ENV:Header': string;
     'SOAP-ENV:Body': {
       'ns3:addCaseResponse'?: {
+        return: SoapResponseCodeAndMessage;
+      };
+      'ns3:addLogEntryResponse'?: {
         return: SoapResponseCodeAndMessage;
       };
       'ns3:registerResponse'?: {

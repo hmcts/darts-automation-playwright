@@ -100,6 +100,27 @@ ${SOAP_ENVELOPE_CLOSE}`;
     cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
   }
 
+  static async addLogEntry(
+    addLogEntryXml: string,
+    {
+      includesDocumentTag,
+      useGateway,
+    }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
+  ) {
+    const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
+    const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
+      'addLogEntry',
+      this.buildSoapRequest(
+        'addLogEntry',
+        addLogEntryXml,
+        includesDocumentTag ?? false,
+        authenticatedSource,
+      ),
+    );
+    expect(response.status).toEqual(200);
+    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+  }
+
   static async register(userType: UserType): Promise<void> {
     if (userType === 'VIQ') {
       // register not required for VIQ, but set as the auth'd source
@@ -136,7 +157,13 @@ ${SOAP_ENVELOPE_CLOSE}`;
     }
     if ((responseObj as GatewaySoapResponse)['SOAP-ENV:Envelope']) {
       const r = responseObj as GatewaySoapResponse;
-      return r['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns3:addCaseResponse']?.return;
+      const body = r['SOAP-ENV:Envelope']['SOAP-ENV:Body'];
+      if (body['ns3:addCaseResponse']) {
+        return body['ns3:addCaseResponse'].return;
+      }
+      if (body['ns3:addLogEntryResponse']) {
+        return body['ns3:addLogEntryResponse'].return;
+      }
     }
     if ((responseObj as ProxySoapResponse)['S:Envelope']) {
       const r = responseObj as ProxySoapResponse;

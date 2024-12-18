@@ -3,9 +3,11 @@ import { XMLBuilder } from 'fast-xml-parser';
 import xmlescape from 'xml-escape';
 import { When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-import { DataTable, dataTableToObject } from '../../support/data-table';
+import { DataTable, dataTableToObject, dataTableToObjectArray } from '../../support/data-table';
 import { substituteValue } from '../../support/substitution';
 import DartsSoapService from '../../support/darts-soap-service';
+import { AddCaseObject, AddLogEntryObject } from '../../support/soap';
+import { DateTime } from 'luxon';
 
 interface AddCaseDataTable {
   courthouse: string;
@@ -16,29 +18,13 @@ interface AddCaseDataTable {
   defenders: string;
 }
 
-interface Defendant {
-  defendant: string;
-}
-interface Judge {
-  judge: string;
-}
-interface Prosecutor {
-  prosecutor: string;
-}
-interface Defender {
-  defender: string;
-}
-
-interface AddCaseObject {
-  case: {
-    $type: string;
-    $id: string;
-    courthouse: string;
-    defendants: Defendant[];
-    judges: Judge[];
-    prosecutors: Prosecutor[];
-    defenders: Defender[];
-  };
+interface AddCourtLogDataTable {
+  courthouse: string;
+  courtroom: string;
+  case_numbers: string;
+  text: string;
+  date: string;
+  time: string;
 }
 
 When('I create a case', async function (this: ICustomWorld, dataTable: DataTable) {
@@ -75,14 +61,59 @@ When('I create a case', async function (this: ICustomWorld, dataTable: DataTable
   await DartsSoapService.addCase(xmlescape(caseXml));
 });
 
+When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable) {
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    attributeNamePrefix: '$',
+    oneListGroup: true,
+  });
+
+  const courtLogData = dataTableToObjectArray<AddCourtLogDataTable>(dataTable);
+  console.log('courtLogData', courtLogData);
+
+  await Promise.all(
+    courtLogData.map((courtLog) => {
+      const dateObj = DateTime.fromFormat(courtLog.date, 'y-MM-dd');
+      const time = courtLog.time.split(':');
+      const addLogEntry: AddLogEntryObject = {
+        log_entry: {
+          $Y: dateObj.year.toString(),
+          $M: dateObj.month.toString(),
+          $D: dateObj.day.toString(),
+          $H: time[0],
+          $MIN: time[1],
+          $S: time[2],
+          courthouse: courtLog.courthouse,
+          courtroom: courtLog.courtroom,
+          case_numbers:
+            courtLog.case_numbers !== null
+              ? courtLog.case_numbers.split('~').map((case_number) => ({ case_number }))
+              : [],
+          text: courtLog.text,
+        },
+      };
+
+      const addLogEntryXml = builder.build(addLogEntry) as string;
+      DartsSoapService.addLogEntry(xmlescape(addLogEntryXml));
+    }),
+  );
+});
+
 When(
   'I call POST SOAP API using soap action {string} and body:',
   async function (this: ICustomWorld, soapAction: string, soapBody: string) {
+    // TODO: these should not use the gateway, addCase should go via the proxy,
+    // however the soapBody uses CDATA and the proxy rejects this as invalid XML.
+    // darts-automation uses the gateway which is why this passes there.
+    const useGateway = true;
     if (soapAction === 'addCase') {
-      // TODO: this should not use the gateway, addCase should go via the proxy,
-      // however the soapBody uses CDATA and the proxy rejects this as invalid XML.
-      // darts-automation uses the gateway which is why this passes there.
-      await DartsSoapService.addCase(soapBody, { includesDocumentTag: true, useGateway: true });
+      await DartsSoapService.addCase(soapBody, { includesDocumentTag: true, useGateway });
+    }
+    if (soapAction === 'addLogEntry') {
+      await DartsSoapService.addLogEntry(substituteValue(soapBody) as string, {
+        includesDocumentTag: true,
+        useGateway,
+      });
     }
   },
 );

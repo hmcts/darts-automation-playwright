@@ -1,4 +1,9 @@
 import { LaunchOptions } from '@playwright/test';
+
+const random = (Math.random() + 1).toString(36).substring(7).toUpperCase();
+const build = process.env.BUILD_NUMBER;
+const user = (process.env.USER || 'USER').toUpperCase();
+
 const browserOptions: LaunchOptions = {
   slowMo: 0,
   args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'],
@@ -9,10 +14,7 @@ const browserOptions: LaunchOptions = {
 };
 
 const generateSeq = (): string => {
-  // TODO: use Jenkins build number, if present
-  const envUser = process.env.USER || 'user';
-  const r = (Math.random() + 1).toString(36).substring(7);
-  const seq = `${envUser.substring(0, 4)}-${r}`;
+  const seq = build ? `${build}-${random}` : `${user.substring(0, 4)}-${random}`;
   console.log('Running with seq =', seq);
   return seq;
 };
