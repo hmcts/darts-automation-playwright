@@ -17,6 +17,10 @@ interface CaseNumber {
   case_number: string;
 }
 
+interface CourtHouseAddress {
+  'apd:Line': string;
+}
+
 export interface AddCaseObject {
   case: {
     $type: string;
@@ -41,6 +45,115 @@ export interface AddLogEntryObject {
     courtroom: string;
     case_numbers: CaseNumber[];
     text: string;
+  };
+}
+
+interface PersonalDetails {
+  'cs:PersonalDetails': {
+    'cs:Name': {
+      'apd:CitizenNameForename': string;
+      'apd:CitizenNameSurname': string;
+    };
+  };
+}
+
+interface DailyListProsecution {
+  $ProsecutingAuthority: string;
+  'cs:ProsecutingReference': string;
+  'cs:ProsecutingOrganisation': {
+    'cs:OrganisationName': string;
+  };
+  'cs:Advocate': PersonalDetails;
+}
+
+type DailyListDefendant = PersonalDetails & {
+  'cs:URN': string;
+  'cs:Counsel': {
+    'cs:Advocate': PersonalDetails;
+  };
+};
+
+interface Hearing {
+  'cs:Hearing': {
+    'cs:HearingSequenceNumber': string;
+    'cs:HearingDetails': {
+      $HearingType: string;
+      'cs:HearingDescription': string;
+      'cs:HearingDate': string;
+    };
+    'cs:TimeMarkingNote': string;
+    'cs:CaseNumber': string;
+    'cs:Prosecution': DailyListProsecution;
+    'cs:Defendants': {
+      'cs:Defendant': DailyListDefendant | DailyListDefendant[];
+    };
+  };
+}
+
+interface Sitting {
+  'cs:Sitting': {
+    'cs:CourtRoomNumber': string;
+    'cs:SittingSequenceNo': string;
+    'cs:SittingAt': string;
+    'cs:SittingPriority': string;
+    'cs:Judiciary': {
+      'cs:Judge': {
+        'apd:CitizenNameForename': string;
+        'apd:CitizenNameSurname': string;
+        'apd:CitizenNameRequestedName': string;
+        'apd:CRESTjudgeID': string;
+      };
+    };
+    'cs:Hearings': Hearing;
+  };
+}
+
+interface CourtList {
+  'cs:CourtList': {
+    'cs:CourtHouse': {
+      'cs:CourtHouseType': string;
+      'cs:CourtHouseCode': string;
+      'cs:CourtHouseName': string;
+    };
+    'cs:Sittings': Sitting;
+  };
+}
+
+export interface DailyListObject {
+  'cs:DailyList': {
+    'cs:DocumentID': {
+      'cs:DocumentName': string;
+      'cs:UniqueID': string;
+      'cs:DocumentType': string;
+      'cs:TimeStamp': string;
+      'cs:Version': string;
+      'cs:SecurityClassification': string;
+      'cs:SellByDate': string;
+      'cs:XSLstylesheetURL': string;
+    };
+    'cs:ListHeader': {
+      'cs:ListCategory': string;
+      'cs:StartDate': string;
+      'cs:EndDate': string;
+      'cs:Version': string;
+      'cs:CRESTprintRef': string;
+      'cs:PublishedTime': string;
+      'cs:CRESTlistID': string;
+    };
+    'cs:CrownCourt': {
+      'cs:CourtHouseType': string;
+      'cs:CourtHouseCode': string & {
+        $CourtHouseShortName: string;
+      };
+      'cs:CourtHouseName': string;
+      'cs:CourtHouseAddress': CourtHouseAddress[] & {
+        'apd:PostCode': string;
+      };
+      'cs:CourtHouseDX': string;
+      'cs:CourtHouseTelephone': string;
+      'cs:CourtHouseFax': string;
+    };
+    'cs:CourtLists': CourtList;
   };
 }
 
@@ -115,14 +228,28 @@ export const soapHeaderWithToken = (token: string) => `
     </ServiceContext>
   </S:Header>`;
 
-export const soapBody = (soapAction: string, document: string, includesDocumentTag: boolean) => `
+export const soapBody = (
+  soapAction: string,
+  document: string,
+  includesDocumentTag: boolean,
+  soapActionXmlNsName?: string,
+) => {
+  const soapActionTagName = soapActionXmlNsName
+    ? `${soapActionXmlNsName}:${soapAction}`
+    : soapAction;
+  const soapActionXmlNsAttr = soapActionXmlNsName
+    ? `xmlns:${soapActionXmlNsName}="http://com.synapps.mojdarts.service.com"`
+    : `xmlns="http://com.synapps.mojdarts.service.com"`;
+
+  return `
 <S:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <${soapAction} xmlns="http://com.synapps.mojdarts.service.com">
+  <${soapActionTagName} ${soapActionXmlNsAttr}>
     ${includesDocumentTag ? '' : '<document xmlns="">'}
       ${document}
     ${includesDocumentTag ? '' : '</document>'}
-  </${soapAction}>
+  </${soapActionTagName}>
 </S:Body>`;
+};
 
 export const soapRegisterBody = (
   host: string,

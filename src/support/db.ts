@@ -40,6 +40,22 @@ left join darts.courtroom ctr on ctr.ctr_id = hea.ctr_id
 left join darts.courthouse cth on ctr.cth_id = cth.cth_id
 `;
 
+const CASE_HEARING_JOIN = `
+darts.courthouse cth
+join darts.courtroom ctr using (cth_id)
+join darts.hearing hea using (ctr_id)
+join darts.court_case cas using (cas_id)
+`;
+
+const CASE_HEARING_JUDGE_JOIN = `
+darts.courthouse cth
+join darts.courtroom ctr using(cth_id)
+join darts.hearing hea using (ctr_id)
+join darts.court_case cas using (cas_id)
+left join darts.hearing_judge_ae using (hea_id)
+join darts.judge jud using (jud_id)
+`;
+
 export const tableName = (tableName: string): string => {
   switch (tableName) {
     case 'COURTCASE':
@@ -48,6 +64,10 @@ export const tableName = (tableName: string): string => {
       return CASE_JUDGE_JOIN;
     case 'EVENT':
       return EVENT_JOIN;
+    case 'CASE_HEARING':
+      return CASE_HEARING_JOIN;
+    case 'CASE_HEARING_JUDGE':
+      return CASE_HEARING_JUDGE_JOIN;
     default:
       return tableName;
   }

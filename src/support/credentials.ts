@@ -1,10 +1,10 @@
 import { config } from './config';
 
-export interface DartsPortalUserCredential {
+export interface DartsUserCredential {
   username: string;
   password: string;
-  type: 'INTERNAL' | 'EXTERNAL';
-  role: string;
+  type: 'INTERNAL' | 'EXTERNAL' | 'API';
+  role?: string;
 }
 
 export interface ExternalServiceUserCredential {
@@ -24,9 +24,14 @@ const externalServiceUserCredentials: Record<string, ExternalServiceUserCredenti
     password: config.passwords.XHIBIT_PASSWORD!,
     useToken: true,
   },
+  CPP: {
+    username: config.usernames.XHIBIT_USERNAME!,
+    password: config.passwords.XHIBIT_PASSWORD!,
+    useToken: true,
+  },
 };
 
-const dartsPortalUserCredentials: Record<string, DartsPortalUserCredential> = {
+const dartsUserCredentials: Record<string, DartsUserCredential> = {
   EXTERNAL: {
     username: 'dartsautomationuser@HMCTS.net',
     password: config.passwords.AUTOMATION_PASSWORD!,
@@ -87,11 +92,20 @@ const dartsPortalUserCredentials: Record<string, DartsPortalUserCredential> = {
     type: 'EXTERNAL',
     role: 'SUPERUSER',
   },
+  ROPC_GLOBAL: {
+    username: config.usernames.FUNC_TEST_ROPC_GLOBAL_USERNAME!,
+    password: config.passwords.FUNC_TEST_ROPC_GLOBAL_PASSWORD!,
+    type: 'API',
+  },
 };
 
-export const getDartsPortalUserCredentials = (
-  userType: keyof typeof dartsPortalUserCredentials,
-): DartsPortalUserCredential => dartsPortalUserCredentials[userType.toUpperCase()];
+export type DartsUserTypes = keyof typeof externalServiceUserCredentials;
+
+export const getDartsUserCredentials = (
+  userType: keyof typeof dartsUserCredentials,
+): DartsUserCredential => dartsUserCredentials[userType.toUpperCase()];
+
+export type ExternalServiceUserTypes = keyof typeof externalServiceUserCredentials;
 
 export const getExternalUserCredentials = (
   userType: keyof typeof externalServiceUserCredentials,

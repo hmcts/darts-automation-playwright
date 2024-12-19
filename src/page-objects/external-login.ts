@@ -1,8 +1,8 @@
 import { BasePage } from '.';
-import { DartsPortalUserCredential } from '../support/credentials';
+import { DartsUserCredential } from '../support/credentials';
 
 export class ExternalLoginPage extends BasePage {
-  async login(userCredentials: DartsPortalUserCredential): Promise<void> {
+  async login(userCredentials: DartsUserCredential): Promise<void> {
     await this.clickLabel('I work with the HM Courts and Tribunals Service');
     await super.clickButton('Continue');
 
