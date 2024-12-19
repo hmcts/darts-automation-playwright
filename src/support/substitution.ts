@@ -57,15 +57,15 @@ export const substituteValue = (value: string): string | boolean => {
 
   value =
     value.indexOf('{{yyyy-{{date-0}}}}') >= 0
-      ? value.replaceAll('{{yyyy-{{date-0}}}}', handleDate(value, 'y'))
+      ? value.replaceAll('{{yyyy-{{date-0}}}}', handleDate('{{yyyy-{{date-0}}}}', 'y'))
       : value;
   value =
     value.indexOf('{{mm-{{date-0}}}}') >= 0
-      ? value.replaceAll('{{mm-{{date-0}}}}', handleDate(value, 'MM'))
+      ? value.replaceAll('{{mm-{{date-0}}}}', handleDate('{{mm-{{date-0}}}}', 'MM'))
       : value;
   value =
     value.indexOf('{{dd-{{date-0}}}}') >= 0
-      ? value.replaceAll('{{dd-{{date-0}}}}', handleDate(value, 'dd'))
+      ? value.replaceAll('{{dd-{{date-0}}}}', handleDate('{{dd-{{date-0}}}}', 'dd'))
       : value;
   value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y-MM-dd'));
   value = value.replaceAll('{{timestamp}}', DateTime.now().toISO());
