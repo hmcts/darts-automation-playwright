@@ -13,6 +13,7 @@ import {
 } from '@playwright/test';
 import { ensureDir } from 'fs-extra';
 import sql from './db';
+import cache from 'memory-cache';
 
 let browser: ChromiumBrowser | FirefoxBrowser | WebKitBrowser | Browser;
 const tracesDir = 'traces';
@@ -70,6 +71,7 @@ Before(async function (this: ICustomWorld, { pickle }) {
     }
   });
   this.feature = pickle;
+  cache.clear();
 });
 
 After(async function (this: ICustomWorld, { result }) {

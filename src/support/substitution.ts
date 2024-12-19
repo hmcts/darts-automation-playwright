@@ -27,6 +27,9 @@ const handleDateTime = (value: string): string => {
   return value;
 };
 
+// This stuff has been inherited from darts-automation.
+// IMHO, it should be removed as it's breeding ground for bugs.
+// I'd favour the tests being much more literal rather than having lots of magic like this.
 export const substituteValue = (value: string): string | boolean => {
   if (['true', 'false', 'null'].includes(value)) {
     return JSON.parse(value);
