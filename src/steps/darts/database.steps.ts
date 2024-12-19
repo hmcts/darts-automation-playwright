@@ -130,7 +130,8 @@ When(
     whereColName4: string,
     whereColValue4: string,
   ) {
-    // TODO: this isn't getting a result when it should be, it fails when joining case -> hearing
+    // if this is removed, the data isn't found ¯\_(ツ)_/¯
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const result: SqlResult = await sql`
 select ${sql.unsafe(column)}
 from ${sql.unsafe(tableName(table))}

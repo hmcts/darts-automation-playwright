@@ -28,7 +28,7 @@ const handleDateTime = (value: string): string => {
 };
 
 export const substituteValue = (value: string): string | boolean => {
-  if (['true', 'false'].includes(value)) {
+  if (['true', 'false', 'null'].includes(value)) {
     return JSON.parse(value);
   }
   // eg. {{date-0}} or {{date+0}} or {{date-yyyymmdd-0}}
@@ -72,6 +72,7 @@ export const substituteValue = (value: string): string | boolean => {
 
   value = value.replaceAll('{{cas.cas_id}}', cache.get('cas.cas_id'));
   value = value.replaceAll('{{eve_id}}', cache.get('eve_id'));
+  value = value.replaceAll('{{eve.eve_id}}', cache.get('eve.eve_id'));
   value = value.replaceAll('{{hea_id}}', cache.get('hea_id'));
   value = value.replaceAll('{{jud_id}}', cache.get('jud_id'));
 
