@@ -127,6 +127,9 @@ ${SOAP_ENVELOPE_CLOSE}`;
     documentXmlString: string,
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'XHIBIT';
+    if (!cache.get(AUTHENTICATED_SOURCE_CACHE_KEY)) {
+      await this.register('XHIBIT');
+    }
 
     const addDocument = {
       messageId,

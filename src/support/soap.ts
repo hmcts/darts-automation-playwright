@@ -48,6 +48,31 @@ export interface AddLogEntryObject {
   };
 }
 
+interface EventCaseNumber {
+  'be:CaseNumber': string;
+}
+
+export interface EventObject {
+  'be:DartsEvent': {
+    '$xmlns:be': string;
+    $ID: string;
+    $Y: string;
+    $M: string;
+    $D: string;
+    $H: string;
+    $MIN: string;
+    $S: string;
+    'be:CourtHouse': string;
+    'be:CourtRoom': string;
+    'be:CaseNumbers': EventCaseNumber[];
+    'be:EventText': string;
+    'be:RetentionPolicy'?: {
+      'be:CaseRetentionFixedPolicy': string;
+      'be:CaseTotalSentence': string;
+    };
+  };
+}
+
 interface PersonalDetails {
   'cs:PersonalDetails': {
     'cs:Name': {

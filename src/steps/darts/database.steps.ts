@@ -8,6 +8,32 @@ import { DateTime } from 'luxon';
 import wait from '../../support/wait';
 
 Given(
+  'I see table {string} column {string} is {string} where {string} = {string} and {string} = {string} and {string} = {string}',
+  async function (
+    this: ICustomWorld,
+    table: string,
+    column: string,
+    expectedValue: string,
+    whereColName1: string,
+    whereColValue1: string,
+    whereColName2: string,
+    whereColValue2: string,
+    whereColName3: string,
+    whereColValue3: string,
+  ) {
+    const result: SqlResult = await sql`
+select ${sql.unsafe(column)}
+from ${sql.unsafe(tableName(table))}
+where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}
+and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}
+and ${sql.unsafe(whereColName3)} = ${substituteValue(whereColValue3)}`;
+
+    const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+    expect(returnedColumnValue).toBe(substituteValue(expectedValue));
+  },
+);
+
+Given(
   'I see table {string} column {string} is {string} where {string} = {string} and {string} = {string}',
   async function (
     this: ICustomWorld,
@@ -80,14 +106,27 @@ Then(
     whereColName2: string,
     whereColValue2: string,
   ) {
-    const result: SqlResult = await sql`
+    const runQuery = async () => {
+      const result: SqlResult = await sql`
 select ${sql.unsafe(column)}
 from ${sql.unsafe(tableName(table))}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}
 and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}`;
-
-    const returnedColumnValue = getSingleValueFromResult(result) as string | number;
-    cache.put(column, returnedColumnValue);
+      try {
+        const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+        cache.put(column, returnedColumnValue);
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        return false;
+      }
+    };
+    // if we check right away, sometimes the data isn't found ¯\_(ツ)_/¯
+    // retry running the the query
+    const done = await wait(runQuery, 200, 20);
+    if (!done) {
+      throw new Error(`Failed selecting column in scenario: ${this.testName}`);
+    }
   },
 );
 
@@ -234,5 +273,22 @@ and cth.courthouse_name = ${substituteValue(courthouse)}
         `Failed waiting for case "${substituteValue(caseNumber)}" at courthouse "${substituteValue(courthouse)}"`,
       );
     }
+  },
+);
+
+Given(
+  'I set table {string} column {string} to {string} where {string} = {string}',
+  async function (
+    this: ICustomWorld,
+    table: string,
+    column: string,
+    value: string,
+    whereColName1: string,
+    whereColValue1: string,
+  ) {
+    await sql`
+update ${sql.unsafe(tableName(table))}
+set ${sql.unsafe(column)} = ${substituteValue(value)}
+where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
   },
 );

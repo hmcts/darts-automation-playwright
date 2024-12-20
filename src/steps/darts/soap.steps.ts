@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import { DataTable, dataTableToObject, dataTableToObjectArray } from '../../support/data-table';
 import { substituteValue } from '../../support/substitution';
 import DartsSoapService from '../../support/darts-soap-service';
-import { AddCaseObject, AddLogEntryObject, DailyListObject } from '../../support/soap';
+import { AddCaseObject, AddLogEntryObject, DailyListObject, EventObject } from '../../support/soap';
 import { splitString } from '../../support/split';
 
 interface AddCaseDataTable {
@@ -45,6 +45,20 @@ interface DailyListDataTable {
   judge: string;
   prosecution: string;
   defence: string;
+}
+
+interface EventDataTable {
+  message_id: string;
+  type: string;
+  sub_type: string;
+  event_id: string;
+  courthouse: string;
+  courtroom: string;
+  case_numbers: string;
+  event_text: string;
+  date_time: string;
+  case_retention_fixed_policy: string;
+  case_total_sentence: string;
 }
 
 When('I create a case', async function (this: ICustomWorld, dataTable: DataTable) {
@@ -172,7 +186,7 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
   const courtLogData = dataTableToObjectArray<AddCourtLogDataTable>(dataTable);
 
   await Promise.all(
-    courtLogData.map((courtLog) => {
+    courtLogData.map(async (courtLog) => {
       const dateObj = DateTime.fromFormat(courtLog.date, 'y-MM-dd');
       const time = courtLog.time.split(':');
       const addLogEntry: AddLogEntryObject = {
@@ -194,7 +208,51 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
       };
 
       const addLogEntryXml = builder.build(addLogEntry) as string;
-      DartsSoapService.addLogEntry(xmlescape(addLogEntryXml));
+      await DartsSoapService.addLogEntry(xmlescape(addLogEntryXml));
+    }),
+  );
+});
+
+When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: DataTable) {
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    attributeNamePrefix: '$',
+    oneListGroup: true,
+  });
+
+  const eventData = dataTableToObjectArray<EventDataTable>(dataTable);
+
+  await Promise.all(
+    eventData.map(async (event) => {
+      const dateTimeObj = DateTime.fromFormat(event.date_time, 'y-MM-dd HH:mm:ss');
+      const dartsEvent: EventObject = {
+        'be:DartsEvent': {
+          '$xmlns:be': 'urn:integration-cjsonline-gov-uk:pilot:entities',
+          $ID: event.event_id,
+          $Y: dateTimeObj.year.toString(),
+          $M: dateTimeObj.month.toString(),
+          $D: dateTimeObj.day.toString(),
+          $H: dateTimeObj.hour.toString().padStart(2, '0'),
+          $MIN: dateTimeObj.minute.toString().padStart(2, '0'),
+          $S: dateTimeObj.second.toString().padStart(2, '0'),
+          'be:CourtHouse': event.courthouse,
+          'be:CourtRoom': event.courtroom,
+          'be:CaseNumbers':
+            event.case_numbers !== null
+              ? event.case_numbers
+                  .split('~')
+                  .map((case_number) => ({ 'be:CaseNumber': case_number }))
+              : [],
+          'be:EventText': event.event_text,
+        },
+      };
+
+      await DartsSoapService.addDocument(
+        event.message_id,
+        event.type,
+        event.sub_type,
+        builder.build(dartsEvent) as string,
+      );
     }),
   );
 });

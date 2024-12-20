@@ -1,8 +1,9 @@
 import { LaunchOptions } from '@playwright/test';
 
-const random = (Math.random() + 1).toString(36).substring(7).toUpperCase();
+const randomNumber = Math.floor(Math.random() * 1000000)
+  .toString()
+  .padStart(6, '0');
 const build = process.env.BUILD_NUMBER;
-const user = (process.env.USER || 'USER').toUpperCase();
 
 const browserOptions: LaunchOptions = {
   slowMo: 0,
@@ -14,7 +15,7 @@ const browserOptions: LaunchOptions = {
 };
 
 const generateSeq = (): string => {
-  const seq = build ? `${build}-${random}` : `${user.substring(0, 4)}-${random}`;
+  const seq = build ? `${build}-${randomNumber.substring(3)}` : randomNumber;
   console.log('Running with seq =', seq);
   return seq;
 };

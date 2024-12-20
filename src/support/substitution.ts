@@ -43,8 +43,13 @@ export const substituteValue = (value: string): string | boolean => {
   ) {
     return handleDate(value);
   }
-  // eg. {{db-timestamp-{{date-yyyymmdd-0}} 10:00:01}}
+  // eg. {{timestamp-10:00:00}}
+  if (value.startsWith('{{timestamp-') && value.endsWith('}}')) {
+    const time = value.substring(value.indexOf('{{timestamp-') + 12, value.indexOf('}}'));
+    return `${DateTime.now().toFormat('y-MM-dd')} ${time}`;
+  }
   if (value.startsWith('{{db-timestamp-') && value.endsWith('}}')) {
+    // eg. {{db-timestamp-{{date-yyyymmdd-0}} 10:00:01}}
     return handleDateTime(value);
   }
   // eg. {{yyyy-{{date-0}}}}
