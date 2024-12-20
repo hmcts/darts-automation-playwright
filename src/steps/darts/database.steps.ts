@@ -5,6 +5,7 @@ import cache from 'memory-cache';
 import sql, { tableName, getSingleValueFromResult, type SqlResult } from '../../support/db';
 import { substituteValue } from '../../support/substitution';
 import { DateTime } from 'luxon';
+import wait from '../../support/wait';
 
 Given(
   'I see table {string} column {string} is {string} where {string} = {string} and {string} = {string}',
@@ -130,18 +131,30 @@ When(
     whereColName4: string,
     whereColValue4: string,
   ) {
-    // if this is removed, the data isn't found ¯\_(ツ)_/¯
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const result: SqlResult = await sql`
+    const runQuery = async () => {
+      const result: SqlResult = await sql`
 select ${sql.unsafe(column)}
 from ${sql.unsafe(tableName(table))}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}
 and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}
 and ${sql.unsafe(whereColName3)} = ${substituteValue(whereColValue3)}
 and ${sql.unsafe(whereColName4)} = ${substituteValue(whereColValue4)}`;
+      try {
+        const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+        cache.put(column, returnedColumnValue);
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        return false;
+      }
+    };
 
-    const returnedColumnValue = getSingleValueFromResult(result) as string | number;
-    cache.put(column, returnedColumnValue);
+    // if we check right away, sometimes the data isn't found ¯\_(ツ)_/¯
+    // retry running the the query
+    const done = await wait(runQuery, 200, 20);
+    if (!done) {
+      throw new Error(`Failed selecting column in scenario: ${this.testName}`);
+    }
   },
 );
 

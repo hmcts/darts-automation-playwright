@@ -1,6 +1,7 @@
-import { ICustomWorld } from '../../support/custom-world';
 import { When } from '@cucumber/cucumber';
+import { ICustomWorld } from '../../support/custom-world';
 import DartsApiService from '../../support/darts-api-service';
+import wait from '../../support/wait';
 
 When(
   'I process the daily list for courthouse {string}',
@@ -20,13 +21,9 @@ When(
       }
     };
 
-    // check every 3 seconds, up to 30 times
-    for (let i = 0; i < 30; i++) {
-      const done = await runDailyList();
-      if (done) {
-        break;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+    const done = await wait(runDailyList, 3000, 30);
+    if (!done) {
+      throw new Error(`Failed to process daily list for courthouse ${courthouse}`);
     }
   },
 );
