@@ -15,7 +15,7 @@ const browserOptions: LaunchOptions = {
 };
 
 const generateSeq = (): string => {
-  const seq = build ? `${build}-${randomNumber.substring(3)}` : randomNumber;
+  const seq = build ? `${build}${randomNumber.substring(3)}` : randomNumber;
   console.log('Running with seq =', seq);
   return seq;
 };
