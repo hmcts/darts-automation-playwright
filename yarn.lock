@@ -80,9 +80,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cucumber/cucumber@npm:11.0.1":
-  version: 11.0.1
-  resolution: "@cucumber/cucumber@npm:11.0.1"
+"@cucumber/cucumber@npm:11.1.1":
+  version: 11.1.1
+  resolution: "@cucumber/cucumber@npm:11.1.1"
   dependencies:
     "@cucumber/ci-environment": 10.0.1
     "@cucumber/cucumber-expressions": 17.1.0
@@ -90,9 +90,10 @@ __metadata:
     "@cucumber/gherkin-streams": 5.0.1
     "@cucumber/gherkin-utils": 9.0.0
     "@cucumber/html-formatter": 21.6.0
+    "@cucumber/junit-xml-formatter": 0.6.0
     "@cucumber/message-streams": 4.0.1
     "@cucumber/messages": 24.1.0
-    "@cucumber/tag-expressions": 6.1.0
+    "@cucumber/tag-expressions": 6.1.1
     assertion-error-formatter: ^3.0.0
     capital-case: ^1.0.4
     chalk: ^4.1.2
@@ -118,17 +119,15 @@ __metadata:
     resolve-pkg: ^2.0.0
     semver: 7.5.3
     string-argv: 0.3.1
-    strip-ansi: 6.0.1
     supports-color: ^8.1.1
     tmp: 0.2.3
     type-fest: ^4.8.3
     util-arity: ^1.1.0
-    xmlbuilder: ^15.1.1
     yaml: ^2.2.2
     yup: 1.2.0
   bin:
     cucumber-js: bin/cucumber.js
-  checksum: 9f570ee84f2c6d4243e4f132cec47867f2cd1d7ec71a26ca387c7892ff74e3fed0a6ea41f36d39ee0fa42e95071f8956a58f4830e02578d643506584d62f33ac
+  checksum: 2db82bc899ee4d77537f56e8fbe4d26f6f4e0ad23e1ebcc79703c0de6ff965f39ea4e3562f426a493b1b2009a00c6a51c07da45f14907357ade6d7b5b191ab92
   languageName: node
   linkType: hard
 
@@ -282,6 +281,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cucumber/junit-xml-formatter@npm:0.6.0":
+  version: 0.6.0
+  resolution: "@cucumber/junit-xml-formatter@npm:0.6.0"
+  dependencies:
+    "@cucumber/query": ^13.0.2
+    "@teppeis/multimaps": ^3.0.0
+    xmlbuilder: ^15.1.1
+  peerDependencies:
+    "@cucumber/messages": "*"
+  checksum: af0a3dd1e6c8f9c64ae3aacdba34709116d5553f25c43a1f0be43c603e081b491707d13950d995eea6d059378192f166f0447ad216f7aa6000c744c0d38c8415
+  languageName: node
+  linkType: hard
+
 "@cucumber/message-streams@npm:4.0.1":
   version: 4.0.1
   resolution: "@cucumber/message-streams@npm:4.0.1"
@@ -354,6 +366,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cucumber/query@npm:^13.0.2":
+  version: 13.0.3
+  resolution: "@cucumber/query@npm:13.0.3"
+  dependencies:
+    "@teppeis/multimaps": 3.0.0
+  peerDependencies:
+    "@cucumber/messages": "*"
+  checksum: 2d75756b3598b67f382c66e16ecdc34c4656c4f0e8152320bbd1053656ddcce2b0b88dad6f8f3a99373606dbf3e26d8b1b6e17298dabda781ddac73f8598ea3e
+  languageName: node
+  linkType: hard
+
 "@cucumber/tag-expressions@npm:5.0.1":
   version: 5.0.1
   resolution: "@cucumber/tag-expressions@npm:5.0.1"
@@ -361,10 +384,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cucumber/tag-expressions@npm:6.1.0":
-  version: 6.1.0
-  resolution: "@cucumber/tag-expressions@npm:6.1.0"
-  checksum: 99f5dc032b78c00ba79dec48bcfb2f423797121fef72072cd0ac070b39c78584ae47649637a00390a19bc0e20332137bbeb17f6ec9ab87b6fd4d0c5cfd301c4d
+"@cucumber/tag-expressions@npm:6.1.1":
+  version: 6.1.1
+  resolution: "@cucumber/tag-expressions@npm:6.1.1"
+  checksum: c4e04806fb594c0a22e1165bfdcc5983d2892cff417b3523346cc6d82b07e7e4958d29c035d01254c04a719d5d6c3afb5fcd7add3669f683014f86ce53a2d513
   languageName: node
   linkType: hard
 
@@ -767,7 +790,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teppeis/multimaps@npm:3.0.0":
+"@teppeis/multimaps@npm:3.0.0, @teppeis/multimaps@npm:^3.0.0":
   version: 3.0.0
   resolution: "@teppeis/multimaps@npm:3.0.0"
   checksum: 77ce74a3190d425738240261969205422c140db2e60afd7eb40641ab8b2244a3470c7d491a29d43acba03b6502cae0cf6c1a2094a8d8f1b50bd5b0912abed40d
@@ -1726,7 +1749,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "darts-automation-playwright@workspace:."
   dependencies:
-    "@cucumber/cucumber": 11.0.1
+    "@cucumber/cucumber": 11.1.1
     "@cucumber/html-formatter": 21.7.0
     "@cucumber/messages": ^26.0.1
     "@cucumber/pretty-formatter": 1.0.1
