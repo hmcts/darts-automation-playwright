@@ -1748,7 +1748,7 @@ __metadata:
     cucumber-html-reporter: 7.2.0
     eslint: 9.11.1
     eslint-config-prettier: 9.1.0
-    eslint-plugin-playwright: 1.6.2
+    eslint-plugin-playwright: 1.8.3
     eslint-plugin-prettier: 5.2.1
     fast-xml-parser: ^4.5.1
     fs-extra: 11.2.0
@@ -2047,9 +2047,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-playwright@npm:1.6.2":
-  version: 1.6.2
-  resolution: "eslint-plugin-playwright@npm:1.6.2"
+"eslint-plugin-playwright@npm:1.8.3":
+  version: 1.8.3
+  resolution: "eslint-plugin-playwright@npm:1.8.3"
   dependencies:
     globals: ^13.23.0
   peerDependencies:
@@ -2058,7 +2058,7 @@ __metadata:
   peerDependenciesMeta:
     eslint-plugin-jest:
       optional: true
-  checksum: c3fe5519239be46cdf89c32f714dba5c28aa86fd4316f6e8521a7c540aab0a7ecf778a73dafc3537a1fb70bd82dbdb0cee976f6862fdacb0a06c85196661bbcf
+  checksum: a169eed9ecde2ca2d4fe9f61c081b80b937bf67097ccc58e2fdcc319cd702b29bf7306935cafdedc2708431a70cbd592fee4a6f4f184a588515b39ff9c5c0408
   languageName: node
   linkType: hard
 
