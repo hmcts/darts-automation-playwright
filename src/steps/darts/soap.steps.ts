@@ -194,7 +194,7 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
   const courtLogData = dataTableToObjectArray<AddCourtLogDataTable>(dataTable);
 
   await Promise.all(
-    courtLogData.map(async (courtLog) => {
+    courtLogData.map(async (courtLog, index) => {
       const dateObj = DateTime.fromFormat(courtLog.date, 'y-MM-dd');
       const time = courtLog.time.split(':');
       const addLogEntry: AddLogEntryObject = {
@@ -215,8 +215,8 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
         },
       };
 
-      const addLogEntryXml = builder.build(addLogEntry) as string;
-      await DartsSoapService.addLogEntry(xmlescape(addLogEntryXml));
+      await new Promise((r) => setTimeout(r, 100 * index));
+      await DartsSoapService.addLogEntry(xmlescape(builder.build(addLogEntry) as string));
     }),
   );
 });
