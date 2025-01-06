@@ -121,30 +121,35 @@ ${SOAP_ENVELOPE_CLOSE}`;
   }
 
   static async addDocument(
-    messageId: string,
-    type: string,
-    subType: string,
-    documentXmlString: string,
+    messageId?: string,
+    type?: string,
+    subType?: string,
+    documentXmlString?: string,
+    addDocumentXmlString?: string,
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'XHIBIT';
     if (!cache.get(AUTHENTICATED_SOURCE_CACHE_KEY)) {
       await this.register('XHIBIT');
     }
 
-    const addDocument = {
-      messageId,
-      type,
-      subType,
-      document: documentXmlString,
-    };
+    let addDocumentXml = addDocumentXmlString;
+    if (!addDocumentXml) {
+      const addDocument = {
+        messageId,
+        type,
+        subType,
+        document: documentXmlString,
+      };
 
-    const builder = new XMLBuilder({
-      ignoreAttributes: false,
-      attributeNamePrefix: '$',
-      oneListGroup: true,
-    });
+      const builder = new XMLBuilder({
+        ignoreAttributes: false,
+        attributeNamePrefix: '$',
+        oneListGroup: true,
+      });
 
-    const addDocumentXml = builder.build(addDocument) as string;
+      addDocumentXml = builder.build(addDocument) as string;
+    }
+
     const response = await this.sendGatewayRequest(
       'addDocument',
       this.buildSoapRequest('addDocument', addDocumentXml, true, authenticatedSource, 'ns5'),
@@ -196,6 +201,9 @@ ${SOAP_ENVELOPE_CLOSE}`;
       }
       if (body['ns3:addLogEntryResponse']) {
         return body['ns3:addLogEntryResponse'].return;
+      }
+      if (body['ns3:addDocumentResponse']) {
+        return body['ns3:addDocumentResponse'].return;
       }
     }
     if ((responseObj as ProxySoapResponse)['S:Envelope']) {

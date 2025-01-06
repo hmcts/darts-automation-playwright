@@ -197,6 +197,9 @@ export interface GatewaySoapResponse {
       'ns3:addLogEntryResponse'?: {
         return: SoapResponseCodeAndMessage;
       };
+      'ns3:addDocumentResponse'?: {
+        return: SoapResponseCodeAndMessage;
+      };
       'ns3:registerResponse'?: {
         return: string;
       };

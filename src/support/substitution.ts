@@ -1,6 +1,6 @@
 import { config } from './config';
 import cache from 'memory-cache';
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 
 const handleDate = (value: string, format?: string): string => {
   if (value.lastIndexOf('+') >= 0) {
@@ -27,10 +27,24 @@ const handleDateTime = (value: string): string => {
   return value;
 };
 
+const handleDuration = (value: string): Date | string => {
+  const durationString = value.substring(value.lastIndexOf('-') + 1, value.indexOf('}}'));
+  const durationParts = durationString.match(/(\d+)Y(\d+)M(\d+)D/);
+
+  if (durationParts) {
+    const years = parseInt(durationParts[1]);
+    const months = parseInt(durationParts[2]);
+    const days = parseInt(durationParts[3]);
+    const duration = Duration.fromObject({ years, months, days });
+    return DateTime.now().setZone('UTC').plus(duration).startOf('day').toJSDate();
+  }
+  return value;
+};
+
 // This stuff has been inherited from darts-automation.
 // IMHO, it should be removed as it's breeding ground for bugs.
 // I'd favour the tests being much more literal rather than having lots of magic like this.
-export const substituteValue = (value: string): string | boolean => {
+export const substituteValue = (value: string): Date | number | string | boolean => {
   if (['true', 'false', 'null'].includes(value)) {
     return JSON.parse(value);
   }
@@ -62,10 +76,25 @@ export const substituteValue = (value: string): string | boolean => {
   if (value.startsWith('{{dd-') && value.endsWith('}}')) {
     return handleDate(value, 'dd');
   }
-
+  // eg. {{retention-7Y0M0D}}
+  if (value.startsWith('{{retention-')) {
+    return handleDuration(value);
+  }
   value =
     value.indexOf('{{yyyy-{{date-0}}}}') >= 0
       ? value.replaceAll('{{yyyy-{{date-0}}}}', handleDate('{{yyyy-{{date-0}}}}', 'y'))
+      : value;
+  value =
+    value.indexOf('{{date-yyyy}}') >= 0
+      ? value.replaceAll('{{date-yyyy}}', DateTime.now().toFormat('y'))
+      : value;
+  value =
+    value.indexOf('{{date-mm}}') >= 0
+      ? value.replaceAll('{{date-mm}}', DateTime.now().toFormat('MM'))
+      : value;
+  value =
+    value.indexOf('{{date-dd}}') >= 0
+      ? value.replaceAll('{{date-dd}}', DateTime.now().toFormat('dd'))
       : value;
   value =
     value.indexOf('{{mm-{{date-0}}}}') >= 0
@@ -83,6 +112,7 @@ export const substituteValue = (value: string): string | boolean => {
   value = value.replaceAll('{{eve.eve_id}}', cache.get('eve.eve_id'));
   value = value.replaceAll('{{hea_id}}', cache.get('hea_id'));
   value = value.replaceAll('{{jud_id}}', cache.get('jud_id'));
+  value = value.replaceAll('{{cmr_id}}', cache.get('cmr_id'));
 
   if (value.startsWith('{{upper-case-')) {
     const upperCaseString = value.substring(

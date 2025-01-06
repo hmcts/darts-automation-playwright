@@ -123,7 +123,9 @@ When('I add a daily list', async function (this: ICustomWorld, dataTable: DataTa
     dailyList['cs:DailyList']['cs:CourtLists']['cs:CourtList']['cs:Sittings']['cs:Sitting'];
   sitting['cs:CourtRoomNumber'] = dailyListData.courtroom;
   sitting['cs:SittingAt'] = dailyListData.startTime + ':00';
-  sitting['cs:Judiciary']['cs:Judge']['apd:CitizenNameRequestedName'] = dailyListData.judge;
+  if (dailyListData.judge) {
+    sitting['cs:Judiciary']['cs:Judge']['apd:CitizenNameRequestedName'] = dailyListData.judge;
+  }
 
   const hearing = sitting['cs:Hearings']['cs:Hearing'];
   hearing['cs:HearingDetails']['cs:HearingDate'] = dailyListData.startDate;
@@ -131,35 +133,41 @@ When('I add a daily list', async function (this: ICustomWorld, dataTable: DataTa
   hearing['cs:CaseNumber'] = dailyListData.caseNumber;
 
   // prosecution
-  hearing['cs:Prosecution']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
-    'apd:CitizenNameForename'
-  ] = splitString(dailyListData.prosecution, 0);
-  hearing['cs:Prosecution']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
-    'apd:CitizenNameSurname'
-  ] = splitString(dailyListData.prosecution, 1);
+  if (dailyListData.prosecution) {
+    hearing['cs:Prosecution']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
+      'apd:CitizenNameForename'
+    ] = splitString(dailyListData.prosecution, 0);
+    hearing['cs:Prosecution']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
+      'apd:CitizenNameSurname'
+    ] = splitString(dailyListData.prosecution, 1);
+  }
 
   // defendant
   let defendant = hearing['cs:Defendants']['cs:Defendant'];
   if (Array.isArray(defendant)) {
     defendant = defendant[0];
   }
-  defendant['cs:PersonalDetails']['cs:Name']['apd:CitizenNameForename'] = splitString(
-    dailyListData.defendant,
-    0,
-  );
-  defendant['cs:PersonalDetails']['cs:Name']['apd:CitizenNameSurname'] = splitString(
-    dailyListData.defendant,
-    1,
-  );
   defendant['cs:URN'] = dailyListData.caseNumber;
+  if (dailyListData.defendant) {
+    defendant['cs:PersonalDetails']['cs:Name']['apd:CitizenNameForename'] = splitString(
+      dailyListData.defendant,
+      0,
+    );
+    defendant['cs:PersonalDetails']['cs:Name']['apd:CitizenNameSurname'] = splitString(
+      dailyListData.defendant,
+      1,
+    );
+  }
 
   // defence
-  defendant['cs:Counsel']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
-    'apd:CitizenNameForename'
-  ] = splitString(dailyListData.defence, 0);
-  defendant['cs:Counsel']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
-    'apd:CitizenNameSurname'
-  ] = splitString(dailyListData.defence, 1);
+  if (dailyListData.defence) {
+    defendant['cs:Counsel']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
+      'apd:CitizenNameForename'
+    ] = splitString(dailyListData.defence, 0);
+    defendant['cs:Counsel']['cs:Advocate']['cs:PersonalDetails']['cs:Name'][
+      'apd:CitizenNameSurname'
+    ] = splitString(dailyListData.defence, 1);
+  }
 
   const builder = new XMLBuilder({
     ignoreAttributes: false,
@@ -223,7 +231,7 @@ When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: Da
   const eventData = dataTableToObjectArray<EventDataTable>(dataTable);
 
   await Promise.all(
-    eventData.map(async (event) => {
+    eventData.map(async (event, index) => {
       const dateTimeObj = DateTime.fromFormat(event.date_time, 'y-MM-dd HH:mm:ss');
       const dartsEvent: EventObject = {
         'be:DartsEvent': {
@@ -247,6 +255,17 @@ When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: Da
         },
       };
 
+      if (event.case_retention_fixed_policy || event.case_total_sentence) {
+        dartsEvent['be:DartsEvent']['be:RetentionPolicy'] = {
+          'be:CaseRetentionFixedPolicy': event.case_retention_fixed_policy,
+          'be:CaseTotalSentence': event.case_total_sentence,
+        };
+      }
+      // TODO: we shouldn't need to stagger the requests slightly, but this was causing an issue creating courtrooms if they didn't exist
+      // The error was as follows
+      //   ERROR: duplicate key value violates unique constraint "ctr_chr_crn_unq"
+      //   Detail: Key (cth_id, courtroom_name)=(1356, ROOM 437390Z) already exists.
+      await new Promise((r) => setTimeout(r, 100 * index));
       await DartsSoapService.addDocument(
         event.message_id,
         event.type,
@@ -272,6 +291,15 @@ When(
         includesDocumentTag: true,
         useGateway,
       });
+    }
+    if (soapAction === 'addDocument') {
+      await DartsSoapService.addDocument(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        substituteValue(soapBody) as string,
+      );
     }
   },
 );

@@ -25,8 +25,8 @@ const externalServiceUserCredentials: Record<string, ExternalServiceUserCredenti
     useToken: true,
   },
   CPP: {
-    username: config.usernames.XHIBIT_USERNAME!,
-    password: config.passwords.XHIBIT_PASSWORD!,
+    username: config.usernames.CPP_USERNAME!,
+    password: config.passwords.CPP_PASSWORD!,
     useToken: true,
   },
 };

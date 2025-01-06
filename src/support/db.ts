@@ -56,6 +56,16 @@ left join darts.hearing_judge_ae using (hea_id)
 join darts.judge jud using (jud_id)
 `;
 
+const CASE_MANAGEMENT_RETENTION_JOIN = `
+darts.case_management_retention cmr
+join darts.retention_policy_type rpt using(rpt_id)
+`;
+
+const CASE_RETENTION_JOIN = `
+darts.case_retention car
+join darts.retention_policy_type rpt using(rpt_id)
+`;
+
 export const tableName = (tableName: string): string => {
   switch (tableName) {
     case 'COURTCASE':
@@ -68,6 +78,10 @@ export const tableName = (tableName: string): string => {
       return CASE_HEARING_JOIN;
     case 'CASE_HEARING_JUDGE':
       return CASE_HEARING_JUDGE_JOIN;
+    case 'CASE_MANAGEMENT_RETENTION':
+      return CASE_MANAGEMENT_RETENTION_JOIN;
+    case 'CASE_RETENTION':
+      return CASE_RETENTION_JOIN;
     default:
       return tableName;
   }

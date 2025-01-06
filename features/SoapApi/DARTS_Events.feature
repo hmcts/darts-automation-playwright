@@ -12,7 +12,7 @@ Feature: Test operation of SOAP events
   @reads-and-writes-system-properties
   Scenario Outline: Create a case for event tests
     Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
-    # TODO (DT): This will always fail because this scenario creates a pending (NEW) daily list for tomorrow
+    # TODO (DT): This will always fail because this the daily list scenario creates a pending (NEW) daily list for tomorrow
     # Given I wait until there is not a daily list waiting for "<courthouse>"
     Given I add a daily list
       | messageId                      | type | subType | documentName              | courthouse   | courtroom   | caseNumber    | startDate  | startTime | endDate    | timeStamp     | defendant     | judge      | prosecution     | defence      |
@@ -284,630 +284,623 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:16:40}} | {{seq}}231 | {{seq}}231 | 407132 |         | text {{seq}} |               |               | Case to be listed                                                                                                                      |       |
 
 
-# @regression
-# Scenario Outline: Create a LOG event
-#   Given I authenticate from the XHIBIT source system
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I set table darts.court_case column interpreter_used to "false" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.court_case column case_closed_ts to "null" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.hearing column hearing_is_actual to "false" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "StandardEventHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-# Examples:
-#   | courthouse         | courtroom    | caseNumbers | dateTime               | msgId       | eventId    | type   | subType | eventText    | caseRetention | totalSentence | text        | notes |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:17:00}} | {{seq}}232  | {{seq}}232 | LOG    |         | log text     |               |               | LOG         |       |
+  @regression
+  Scenario Outline: Create a LOG event
+    Given I authenticate from the "XHIBIT" source system
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I set table "darts.court_case" column "interpreter_used" to "false" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.court_case" column "case_closed_ts" to "null" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.hearing" column "hearing_is_actual" to "false" where "cas_id" = "{{cas.cas_id}}"
+    When I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "StandardEventHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    Examples:
+      | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type | subType | eventText | caseRetention | totalSentence | text | notes |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:17:00}} | {{seq}}232 | {{seq}}232 | LOG  |         | log text  |               |               | LOG  |       |
+
+  @regression
+  Scenario Outline: Create a SetReportingRestriction event
+    Given I authenticate from the "XHIBIT" source system
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I set table "darts.court_case" column "interpreter_used" to "false" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.court_case" column "case_closed_ts" to "null" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.hearing" column "hearing_is_actual" to "false" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "SetReportingRestrictionEventHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    Examples:
+      | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text                                                                         | notes |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:18:00}} | {{seq}}233 | {{seq}}233 | 2198  | 3933    | text {{seq}} |               |               | Judge directed on reporting restrictions                                     |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:18:20}} | {{seq}}234 | {{seq}}234 | 21200 | 11000   | text {{seq}} |               |               | Section 4(2) of the Contempt of Court Act 1981                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:18:40}} | {{seq}}235 | {{seq}}235 | 21200 | 11001   | text {{seq}} |               |               | Section 11 of the Contempt of Court Act 1981                                 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:19:00}} | {{seq}}236 | {{seq}}236 | 21200 | 11002   | text {{seq}} |               |               | Section 39 of the Children and Young Persons Act 1933                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:19:20}} | {{seq}}237 | {{seq}}237 | 21200 | 11003   | text {{seq}} |               |               | Section 4 of the Sexual Offenders (Amendment) Act 1976                       |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:19:40}} | {{seq}}238 | {{seq}}238 | 21200 | 11004   | text {{seq}} |               |               | Section 2 of the Sexual Offenders (Amendment) Act 1992                       |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:20:00}} | {{seq}}239 | {{seq}}239 | 21200 | 11006   | text {{seq}} |               |               | An order made under s45 of the Youth Justice and Criminal Evidence Act 1999  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:20:20}} | {{seq}}240 | {{seq}}240 | 21200 | 11007   | text {{seq}} |               |               | An order made under s45a of the Youth Justice and Criminal Evidence Act 1999 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:20:40}} | {{seq}}241 | {{seq}}241 | 21200 | 11008   | text {{seq}} |               |               | An order made under s46 of the Youth Justice and Criminal Evidence Act 1999  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:21:00}} | {{seq}}242 | {{seq}}242 | 21200 | 11009   | text {{seq}} |               |               | An order made under s49 of the Children and Young Persons Act 1933           |       |
+      #   Lift restrictions
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:21:20}} | {{seq}}243 | {{seq}}243 | 21201 |         | text {{seq}} |               |               | Restrictions lifted                                                          |       |
+
+  @regression
+  Scenario Outline: Create a SetInterpreterUsed event
+    Given I authenticate from the "XHIBIT" source system
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I set table "darts.court_case" column "interpreter_used" to "false" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.hearing" column "hearing_is_actual" to "false" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.court_case" column "case_closed_ts" to "null" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "InterpreterUsedHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    # TODO (DT): should these eventIds be different? They are getting treated as 3 versions of the same event because they are the same...
+    Examples:
+      | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text                        | notes |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:00}} | {{seq}}244 | {{seq}}244 | 2917  | 3979    | text {{seq}} |               |               | Interpreter sworn-in        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:20}} | {{seq}}245 | {{seq}}244 | 20612 |         | text {{seq}} |               |               | Appeal interpreter sworn in |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:40}} | {{seq}}246 | {{seq}}244 | 20917 |         | text {{seq}} |               |               | Interpretor sworn           |       |
+
+  @SENTENCING_EVENT @regression
+  Scenario Outline: Create a Sentencing event
+    Given I authenticate from the "XHIBIT" source system
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I set table "darts.court_case" column "interpreter_used" to "false" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.court_case" column "case_closed_ts" to "null" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.hearing" column "hearing_is_actual" to "false" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "SentencingRemarksAndRetentionPolicyHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    Examples:
+      | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText                  | caseRetention | totalSentence | text                                                                                           | notes |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:24:00}} | {{seq}}250 | {{seq}}250 | 3010  |         | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Sentence Transcription Required                                                                |       |
+      #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:25:20}} | {{seq}}252 | {{seq}}252 | 40730   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Case Level Criminal Appeal Result                                                              |       |
+      #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:25:40}} | {{seq}}253 | {{seq}}253 | 40731   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Offence Level Criminal Appeal Result                                                           |       |
+      #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:26:00}} | {{seq}}254 | {{seq}}254 | 40732   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Offence Level Criminal Appeal Result with alt offence                                          |       |
+      #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:26:20}} | {{seq}}255 | {{seq}}255 | 40733   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Case Level Misc Appeal Result                                                                  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:26:40}} | {{seq}}256 | {{seq}}256 | 40735 | 10808   | [Defendant: DEFENDANT ONE] | 0             | 26Y0M1D       | Delete Offence Level Appeal Result                                                             |       |
+      #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:27:00}} | {{seq}}257 | {{seq}}257 | 40735   |         | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Verdict                                                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:27:20}} | {{seq}}258 | {{seq}}258 | 40750 | 11504   | [Defendant: DEFENDANT ONE] | 1             | 26Y0M2D       | Life Imprisonment                                                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:27:40}} | {{seq}}259 | {{seq}}259 | 40750 | 11505   | [Defendant: DEFENDANT ONE] | 2             | 26Y0M3D       | Life Imprisonment (with minimum period)                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:28:00}} | {{seq}}260 | {{seq}}260 | 40750 | 11506   | [Defendant: DEFENDANT ONE] | 3             | 26Y0M4D       | Custody for Life                                                                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:28:20}} | {{seq}}261 | {{seq}}261 | 40750 | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M5D       | Mandatory Life Sentence for Second Serious Offence                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:28:40}} | {{seq}}262 | {{seq}}262 | 40750 | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M6D       | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:29:00}} | {{seq}}263 | {{seq}}263 | 40750 | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M7D       | Detained During Her Majestys Pleasure                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:29:20}} | {{seq}}264 | {{seq}}264 | 40750 | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M8D       | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:29:40}} | {{seq}}265 | {{seq}}265 | 40750 | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M9D       | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:30:00}} | {{seq}}266 | {{seq}}266 | 40750 | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M10D      | Mandatory Life Sentence for Second Listed Offence                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:30:20}} | {{seq}}267 | {{seq}}267 | 40750 | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M11D      | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:30:40}} | {{seq}}268 | {{seq}}268 | 40750 | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M12D      | Imprisonment - Extended under s236A CJA2003                                                    |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:31:00}} | {{seq}}269 | {{seq}}269 | 40750 | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M13D      | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:31:20}} | {{seq}}270 | {{seq}}270 | 40750 | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M14D      | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:31:40}} | {{seq}}271 | {{seq}}271 | 40750 | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M15D      | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:32:00}} | {{seq}}272 | {{seq}}272 | 40750 | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M16D      | Detention for Life under s226 (u18)                                                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:33:00}} | {{seq}}275 | {{seq}}275 | 40750 | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M17D      | S226a Extended Discretional for over 18                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:33:20}} | {{seq}}276 | {{seq}}276 | 40750 | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M18D      | S226a Extended Automatic for over 18                                                           |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:33:40}} | {{seq}}277 | {{seq}}277 | 40750 | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M19D      | S226b Extended Discretional for under 18                                                       |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:34:00}} | {{seq}}278 | {{seq}}278 | 40750 | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M20D      | S226b Extended Automatic for under 18                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:34:20}} | {{seq}}279 | {{seq}}279 | 40751 | 11504   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M21D      | Life Imprisonment                                                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:34:40}} | {{seq}}280 | {{seq}}280 | 40751 | 11505   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M22D      | Life Imprisonment (with minimum period)                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:35:00}} | {{seq}}281 | {{seq}}281 | 40751 | 11506   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M23D      | Custody for Life                                                                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:35:20}} | {{seq}}282 | {{seq}}282 | 40751 | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M24D      | Mandatory Life Sentence for Second Serious Offence                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:35:40}} | {{seq}}283 | {{seq}}283 | 40751 | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M25D      | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:36:00}} | {{seq}}284 | {{seq}}284 | 40751 | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M26D      | Detained During Her Majestys Pleasure                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:36:20}} | {{seq}}285 | {{seq}}285 | 40751 | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M27D      | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:36:40}} | {{seq}}286 | {{seq}}286 | 40751 | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M28D      | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:37:00}} | {{seq}}287 | {{seq}}287 | 40751 | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M1D       | Mandatory Life Sentence for Second Listed Offence                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:37:20}} | {{seq}}288 | {{seq}}288 | 40751 | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M2D       | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:37:40}} | {{seq}}289 | {{seq}}289 | 40751 | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M3D       | Imprisonment - Extended under s236A CJA2003                                                    |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:38:00}} | {{seq}}290 | {{seq}}290 | 40751 | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M4D       | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:38:20}} | {{seq}}291 | {{seq}}291 | 40751 | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M5D       | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:38:40}} | {{seq}}292 | {{seq}}292 | 40751 | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M6D       | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:39:00}} | {{seq}}293 | {{seq}}293 | 40751 | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M7D       | Detention for Life under s226 (u18)                                                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:40:00}} | {{seq}}296 | {{seq}}296 | 40751 | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M8D       | S226a Extended Discretional for over 18                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:40:20}} | {{seq}}297 | {{seq}}297 | 40751 | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M9D       | S226a Extended Automatic for over 18                                                           |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:40:40}} | {{seq}}298 | {{seq}}298 | 40751 | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M10D      | S226b Extended Discretional for under 18                                                       |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:41:00}} | {{seq}}299 | {{seq}}299 | 40751 | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M11D      | S226b Extended Automatic for under 18                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:41:20}} | {{seq}}300 | {{seq}}300 | 40752 | 11504   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M12D      | Life Imprisonment                                                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:41:40}} | {{seq}}301 | {{seq}}301 | 40752 | 11505   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M13D      | Life Imprisonment (with minimum period)                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:42:00}} | {{seq}}302 | {{seq}}302 | 40752 | 11506   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M14D      | Custody for Life                                                                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:42:20}} | {{seq}}303 | {{seq}}303 | 40752 | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M15D      | Mandatory Life Sentence for Second Serious Offence                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:42:40}} | {{seq}}304 | {{seq}}304 | 40752 | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M16D      | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:43:00}} | {{seq}}305 | {{seq}}305 | 40752 | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M17D      | Detained During Her Majestys Pleasure                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:43:20}} | {{seq}}306 | {{seq}}306 | 40752 | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M18D      | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:43:40}} | {{seq}}307 | {{seq}}307 | 40752 | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M19D      | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:44:00}} | {{seq}}308 | {{seq}}308 | 40752 | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M20D      | Mandatory Life Sentence for Second Listed Offence                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:44:20}} | {{seq}}309 | {{seq}}309 | 40752 | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M21D      | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:44:40}} | {{seq}}310 | {{seq}}310 | 40752 | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M22D      | Imprisonment - Extended under s236A CJA2003                                                    |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:45:00}} | {{seq}}311 | {{seq}}311 | 40752 | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M23D      | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:45:20}} | {{seq}}312 | {{seq}}312 | 40752 | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M24D      | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:45:40}} | {{seq}}313 | {{seq}}313 | 40752 | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M25D      | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:46:00}} | {{seq}}314 | {{seq}}314 | 40752 | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M26D      | Detention for Life under s226 (u18)                                                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:47:00}} | {{seq}}317 | {{seq}}317 | 40752 | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M27D      | S226a Extended Discretional for over 18                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:47:20}} | {{seq}}318 | {{seq}}318 | 40752 | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M28D      | S226a Extended Automatic for over 18                                                           |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:47:40}} | {{seq}}319 | {{seq}}319 | 40752 | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M1D       | S226b Extended Discretional for under 18                                                       |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:48:00}} | {{seq}}320 | {{seq}}320 | 40752 | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M2D       | S226b Extended Automatic for under 18                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:48:20}} | {{seq}}321 | {{seq}}321 | 40753 | 11504   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M3D       | Life Imprisonment                                                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:48:40}} | {{seq}}322 | {{seq}}322 | 40753 | 11505   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M4D       | Life Imprisonment (with minimum period)                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:49:00}} | {{seq}}323 | {{seq}}323 | 40753 | 11506   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M5D       | Custody for Life                                                                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:49:20}} | {{seq}}324 | {{seq}}324 | 40753 | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M6D       | Mandatory Life Sentence for Second Serious Offence                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:49:40}} | {{seq}}325 | {{seq}}325 | 40753 | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M7D       | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:50:00}} | {{seq}}326 | {{seq}}326 | 40753 | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M8D       | Detained During Her Majestys Pleasure                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:50:20}} | {{seq}}327 | {{seq}}327 | 40753 | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M9D       | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:50:40}} | {{seq}}328 | {{seq}}328 | 40753 | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M10D      | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:51:00}} | {{seq}}329 | {{seq}}329 | 40753 | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M11D      | Mandatory Life Sentence for Second Listed Offence                                              |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:51:20}} | {{seq}}330 | {{seq}}330 | 40753 | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M12D      | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:51:40}} | {{seq}}331 | {{seq}}331 | 40753 | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M13D      | Imprisonment - Extended under s236A CJA2003                                                    |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:52:00}} | {{seq}}332 | {{seq}}332 | 40753 | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M14D      | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:52:20}} | {{seq}}333 | {{seq}}333 | 40753 | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M15D      | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:52:40}} | {{seq}}334 | {{seq}}334 | 40753 | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M16D      | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:53:00}} | {{seq}}335 | {{seq}}335 | 40753 | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M17D      | Detention for Life under s226 (u18)                                                            |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:54:00}} | {{seq}}338 | {{seq}}338 | 40753 | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M18D      | S226a Extended Discretional for over 18                                                        |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:54:20}} | {{seq}}339 | {{seq}}339 | 40753 | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M19D      | S226a Extended Automatic for over 18                                                           |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:54:40}} | {{seq}}340 | {{seq}}340 | 40753 | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M20D      | S226b Extended Discretional for under 18                                                       |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:55:00}} | {{seq}}341 | {{seq}}341 | 40753 | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M21D      | S226b Extended Automatic for under 18                                                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:55:20}} | {{seq}}342 | {{seq}}342 | 40750 | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M22D      | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:55:40}} | {{seq}}343 | {{seq}}343 | 40750 | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M23D      | Detention for life (youth) for manslaughter of an emergency worker                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:56:00}} | {{seq}}344 | {{seq}}344 | 40750 | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M24D      | (Extended Discretional 18 to 20)   Section 266                                                 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:56:20}} | {{seq}}345 | {{seq}}345 | 40750 | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M25D      | (Extended Discretional over 21)                                                                |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:56:40}} | {{seq}}346 | {{seq}}346 | 40751 | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M26D      | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:57:00}} | {{seq}}347 | {{seq}}347 | 40751 | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M27D      | Detention for life (youth) for manslaughter of an emergency worker                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:57:20}} | {{seq}}348 | {{seq}}348 | 40751 | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M28D      | (Extended Discretional 18 to 20)   Section 266                                                 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:57:40}} | {{seq}}349 | {{seq}}349 | 40751 | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M1D       | (Extended Discretional over 21)                                                                |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:58:00}} | {{seq}}350 | {{seq}}350 | 40752 | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M2D       | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:58:20}} | {{seq}}351 | {{seq}}351 | 40752 | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M3D       | Detention for life (youth) for manslaughter of an emergency worker                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:58:40}} | {{seq}}352 | {{seq}}352 | 40752 | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M4D       | (Extended Discretional 18 to 20)   Section 266                                                 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:59:00}} | {{seq}}353 | {{seq}}353 | 40752 | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M5D       | (Extended Discretional over 21)                                                                |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:59:20}} | {{seq}}354 | {{seq}}354 | 40753 | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M6D       | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:59:40}} | {{seq}}355 | {{seq}}355 | 40753 | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M7D       | Detention for life (youth) for manslaughter of an emergency worker                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:00:00}} | {{seq}}356 | {{seq}}356 | 40753 | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M8D       | (Extended Discretional 18 to 20)   Section 266                                                 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:00:20}} | {{seq}}357 | {{seq}}357 | 40753 | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M9D       | (Extended Discretional over 21)                                                                |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:00:40}} | {{seq}}358 | {{seq}}358 | 40754 | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M10D      | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:01:00}} | {{seq}}359 | {{seq}}359 | 40754 | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M11D      | Detention for life (youth) for manslaughter of an emergency worker                             |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:01:20}} | {{seq}}360 | {{seq}}360 | 40754 | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M12D      | (Extended Discretional 18 to 20)   Section 266                                                 |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:01:40}} | {{seq}}361 | {{seq}}361 | 40754 | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M13D      | (Extended Discretional over 21)                                                                |       |
+  #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:02:00}} | {{seq}}362 | {{seq}}362 | DETTO   | 11531   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D      | Special Sentence of Detention for Terrorist Offenders of Particular Concern                    |       |
+  #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:02:20}} | {{seq}}363 | {{seq}}363 | STS     | 11530   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Serious Terrorism Sentence                                                                     |       |
+  #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:02:40}} | {{seq}}364 | {{seq}}364 | STS1821 | 11532   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Serious Terrorism Sentence 18 to 21                                                            |       |
 
 
-# @regression
-# Scenario Outline: Create a SetReportingRestriction event
-#   Given I authenticate from the XHIBIT source system
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I set table darts.court_case column interpreter_used to "false" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.court_case column case_closed_ts to "null" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.hearing column hearing_is_actual to "false" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "SetReportingRestrictionEventHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-# Examples:
-#   | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text                                                                         | notes |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:18:00}} | {{seq}}233 | {{seq}}233 | 2198  | 3933    | text {{seq}} |               |               | Judge directed on reporting restrictions                                     |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:18:20}} | {{seq}}234 | {{seq}}234 | 21200 | 11000   | text {{seq}} |               |               | Section 4(2) of the Contempt of Court Act 1981                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:18:40}} | {{seq}}235 | {{seq}}235 | 21200 | 11001   | text {{seq}} |               |               | Section 11 of the Contempt of Court Act 1981                                 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:19:00}} | {{seq}}236 | {{seq}}236 | 21200 | 11002   | text {{seq}} |               |               | Section 39 of the Children and Young Persons Act 1933                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:19:20}} | {{seq}}237 | {{seq}}237 | 21200 | 11003   | text {{seq}} |               |               | Section 4 of the Sexual Offenders (Amendment) Act 1976                       |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:19:40}} | {{seq}}238 | {{seq}}238 | 21200 | 11004   | text {{seq}} |               |               | Section 2 of the Sexual Offenders (Amendment) Act 1992                       |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:20:00}} | {{seq}}239 | {{seq}}239 | 21200 | 11006   | text {{seq}} |               |               | An order made under s45 of the Youth Justice and Criminal Evidence Act 1999  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:20:20}} | {{seq}}240 | {{seq}}240 | 21200 | 11007   | text {{seq}} |               |               | An order made under s45a of the Youth Justice and Criminal Evidence Act 1999 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:20:40}} | {{seq}}241 | {{seq}}241 | 21200 | 11008   | text {{seq}} |               |               | An order made under s46 of the Youth Justice and Criminal Evidence Act 1999  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:21:00}} | {{seq}}242 | {{seq}}242 | 21200 | 11009   | text {{seq}} |               |               | An order made under s49 of the Children and Young Persons Act 1933           |       |
-# #   Lift restrictions
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:21:20}} | {{seq}}243 | {{seq}}243 | 21201 |         | text {{seq}} |               |               | Restrictions lifted                                                          |       |
+  @regression
+  Scenario Outline: Create a DarStart event
+    Given I authenticate from the "XHIBIT" source system
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I set table "darts.court_case" column "interpreter_used" to "false" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.court_case" column "case_closed_ts" to "null" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.hearing" column "hearing_is_actual" to "false" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "DarStartHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    And I see table "EVENT" column "case_closed_ts" is "null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    Examples:
+      | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text            | notes |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:03:00}} | {{seq}}365 | {{seq}}365 | 1000  | 1055    | text {{seq}} |               |               | Jury returned   |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:03:20}} | {{seq}}366 | {{seq}}366 | 1100  |         | text {{seq}} |               |               | Hearing started |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:03:40}} | {{seq}}367 | {{seq}}367 | 1500  |         | text {{seq}} |               |               | Hearing resumed |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:00}} | {{seq}}368 | {{seq}}368 | 10100 |         | text {{seq}} |               |               | Case called on  |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:20}} | {{seq}}369 | {{seq}}369 | 10500 |         | text {{seq}} |               |               | Resume          |       |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:40}} | {{seq}}370 | {{seq}}370 | 20913 |         | text {{seq}} |               |               | Jury returns    |       |
 
-# @regression
-# Scenario Outline: Create a SetInterpreterUsed event
-#   Given I authenticate from the XHIBIT source system
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I set table darts.court_case column interpreter_used to "false" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.hearing column hearing_is_actual to "false" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.court_case column case_closed_ts to "null" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "InterpreterUsedHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-# Examples:
-#   | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text                        | notes |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:00}} | {{seq}}244 | {{seq}}244 | 2917  | 3979    | text {{seq}} |               |               | Interpreter sworn-in        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:20}} | {{seq}}245 | {{seq}}244 | 20612 |         | text {{seq}} |               |               | Appeal interpreter sworn in |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:40}} | {{seq}}246 | {{seq}}244 | 20917 |         | text {{seq}} |               |               | Interpretor sworn           |       |
+  @regression
+  Scenario Outline: Create a DarStop event
+    Given I authenticate from the "XHIBIT" source system
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I set table "darts.court_case" column "interpreter_used" to "false" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.court_case" column "case_closed_ts" to "null" where "cas_id" = "{{cas.cas_id}}"
+    And I set table "darts.hearing" column "hearing_is_actual" to "false" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "DarStopHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    Examples:
+      | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text              | notes                  |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:06:00}} | {{seq}}372 | {{seq}}372 | 1200  |         | text {{seq}} |               |               | Hearing ended     |                        |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:06:20}} | {{seq}}373 | {{seq}}373 | 1400  |         | text {{seq}} |               |               | Hearing paused    |                        |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:06:40}} | {{seq}}374 | {{seq}}374 | 30100 |         | text {{seq}} |               |               | Short adjournment |                        |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:23:20}} | {{seq}}248 | {{seq}}248 | 30500 |         | text {{seq}} |               |               | Hearing ended     | ex StopAndCloseHandler |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:23:40}} | {{seq}}249 | {{seq}}249 | 30600 |         | text {{seq}} |               |               | Hearing ended     | ex StopAndCloseHandler |
 
-# @SENTENCING_EVENT @regression
-# Scenario Outline: Create a Sentencing event
-#   Given I authenticate from the XHIBIT source system
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I set table darts.court_case column interpreter_used to "false" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.court_case column case_closed_ts to "null" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.hearing column hearing_is_actual to "false" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "SentencingRemarksAndRetentionPolicyHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-# Examples:
-#   | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type    | subType | eventText                  | caseRetention | totalSentence | text                                                                                           | notes |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:24:00}} | {{seq}}250 | {{seq}}250 | 3010    |         | [Defendant: DEFENDANT ONE] |  4            |  26Y0M0D      | Sentence Transcription Required |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:25:20}} | {{seq}}252 | {{seq}}252 | 40730   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Case Level Criminal Appeal Result                                                              |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:25:40}} | {{seq}}253 | {{seq}}253 | 40731   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Offence Level Criminal Appeal Result                                                           |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:26:00}} | {{seq}}254 | {{seq}}254 | 40732   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Offence Level Criminal Appeal Result with alt offence                                          |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:26:20}} | {{seq}}255 | {{seq}}255 | 40733   | 10808   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Case Level Misc Appeal Result                                                                  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:26:40}} | {{seq}}256 | {{seq}}256 | 40735   | 10808   | [Defendant: DEFENDANT ONE] | 0             | 26Y0M1D       | Delete Offence Level Appeal Result                                                             |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:27:00}} | {{seq}}257 | {{seq}}257 | 40735   |         | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Verdict                                                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:27:20}} | {{seq}}258 | {{seq}}258 | 40750   | 11504   | [Defendant: DEFENDANT ONE] | 1             | 26Y0M2D       | Life Imprisonment                                                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:27:40}} | {{seq}}259 | {{seq}}259 | 40750   | 11505   | [Defendant: DEFENDANT ONE] | 2             | 26Y0M3D       | Life Imprisonment (with minimum period)                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:28:00}} | {{seq}}260 | {{seq}}260 | 40750   | 11506   | [Defendant: DEFENDANT ONE] | 3             | 26Y0M4D       | Custody for Life                                                                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:28:20}} | {{seq}}261 | {{seq}}261 | 40750   | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M5D       | Mandatory Life Sentence for Second Serious Offence                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:28:40}} | {{seq}}262 | {{seq}}262 | 40750   | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M6D       | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:29:00}} | {{seq}}263 | {{seq}}263 | 40750   | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M7D       | Detained During Her Majestys Pleasure                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:29:20}} | {{seq}}264 | {{seq}}264 | 40750   | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M8D       | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:29:40}} | {{seq}}265 | {{seq}}265 | 40750   | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M9D       | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:30:00}} | {{seq}}266 | {{seq}}266 | 40750   | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M10D      | Mandatory Life Sentence for Second Listed Offence                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:30:20}} | {{seq}}267 | {{seq}}267 | 40750   | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M11D      | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:30:40}} | {{seq}}268 | {{seq}}268 | 40750   | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M12D      | Imprisonment - Extended under s236A CJA2003                                                    |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:31:00}} | {{seq}}269 | {{seq}}269 | 40750   | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M13D      | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:31:20}} | {{seq}}270 | {{seq}}270 | 40750   | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M14D      | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:31:40}} | {{seq}}271 | {{seq}}271 | 40750   | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M15D      | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:32:00}} | {{seq}}272 | {{seq}}272 | 40750   | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M16D      | Detention for Life under s226 (u18)                                                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:33:00}} | {{seq}}275 | {{seq}}275 | 40750   | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M17D      | S226a Extended Discretional for over 18                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:33:20}} | {{seq}}276 | {{seq}}276 | 40750   | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M18D      | S226a Extended Automatic for over 18                                                           |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:33:40}} | {{seq}}277 | {{seq}}277 | 40750   | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M19D      | S226b Extended Discretional for under 18                                                       |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:34:00}} | {{seq}}278 | {{seq}}278 | 40750   | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M20D      | S226b Extended Automatic for under 18                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:34:20}} | {{seq}}279 | {{seq}}279 | 40751   | 11504   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M21D      | Life Imprisonment                                                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:34:40}} | {{seq}}280 | {{seq}}280 | 40751   | 11505   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M22D      | Life Imprisonment (with minimum period)                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:35:00}} | {{seq}}281 | {{seq}}281 | 40751   | 11506   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M23D      | Custody for Life                                                                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:35:20}} | {{seq}}282 | {{seq}}282 | 40751   | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M24D      | Mandatory Life Sentence for Second Serious Offence                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:35:40}} | {{seq}}283 | {{seq}}283 | 40751   | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M25D      | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:36:00}} | {{seq}}284 | {{seq}}284 | 40751   | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M26D      | Detained During Her Majestys Pleasure                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:36:20}} | {{seq}}285 | {{seq}}285 | 40751   | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M27D      | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:36:40}} | {{seq}}286 | {{seq}}286 | 40751   | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M28D      | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:37:00}} | {{seq}}287 | {{seq}}287 | 40751   | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M1D       | Mandatory Life Sentence for Second Listed Offence                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:37:20}} | {{seq}}288 | {{seq}}288 | 40751   | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M2D       | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:37:40}} | {{seq}}289 | {{seq}}289 | 40751   | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M3D       | Imprisonment - Extended under s236A CJA2003                                                    |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:38:00}} | {{seq}}290 | {{seq}}290 | 40751   | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M4D       | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:38:20}} | {{seq}}291 | {{seq}}291 | 40751   | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M5D       | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:38:40}} | {{seq}}292 | {{seq}}292 | 40751   | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M6D       | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:39:00}} | {{seq}}293 | {{seq}}293 | 40751   | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M7D       | Detention for Life under s226 (u18)                                                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:40:00}} | {{seq}}296 | {{seq}}296 | 40751   | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M8D       | S226a Extended Discretional for over 18                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:40:20}} | {{seq}}297 | {{seq}}297 | 40751   | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M9D       | S226a Extended Automatic for over 18                                                           |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:40:40}} | {{seq}}298 | {{seq}}298 | 40751   | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M10D      | S226b Extended Discretional for under 18                                                       |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:41:00}} | {{seq}}299 | {{seq}}299 | 40751   | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M11D      | S226b Extended Automatic for under 18                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:41:20}} | {{seq}}300 | {{seq}}300 | 40752   | 11504   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M12D      | Life Imprisonment                                                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:41:40}} | {{seq}}301 | {{seq}}301 | 40752   | 11505   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M13D      | Life Imprisonment (with minimum period)                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:42:00}} | {{seq}}302 | {{seq}}302 | 40752   | 11506   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M14D      | Custody for Life                                                                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:42:20}} | {{seq}}303 | {{seq}}303 | 40752   | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M15D      | Mandatory Life Sentence for Second Serious Offence                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:42:40}} | {{seq}}304 | {{seq}}304 | 40752   | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M16D      | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:43:00}} | {{seq}}305 | {{seq}}305 | 40752   | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M17D      | Detained During Her Majestys Pleasure                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:43:20}} | {{seq}}306 | {{seq}}306 | 40752   | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M18D      | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:43:40}} | {{seq}}307 | {{seq}}307 | 40752   | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M19D      | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:44:00}} | {{seq}}308 | {{seq}}308 | 40752   | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M20D      | Mandatory Life Sentence for Second Listed Offence                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:44:20}} | {{seq}}309 | {{seq}}309 | 40752   | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M21D      | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:44:40}} | {{seq}}310 | {{seq}}310 | 40752   | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M22D      | Imprisonment - Extended under s236A CJA2003                                                    |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:45:00}} | {{seq}}311 | {{seq}}311 | 40752   | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M23D      | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:45:20}} | {{seq}}312 | {{seq}}312 | 40752   | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M24D      | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:45:40}} | {{seq}}313 | {{seq}}313 | 40752   | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M25D      | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:46:00}} | {{seq}}314 | {{seq}}314 | 40752   | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M26D      | Detention for Life under s226 (u18)                                                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:47:00}} | {{seq}}317 | {{seq}}317 | 40752   | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M27D      | S226a Extended Discretional for over 18                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:47:20}} | {{seq}}318 | {{seq}}318 | 40752   | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y1M28D      | S226a Extended Automatic for over 18                                                           |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:47:40}} | {{seq}}319 | {{seq}}319 | 40752   | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M1D       | S226b Extended Discretional for under 18                                                       |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:48:00}} | {{seq}}320 | {{seq}}320 | 40752   | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M2D       | S226b Extended Automatic for under 18                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:48:20}} | {{seq}}321 | {{seq}}321 | 40753   | 11504   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M3D       | Life Imprisonment                                                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:48:40}} | {{seq}}322 | {{seq}}322 | 40753   | 11505   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M4D       | Life Imprisonment (with minimum period)                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:49:00}} | {{seq}}323 | {{seq}}323 | 40753   | 11506   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M5D       | Custody for Life                                                                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:49:20}} | {{seq}}324 | {{seq}}324 | 40753   | 11507   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M6D       | Mandatory Life Sentence for Second Serious Offence                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:49:40}} | {{seq}}325 | {{seq}}325 | 40753   | 11508   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M7D       | Mandatory Life Sentence for Second Serious Offence (Young Offender)                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:50:00}} | {{seq}}326 | {{seq}}326 | 40753   | 11509   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M8D       | Detained During Her Majestys Pleasure                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:50:20}} | {{seq}}327 | {{seq}}327 | 40753   | 11521   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M9D       | INIMP: Indeterminate Sentence of Imprisonment for Public Protection                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:50:40}} | {{seq}}328 | {{seq}}328 | 40753   | 11522   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M10D      | INDET: Indeterminate Sentence of Detention for Public Protection                               |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:51:00}} | {{seq}}329 | {{seq}}329 | 40753   | 11523   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M11D      | Mandatory Life Sentence for Second Listed Offence                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:51:20}} | {{seq}}330 | {{seq}}330 | 40753   | 11524   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M12D      | Mandatory Life Sentence for Second Listed Offence (Young Offender)                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:51:40}} | {{seq}}331 | {{seq}}331 | 40753   | 11525   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M13D      | Imprisonment - Extended under s236A CJA2003                                                    |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:52:00}} | {{seq}}332 | {{seq}}332 | 40753   | 11526   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M14D      | Imprisonment - Minimum Imposed after 3 strikes (Young Offender) - Extended under s236A CJA2003 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:52:20}} | {{seq}}333 | {{seq}}333 | 40753   | 11527   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M15D      | Imprisonment - Minimum Imposed after 3 strikes - Extended under s236A CJA2003                  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:52:40}} | {{seq}}334 | {{seq}}334 | 40753   | 11528   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M16D      | Detention in Y.O.I. - Extended under s235A CJA2003                                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:53:00}} | {{seq}}335 | {{seq}}335 | 40753   | 11529   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M17D      | Detention for Life under s226 (u18)                                                            |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:54:00}} | {{seq}}338 | {{seq}}338 | 40753   | 13503   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M18D      | S226a Extended Discretional for over 18                                                        |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:54:20}} | {{seq}}339 | {{seq}}339 | 40753   | 13504   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M19D      | S226a Extended Automatic for over 18                                                           |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:54:40}} | {{seq}}340 | {{seq}}340 | 40753   | 13505   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M20D      | S226b Extended Discretional for under 18                                                       |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:55:00}} | {{seq}}341 | {{seq}}341 | 40753   | 13506   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M21D      | S226b Extended Automatic for under 18                                                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:55:20}} | {{seq}}342 | {{seq}}342 | 40750   | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M22D      | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:55:40}} | {{seq}}343 | {{seq}}343 | 40750   | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M23D      | Detention for life (youth) for manslaughter of an emergency worker                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:56:00}} | {{seq}}344 | {{seq}}344 | 40750   | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M24D      | (Extended Discretional 18 to 20)   Section 266                                                 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:56:20}} | {{seq}}345 | {{seq}}345 | 40750   | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M25D      | (Extended Discretional over 21)                                                                |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:56:40}} | {{seq}}346 | {{seq}}346 | 40751   | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M26D      | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:57:00}} | {{seq}}347 | {{seq}}347 | 40751   | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M27D      | Detention for life (youth) for manslaughter of an emergency worker                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:57:20}} | {{seq}}348 | {{seq}}348 | 40751   | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y2M28D      | (Extended Discretional 18 to 20)   Section 266                                                 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:57:40}} | {{seq}}349 | {{seq}}349 | 40751   | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M1D       | (Extended Discretional over 21)                                                                |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:58:00}} | {{seq}}350 | {{seq}}350 | 40752   | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M2D       | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:58:20}} | {{seq}}351 | {{seq}}351 | 40752   | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M3D       | Detention for life (youth) for manslaughter of an emergency worker                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:58:40}} | {{seq}}352 | {{seq}}352 | 40752   | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M4D       | (Extended Discretional 18 to 20)   Section 266                                                 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:59:00}} | {{seq}}353 | {{seq}}353 | 40752   | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M5D       | (Extended Discretional over 21)                                                                |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:59:20}} | {{seq}}354 | {{seq}}354 | 40753   | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M6D       | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:59:40}} | {{seq}}355 | {{seq}}355 | 40753   | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M7D       | Detention for life (youth) for manslaughter of an emergency worker                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:00:00}} | {{seq}}356 | {{seq}}356 | 40753   | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M8D       | (Extended Discretional 18 to 20)   Section 266                                                 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:00:20}} | {{seq}}357 | {{seq}}357 | 40753   | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M9D       | (Extended Discretional over 21)                                                                |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:00:40}} | {{seq}}358 | {{seq}}358 | 40754   | 11533   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M10D      | Imprisonment for life (adult) for manslaughter of an emergency worker                          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:01:00}} | {{seq}}359 | {{seq}}359 | 40754   | 11534   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M11D      | Detention for life (youth) for manslaughter of an emergency worker                             |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:01:20}} | {{seq}}360 | {{seq}}360 | 40754   | 13507   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M12D      | (Extended Discretional 18 to 20)   Section 266                                                 |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:01:40}} | {{seq}}361 | {{seq}}361 | 40754   | 13508   | [Defendant: DEFENDANT ONE] | 4             | 26Y3M13D      | (Extended Discretional over 21)                                                                |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:02:00}} | {{seq}}362 | {{seq}}362 | DETTO   | 11531   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D      | Special Sentence of Detention for Terrorist Offenders of Particular Concern                    |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:02:20}} | {{seq}}363 | {{seq}}363 | STS     | 11530   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Serious Terrorism Sentence                                                                     |       |
-# #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:02:40}} | {{seq}}364 | {{seq}}364 | STS1821 | 11532   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Serious Terrorism Sentence 18 to 21                                                            |       |
+  @regression @retention
+  @reads-and-writes-system-properties
+  Scenario Outline: Create a StopAndClose event for custodial sentence - not life
+    retention is 7 years or length of sentence
+    Only 1 stop & close event per case is used to verify that a case_retention row is created
+    Test creates a courtroom & hearing for each case
+    # TODO (DT): This will always fail because this the daily list scenario creates a pending (NEW) daily list for tomorrow
+    # Given I wait until there is not a daily list waiting for "<courthouse>"
+    Given I authenticate from the "XHIBIT" source system
+    Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
+    Given I add a daily list
+      | messageId                      | type | subType | documentName              | courthouse   | courtroom   | caseNumber    | startDate  | startTime | endDate    | timeStamp     | defendant     | judge      | prosecution     | defence      |
+      | 58b211f4-426d-81be-21{{seq}}00 | DL   | DL      | DL {{date+0/}} {{seq}}211 | <courthouse> | <courtroom> | <caseNumbers> | {{date+0}} | 09:50     | {{date+0}} | {{timestamp}} | defendant one | judge name | prosecutor name | defence name |
+    And I process the daily list for courthouse "<courthouse>"
+    And I wait for case "<caseNumbers>" courthouse "<courthouse>"
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I see table "darts.court_case" column "interpreter_used" is "false" where "cas_id" = "{{cas.cas_id}}"
+    And I see table "darts.court_case" column "case_closed_ts" is "null" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "StopAndCloseHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "not null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    And I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_MANAGEMENT_RETENTION" column "total_sentence" is "<totalSentence>" where "eve_id" = "{{eve.eve_id}}"
+    And I see table "CASE_MANAGEMENT_RETENTION" column "fixed_policy_key" is "<caseRetention>" where "eve_id" = "{{eve.eve_id}}"
+    And I select column "cmr_id" from table "CASE_MANAGEMENT_RETENTION" where "eve_id" = "{{eve.eve_id}}"
+    And I see table "CASE_RETENTION" column "total_sentence" is "<totalSentence>" where "cmr_id" = "{{cmr_id}}"
+    And I see table "CASE_RETENTION" column "fixed_policy_key" is "<caseRetention>" where "cmr_id" = "{{cmr_id}}"
+    And I see table "CASE_RETENTION" column "retain_until_ts" is "{{retention-<actualRetention>}}" where "cmr_id" = "{{cmr_id}}"
+    Examples:
+      | courthouse         | courtroom     | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text         | actualRetention |
+      | HARROW CROWN COURT | RM {{seq}}A13 | T{{seq}}213 | {{timestamp-11:23:00}} | {{seq}}613 | {{seq}}613 | 3000  |         | text {{seq}} | 3             | 3Y3M3D        | Archive Case | 7Y0M0D          |
+      | HARROW CROWN COURT | RM {{seq}}A14 | T{{seq}}214 | {{timestamp-11:23:00}} | {{seq}}614 | {{seq}}614 | 3000  |         | text {{seq}} | 3             | 7Y3M7D        | Archive Case | 7Y3M7D          |
+      | HARROW CROWN COURT | RM {{seq}}A23 | T{{seq}}223 | {{timestamp-12:07:00}} | {{seq}}623 | {{seq}}623 | 30300 |         | text {{seq}} | 3             | 3Y3M3D        | Case closed  | 7Y0M0D          |
+      | HARROW CROWN COURT | RM {{seq}}A24 | T{{seq}}224 | {{timestamp-12:07:00}} | {{seq}}624 | {{seq}}624 | 30300 |         | text {{seq}} | 3             | 7Y3M7D        | Case closed  | 7Y3M7D          |
 
+  @regression @retention
+  @reads-and-writes-system-properties
+  Scenario Outline: Create a StopAndClose event for LIFE sentence
+    Difference from other sentencing event is
+    table CASE_RETENTION column total_sentence is not set
+    retention is 99 years
+    Only 1 stop & close event per case is used to verify that a case_retention row is created
+    Test creates a courtroom & hearing for each case
+    Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
+    # TODO (DT): This will always fail because this the daily list scenario creates a pending (NEW) daily list for tomorrow
+    # Given I wait until there is not a daily list waiting for "<courthouse>"
+    Given I authenticate from the "XHIBIT" source system
+    Given I add a daily list
+      | messageId                      | type | subType | documentName              | courthouse   | courtroom   | caseNumber    | startDate  | startTime | endDate    | timeStamp     | defendant     | judge      | prosecution     | defence      |
+      | 58b211f4-426d-81be-22{{seq}}00 | DL   | DL      | DL {{date+0/}} {{seq}}221 | <courthouse> | <courtroom> | <caseNumbers> | {{date+0}} | 09:50     | {{date+0}} | {{timestamp}} | defendant one | judge name | prosecutor name | defence name |
+    And I process the daily list for courthouse "<courthouse>"
+    And I wait for case "<caseNumbers>" courthouse "<courthouse>"
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I see table "darts.court_case" column "interpreter_used" is "false" where "cas_id" = "{{cas.cas_id}}"
+    And I see table "darts.court_case" column "case_closed_ts" is "null" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "StopAndCloseHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "not null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    And I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_MANAGEMENT_RETENTION" column "total_sentence" is "<totalSentence>" where "eve_id" = "{{eve.eve_id}}"
+    And I see table "CASE_MANAGEMENT_RETENTION" column "fixed_policy_key" is "<caseRetention>" where "eve_id" = "{{eve.eve_id}}"
+    And I select column "cmr_id" from table "CASE_MANAGEMENT_RETENTION" where "eve_id" = "{{eve.eve_id}}"
+    #   And I see table "CASE_RETENTION" column "total_sentence" is "<totalSentence>" where "cmr_id" = "{{cmr_id}}"
+    And I see table "CASE_RETENTION" column "fixed_policy_key" is "<caseRetention>" where "cmr_id" = "{{cmr_id}}"
+    And I see table "CASE_RETENTION" column "retain_until_ts" is "{{retention-<actualRetention>}}" where "cmr_id" = "{{cmr_id}}"
+    Examples:
+      | courthouse         | courtroom     | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text         | actualRetention |
+      | HARROW CROWN COURT | RM {{seq}}A15 | T{{seq}}215 | {{timestamp-11:23:00}} | {{seq}}615 | {{seq}}615 | 3000  |         | text {{seq}} | 4             | 4Y4M4D        | Archive Case | 99Y0M0D         |
+      | HARROW CROWN COURT | RM {{seq}}A25 | T{{seq}}225 | {{timestamp-12:07:00}} | {{seq}}625 | {{seq}}625 | 30300 |         | text {{seq}} | 4             | 4Y4M4D        | Case closed  | 99Y0M0D         |
 
-# @regression
-# Scenario Outline: Create a DarStart event
-#   Given I authenticate from the XHIBIT source system
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I set table darts.court_case column interpreter_used to "false" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.court_case column case_closed_ts to "null" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.hearing column hearing_is_actual to "false" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "DarStartHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-#    And I see table EVENT column case_closed_ts is "null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-# Examples:
-#   | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text            | notes |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:03:00}} | {{seq}}365 | {{seq}}365 | 1000  | 1055    | text {{seq}} |               |               | Jury returned   |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:03:20}} | {{seq}}366 | {{seq}}366 | 1100  |         | text {{seq}} |               |               | Hearing started |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:03:40}} | {{seq}}367 | {{seq}}367 | 1500  |         | text {{seq}} |               |               | Hearing resumed |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:00}} | {{seq}}368 | {{seq}}368 | 10100 |         | text {{seq}} |               |               | Case called on  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:20}} | {{seq}}369 | {{seq}}369 | 10500 |         | text {{seq}} |               |               | Resume          |       |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:40}} | {{seq}}370 | {{seq}}370 | 20913 |         | text {{seq}} |               |               | Jury returns    |       |
+  @regression @retention
+  @reads-and-writes-system-properties
+  Scenario Outline: Create a StopAndClose event for non-custodial sentence
+    Only 1 stop & close event per case works due to retentions
+    Test creates a courtroom & hearing for each case
+    # TODO (DT): This will always fail because this the daily list scenario creates a pending (NEW) daily list for tomorrow
+    # Given I wait until there is not a daily list waiting for "<courthouse>"
+    Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
+    Given I authenticate from the "XHIBIT" source system
+    Given I add a daily list
+      | messageId                      | type | subType | documentName              | courthouse   | courtroom   | caseNumber    | startDate  | startTime | endDate    | timeStamp     | defendant     | judge      | prosecution     | defence      |
+      | 58b211f4-426d-81be-23{{seq}}00 | DL   | DL      | DL {{date+0/}} {{seq}}231 | <courthouse> | <courtroom> | <caseNumbers> | {{date+0}} | 09:50     | {{date+0}} | {{timestamp}} | defendant one | judge name | prosecutor name | defence name |
+    And I process the daily list for courthouse "<courthouse>"
+    And I wait for case "<caseNumbers>" courthouse "<courthouse>"
+    Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
+    And I see table "darts.court_case" column "interpreter_used" is "false" where "cas_id" = "{{cas.cas_id}}"
+    And I see table "darts.court_case" column "case_closed_ts" is "null" where "cas_id" = "{{cas.cas_id}}"
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "EVENT" column "event_text" is "<eventText>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "event_name" is "<text>" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "handler" is "StopAndCloseHandler" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "active" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "case_closed_ts" is "not null" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "EVENT" column "interpreter_used" is "false" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    And I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    And I see table "CASE_MANAGEMENT_RETENTION" column "total_sentence" is "" where "eve_id" = "{{eve.eve_id}}"
+    And I see table "CASE_MANAGEMENT_RETENTION" column "fixed_policy_key" is "<caseRetention>" where "eve_id" = "{{eve.eve_id}}"
+    And I select column "cmr_id" from table "CASE_MANAGEMENT_RETENTION" where "eve_id" = "{{eve.eve_id}}"
+    And I see table "CASE_RETENTION" column "total_sentence" is "null" where "cmr_id" = "{{cmr_id}}"
+    And I see table "CASE_RETENTION" column "fixed_policy_key" is "<caseRetention>" where "cmr_id" = "{{cmr_id}}"
+    And I see table "CASE_RETENTION" column "retain_until_ts" is "{{retention-<actualRetention>}}" where "cmr_id" = "{{cmr_id}}"
+    Examples:
+      | courthouse         | courtroom     | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text         | actualRetention |
+      | HARROW CROWN COURT | RM {{seq}}A11 | T{{seq}}211 | {{timestamp-11:23:00}} | {{seq}}611 | {{seq}}611 | 3000  |         | text {{seq}} | 1             |               | Archive Case | 1Y0M0D          |
+      | HARROW CROWN COURT | RM {{seq}}A12 | T{{seq}}212 | {{timestamp-11:23:00}} | {{seq}}612 | {{seq}}612 | 3000  |         | text {{seq}} | 2             |               | Archive Case | 7Y0M0D          |
+      | HARROW CROWN COURT | RM {{seq}}A21 | T{{seq}}221 | {{timestamp-12:07:00}} | {{seq}}621 | {{seq}}621 | 30300 |         | text {{seq}} | 1             |               | Case closed  | 1Y0M0D          |
+      | HARROW CROWN COURT | RM {{seq}}A22 | T{{seq}}222 | {{timestamp-12:07:00}} | {{seq}}622 | {{seq}}622 | 30300 |         | text {{seq}} | 2             |               | Case closed  | 7Y0M0D          |
 
+  @regression @TODO
+  Scenario Outline: Create a Null event
+    # An event row is not created
+    Given I authenticate from the "XHIBIT" source system
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumber> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    #  Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
+    And I see table "EVENT" column "COUNT(eve.eve_id)" is "0" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "message_id" = "<msgId>"
+    Examples:
+      | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text    | notes |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:08:00}} | {{seq}}376 | {{seq}}376 | 40790 |         | text {{seq}} |               |               | Results |       |
 
-# @regression
-# Scenario Outline: Create a DarStop event
-#   Given I authenticate from the XHIBIT source system
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I set table darts.court_case column interpreter_used to "false" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.court_case column case_closed_ts to "null" where cas_id = "{{cas.cas_id}}"
-#     And I set table darts.hearing column hearing_is_actual to "false" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "DarStopHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-# Examples:
-#   | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text              | notes                  |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:06:00}} | {{seq}}372 | {{seq}}372 | 1200  |         | text {{seq}} |               |               | Hearing ended     |                        |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:06:20}} | {{seq}}373 | {{seq}}373 | 1400  |         | text {{seq}} |               |               | Hearing paused    |                        |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:06:40}} | {{seq}}374 | {{seq}}374 | 30100 |         | text {{seq}} |               |               | Short adjournment |                        |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:23:20}} | {{seq}}248 | {{seq}}248 | 30500 |         | text {{seq}} |               |               | Hearing ended     | ex StopAndCloseHandler |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:23:40}} | {{seq}}249 | {{seq}}249 | 30600 |         | text {{seq}} |               |               | Hearing ended     | ex StopAndCloseHandler |
+  @regression
+  Scenario Outline: Create case with an event
+    Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
+    Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>"
+    Given I authenticate from the "CPP" source system
+    When  I create an event
+      | message_id | type   | sub_type  | event_id   | courthouse   | courtroom   | case_numbers | event_text     | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>1   | <type> | <subType> | <eventId>1 | <courthouse> | <courtroom> | <caseNumber> | text {{seq}}C1 | <dateTime> | <caseRetention>             | <totalSentence>     |
+      | <msgId>2   | <type> | <subType> | <eventId>2 | <courthouse> | <courtroom> | <caseNumber> | text {{seq}}C2 | <dateTime> | <caseRetention>             | <totalSentence>     |
+    #    | <msgId>2     | <type> | <subType> | <eventId>2        | <courthouse> | <courtroom> | <caseNumber>D | text {{seq}}D1 | <dateTime> | <caseRetention>             | <totalSentence>     |
+    #    | <msgId>3     | <type> | <subType> | <eventId>3        | <courthouse> | <courtroom> | <caseNumber>C,<caseNumber>D | text {{seq}}CD | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "COURTCASE" column "COUNT(cas_id)" is "1" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>"
+    And I see table "EVENT" column "COUNT(eve.eve_id)" is "2" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>"
+    # TODO (DT): I amended the second msgId/eventId values to {{seq}}42 to prevent them being duplicates
+    Examples:
+      | courthouse         | courtroom     | caseNumber  | dateTime               | msgId     | eventId   | type  | subType | eventText     | caseRetention | totalSentence | text           | notes |
+      | HARROW CROWN COURT | 1             | T{{seq}}230 | {{timestamp-12:04:00}} | {{seq}}41 | {{seq}}41 | 10100 |         | text {{seq}}1 |               |               | Case called on |       |
+      | HARROW CROWN COURT | ROOM {{seq}}Z | T{{seq}}231 | {{timestamp-12:04:00}} | {{seq}}42 | {{seq}}42 | 10100 |         | text {{seq}}1 |               |               | Case called on |       |
 
+  @regression
+  Scenario Outline: Event creates a courtroom / hearing
+    Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
+    Given I create a case
+      | courthouse   | case_number  | defendants    | judges     | prosecutors     | defenders     |
+      | <courthouse> | <caseNumber> | defendant one | test judge | test prosecutor | test defender |
+    Given I see table "COURTCASE" column "COUNT(cas_id)" is "1" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>"
+    Given I authenticate from the "XHIBIT" source system
+    And I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumber> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>"
+    Examples:
+      | courthouse         | courtroom     | caseNumber  | dateTime               | msgId    | eventId  | type | subType | eventText     | caseRetention | totalSentence | text                      | notes               |
+      | HARROW CROWN COURT | ROOM {{seq}}B | T{{seq}}260 | {{timestamp-10:00:00}} | {{seq}}0 | {{seq}}0 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant | courtroom & hearing |
+      | HARROW CROWN COURT | 1             | T{{seq}}261 | {{timestamp-10:00:00}} | {{seq}}1 | {{seq}}1 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant | hearing only        |
 
-# @regression @retention
-#   @reads-and-writes-system-properties
-# Scenario Outline: Create a StopAndClose event for custodial sentence - not life
-# 															retention is 7 years or length of sentence
-# 													Only 1 stop & close event per case is used to verify that a case_retention row is created
-# 													Test creates a courtroom & hearing for each case
-#   Given I wait until there is not a daily list waiting for "<courthouse>"
-#   Given I authenticate from the XHIBIT source system
-#   Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
-#   Given I add a daily list
-#     | messageId                      | type | subType | documentName              | courthouse   | courtroom   | caseNumber    | startDate  | startTime | endDate    | timeStamp     | defendant     | judge      | prosecution     | defence      |
-#     | 58b211f4-426d-81be-21{{seq}}00 | DL   | DL      | DL {{date+0/}} {{seq}}211 | <courthouse> | <courtroom> | <caseNumbers> | {{date+0}} | 09:50     | {{date+0}} | {{timestamp}} | defendant one | judge name | prosecutor name | defence name |
-#     And I process the daily list for courthouse "<courthouse>"
-#    And I wait for case "<caseNumbers>" courthouse "<courthouse>"
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I see table darts.court_case column interpreter_used is "f" where cas_id = "{{cas.cas_id}}"
-#     And I see table darts.court_case column case_closed_ts is "null" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "StopAndCloseHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "not null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-#    And I select column eve_id from table EVENT where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_MANAGEMENT_RETENTION column total_sentence is "<totalSentence>" where eve_id = "{{eve_id}}"
-#    And I see table CASE_MANAGEMENT_RETENTION column fixed_policy_key is "<caseRetention>" where eve_id = "{{eve_id}}"
-#    And I select column cmr_id from table CASE_MANAGEMENT_RETENTION where eve_id = "{{eve_id}}"
-#    And I see table CASE_RETENTION column total_sentence is "<totalSentence>" where cmr_id = "{{cmr_id}}"
-#    And I see table CASE_RETENTION column fixed_policy_key is "<caseRetention>" where cmr_id = "{{cmr_id}}"
-#    And I see table CASE_RETENTION column retain_until_ts is "{{retention-<actualRetention>}}" where cmr_id = "{{cmr_id}}"
-# Examples:
-#   | courthouse         | courtroom     | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text         | actualRetention   |
-#   | HARROW CROWN COURT | Rm {{seq}}A13 | T{{seq}}213 | {{timestamp-11:23:00}} | {{seq}}613 | {{seq}}613 | 3000  |         | text {{seq}} | 3             | 3Y3M3D        | Archive Case | 7Y0M0D            |
-#   | HARROW CROWN COURT | Rm {{seq}}A14 | T{{seq}}214 | {{timestamp-11:23:00}} | {{seq}}614 | {{seq}}614 | 3000  |         | text {{seq}} | 3             | 7Y3M7D        | Archive Case | 7Y3M7D            |
-#   | HARROW CROWN COURT | Rm {{seq}}A23 | T{{seq}}223 | {{timestamp-12:07:00}} | {{seq}}623 | {{seq}}623 | 30300 |         | text {{seq}} | 3             | 3Y3M3D        | Case closed  | 7Y0M0D            |
-#   | HARROW CROWN COURT | Rm {{seq}}A24 | T{{seq}}224 | {{timestamp-12:07:00}} | {{seq}}624 | {{seq}}624 | 30300 |         | text {{seq}} | 3             | 7Y3M7D        | Case closed  | 7Y3M7D            |
+  @EVENT_API @SOAP_API @DMP-2835 @regression @TODO
+  Scenario: Event for 2 cases from CPP
+    messages for 2 cases differ between CPP & XHIBIT
+    Given I authenticate from the "CPP" source system
+    # TODO (DT): I amended eventId from "{{seq}}4014" to "{{seq}}414" because it was bigger than max int
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}4014</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}414" Y="{{date-yyyy}}" M="{{date-mm}}" D="{{date-dd}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}251,T{{seq}}252</be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD1</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 200
+  #TODO Database verifications here
 
+  @EVENT_API @SOAP_API @DMP-2960 @regression @TODO
+  Scenario: Event for 2 cases from XHIBIT
+    messages for 2 cases differ between CPP & XHIBIT
+    Given I authenticate from the "XHIBIT" source system
+    # TODO (DT): I amended eventId from "{{seq}}4015" to "{{seq}}415" because it was bigger than max int
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}4015</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}415" Y="{{date-yyyy}}" M="{{date-mm}}" D="{{date-dd}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}253</be:CaseNumber>
+      <be:CaseNumber>T{{seq}}254</be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 200
+  #TODO Database verifications here
 
-# @regression @retention
-#   @reads-and-writes-system-properties
-# Scenario Outline: Create a StopAndClose event for LIFE sentence
-# 													Difference from other sentencing event is
-# 															table CASE_RETENTION column total_sentence is not set
-# 															retention is 99 years
-# 													Only 1 stop & close event per case is used to verify that a case_retention row is created
-# 													Test creates a courtroom & hearing for each case
-#   Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
-#   Given I wait until there is not a daily list waiting for "<courthouse>"
-#   Given I authenticate from the XHIBIT source system
-#   Given I add a daily list
-#     | messageId                      | type | subType | documentName              | courthouse   | courtroom   | caseNumber    | startDate  | startTime | endDate    | timeStamp     | defendant     | judge      | prosecution     | defence      |
-#     | 58b211f4-426d-81be-22{{seq}}00 | DL   | DL      | DL {{date+0/}} {{seq}}221 | <courthouse> | <courtroom> | <caseNumbers> | {{date+0}} | 09:50     | {{date+0}} | {{timestamp}} | defendant one | judge name | prosecutor name | defence name |
-#     And I process the daily list for courthouse "<courthouse>"
-#    And I wait for case "<caseNumbers>" courthouse "<courthouse>"
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I see table darts.court_case column interpreter_used is "f" where cas_id = "{{cas.cas_id}}"
-#     And I see table darts.court_case column case_closed_ts is "null" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "StopAndCloseHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "not null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-#    And I select column eve_id from table EVENT where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_MANAGEMENT_RETENTION column total_sentence is "<totalSentence>" where eve_id = "{{eve_id}}"
-#    And I see table CASE_MANAGEMENT_RETENTION column fixed_policy_key is "<caseRetention>" where eve_id = "{{eve_id}}"
-#    And I select column cmr_id from table CASE_MANAGEMENT_RETENTION where eve_id = "{{eve_id}}"
-# #   And I see table CASE_RETENTION column total_sentence is "<totalSentence>" where cmr_id = "{{cmr_id}}"
-#    And I see table CASE_RETENTION column fixed_policy_key is "<caseRetention>" where cmr_id = "{{cmr_id}}"
-#    And I see table CASE_RETENTION column retain_until_ts is "{{retention-<actualRetention>}}" where cmr_id = "{{cmr_id}}"
+  @EVENT_API @SOAP_API @DMP-2960 @regression
+  Scenario: Create an event baseline
+    Given I authenticate from the "XHIBIT" source system
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}416</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}416" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}201</be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 200
 
-# Examples:
-#   | courthouse         | courtroom     | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text         | actualRetention   |
-#   | HARROW CROWN COURT | Rm {{seq}}A15 | T{{seq}}215 | {{timestamp-11:23:00}} | {{seq}}615 | {{seq}}615 | 3000  |         | text {{seq}} | 4             | 4Y4M4D        | Archive Case | 99Y0M0D           |
-#   | HARROW CROWN COURT | Rm {{seq}}A25 | T{{seq}}225 | {{timestamp-12:07:00}} | {{seq}}625 | {{seq}}625 | 30300 |         | text {{seq}} | 4             | 4Y4M4D        | Case closed  | 99Y0M0D           |
+  @EVENT_API @SOAP_API @DMP-2960 @regression
+  Scenario: Verify that VIQ cannot create an event
+    Given I authenticate from the "VIQ" source system
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}417</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}417" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}255</be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 500
 
+  @EVENT_API @SOAP_API @DMP-2960 @regression
+  Scenario: Verify that a case is created by an event if the case does not already exist
+    Given that courthouse "HARROW CROWN COURT" case "T{{seq}}256" does not exist
+    Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "T{{seq}}256" and "courthouse_name" = "HARROW CROWN COURT"
+    And I authenticate from the "XHIBIT" source system
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}418</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}418" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}U</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}256</be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 200
+    And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "T{{seq}}256" and "courthouse_name" = "HARROW CROWN COURT"
 
-# @regression @retention
-#   @reads-and-writes-system-properties
-# Scenario Outline: Create a StopAndClose event for non-custodial sentence
-# 													Only 1 stop & close event per case works due to retentions
-# 													Test creates a courtroom & hearing for each case
-#   Given I wait until there is not a daily list waiting for "<courthouse>"
-#   Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
-#   Given I authenticate from the XHIBIT source system
-#   Given I add a daily list
-#     | messageId                      | type | subType | documentName              | courthouse   | courtroom   | caseNumber    | startDate  | startTime | endDate    | timeStamp     | defendant     | judge      | prosecution     | defence      |
-#     | 58b211f4-426d-81be-23{{seq}}00 | DL   | DL      | DL {{date+0/}} {{seq}}231 | <courthouse> | <courtroom> | <caseNumbers> | {{date+0}} | 09:50     | {{date+0}} | {{timestamp}} | defendant one | judge name | prosecutor name | defence name |
-#     And I process the daily list for courthouse "<courthouse>"
-#    And I wait for case "<caseNumbers>" courthouse "<courthouse>"
-#   Given I select column cas.cas_id from table COURTCASE where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>"
-#     And I see table darts.court_case column interpreter_used is "f" where cas_id = "{{cas.cas_id}}"
-#     And I see table darts.court_case column case_closed_ts is "null" where cas_id = "{{cas.cas_id}}"
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column event_name is "<text>" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column handler is "StopAndCloseHandler" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column active is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column case_closed_ts is "not null" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column interpreter_used is "f" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-#    And I select column eve_id from table EVENT where cas.case_number = "<caseNumbers>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table CASE_MANAGEMENT_RETENTION column total_sentence is "" where eve_id = "{{eve_id}}"
-#    And I see table CASE_MANAGEMENT_RETENTION column fixed_policy_key is "<caseRetention>" where eve_id = "{{eve_id}}"
-#    And I select column cmr_id from table CASE_MANAGEMENT_RETENTION where eve_id = "{{eve_id}}"
-#    And I see table CASE_RETENTION column total_sentence is "null" where cmr_id = "{{cmr_id}}"
-#    And I see table CASE_RETENTION column fixed_policy_key is "<caseRetention>" where cmr_id = "{{cmr_id}}"
-#    And I see table CASE_RETENTION column retain_until_ts is "{{retention-<actualRetention>}}" where cmr_id = "{{cmr_id}}"
-# Examples:
-#   | courthouse         | courtroom     | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text         | actualRetention   |
-#   | HARROW CROWN COURT | Rm {{seq}}A11 | T{{seq}}211 | {{timestamp-11:23:00}} | {{seq}}611 | {{seq}}611 | 3000  |         | text {{seq}} | 1             |               | Archive Case | 1Y0M0D            |
-#   | HARROW CROWN COURT | Rm {{seq}}A12 | T{{seq}}212 | {{timestamp-11:23:00}} | {{seq}}612 | {{seq}}612 | 3000  |         | text {{seq}} | 2             |               | Archive Case | 7Y0M0D            |
-#   | HARROW CROWN COURT | Rm {{seq}}A21 | T{{seq}}221 | {{timestamp-12:07:00}} | {{seq}}621 | {{seq}}621 | 30300 |         | text {{seq}} | 1             |               | Case closed  | 1Y0M0D            |
-#   | HARROW CROWN COURT | Rm {{seq}}A22 | T{{seq}}222 | {{timestamp-12:07:00}} | {{seq}}622 | {{seq}}622 | 30300 |         | text {{seq}} | 2             |               | Case closed  | 7Y0M0D            |
+  @EVENT_API @SOAP_API @DMP-2960 @regression
+  Scenario: Verify that event creation for an invalid courthouse fails
+    Given I authenticate from the "XHIBIT" source system
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}419</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}419" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>Non Existant Court House</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}257</be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 404
 
+  @EVENT_API @SOAP_API @DMP-2960 @regression
+  Scenario: Create an event using invalid type / subtype
+    Given I authenticate from the "XHIBIT" source system
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}420</messageId>
+      <type>1</type>
+      <subType>1</subType>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}420" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}201</be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 404
 
-# @regression @TODO
-# Scenario Outline: Create a Null event
-# # An event row is not created
-#   Given I authenticate from the XHIBIT source system
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumber> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-# #  Then I see table EVENT column event_text is "<eventText>" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-#    And I see table EVENT column COUNT(eve_id) is "0" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and message_id = "<msgId>"
-# Examples:
-#   | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text    | notes |
-#   | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:08:00}} | {{seq}}376 | {{seq}}376 | 40790 |         | text {{seq}} |               |               | Results |       |
+  @regression
+  @reads-and-writes-system-properties
+  Scenario Outline: Verify that a hearing courtroom can be modified by an event
+    where a case is added via daily lists (so a hearing record exists)
+    if the first event added is for a different courtroom
+    then the existing hearing should be updated with the new courtroom
+    ** n.b. Portal will be changed to ignore hearings where 'hearing_is_actual' is false
+    Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
+    # TODO (DT): This will always fail because this the daily list scenario creates a pending (NEW) daily list for tomorrow
+    # Given I wait until there is not a daily list waiting for "<courthouse>"
+    Given I authenticate from the "XHIBIT" source system
+    When I add a daily list
+      | messageId                       | type | subType | documentName              | courthouse   | courtroom    | caseNumber   | startDate  | startTime | endDate    | timeStamp     |
+      | 58b211f4-426d-81be-00{{seq}}901 | DL   | DL      | DL {{date+0/}} {{seq}}901 | <courthouse> | <courtroom1> | <caseNumber> | {{date+0}} | 16:00     | {{date+0}} | {{timestamp}} |
+    And I process the daily list for courthouse "<courthouse>"
+    And I wait for case "<caseNumber>" courthouse "<courthouse>"
+    Then I see table "CASE_HEARING" column "hearing_is_actual" is "false" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom1>"
+    And I create an event
+      | message_id | type   | sub_type  | event_id   | courthouse   | courtroom    | case_numbers | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>2   | <type> | <subType> | <eventId>2 | <courthouse> | <courtroom2> | <caseNumber> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Then I see table "CASE_HEARING" column "hearing_is_actual" is "true" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom2>"
+    And I see table "CASE_HEARING" column "hearing_is_actual" is "false" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom1>"
+    And I see table "EVENT" column "COUNT(eve.eve_id)" is "0" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom1>"
+    Examples:
+      | courthouse         | courtroom1    | courtroom2    | caseNumber  | dateTime               | msgId     | eventId   | type | subType | eventText     | caseRetention | totalSentence | text                      | notes |
+      | HARROW CROWN COURT | ROOM {{seq}}A | ROOM {{seq}}B | T{{seq}}258 | {{timestamp-10:00:00}} | {{seq}}45 | {{seq}}45 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant |       |
+      | HARROW CROWN COURT | ROOM {{seq}}A | 1             | T{{seq}}259 | {{timestamp-10:00:00}} | {{seq}}45 | {{seq}}45 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant |       |
 
-# @regression
-# Scenario Outline: Create case with an event
-#   Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
-#   Given I see table COURTCASE column COUNT(cas_id) is "0" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>"
-#   Given I authenticate from the CPP source system
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id | courthouse   | courtroom   | case_numbers  | event_text     | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>1     | <type> | <subType> | <eventId>1        | <courthouse> | <courtroom> | <caseNumber> | text {{seq}}C1 | <dateTime> | <caseRetention>             | <totalSentence>     |
-#     | <msgId>2     | <type> | <subType> | <eventId>2        | <courthouse> | <courtroom> | <caseNumber> | text {{seq}}C2 | <dateTime> | <caseRetention>             | <totalSentence>     |
-# #    | <msgId>2     | <type> | <subType> | <eventId>2        | <courthouse> | <courtroom> | <caseNumber>D | text {{seq}}D1 | <dateTime> | <caseRetention>             | <totalSentence>     |
-# #    | <msgId>3     | <type> | <subType> | <eventId>3        | <courthouse> | <courtroom> | <caseNumber>C,<caseNumber>D | text {{seq}}CD | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table COURTCASE column COUNT(cas_id) is "1" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>"
-#    And I see table EVENT column COUNT(eve_id) is "2" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>"
-
-# Examples:
-#   | courthouse         | courtroom     | caseNumber  | dateTime               | msgId      | eventId   | type  | subType | eventText     | caseRetention | totalSentence | text                                                                                                                                   | notes |
-#   | HARROW CROWN COURT | 1             | T{{seq}}230 | {{timestamp-12:04:00}} | {{seq}}41 | {{seq}}41 | 10100 |         | text {{seq}}1 |               |               | Case called on  |       |
-#   | HARROW CROWN COURT | ROOM {{seq}}Z | T{{seq}}231 | {{timestamp-12:04:00}} | {{seq}}41 | {{seq}}41 | 10100 |         | text {{seq}}1 |               |               | Case called on  |       |
-
-
-# @regression
-# Scenario Outline: Event creates a courtroom / hearing
-#   Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
-#   Given I create a case
-#     | courthouse   | case_number  | defendants    | judges     | prosecutors     | defenders     |
-#     | <courthouse> | <caseNumber> | defendant one | test judge | test prosecutor | test defender |
-#   Given I see table COURTCASE column COUNT(cas_id) is "1" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>"
-#   Given I authenticate from the XHIBIT source system
-#    And I create an event
-#     | message_id  | type  | sub_type  | event_id  | courthouse   | courtroom   | case_numbers | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumber> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom>"
-# Examples:
-#   | courthouse         | courtroom     | caseNumber  | dateTime               | msgId    | eventId  | type   | subType | eventText     | caseRetention | totalSentence | text                      | notes               |
-#   | HARROW CROWN COURT | ROOM {{seq}}B | T{{seq}}260 | {{timestamp-10:00:00}} | {{seq}}0 | {{seq}}0 | 1000   | 1001    | text {{seq}}E |               |               | Offences put to defendant | courtroom & hearing |
-#   | HARROW CROWN COURT | 1             | T{{seq}}261 | {{timestamp-10:00:00}} | {{seq}}1 | {{seq}}1 | 1000   | 1001    | text {{seq}}E |               |               | Offences put to defendant | hearing only        |
-
-
-# @EVENT_API @SOAP_API @DMP-2835 @regression @TODO
-# Scenario: Event for 2 cases from CPP
-# 						messages for 2 cases differ between CPP & XHIBIT
-#   Given I authenticate from the CPP source system
-# 	When I call POST SOAP API using soap action addDocument and body:
-# 	"""
-#       <messageId>{{seq}}4014</messageId>
-#       <type>10100</type>
-#       <document>
-#   <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}4014" Y="{{date-yyyy}}" M="{{date-mm}}" D="{{date-dd}}" H="12" MIN="04" S="10">
-#     <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
-#     <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
-#     <be:CaseNumbers>
-#       <be:CaseNumber>T{{seq}}251,T{{seq}}252</be:CaseNumber>
-#     </be:CaseNumbers>
-#     <be:EventText>text {{seq}} CD1</be:EventText>
-#   </be:DartsEvent>]]>
-# </document>
-#   """
-# 	Then the API status code is 200
-# #TODO Database verifications here
-
-# @EVENT_API @SOAP_API @DMP-2960 @regression @TODO
-# Scenario: Event for 2 cases from XHIBIT
-# 						messages for 2 cases differ between CPP & XHIBIT
-#   Given I authenticate from the XHIBIT source system
-# 	When I call POST SOAP API using soap action addDocument and body:
-# 	"""
-#       <messageId>{{seq}}4015</messageId>
-#       <type>10100</type>
-#       <document>
-#   <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}4015" Y="{{date-yyyy}}" M="{{date-mm}}" D="{{date-dd}}" H="12" MIN="04" S="10">
-#     <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
-#     <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
-#     <be:CaseNumbers>
-#       <be:CaseNumber>T{{seq}}253</be:CaseNumber>
-#       <be:CaseNumber>T{{seq}}254</be:CaseNumber>
-#     </be:CaseNumbers>
-#     <be:EventText>text {{seq}} CD2</be:EventText>
-#   </be:DartsEvent>]]>
-# </document>
-#   """
-# 	Then the API status code is 200
-# #TODO Database verifications here
-
-# @EVENT_API @SOAP_API @DMP-2960 @regression
-# Scenario: Create an event baseline
-#   Given I authenticate from the XHIBIT source system
-# 	When I call POST SOAP API using soap action addDocument and body:
-# 	"""
-#       <messageId>{{seq}}416</messageId>
-#       <type>10100</type>
-#       <document>
-#   <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}416" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
-#     <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
-#     <be:CourtRoom>ROOM {{seq}}</be:CourtRoom>
-#     <be:CaseNumbers>
-#       <be:CaseNumber>T{{seq}}201</be:CaseNumber>
-#     </be:CaseNumbers>
-#     <be:EventText>text {{seq}} CD2</be:EventText>
-#   </be:DartsEvent>]]>
-# </document>
-#   """
-# 	Then the API status code is 200
-
-# @EVENT_API @SOAP_API @DMP-2960 @regression
-# Scenario: Verify that VIQ cannot create an event
-#   Given I authenticate from the VIQ source system
-# 	When I call POST SOAP API using soap action addDocument and body:
-# 	"""
-#       <messageId>{{seq}}417</messageId>
-#       <type>10100</type>
-#       <document>
-#   <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}417" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
-#     <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
-#     <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
-#     <be:CaseNumbers>
-#       <be:CaseNumber>T{{seq}}255</be:CaseNumber>
-#     </be:CaseNumbers>
-#     <be:EventText>text {{seq}} CD2</be:EventText>
-#   </be:DartsEvent>]]>
-# </document>
-#   """
-# 	Then the API status code is 500
-
-# @EVENT_API @SOAP_API @DMP-2960 @regression
-# Scenario: Verify that a case is created by an event if the case does not already exist
-#   Given that courthouse "HARROW CROWN COURT" case "T{{seq}}256" does not exist
-#   Given I see table COURTCASE column COUNT(cas_id) is "0" where cas.case_number = "T{{seq}}256" and courthouse_name = "HARROW CROWN COURT"
-#     And I authenticate from the XHIBIT source system
-# 	When I call POST SOAP API using soap action addDocument and body:
-# 	"""
-#       <messageId>{{seq}}418</messageId>
-#       <type>10100</type>
-#       <document>
-#   <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}418" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
-#     <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
-#     <be:CourtRoom>ROOM {{seq}}U</be:CourtRoom>
-#     <be:CaseNumbers>
-#       <be:CaseNumber>T{{seq}}256</be:CaseNumber>
-#     </be:CaseNumbers>
-#     <be:EventText>text {{seq}} CD2</be:EventText>
-#   </be:DartsEvent>]]>
-# </document>
-#   """
-# 	Then the API status code is 200
-#    And I see table EVENT column count(eve_id) is "1" where cas.case_number = "T{{seq}}256" and courthouse_name = "HARROW CROWN COURT"
-
-# @EVENT_API @SOAP_API @DMP-2960 @regression
-# Scenario: Verify that event creation for an invalid courthouse fails
-#   Given I authenticate from the XHIBIT source system
-# 	When I call POST SOAP API using soap action addDocument and body:
-# 	"""
-#       <messageId>{{seq}}419</messageId>
-#       <type>10100</type>
-#       <document>
-#   <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}419" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
-#     <be:CourtHouse>Non Existant Court House</be:CourtHouse>
-#     <be:CourtRoom>ROOM {{seq}}C</be:CourtRoom>
-#     <be:CaseNumbers>
-#       <be:CaseNumber>T{{seq}}257</be:CaseNumber>
-#     </be:CaseNumbers>
-#     <be:EventText>text {{seq}} CD2</be:EventText>
-#   </be:DartsEvent>]]>
-# </document>
-#   """
-# 	Then the API status code is 404
-
-# @EVENT_API @SOAP_API @DMP-2960 @regression
-# Scenario: Create an event using invalid type / subtype
-#   Given I authenticate from the XHIBIT source system
-# 	When I call POST SOAP API using soap action addDocument and body:
-# 	"""
-#       <messageId>{{seq}}420</messageId>
-#       <type>1</type>
-#       <subType>1</subType>
-#       <document>
-#   <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}420" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
-#     <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
-#     <be:CourtRoom>ROOM {{seq}}</be:CourtRoom>
-#     <be:CaseNumbers>
-#       <be:CaseNumber>T{{seq}}201</be:CaseNumber>
-#     </be:CaseNumbers>
-#     <be:EventText>text {{seq}} CD2</be:EventText>
-#   </be:DartsEvent>]]>
-# </document>
-#   """
-# 	Then the API status code is 404
-
-
-# @regression
-#   @reads-and-writes-system-properties
-# Scenario Outline: Verify that a hearing courtroom can be modified by an event
-# 																									where a case is added via daily lists (so a hearing record exists)
-# 																									if the first event added is for a different courtroom
-# 																									 then the existing hearing should be updated with the new courtroom
-# 																									 ** n.b. Portal will be changed to ignore hearings where 'hearing_is_actual' is false
-#   Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
-#   Given I wait until there is not a daily list waiting for "<courthouse>"
-#   Given I authenticate from the XHIBIT source system
-#   When I add a daily list
-#     | messageId                        | type | subType | documentName              | courthouse   | courtroom    | caseNumber   | startDate  | startTime | endDate    | timeStamp     |
-#     | 58b211f4-426d-81be-00{{seq}}901  | DL   | DL      | DL {{date+0/}} {{seq}}901 | <courthouse> | <courtroom1> | <caseNumber> | {{date+0}} | 16:00     | {{date+0}} | {{timestamp}} |
-#    And I process the daily list for courthouse "<courthouse>"
-#    And I wait for case "<caseNumber>" courthouse "<courthouse>"
-#   Then I see table CASE_HEARING column hearing_is_actual is "f" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom1>"
-
-#    And I create an event
-#     | message_id  | type   | sub_type  | event_id   | courthouse   | courtroom    | case_numbers | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>2    | <type> | <subType> | <eventId>2 | <courthouse> | <courtroom2> | <caseNumber> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-#   Then I see table CASE_HEARING column hearing_is_actual is "t" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom2>"
-#    And I see table CASE_HEARING column hearing_is_actual is "f" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom1>"
-#    And I see table EVENT column COUNT(eve_id) is "0" where cas.case_number = "<caseNumber>" and courthouse_name = "<courthouse>" and courtroom_name = "<courtroom1>"
-
-# Examples:
-#   | courthouse         | courtroom1    | courtroom2    | caseNumber  | dateTime               | msgId     | eventId   | type   | subType | eventText     | caseRetention | totalSentence | text                                                                                                                                   | notes |
-#   | HARROW CROWN COURT | ROOM {{seq}}A | ROOM {{seq}}B | T{{seq}}258 | {{timestamp-10:00:00}} | {{seq}}45 | {{seq}}45 | 1000   | 1001    | text {{seq}}E |               |               | Offences put to defendant                                                                                                              |       |
-#   | HARROW CROWN COURT | ROOM {{seq}}A | 1             | T{{seq}}259 | {{timestamp-10:00:00}} | {{seq}}45 | {{seq}}45 | 1000   | 1001    | text {{seq}}E |               |               | Offences put to defendant                                                                                                              |       |
-
-
-# @regression @DMP-1941 @DMP-1928
-# Scenario Outline: Create Poll Check events
-#   These tests will help populate the relevant section of the DARTS Dynatrace Dashboard each time they are executed
-#   NB: The usual 'Then' step is missing as the 'When' step includes the assertion of the API response code
-#   Given I authenticate from the <source> source system
-#   When  I create an event
-#     | message_id  | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
-#     | <msgId>     | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
-# Examples:
-#     | source | courthouse         | courtroom    | caseNumbers     | dateTime               | msgId      | eventId    | type   | subType | eventText         | caseRetention | totalSentence |
-#     | CPP    | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}2070501 | {{timestamp-10:01:01}} | {{seq}}705 | {{seq}}705 | 20705  |         | CPP Daily Test    |               |               |
-#     | XHIBIT | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}2070502 | {{timestamp-10:02:02}} | {{seq}}705 | {{seq}}705 | 20705  |         | Xhibit Daily Test |               |               |
-
+  @regression @DMP-1941 @DMP-1928
+  Scenario Outline: Create Poll Check events
+    These tests will help populate the relevant section of the DARTS Dynatrace Dashboard each time they are executed
+    NB: The usual 'Then' step is missing as the 'When' step includes the assertion of the API response code
+    Given I authenticate from the "<source>" source system
+    When  I create an event
+      | message_id | type   | sub_type  | event_id  | courthouse   | courtroom   | case_numbers  | event_text  | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | <msgId>    | <type> | <subType> | <eventId> | <courthouse> | <courtroom> | <caseNumbers> | <eventText> | <dateTime> | <caseRetention>             | <totalSentence>     |
+    Examples:
+      | source | courthouse         | courtroom    | caseNumbers     | dateTime               | msgId      | eventId    | type  | subType | eventText         | caseRetention | totalSentence |
+      | CPP    | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}2070501 | {{timestamp-10:01:01}} | {{seq}}705 | {{seq}}705 | 20705 |         | CPP Daily Test    |               |               |
+      | XHIBIT | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}2070502 | {{timestamp-10:02:02}} | {{seq}}705 | {{seq}}705 | 20705 |         | Xhibit Daily Test |               |               |

@@ -29,7 +29,11 @@ and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}
 and ${sql.unsafe(whereColName3)} = ${substituteValue(whereColValue3)}`;
 
     const returnedColumnValue = getSingleValueFromResult(result) as string | number;
-    expect(returnedColumnValue).toBe(substituteValue(expectedValue));
+    if (expectedValue === 'not null') {
+      expect(returnedColumnValue).not.toBeNull();
+    } else {
+      expect(returnedColumnValue).toEqual(substituteValue(expectedValue));
+    }
   },
 );
 
@@ -52,7 +56,11 @@ where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}
 and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}`;
 
     const returnedColumnValue = getSingleValueFromResult(result) as string | number;
-    expect(returnedColumnValue).toBe(substituteValue(expectedValue));
+    if (expectedValue === 'not null') {
+      expect(returnedColumnValue).not.toBeNull();
+    } else {
+      expect(returnedColumnValue).toEqual(substituteValue(expectedValue));
+    }
   },
 );
 
@@ -72,7 +80,11 @@ from ${sql.unsafe(tableName(table))}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
 
     const returnedColumnValue = getSingleValueFromResult(result) as string | number;
-    expect(returnedColumnValue).toBe(substituteValue(expectedValue));
+    if (expectedValue === 'not null') {
+      expect(returnedColumnValue).not.toBeNull();
+    } else {
+      expect(returnedColumnValue).toEqual(substituteValue(expectedValue));
+    }
   },
 );
 
