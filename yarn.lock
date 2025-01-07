@@ -1265,30 +1265,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"allure-cucumberjs@npm:3.0.3":
-  version: 3.0.3
-  resolution: "allure-cucumberjs@npm:3.0.3"
+"allure-cucumberjs@npm:3.0.8":
+  version: 3.0.8
+  resolution: "allure-cucumberjs@npm:3.0.8"
   dependencies:
-    allure-js-commons: 3.0.3
+    allure-js-commons: 3.0.8
   peerDependencies:
     "@cucumber/cucumber": ">=10.8.0"
     "@cucumber/messages": ">=24.1.0"
-  checksum: a527304185b495f438fd6c6c4085ef581e8922f85712b45e6f5df54d9e0b17121315ea57f3976f635fcf7cec96e682a78f38bbaac472e85e96a899b1e3ede92c
+  checksum: 5ba36c697b523b7e2ae8585be6eb29b8e39e4ac5323d21e852d57d85faccb02f56827d6c08e8be04de3050f0b52dd1b3c9e8bd710e80fbb2d5adf210c43188dd
   languageName: node
   linkType: hard
 
-"allure-js-commons@npm:3.0.3":
-  version: 3.0.3
-  resolution: "allure-js-commons@npm:3.0.3"
+"allure-js-commons@npm:3.0.8":
+  version: 3.0.8
+  resolution: "allure-js-commons@npm:3.0.8"
   dependencies:
     md5: ^2.3.0
-    properties: ^1.2.1
   peerDependencies:
-    allure-playwright: 3.0.3
+    allure-playwright: 3.0.8
   peerDependenciesMeta:
     allure-playwright:
       optional: true
-  checksum: 1a51b2d3227baa7de53a7c42c8ff36ab9a754d8b544f0b64bbaf0144ed1060095efe8402c6e2878bb064b4bc674aa07e8f4e308dead973519d9a8ce2bd6758ba
+  checksum: e69dfc1da64babb27728e9d10c022b8a32ca637cdebb1b77be44e1e12f15860c85dc2d2a9903fdd800cc8cba688bec4d8ec59a21a8470c2998f5c78aba095491
   languageName: node
   linkType: hard
 
@@ -1744,7 +1743,7 @@ __metadata:
     "@types/xml-escape": ^1.1.3
     "@typescript-eslint/eslint-plugin": 8.8.0
     "@typescript-eslint/parser": 8.8.0
-    allure-cucumberjs: 3.0.3
+    allure-cucumberjs: 3.0.8
     cucumber-html-reporter: 7.2.0
     eslint: 9.11.1
     eslint-config-prettier: 9.1.0
@@ -3796,13 +3795,6 @@ __metadata:
     err-code: ^2.0.2
     retry: ^0.12.0
   checksum: f96a3f6d90b92b568a26f71e966cbbc0f63ab85ea6ff6c81284dc869b41510e6cdef99b6b65f9030f0db422bf7c96652a3fff9f2e8fb4a0f069d8f4430359429
-  languageName: node
-  linkType: hard
-
-"properties@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "properties@npm:1.2.1"
-  checksum: f385f8b96910c10d761bb6358b6c4b33aff09427a0504f01463ac6c8410dc3f2a7a9d85e96dd1c1a3e88b228b0ad9d0c23a397d55c52b087b3da7bed691799a6
   languageName: node
   linkType: hard
 
