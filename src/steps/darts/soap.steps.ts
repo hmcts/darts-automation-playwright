@@ -215,7 +215,7 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
         },
       };
 
-      await new Promise((r) => setTimeout(r, 100 * index));
+      await new Promise((r) => setTimeout(r, 200 * index));
       await DartsSoapService.addLogEntry(xmlescape(builder.build(addLogEntry) as string));
     }),
   );
@@ -265,7 +265,7 @@ When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: Da
       // The error was as follows
       //   ERROR: duplicate key value violates unique constraint "ctr_chr_crn_unq"
       //   Detail: Key (cth_id, courtroom_name)=(1356, ROOM 437390Z) already exists.
-      await new Promise((r) => setTimeout(r, 100 * index));
+      await new Promise((r) => setTimeout(r, 200 * index));
       await DartsSoapService.addDocument(
         event.message_id,
         event.type,
