@@ -39,6 +39,17 @@ export interface GetCasesObject {
   date: string;
 }
 
+export interface RegisterNodeObject {
+  node: {
+    $type: string;
+    courthouse: string;
+    courtroom: string;
+    hostname: string;
+    ip_address: string;
+    mac_address: string;
+  };
+}
+
 export interface AddLogEntryObject {
   log_entry: {
     $Y: string;
@@ -197,6 +208,10 @@ export type SoapGetCasesResponse = SoapResponseCodeAndMessage & {
   cases: string;
 };
 
+export type SoapRegisterNodeResponse = SoapResponseCodeAndMessage & {
+  node_id: string;
+};
+
 export interface SoapFaultResponse {
   'ns2:Fault': {
     faultcode: string;
@@ -220,6 +235,9 @@ export interface GatewaySoapResponse {
       'ns3:registerResponse'?: {
         return: string;
       };
+      'ns3:registerNodeResponse'?: {
+        return: SoapRegisterNodeResponse;
+      };
     };
   };
 }
@@ -232,6 +250,9 @@ export interface ProxySoapResponse {
       };
       'ns2:getCasesResponse'?: {
         return: SoapGetCasesResponse;
+      };
+      'ns2:registerNodeResponse'?: {
+        return: SoapRegisterNodeResponse;
       };
     };
   };

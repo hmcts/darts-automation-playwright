@@ -78,6 +78,12 @@ left join darts.transcription_urgency tru using (tru_id)
 left join darts.transcription_type trt using (trt_id)
 `;
 
+const NODE_REGISTER_JOIN = `
+darts.node_register
+left join darts.courtroom using(ctr_id)
+left join darts.courthouse using(cth_id)
+`;
+
 export const tableName = (tableName: string): string => {
   switch (tableName) {
     case 'COURTCASE':
@@ -96,6 +102,8 @@ export const tableName = (tableName: string): string => {
       return CASE_RETENTION_JOIN;
     case 'CASE_TRANSCRIPTION':
       return CASE_TRANSCRIPTION_JOIN;
+    case 'NODE_REGISTER':
+      return NODE_REGISTER_JOIN;
     default:
       return tableName;
   }

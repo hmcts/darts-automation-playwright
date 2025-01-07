@@ -7,6 +7,39 @@ import { substituteValue } from '../../support/substitution';
 import { DateTime } from 'luxon';
 import wait from '../../support/wait';
 
+Then(
+  'I see table {string} column {string} is {string} where {string} = {string} and {string} = {string} and {string} = {string} and {string} = {string}',
+  async function (
+    this: ICustomWorld,
+    table: string,
+    column: string,
+    expectedValue: string,
+    whereColName1: string,
+    whereColValue1: string,
+    whereColName2: string,
+    whereColValue2: string,
+    whereColName3: string,
+    whereColValue3: string,
+    whereColName4: string,
+    whereColValue4: string,
+  ) {
+    const result: SqlResult = await sql`
+select ${sql.unsafe(column)}
+from ${sql.unsafe(tableName(table))}
+where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}
+and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}
+and ${sql.unsafe(whereColName3)} = ${substituteValue(whereColValue3)}
+and ${sql.unsafe(whereColName4)} = ${substituteValue(whereColValue4)}`;
+
+    const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+    if (expectedValue === 'not null') {
+      expect(returnedColumnValue).not.toBeNull();
+    } else {
+      expect(returnedColumnValue).toEqual(substituteValue(expectedValue));
+    }
+  },
+);
+
 Given(
   'I see table {string} column {string} is {string} where {string} = {string} and {string} = {string} and {string} = {string}',
   async function (

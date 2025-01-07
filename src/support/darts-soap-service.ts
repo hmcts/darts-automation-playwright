@@ -17,6 +17,7 @@ import {
   XML_HEADER,
   SoapFaultResponse,
   SoapGetCasesResponse,
+  SoapRegisterNodeResponse,
 } from './soap';
 import { ExternalServiceUserTypes, getExternalUserCredentials } from './credentials';
 
@@ -103,6 +104,27 @@ ${SOAP_ENVELOPE_CLOSE}`;
     cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
   }
 
+  static async registerNode(
+    registerNodeXml: string,
+    {
+      includesDocumentTag,
+      useGateway,
+    }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
+  ): Promise<void> {
+    const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
+    const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
+      'registerNode',
+      this.buildSoapRequest(
+        'registerNode',
+        registerNodeXml,
+        includesDocumentTag ?? false,
+        authenticatedSource,
+        'ns2',
+      ),
+    );
+    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+  }
+
   static async getCases(
     getCasesXml: string,
     {
@@ -127,7 +149,6 @@ ${SOAP_ENVELOPE_CLOSE}`;
         includesSoapActionTag,
       ),
     );
-    console.log('response', response.status, response.text);
     cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
     if (response.status === 200) {
       const responseObj = this.getResponseObject() as ProxySoapResponse;
@@ -230,6 +251,7 @@ ${SOAP_ENVELOPE_CLOSE}`;
   static getResponseCodeAndMessage():
     | SoapResponseCodeAndMessage
     | SoapGetCasesResponse
+    | SoapRegisterNodeResponse
     | SoapFaultResponse
     | undefined {
     const parser = new XMLParser();
@@ -250,6 +272,9 @@ ${SOAP_ENVELOPE_CLOSE}`;
         if (body['ns3:addDocumentResponse']) {
           return body['ns3:addDocumentResponse'].return;
         }
+        if (body['ns3:registerNodeResponse']) {
+          return body['ns3:registerNodeResponse'].return;
+        }
       }
     if ((responseObj as ProxySoapResponse)['S:Envelope']) {
       const r = responseObj as ProxySoapResponse;
@@ -259,6 +284,9 @@ ${SOAP_ENVELOPE_CLOSE}`;
       }
       if (body['ns2:getCasesResponse']) {
         return body['ns2:getCasesResponse'].return;
+      }
+      if (body['ns2:registerNodeResponse']) {
+        return body['ns2:registerNodeResponse'].return;
       }
       if (body['ns2:Fault']) {
         return {

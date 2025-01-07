@@ -14,6 +14,7 @@ import {
   DailyListObject,
   EventObject,
   GetCasesObject,
+  RegisterNodeObject,
   SoapGetCasesResponse,
   SoapResponseCodeAndMessage,
 } from '../../support/soap';
@@ -73,6 +74,15 @@ interface GetCasesDataTable {
   courthouse: string;
   courtroom: string;
   date: string;
+}
+
+interface RegisterNodeDataTable {
+  courthouse: string;
+  courtroom: string;
+  hostname: string;
+  ip_address: string;
+  mac_address: string;
+  type: 'DAR';
 }
 
 When('I create a case', async function (this: ICustomWorld, dataTable: DataTable) {
@@ -295,6 +305,27 @@ When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: Da
   );
 });
 
+When('I register a node', async function (this: ICustomWorld, dataTable: DataTable) {
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    attributeNamePrefix: '$',
+    oneListGroup: true,
+  });
+
+  const registerNodeData = dataTableToObject<RegisterNodeDataTable>(dataTable);
+  const registerNode: RegisterNodeObject = {
+    node: {
+      $type: registerNodeData.type,
+      courthouse: registerNodeData.courthouse,
+      courtroom: registerNodeData.courtroom,
+      hostname: registerNodeData.hostname,
+      ip_address: registerNodeData.ip_address,
+      mac_address: registerNodeData.mac_address,
+    },
+  };
+  await DartsSoapService.registerNode(xmlescape(builder.build(registerNode)));
+});
+
 Given('I call SOAP getCases', async function (this: ICustomWorld, dataTable: DataTable) {
   const builder = new XMLBuilder({
     ignoreAttributes: false,
@@ -349,6 +380,12 @@ When(
         undefined,
         substituteValue(soapBody) as string,
       );
+    }
+    if (soapAction === 'registerNode') {
+      await DartsSoapService.registerNode(substituteValue(soapBody) as string, {
+        includesDocumentTag: true,
+        useGateway,
+      });
     }
   },
 );
