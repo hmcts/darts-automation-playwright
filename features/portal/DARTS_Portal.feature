@@ -128,8 +128,8 @@ Feature: Portal Tests
       | Your audio  | Your transcripts  | Search   | Transcript requests  | Your work  |
       | <yourAudio> | <yourTranscripts> | <search> | <transcriptRequests> | <yourWork> |
     And I verify sub-menu links for "Your transcripts":
-      | Transcript requests | Transcript requests to review |
-      | In Progress         | Requests to approve or reject |
+      | Transcript requests | Transcript requests to authorise |
+      | In Progress         | Requests to approve or reject    |
     And I see link with text "HMCTS"
     And I see link with text "DARTS"
     And I see link with text "Sign out"
