@@ -2,13 +2,21 @@ import { ICustomWorld } from '../../support/custom-world';
 import fs from 'node:fs';
 import { XMLBuilder, XMLParser } from 'fast-xml-parser';
 import xmlescape from 'xml-escape';
-import { When, Then } from '@cucumber/cucumber';
+import { When, Then, Given } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { DateTime } from 'luxon';
 import { DataTable, dataTableToObject, dataTableToObjectArray } from '../../support/data-table';
 import { substituteValue } from '../../support/substitution';
 import DartsSoapService from '../../support/darts-soap-service';
-import { AddCaseObject, AddLogEntryObject, DailyListObject, EventObject } from '../../support/soap';
+import {
+  AddCaseObject,
+  AddLogEntryObject,
+  DailyListObject,
+  EventObject,
+  GetCasesObject,
+  SoapGetCasesResponse,
+  SoapResponseCodeAndMessage,
+} from '../../support/soap';
 import { splitString } from '../../support/split';
 
 interface AddCaseDataTable {
@@ -61,6 +69,12 @@ interface EventDataTable {
   case_total_sentence: string;
 }
 
+interface GetCasesDataTable {
+  courthouse: string;
+  courtroom: string;
+  date: string;
+}
+
 When('I create a case', async function (this: ICustomWorld, dataTable: DataTable) {
   const builder = new XMLBuilder({
     ignoreAttributes: false,
@@ -68,31 +82,36 @@ When('I create a case', async function (this: ICustomWorld, dataTable: DataTable
     oneListGroup: true,
   });
 
-  const caseData = dataTableToObject<AddCaseDataTable>(dataTable);
-  const addCase: AddCaseObject = {
-    case: {
-      $type: '',
-      $id: substituteValue(caseData.case_number) as string,
-      courthouse: caseData.courthouse,
-      defendants:
-        caseData.defendants !== null
-          ? caseData.defendants.split('~').map((defendant) => ({ defendant }))
-          : [],
-      judges:
-        caseData.judges !== null ? caseData.judges.split('~').map((judge) => ({ judge })) : [],
-      prosecutors:
-        caseData.prosecutors !== null
-          ? caseData.prosecutors.split('~').map((prosecutor) => ({ prosecutor }))
-          : [],
-      defenders:
-        caseData.defenders !== null
-          ? caseData.defenders.split('~').map((defender) => ({ defender }))
-          : [],
-    },
-  };
+  const addCaseData = dataTableToObjectArray<AddCaseDataTable>(dataTable);
 
-  const caseXml = builder.build(addCase) as string;
-  await DartsSoapService.addCase(xmlescape(caseXml));
+  await Promise.all(
+    addCaseData.map(async (addCase, index) => {
+      const addCaseObj: AddCaseObject = {
+        case: {
+          $type: '',
+          $id: substituteValue(addCase.case_number) as string,
+          courthouse: addCase.courthouse,
+          defendants:
+            addCase.defendants !== null
+              ? addCase.defendants.split('~').map((defendant) => ({ defendant }))
+              : [],
+          judges:
+            addCase.judges !== null ? addCase.judges.split('~').map((judge) => ({ judge })) : [],
+          prosecutors:
+            addCase.prosecutors !== null
+              ? addCase.prosecutors.split('~').map((prosecutor) => ({ prosecutor }))
+              : [],
+          defenders:
+            addCase.defenders !== null
+              ? addCase.defenders.split('~').map((defender) => ({ defender }))
+              : [],
+        },
+      };
+
+      await new Promise((r) => setTimeout(r, 200 * index));
+      await DartsSoapService.addCase(xmlescape(builder.build(addCaseObj) as string));
+    }),
+  );
 });
 
 When('I add a daily list', async function (this: ICustomWorld, dataTable: DataTable) {
@@ -276,6 +295,36 @@ When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: Da
   );
 });
 
+Given('I call SOAP getCases', async function (this: ICustomWorld, dataTable: DataTable) {
+  const builder = new XMLBuilder({
+    ignoreAttributes: false,
+    attributeNamePrefix: '$',
+    oneListGroup: true,
+  });
+
+  const getCasesData = dataTableToObject<GetCasesDataTable>(dataTable);
+
+  const getCases: GetCasesObject = {
+    courthouse: getCasesData.courthouse,
+    courtroom: getCasesData.courtroom,
+    date: getCasesData.date,
+  };
+
+  const getCasesXml = builder.build(getCases) as string;
+  await DartsSoapService.getCases(getCasesXml);
+});
+
+// this is only used in the GetCases feature
+When(
+  'I call POST SOAP API using soap body:',
+  async function (this: ICustomWorld, getCasesXml: string) {
+    await DartsSoapService.getCases(substituteValue(getCasesXml) as string, {
+      includesSoapActionTag: true,
+      ignoreResponseStatus: true,
+    });
+  },
+);
+
 When(
   'I call POST SOAP API using soap action {string} and body:',
   async function (this: ICustomWorld, soapAction: string, soapBody: string) {
@@ -304,8 +353,19 @@ When(
   },
 );
 
+Then('the SOAP response contains:', async function (this: ICustomWorld, expectedResponse: string) {
+  const parser = new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: '$',
+  });
+
+  const response = DartsSoapService.getResponseCodeAndMessage() as SoapGetCasesResponse;
+  const expectedResponseObj = parser.parse(substituteValue(expectedResponse) as string);
+  expect(expectedResponseObj).toEqual({ cases: response.cases });
+});
+
 Then('the API status code is {int}', async function (this: ICustomWorld, statusCode: number) {
-  const response = DartsSoapService.getResponseCodeAndMessage();
+  const response = DartsSoapService.getResponseCodeAndMessage() as SoapResponseCodeAndMessage;
   if (!response) {
     throw new Error('API status code could not be found.');
   }

@@ -104,9 +104,11 @@ export const substituteValue = (value: string): Date | number | string | boolean
     value.indexOf('{{dd-{{date-0}}}}') >= 0
       ? value.replaceAll('{{dd-{{date-0}}}}', handleDate('{{dd-{{date-0}}}}', 'dd'))
       : value;
+  value = value.replaceAll('{{yyyymmdd}}', DateTime.now().toFormat('y-MM-dd'));
   value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y-MM-dd'));
   value = value.replaceAll('{{timestamp}}', DateTime.now().toISO());
 
+  value = value.replaceAll('{{caseNumber}}', cache.get('caseNumber'));
   value = value.replaceAll('{{cas.cas_id}}', cache.get('cas.cas_id'));
   value = value.replaceAll('{{eve_id}}', cache.get('eve_id'));
   value = value.replaceAll('{{eve.eve_id}}', cache.get('eve.eve_id'));

@@ -33,6 +33,12 @@ export interface AddCaseObject {
   };
 }
 
+export interface GetCasesObject {
+  courthouse: string;
+  courtroom: string;
+  date: string;
+}
+
 export interface AddLogEntryObject {
   log_entry: {
     $Y: string;
@@ -187,10 +193,21 @@ export interface SoapResponseCodeAndMessage {
   message: string;
 }
 
+export type SoapGetCasesResponse = SoapResponseCodeAndMessage & {
+  cases: string;
+};
+
+export interface SoapFaultResponse {
+  'ns2:Fault': {
+    faultcode: string;
+    faultstring: string;
+  };
+}
+
 export interface GatewaySoapResponse {
   'SOAP-ENV:Envelope': {
     'SOAP-ENV:Header': string;
-    'SOAP-ENV:Body': {
+    'SOAP-ENV:Body': SoapFaultResponse & {
       'ns3:addCaseResponse'?: {
         return: SoapResponseCodeAndMessage;
       };
@@ -209,9 +226,12 @@ export interface GatewaySoapResponse {
 
 export interface ProxySoapResponse {
   'S:Envelope': {
-    'S:Body': {
+    'S:Body': SoapFaultResponse & {
       'ns2:addCaseResponse'?: {
         return: SoapResponseCodeAndMessage;
+      };
+      'ns2:getCasesResponse'?: {
+        return: SoapGetCasesResponse;
       };
     };
   };
@@ -261,6 +281,7 @@ export const soapBody = (
   document: string,
   includesDocumentTag: boolean,
   soapActionXmlNsName?: string,
+  includesSoapActionTag?: boolean,
 ) => {
   const soapActionTagName = soapActionXmlNsName
     ? `${soapActionXmlNsName}:${soapAction}`
@@ -271,11 +292,11 @@ export const soapBody = (
 
   return `
 <S:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <${soapActionTagName} ${soapActionXmlNsAttr}>
+  ${includesSoapActionTag ? '' : `<${soapActionTagName} ${soapActionXmlNsAttr}>`}
     ${includesDocumentTag ? '' : '<document xmlns="">'}
       ${document}
     ${includesDocumentTag ? '' : '</document>'}
-  </${soapActionTagName}>
+  ${includesSoapActionTag ? '' : `</${soapActionTagName}>`}
 </S:Body>`;
 };
 

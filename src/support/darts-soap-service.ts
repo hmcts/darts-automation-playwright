@@ -15,10 +15,13 @@ import {
   SoapResponse,
   SoapResponseCodeAndMessage,
   XML_HEADER,
+  SoapFaultResponse,
+  SoapGetCasesResponse,
 } from './soap';
 import { ExternalServiceUserTypes, getExternalUserCredentials } from './credentials';
 
 const SOAP_RESPONSE_CACHE_KEY = 'darts_soap_response';
+const SOAP_GET_CASES_RESPONSE_CACHE_KEY = 'darts_get_cases_soap_response';
 const ACCESS_TOKEN_CACHE_KEY = 'darts_soap_access_token';
 const AUTHENTICATED_SOURCE_CACHE_KEY = 'soap_authenticated_source';
 
@@ -32,6 +35,7 @@ export default class DartsSoapService {
     includesDocumentTag: boolean,
     userType: ExternalServiceUserTypes,
     soapActionXmlNsName?: string,
+    includesSoapActionTag?: boolean,
   ): string {
     const userCredentials = getExternalUserCredentials(userType);
     const accessToken = cache.get(ACCESS_TOKEN_CACHE_KEY);
@@ -44,7 +48,7 @@ export default class DartsSoapService {
     return `${XML_HEADER}
 ${SOAP_ENVELOPE_OPEN}
   ${soapHeader}
-  ${soapBody(soapAction, xml, includesDocumentTag, soapActionXmlNsName)}
+  ${soapBody(soapAction, xml, includesDocumentTag, soapActionXmlNsName, includesSoapActionTag)}
 ${SOAP_ENVELOPE_CLOSE}`;
   }
 
@@ -97,6 +101,42 @@ ${SOAP_ENVELOPE_CLOSE}`;
     );
     expect(response.status).toEqual(200);
     cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+  }
+
+  static async getCases(
+    getCasesXml: string,
+    {
+      includesSoapActionTag,
+      useGateway,
+      ignoreResponseStatus,
+    }: {
+      includesSoapActionTag?: boolean;
+      useGateway?: boolean;
+      ignoreResponseStatus?: boolean;
+    } = {},
+  ): Promise<void> {
+    const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
+    const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
+      'getCases',
+      this.buildSoapRequest(
+        'getCases',
+        getCasesXml,
+        true,
+        authenticatedSource,
+        'com',
+        includesSoapActionTag,
+      ),
+    );
+    console.log('response', response.status, response.text);
+    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+    if (response.status === 200) {
+      const responseObj = this.getResponseObject() as ProxySoapResponse;
+      const cases = responseObj['S:Envelope']['S:Body']['ns2:getCasesResponse']?.return.cases;
+      cache.put(SOAP_GET_CASES_RESPONSE_CACHE_KEY, cases);
+    }
+    if (!ignoreResponseStatus) {
+      expect(response.status).toEqual(200);
+    }
   }
 
   static async addLogEntry(
@@ -187,28 +227,45 @@ ${SOAP_ENVELOPE_CLOSE}`;
     return parser.parse(cache.get(SOAP_RESPONSE_CACHE_KEY));
   }
 
-  static getResponseCodeAndMessage(): SoapResponseCodeAndMessage | undefined {
+  static getResponseCodeAndMessage():
+    | SoapResponseCodeAndMessage
+    | SoapGetCasesResponse
+    | SoapFaultResponse
+    | undefined {
     const parser = new XMLParser();
     const responseObj: SoapResponse = parser.parse(cache.get(SOAP_RESPONSE_CACHE_KEY));
     if (!responseObj) {
       throw new Error('SOAP response not found');
     }
-    if ((responseObj as GatewaySoapResponse)['SOAP-ENV:Envelope']) {
-      const r = responseObj as GatewaySoapResponse;
-      const body = r['SOAP-ENV:Envelope']['SOAP-ENV:Body'];
-      if (body['ns3:addCaseResponse']) {
-        return body['ns3:addCaseResponse'].return;
+    if (responseObj)
+      if ((responseObj as GatewaySoapResponse)['SOAP-ENV:Envelope']) {
+        const r = responseObj as GatewaySoapResponse;
+        const body = r['SOAP-ENV:Envelope']['SOAP-ENV:Body'];
+        if (body['ns3:addCaseResponse']) {
+          return body['ns3:addCaseResponse'].return;
+        }
+        if (body['ns3:addLogEntryResponse']) {
+          return body['ns3:addLogEntryResponse'].return;
+        }
+        if (body['ns3:addDocumentResponse']) {
+          return body['ns3:addDocumentResponse'].return;
+        }
       }
-      if (body['ns3:addLogEntryResponse']) {
-        return body['ns3:addLogEntryResponse'].return;
-      }
-      if (body['ns3:addDocumentResponse']) {
-        return body['ns3:addDocumentResponse'].return;
-      }
-    }
     if ((responseObj as ProxySoapResponse)['S:Envelope']) {
       const r = responseObj as ProxySoapResponse;
-      return r['S:Envelope']['S:Body']['ns2:addCaseResponse']?.return;
+      const body = r['S:Envelope']['S:Body'];
+      if (body['ns2:addCaseResponse']) {
+        return body['ns2:addCaseResponse'].return;
+      }
+      if (body['ns2:getCasesResponse']) {
+        return body['ns2:getCasesResponse'].return;
+      }
+      if (body['ns2:Fault']) {
+        return {
+          code: 500,
+          message: body['ns2:Fault'].faultstring,
+        };
+      }
     }
     console.error('SOAP response does not conform to know structure', responseObj);
     throw new Error('SOAP response does not conform to know structure');
