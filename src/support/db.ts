@@ -66,6 +66,18 @@ darts.case_retention car
 join darts.retention_policy_type rpt using(rpt_id)
 `;
 
+const CASE_TRANSCRIPTION_JOIN = `
+darts.court_case cas
+left join darts.hearing hea using(cas_id)
+join darts.courtroom ctr using(ctr_id)
+left join darts.courthouse cth on ctr.cth_id = cth.cth_id
+left join darts.hearing_transcription_ae using(hea_id)
+left join darts.transcription tra using(tra_id)
+left join darts.transcription_status trs using (trs_id)
+left join darts.transcription_urgency tru using (tru_id)
+left join darts.transcription_type trt using (trt_id)
+`;
+
 export const tableName = (tableName: string): string => {
   switch (tableName) {
     case 'COURTCASE':
@@ -82,6 +94,8 @@ export const tableName = (tableName: string): string => {
       return CASE_MANAGEMENT_RETENTION_JOIN;
     case 'CASE_RETENTION':
       return CASE_RETENTION_JOIN;
+    case 'CASE_TRANSCRIPTION':
+      return CASE_TRANSCRIPTION_JOIN;
     default:
       return tableName;
   }
