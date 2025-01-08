@@ -105,6 +105,7 @@ export const substituteValue = (value: string): Date | number | string | boolean
       ? value.replaceAll('{{dd-{{date-0}}}}', handleDate('{{dd-{{date-0}}}}', 'dd'))
       : value;
   value = value.replaceAll('{{yyyymmdd}}', DateTime.now().toFormat('y-MM-dd'));
+  value = value.replaceAll('{{displaydate}}', DateTime.now().toFormat('dd MMM y'));
   value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y-MM-dd'));
   value = value.replaceAll('{{timestamp}}', DateTime.now().toISO());
 

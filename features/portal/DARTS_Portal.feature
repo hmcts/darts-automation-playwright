@@ -104,7 +104,7 @@ Feature: Portal Tests
     And I click on the "HMCTS" link
     Then I see "Search for a case" on the page
     When I click on the "Your audio" link
-    And I click on the "DARTS" link
+    And I click on the "HMCTS DARTS" link
     Then I see "Search for a case" on the page
     And I see link with text "Sign out"
 

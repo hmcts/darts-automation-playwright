@@ -3,6 +3,7 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { LoginPage } from '../../page-objects/login';
 import { BasePage, ExternalLoginPage } from '../../page-objects';
 import { DataTable } from '../../support/data-table';
+import { substituteValue } from '../../support/substitution';
 
 Given('I am on the landing page', async function (this: ICustomWorld) {
   const loginPage = new LoginPage(this.page!);
@@ -47,9 +48,25 @@ When('I press the {string} button', async function (this: ICustomWorld, text: st
   }
 });
 
+When(
+  'I press the {string} button on my browser',
+  async function (this: ICustomWorld, text: string) {
+    if (text === 'back') {
+      await this.page!.goBack();
+    } else {
+      throw new Error(`Clicking browser "${text}" button is not implemented`);
+    }
+  },
+);
+
 When('I click on the {string} link', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
-  await basePage.clickLink(text);
+  await basePage.clickLink(substituteValue(text) as string);
+});
+
+When('I click on the breadcrumb link {string}', async function (this: ICustomWorld, text: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.clickBreadcrumbLink(substituteValue(text) as string);
 });
 
 When('I see link with text {string}', async function (this: ICustomWorld, text: string) {
@@ -110,6 +127,18 @@ Then(
   },
 );
 
+Then(
+  'I verify the HTML table {string} contains the following values',
+  async function (this: ICustomWorld, tableCssId: string, dataTable: DataTable) {
+    const data = dataTable.rawTable;
+    const headings = data[0];
+    const tableData = data.slice(1, data.length);
+
+    const basePage = new BasePage(this.page!);
+    await basePage.verifyHtmlTable(this.page!.locator(`#${tableCssId} table`), headings, tableData);
+  },
+);
+
 When(
   'I click on the {string} sub-menu link',
   async function (this: ICustomWorld, linkText: string) {
@@ -129,9 +158,9 @@ When(
     const basePage = new BasePage(this.page!);
     if (this.feature?.uri.includes('DARTS_External_Login.feature')) {
       const externalLoginPage = new ExternalLoginPage(this.page!);
-      await externalLoginPage.fillInputField(field, value);
+      await externalLoginPage.fillInputField(field, substituteValue(value) as string);
     } else {
-      await basePage.fillInputField(field, value);
+      await basePage.fillInputField(field, substituteValue(value) as string);
     }
   },
 );
@@ -146,5 +175,13 @@ Then(
   async function (this: ICustomWorld, cookieName: string, key: string, value: string) {
     const basePage = new BasePage(this.page!);
     await basePage.hasCookieWithKeyValue(cookieName, key, value);
+  },
+);
+
+Then(
+  'I upload the file {string} at {string}',
+  async function (this: ICustomWorld, fileName: string, fileUploadField: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.uploadFile(fileName, fileUploadField);
   },
 );
