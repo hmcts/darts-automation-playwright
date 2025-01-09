@@ -3,6 +3,7 @@ import cache from 'memory-cache';
 import querystring from 'node:querystring';
 import { XMLParser } from 'fast-xml-parser';
 import { expect } from '@playwright/test';
+import md5File from 'md5-file';
 import { config } from './config';
 import {
   GatewaySoapResponse,
@@ -11,6 +12,11 @@ import {
   SoapResponseCodeAndMessage,
 } from './soap';
 import { DartsUserTypes, getDartsUserCredentials } from './credentials';
+import { AddAudioRequest } from './types';
+import { DateTime } from 'luxon';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import AzureStorageService from './azure-storage-service';
 
 const API_RESPONSE_CACHE_KEY = 'darts_api_response';
 const ACCESS_TOKEN_CACHE_KEY = 'darts_api_access_token';
@@ -65,6 +71,39 @@ export default class DartsApiService {
       .send(body);
     expect(response.status).toEqual(expectedResponseCode);
     cache.put(API_RESPONSE_CACHE_KEY, response.text);
+  }
+
+  public static async sendAddAudioRequest(addAudioDetails: AddAudioRequest): Promise<void> {
+    await this.authenticate();
+    // console.log('Performing DARTS API add audio request', addAudioDetails);
+
+    const __filename = fileURLToPath(import.meta.url);
+    const filePath = path.join(path.dirname(__filename), '../testdata/', addAudioDetails.audioFile);
+
+    const checksum = await md5File(filePath);
+    const storageUuid = await AzureStorageService.uploadBlobToInbound(filePath);
+    const metadata = {
+      started_at: DateTime.fromFormat(
+        `${addAudioDetails.date} ${addAudioDetails.startTime}`,
+        'y-MM-dd HH:mm:ss',
+      ).toISO(),
+      ended_at: DateTime.fromFormat(
+        `${addAudioDetails.date} ${addAudioDetails.endTime}`,
+        'y-MM-dd HH:mm:ss',
+      ).toISO(),
+      channel: 1,
+      total_channels: 1,
+      format: 'mp2',
+      filename: addAudioDetails.audioFile,
+      courthouse: addAudioDetails.courthouse,
+      courtroom: addAudioDetails.courtroom,
+      // TODO: calculate file size?
+      file_size: 937.96,
+      checksum,
+      cases: [addAudioDetails.case_numbers],
+      storage_guid: storageUuid,
+    };
+    await this.sendApiPostRequest('/audios/metadata', metadata);
   }
 
   static getResponseObject(): SoapResponse {

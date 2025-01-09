@@ -17,7 +17,7 @@ Given('I am on the portal page', async function (this: ICustomWorld) {
 
 When('I see {string} on the page', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
-  await basePage.containsText(text);
+  await basePage.containsText(substituteValue(text) as string);
 });
 
 Then('I do not see {string} on the page', async function (this: ICustomWorld, text: string) {
@@ -183,5 +183,61 @@ Then(
   async function (this: ICustomWorld, fileName: string, fileUploadField: string) {
     const basePage = new BasePage(this.page!);
     await basePage.uploadFile(fileName, fileUploadField);
+  },
+);
+
+When(
+  'I select {string} from the {string} dropdown',
+  async function (this: ICustomWorld, option: string, dropdown: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.selectOption(option, dropdown);
+  },
+);
+
+When(
+  'I set the time fields below {string} to {string}',
+  async function (this: ICustomWorld, label: string, timeString: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.fillTimeFields(label, timeString);
+  },
+);
+
+Then(
+  'I see {string} in summary row for {string}',
+  async function (this: ICustomWorld, expectedText: string, summaryRowHeading: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.hasSummaryRow(summaryRowHeading, substituteValue(expectedText) as string);
+  },
+);
+
+Then(
+  'I see {string} in the same table row as {string}',
+  async function (this: ICustomWorld, expectedText: string, tableRowText: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.hasTableRow(tableRowText, substituteValue(expectedText) as string);
+  },
+);
+
+When(
+  'I click on {string} in the same table row as {string}',
+  async function (this: ICustomWorld, textToClick: string, tableRowText: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickTextInTableRow(
+      substituteValue(tableRowText) as string,
+      substituteValue(textToClick) as string,
+    );
+  },
+);
+
+When('I check the {string} checkbox', async function (this: ICustomWorld, checkboxLabel: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.clickLabel(checkboxLabel);
+});
+
+When(
+  'I click on the pagination link {string}',
+  async function (this: ICustomWorld, pageNum: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickLabel(`Page ${pageNum}`);
   },
 );

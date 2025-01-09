@@ -6,7 +6,8 @@ const randomNumber = Math.floor(Math.random() * 1000000)
 const build = process.env.BUILD_NUMBER;
 
 const browserOptions: LaunchOptions = {
-  slowMo: 0,
+  headless: process.env.SHOW_BROWSER === 'true' ? false : true,
+  slowMo: process.env.SHOW_BROWSER === 'true' ? 100 : 0,
   args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'],
   firefoxUserPrefs: {
     'media.navigator.streams.fake': true,
@@ -25,10 +26,15 @@ export const config = {
   browserOptions,
   DARTS_PORTAL: process.env.DARTS_PORTAL ?? 'https://darts.staging.apps.hmcts.net',
   DARTS_API: process.env.DARTS_GATEWAY ?? 'https://darts-api.staging.platform.hmcts.net',
+  DARTS_TEST_HARNESS:
+    process.env.DARTS_TEST_HARNESS ?? 'http://darts-ucf-test-harness.staging.platform.hmcts.net',
   DARTS_GATEWAY: process.env.DARTS_GATEWAY ?? 'http://darts-gateway.staging.platform.hmcts.net',
   DARTS_PROXY: process.env.DARTS_PROXY ?? 'http://darts-proxy.staging.platform.hmcts.net',
   DARTS_GATEWAY_SERVICE_PATH: '/service/darts',
   DARTS_PROXY_SERVICE_PATH: '/service/darts/DARTSService',
+  features: {
+    useTestHarnessForAudio: process.env.USE_TEST_HARNESS_FOR_AUDIO === 'true' ? true : false,
+  },
   apiAuthentication: {
     endpoint:
       'https://hmctsstgextid.b2clogin.com/hmctsstgextid.onmicrosoft.com/B2C_1_ropc_darts_signin/oauth2/v2.0/token',
@@ -59,6 +65,13 @@ export const config = {
     DATABASE: process.env.DARTS_API_DB_DATABASE ?? 'darts',
     USERNAME: process.env.DARTS_API_DB_USERNAME ?? 'darts',
     PASSWORD: process.env.DARTS_API_DB_PASSWORD ?? 'darts',
+  },
+  azure: {
+    storage: {
+      INBOUND_CONTAINER_NAME: 'darts-inbound-container',
+      AZURE_STORAGE_CONNECTION_STRING:
+        process.env.AZURE_STORAGE_CONNECTION_STRING ?? 'some-connection-string',
+    },
   },
   seq: generateSeq(),
 };

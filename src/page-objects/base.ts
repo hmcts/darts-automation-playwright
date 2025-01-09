@@ -23,13 +23,22 @@ export class BasePage {
     await this.page?.getByLabel(field).fill(value);
   }
 
+  async fillTimeFields(label: string, timeValue: string) {
+    const timeData = timeValue.split(':');
+    const timeField = this.page!.locator(`//*[text() = "${label}"]/following-sibling::*`);
+    await timeField.locator('input').nth(0).fill(timeData[0]);
+    await timeField.locator('input').nth(1).fill(timeData[1]);
+    await timeField.locator('input').nth(2).fill(timeData[2]);
+  }
+
   async clickButton(text: string) {
     await this.page.getByRole('button', { name: new RegExp(`^${text}`) }).click();
   }
 
   async clickLink(text: string) {
     // some links have counts after then, such as "Your audio 21"
-    await this.page.getByRole('link', { name: new RegExp(`^${text}`) }).click();
+    // allow leading 0s in the case of display dates
+    await this.page.getByRole('link', { name: new RegExp(`^0?${text}`) }).click();
   }
 
   async clickBreadcrumbLink(text: string) {
@@ -54,6 +63,10 @@ export class BasePage {
     await nav.getByRole('link', { name: text }).nth(0).click();
   }
 
+  async selectOption(option: string, dropdown: string) {
+    await this.page.getByLabel(dropdown).selectOption(option);
+  }
+
   async hasSubNavigationLink(text: string, visible: boolean) {
     const nav = this.page.locator('.moj-sub-navigation');
     await expect(nav.getByRole('link', { name: text }).nth(0)).toBeVisible({ visible });
@@ -67,6 +80,33 @@ export class BasePage {
   async hasErrorSummaryContainingText(text: string) {
     const summary = this.page.locator('.govuk-error-summary');
     await expect(summary.getByText(text)).toBeVisible();
+  }
+
+  async hasSummaryRow(rowHeading: string, expectedValue: string) {
+    await expect(
+      this.page!.locator('.govuk-summary-list__row')
+        .filter({ hasText: rowHeading })
+        .locator('.govuk-summary-list__value'),
+    ).toHaveText(new RegExp(`^\\s?0?${expectedValue}`)); // optional leading whitespace, optional leading 0
+  }
+
+  async hasTableRow(tableRowText: string, expectedValue: string) {
+    await expect(
+      this.page!.locator('.govuk-table__row')
+        .filter({
+          has: this.page!.getByRole('cell', { name: tableRowText }),
+        })
+        .getByRole('cell', { name: expectedValue }),
+    ).toBeVisible();
+  }
+
+  async clickTextInTableRow(tableRowText: string, textToClick: string) {
+    await this.page!.locator('.govuk-table__row')
+      .filter({
+        has: this.page!.getByRole('cell', { name: tableRowText }),
+      })
+      .getByRole('cell', { name: textToClick })
+      .click();
   }
 
   async hasCookieWithKeyValue(cookieName: string, key: string, value: string) {

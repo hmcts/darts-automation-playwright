@@ -2,6 +2,10 @@ import { When } from '@cucumber/cucumber';
 import { ICustomWorld } from '../../support/custom-world';
 import DartsApiService from '../../support/darts-api-service';
 import wait from '../../support/wait';
+import { DataTable, dataTableToObjectArray } from '../../support/data-table';
+import DartsTestHarness from '../../support/darts-test-harness';
+import { config } from '../../support/config';
+import { AddAudioRequest } from '../../support/types';
 
 When(
   'I process the daily list for courthouse {string}',
@@ -27,3 +31,23 @@ When(
     }
   },
 );
+
+When('I load an audio file', async function (this: ICustomWorld, dataTable: DataTable) {
+  const addAudioData = dataTableToObjectArray<AddAudioRequest>(dataTable);
+
+  if (config.features.useTestHarnessForAudio) {
+    await Promise.all(
+      addAudioData.map(async (addAudio, index) => {
+        await new Promise((r) => setTimeout(r, 200 * index));
+        await DartsTestHarness.addAudio(addAudio);
+      }),
+    );
+  } else {
+    await Promise.all(
+      addAudioData.map(async (addAudio, index) => {
+        await new Promise((r) => setTimeout(r, 200 * index));
+        await DartsApiService.sendAddAudioRequest(addAudio);
+      }),
+    );
+  }
+});
