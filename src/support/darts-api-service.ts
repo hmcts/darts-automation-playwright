@@ -63,7 +63,7 @@ export default class DartsApiService {
   ): Promise<void> {
     await this.authenticate();
     const pathWithQs = queryParams ? `${path}?${querystring.stringify(queryParams)}` : path;
-    console.log('Performing DARTS API request', pathWithQs, body, expectedResponseCode);
+    // console.log('Performing DARTS API request', pathWithQs, body, expectedResponseCode);
     const response = await this.apiRequest
       .post(pathWithQs)
       .set('Content-Type', 'application/json')

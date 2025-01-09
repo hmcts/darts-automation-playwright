@@ -2,22 +2,27 @@ import { config } from './config';
 import cache from 'memory-cache';
 import { DateTime, Duration } from 'luxon';
 
-const handleDate = (value: string, format?: string): string => {
+const handleDate = (value: string, overrideFormat?: string): string => {
+  let format = 'y-MM-dd';
+  if (value.indexOf('/') >= 0) {
+    value = value.replace('/', '');
+    format = 'dd/MM/y';
+  }
   if (value.lastIndexOf('+') >= 0) {
     const plusDays = value.substring(value.lastIndexOf('+') + 1, value.indexOf('}}'));
     return DateTime.now()
       .plus({ days: plusDays as unknown as number })
-      .toFormat(format ?? 'y-MM-dd');
+      .toFormat(overrideFormat ?? format);
   }
 
   if (value.lastIndexOf('-') >= 0) {
     const minusDays = value.substring(value.lastIndexOf('-') + 1, value.indexOf('}}'));
     return DateTime.now()
       .minus({ days: minusDays as unknown as number })
-      .toFormat(format ?? 'y-MM-dd');
+      .toFormat(overrideFormat ?? format);
   }
 
-  return DateTime.now().toFormat(format ?? 'y-MM-dd');
+  return DateTime.now().toFormat(overrideFormat ?? format);
 };
 
 const handleDateTime = (value: string): string => {
@@ -105,8 +110,9 @@ export const substituteValue = (value: string): Date | number | string | boolean
       ? value.replaceAll('{{dd-{{date-0}}}}', handleDate('{{dd-{{date-0}}}}', 'dd'))
       : value;
   value = value.replaceAll('{{yyyymmdd}}', DateTime.now().toFormat('y-MM-dd'));
+  value = value.replaceAll('{{dd/MM/y}}', DateTime.now().toFormat('dd/MM/y'));
   value = value.replaceAll('{{displaydate}}', DateTime.now().toFormat('d MMM y'));
-  value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y-MM-dd'));
+  value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y/MM/dd'));
   value = value.replaceAll('{{timestamp}}', DateTime.now().toISO());
 
   value = value.replaceAll('{{caseNumber}}', cache.get('caseNumber'));

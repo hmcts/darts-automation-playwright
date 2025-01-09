@@ -9,6 +9,7 @@
     "build": "npm run format && npm run lint && tsc",
     "cucumber-check": "npm run cucumber features/**/*.feature --dry-run --require env/set-environment-variables.ts --require world/custom-world.ts --require step-definitions/**/*.ts --require hooks/**/*.ts  --require-module ts-node/register --format-options \"{\\\"snippetInterface\\\": \\\"async-await\\\"}\" --format summary --format progress --format progress-bar  --publish-quiet",
     "debug": "PWDEBUG=1 DEBUG=pw:api npm run cucumber ",
+    "browser": "SHOW_BROWSER=true npm run cucumber ",
     "video": "PWVIDEO=1 npm run cucumber ",
     "format": "prettier --write \"**/*.{ts,tsx,css,html}\" ",
     "lint": "eslint",

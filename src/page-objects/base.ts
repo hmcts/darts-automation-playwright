@@ -1,6 +1,7 @@
-import { expect, Locator, type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { substituteValue } from '../support/substitution';
 
 export class BasePage {
   readonly page: Page;
@@ -20,12 +21,16 @@ export class BasePage {
   }
 
   async fillInputField(field: string, value: string) {
-    await this.page?.getByLabel(field).fill(value);
+    let matching = this.page.getByLabel(field);
+    if ((await matching.count()) > 1) {
+      matching = matching.filter({ has: this.page.locator('//*[type="input"]') });
+    }
+    await matching.fill(value);
   }
 
   async fillTimeFields(label: string, timeValue: string) {
     const timeData = timeValue.split(':');
-    const timeField = this.page!.locator(`//*[text() = "${label}"]/following-sibling::*`);
+    const timeField = this.page.locator(`//*[text() = "${label}"]/following-sibling::*`);
     await timeField.locator('input').nth(0).fill(timeData[0]);
     await timeField.locator('input').nth(1).fill(timeData[1]);
     await timeField.locator('input').nth(2).fill(timeData[2]);
@@ -36,13 +41,22 @@ export class BasePage {
   }
 
   async clickLink(text: string) {
-    // some links have counts after then, such as "Your audio 21"
-    // allow leading 0s in the case of display dates
-    await this.page.getByRole('link', { name: new RegExp(`^0?${text}`) }).click();
+    const summaryDetailsLinks = ['Hide restrictions', 'Show restrictions', 'Advanced search'];
+    if (summaryDetailsLinks.includes(text)) {
+      await this.page.getByText(text).click();
+    } else {
+      // some links have counts after then, such as "Your audio 21"
+      // allow leading 0s in the case of display dates
+      await this.page.getByRole('link', { name: new RegExp(`^0?${text}`) }).click();
+    }
   }
 
   async clickBreadcrumbLink(text: string) {
     await this.page.locator('app-breadcrumb').getByRole('link', { name: text }).click();
+  }
+
+  async inputHasValue(field: string, value: string) {
+    await expect(this.page.getByLabel(field)).toHaveValue(value);
   }
 
   async hasHeader(text: string, visible = true) {
@@ -77,14 +91,21 @@ export class BasePage {
     await nav.getByRole('link', { name: text }).nth(0).click();
   }
 
+  async clickTableHeader(tableHeader: string) {
+    await this.page.waitForTimeout(200);
+    await this.page.getByLabel(`Sortable column for ${tableHeader}`).click();
+    await this.page.waitForTimeout(200);
+  }
+
   async hasErrorSummaryContainingText(text: string) {
     const summary = this.page.locator('.govuk-error-summary');
-    await expect(summary.getByText(text)).toBeVisible();
+    await expect(summary.getByText(text).first()).toBeVisible();
   }
 
   async hasSummaryRow(rowHeading: string, expectedValue: string) {
     await expect(
-      this.page!.locator('.govuk-summary-list__row')
+      this.page
+        .locator('.govuk-summary-list__row')
         .filter({ hasText: rowHeading })
         .locator('.govuk-summary-list__value'),
     ).toHaveText(new RegExp(`^\\s?0?${expectedValue}`)); // optional leading whitespace, optional leading 0
@@ -92,18 +113,20 @@ export class BasePage {
 
   async hasTableRow(tableRowText: string, expectedValue: string) {
     await expect(
-      this.page!.locator('.govuk-table__row')
+      this.page
+        .locator('.govuk-table__row')
         .filter({
-          has: this.page!.getByRole('cell', { name: tableRowText }),
+          has: this.page.getByRole('cell', { name: tableRowText }),
         })
         .getByRole('cell', { name: expectedValue }),
     ).toBeVisible();
   }
 
   async clickTextInTableRow(tableRowText: string, textToClick: string) {
-    await this.page!.locator('.govuk-table__row')
+    await this.page
+      .locator('.govuk-table__row')
       .filter({
-        has: this.page!.getByRole('cell', { name: tableRowText }),
+        has: this.page.getByRole('cell', { name: tableRowText }),
       })
       .getByRole('cell', { name: textToClick })
       .click();
@@ -122,24 +145,32 @@ export class BasePage {
   async uploadFile(fileName: string, fileUploadField: string) {
     const __filename = fileURLToPath(import.meta.url);
 
-    const fileChooserPromise = this.page!.waitForEvent('filechooser');
+    const fileChooserPromise = this.page.waitForEvent('filechooser');
     await this.page.getByText(fileUploadField).click();
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(path.join(path.dirname(__filename), '../testdata/', fileName));
   }
 
-  async verifyHtmlTable(tableLocator: Locator, headings: string[], tableData: string[][]) {
-    const tableHeaders = tableLocator.locator(`thead tr th`);
-    headings.forEach(async (header, index) => {
-      await expect(tableHeaders.nth(index)).toHaveText(header);
-    });
-    tableData.forEach(async (rowData, rowIndex) => {
-      const tableRow = tableLocator.locator(`tbody tr`).nth(rowIndex);
-      rowData.forEach(async (cellData, cellIndex) => {
+  async verifyHtmlTable(tableLocator: string, headings: string[], tableData: string[][]) {
+    const tableHeaders = this.page.locator(`${tableLocator} thead tr th`);
+
+    for (const header of headings) {
+      await expect(tableHeaders.filter({ hasText: header }).nth(0)).toHaveText(header);
+    }
+
+    let index = 0;
+    for (const rowData of tableData) {
+      const tableRow = this.page.locator('.govuk-table tbody tr').nth(index);
+      index++;
+      for (const cellData of rowData) {
         if (cellData !== '*IGNORE*') {
-          await expect(tableRow.locator('td').nth(cellIndex)).toHaveText(cellData);
+          await expect(
+            tableRow.filter({
+              has: this.page.getByRole('cell', { name: substituteValue(cellData) as string }),
+            }),
+          ).toContainText(substituteValue(cellData) as string);
         }
-      });
-    });
+      }
+    }
   }
 }

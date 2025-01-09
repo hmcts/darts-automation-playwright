@@ -135,7 +135,19 @@ Then(
     const tableData = data.slice(1, data.length);
 
     const basePage = new BasePage(this.page!);
-    await basePage.verifyHtmlTable(this.page!.locator(`#${tableCssId} table`), headings, tableData);
+    await basePage.verifyHtmlTable(`#${tableCssId} .govuk-table`, headings, tableData);
+  },
+);
+
+Then(
+  'I verify the HTML table contains the following values',
+  async function (this: ICustomWorld, dataTable: DataTable) {
+    const data = dataTable.rawTable;
+    const headings = data[0];
+    const tableData = data.slice(1, data.length);
+
+    const basePage = new BasePage(this.page!);
+    await basePage.verifyHtmlTable('.govuk-table', headings, tableData);
   },
 );
 
@@ -234,10 +246,34 @@ When('I check the {string} checkbox', async function (this: ICustomWorld, checkb
   await basePage.clickLabel(checkboxLabel);
 });
 
-When(
-  'I click on the pagination link {string}',
-  async function (this: ICustomWorld, pageNum: string) {
+When('I click on the pagination link {string}', async function (this: ICustomWorld, page: string) {
+  const basePage = new BasePage(this.page!);
+  if (page === 'Previous' || page === 'Next') {
+    await basePage.clickLink(page);
+  } else {
+    await basePage.clickLabel(`Page ${page}`);
+  }
+});
+
+When('I click on the last pagination link', async function () {
+  const basePage = new BasePage(this.page!);
+  const lastPage = await this.page
+    .locator('.govuk-pagination__item .govuk-pagination__link')
+    .last()
+    .textContent();
+
+  await basePage.clickLabel(`Page ${lastPage}`);
+});
+
+Given(
+  'I click on {string} in the table header',
+  async function (this: ICustomWorld, tableHeader: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.clickLabel(`Page ${pageNum}`);
+    await basePage.clickTableHeader(tableHeader);
   },
 );
+
+When('{string} is {string}', async function (this: ICustomWorld, field: string, value: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.inputHasValue(field, value);
+});
