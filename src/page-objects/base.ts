@@ -155,7 +155,9 @@ export class BasePage {
     const tableHeaders = this.page.locator(`${tableLocator} thead tr th`);
 
     for (const header of headings) {
-      await expect(tableHeaders.filter({ hasText: header }).nth(0)).toHaveText(header);
+      if (header !== '*NO-CHECK*') {
+        await expect(tableHeaders.filter({ hasText: header }).nth(0)).toHaveText(header);
+      }
     }
 
     let index = 0;
@@ -163,7 +165,7 @@ export class BasePage {
       const tableRow = this.page.locator('.govuk-table tbody tr').nth(index);
       index++;
       for (const cellData of rowData) {
-        if (cellData !== '*IGNORE*') {
+        if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*') {
           await expect(
             tableRow.filter({
               has: this.page.getByRole('cell', { name: substituteValue(cellData) as string }),

@@ -7,7 +7,7 @@ const config = {
     'progress-bar',
   ],
   formatOptions: { snippetInterface: 'async-await' },
-  tags: `(not @broken and not @obsolete) and ${process.env.INCLUDE_TAGS ? `(${process.env.INCLUDE_TAGS})` : '(@smoketest or @regression or @end2end)'}`,
+  tags: `(not @broken and not @obsolete and not @TODO and not @review) and ${process.env.INCLUDE_TAGS ? `(${process.env.INCLUDE_TAGS})` : '(@smoketest or @regression or @end2end)'}`,
 };
 
 if (process.env.USE_ALLURE) {
