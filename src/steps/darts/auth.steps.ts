@@ -57,7 +57,7 @@ When(
     await externalLoginPage.login(userCredentials);
 
     await expect(page.getByText('Search for a case')).toBeVisible({ timeout: 10000 });
-    await basePage.clickLink('Switch to Admin portal');
+    await basePage.clickLink('Switch to Admin Portal');
     await expect(
       page.getByText('You can search for cases, hearings, events and audio.'),
     ).toBeVisible();
