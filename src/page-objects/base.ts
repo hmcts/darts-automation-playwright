@@ -11,13 +11,53 @@ export class BasePage {
   }
 
   async containsText(text: string, visible = true) {
-    await expect(this.page.getByText(text).nth(0)).toBeVisible({
-      visible,
-    });
+    const matches = this.page.getByText(text);
+    // check for at least one visible match
+    if ((await matches.count()) > 1) {
+      const multipleMatches = await this.page.getByText(text).all();
+      let visibleCount = 0;
+      for (const match of multipleMatches) {
+        if (await match.isVisible()) {
+          visibleCount++;
+        }
+      }
+      expect(visibleCount).toBeGreaterThanOrEqual(1);
+    } else {
+      await expect(this.page.getByText(text)).toBeVisible({
+        visible,
+      });
+    }
   }
 
   async clickLabel(text: string) {
     await this.page.getByLabel(text).click();
+  }
+
+  async clickCheckboxInTableRowWith(value1: string, value2: string) {
+    await this.page
+      .locator('table tbody tr')
+      .filter({ hasText: value1 })
+      .filter({ hasText: value2 })
+      .locator('.govuk-checkboxes__input')
+      .click();
+  }
+
+  async clickValueInTableRowWith(clickOn: string, value: string) {
+    await this.page
+      .locator('table tbody tr')
+      .filter({ has: this.page.getByText(value, { exact: true }) })
+      .getByText(clickOn)
+      .click();
+  }
+
+  async hasValueInTableRowWith(value1: string, value2: string, text: string) {
+    await expect(
+      this.page
+        .locator('table tbody tr')
+        .filter({ hasText: value1 })
+        .filter({ hasText: value2 })
+        .getByText(text),
+    ).toBeVisible();
   }
 
   async fillInputField(field: string, value: string) {

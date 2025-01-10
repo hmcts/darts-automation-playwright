@@ -214,6 +214,14 @@ When(
   },
 );
 
+When(
+  'I set the time fields of {string} to {string}',
+  async function (this: ICustomWorld, label: string, timeString: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.fillTimeFields(label, timeString);
+  },
+);
+
 Then(
   'I see {string} in summary row for {string}',
   async function (this: ICustomWorld, expectedText: string, summaryRowHeading: string) {
@@ -277,3 +285,27 @@ When('{string} is {string}', async function (this: ICustomWorld, field: string, 
   const basePage = new BasePage(this.page!);
   await basePage.inputHasValue(field, value);
 });
+
+Then(
+  'I check the checkbox in the same row as {string} {string}',
+  async function (this: ICustomWorld, rowValue1: string, rowValue2: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickCheckboxInTableRowWith(rowValue1, rowValue2);
+  },
+);
+
+Then(
+  'I click on {string} in the same row as {string}',
+  async function (this: ICustomWorld, clickOn: string, rowValue: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickValueInTableRowWith(clickOn, rowValue);
+  },
+);
+
+Then(
+  'I see {string} in the same row as {string} {string}',
+  async function (this: ICustomWorld, text: string, rowValue1: string, rowValue2: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.hasValueInTableRowWith(rowValue1, rowValue2, text);
+  },
+);
