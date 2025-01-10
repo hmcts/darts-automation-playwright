@@ -44,7 +44,7 @@ When('I press the {string} button', async function (this: ICustomWorld, text: st
     const externalLoginPage = new ExternalLoginPage(this.page!);
     await externalLoginPage.clickButton(text);
   } else {
-    await basePage.clickButton(text);
+    await basePage.clickButton(substituteValue(text) as string);
   }
 });
 
@@ -62,6 +62,11 @@ When(
 When('I click on the {string} link', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
   await basePage.clickLink(substituteValue(text) as string);
+});
+
+When('I click on the {string} button', async function (this: ICustomWorld, text: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.clickButton(substituteValue(text) as string);
 });
 
 When('I click on the breadcrumb link {string}', async function (this: ICustomWorld, text: string) {
@@ -306,7 +311,7 @@ Then(
   'I see {string} in the same row as {string} {string}',
   async function (this: ICustomWorld, text: string, rowValue1: string, rowValue2: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.hasValueInTableRowWith(text, [rowValue1, rowValue2]);
+    await basePage.hasValueInTableRowWith(substituteValue(text) as string, [rowValue1, rowValue2]);
   },
 );
 
@@ -314,6 +319,6 @@ Then(
   'I see {string} in the same row as {string}',
   async function (this: ICustomWorld, text: string, rowValue: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.hasValueInTableRowWith(text, [rowValue]);
+    await basePage.hasValueInTableRowWith(substituteValue(text) as string, [rowValue]);
   },
 );

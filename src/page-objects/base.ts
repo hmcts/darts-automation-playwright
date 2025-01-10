@@ -16,9 +16,10 @@ export class BasePage {
         visible: false,
       });
     } else {
-      await expect
-        .poll(() => this.page.getByText(text).locator('visible=true').count())
-        .toBeGreaterThan(0);
+      const allMatchingLocators = this.page.getByText(text);
+      const visibleLocators = allMatchingLocators.locator('visible=true');
+      const firstVisibleItem1 = visibleLocators.first();
+      await expect(firstVisibleItem1).toBeVisible();
     }
   }
 
@@ -132,12 +133,14 @@ export class BasePage {
   }
 
   async hasSummaryRow(rowHeading: string, expectedValue: string) {
+    expectedValue = expectedValue.replaceAll('(', '\\(');
+    expectedValue = expectedValue.replaceAll(')', '\\)');
     await expect(
       this.page
         .locator('.govuk-summary-list__row')
         .filter({ hasText: rowHeading })
         .locator('.govuk-summary-list__value'),
-    ).toHaveText(new RegExp(`^\\s?0?${expectedValue}`)); // optional leading whitespace, optional leading 0
+    ).toHaveText(new RegExp(`^\\s?0?${expectedValue}\\s?`)); // optional leading/trailing whitespace, optional leading 0
   }
 
   async hasTableRow(tableRowText: string, expectedValue: string) {

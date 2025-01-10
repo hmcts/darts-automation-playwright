@@ -111,12 +111,39 @@ export const substituteValue = (value: string): Date | number | string | boolean
       : value;
   value = value.replaceAll('{{yyyymmdd}}', DateTime.now().toFormat('y-MM-dd'));
   value = value.replaceAll('{{dd/MM/y}}', DateTime.now().toFormat('dd/MM/y'));
+
+  // {{displayDate0-{{date+1 years}}}}
+  value = value.replaceAll(
+    '{{displayDate0-{{date+1 years}}}}',
+    DateTime.now().plus({ year: 1 }).toFormat('d MMM y'),
+  );
+  // {{displayDate0-{{date+7 years}}}}
+  value = value.replaceAll(
+    '{{displayDate0-{{date+7 years}}}}',
+    DateTime.now().plus({ years: 7 }).toFormat('d MMM y'),
+  );
+  // {{displayDate0-{{date+8 years}}}}
+  value = value.replaceAll(
+    '{{displayDate0-{{date+8 years}}}}',
+    DateTime.now().plus({ years: 8 }).toFormat('d MMM y'),
+  );
+  // {{displaydate0{{date+99years}}}}
+  value = value.replaceAll(
+    '{{displaydate0{{date+99years}}}}',
+    DateTime.now().plus({ years: 99 }).toFormat('d MMM y'),
+  );
+  // {{displayDate0-{{date+99 years}}}}
+  value = value.replaceAll(
+    '{{displayDate0-{{date+99 years}}}}',
+    DateTime.now().plus({ years: 99 }).toFormat('d MMM y'),
+  );
   value = value.replaceAll('{{displaydate}}', DateTime.now().toFormat('d MMM y'));
   value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y/MM/dd'));
   value = value.replaceAll('{{timestamp}}', DateTime.now().toISO());
 
   value = value.replaceAll('{{caseNumber}}', cache.get('caseNumber'));
   value = value.replaceAll('{{cas.cas_id}}', cache.get('cas.cas_id'));
+  value = value.replaceAll('{{cas_id}}', cache.get('cas_id'));
   value = value.replaceAll('{{eve_id}}', cache.get('eve_id'));
   value = value.replaceAll('{{eve.eve_id}}', cache.get('eve.eve_id'));
   value = value.replaceAll('{{hea_id}}', cache.get('hea_id'));

@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import { BasePage } from '.';
 import { DartsUserCredential } from '../support/credentials';
 
@@ -28,5 +29,10 @@ export class ExternalLoginPage extends BasePage {
     const input = this.page.getByLabel('Enter your verification code below', { exact: true });
     await input.fill('');
     await input.pressSequentially('Enter Security Code');
+  }
+  async signOutUser() {
+    await expect(
+      this.page.getByRole('heading', { name: 'Sign in to the DARTS Portal' }),
+    ).toBeVisible();
   }
 }

@@ -72,6 +72,7 @@ When(
 When('I Sign out', async function (this: ICustomWorld) {
   const basePage = new BasePage(this.page!);
   const internalLoginPage = new InternalLoginPage(this.page!);
+  const externalLoginPage = new ExternalLoginPage(this.page!);
 
   console.log('Signing out user:', (this.context as DartsBrowserContext).user.username);
   await basePage.clickLink('Sign out');
@@ -79,6 +80,8 @@ When('I Sign out', async function (this: ICustomWorld) {
   const authenticatedUser = (this.context as DartsBrowserContext).user;
   if (authenticatedUser.type === 'INTERNAL') {
     await internalLoginPage.signOutUser(authenticatedUser.username);
+  } else {
+    await externalLoginPage.signOutUser();
   }
 });
 
