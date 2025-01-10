@@ -491,8 +491,8 @@ Feature: Case Search
 
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Defendant's name" to "Def A"
     And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Defendant's name" to "Def A"
     And I press the "Search" button
     Then I see "We need more information to search for a case" on the page
 
