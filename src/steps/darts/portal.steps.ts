@@ -306,6 +306,14 @@ Then(
   'I see {string} in the same row as {string} {string}',
   async function (this: ICustomWorld, text: string, rowValue1: string, rowValue2: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.hasValueInTableRowWith(rowValue1, rowValue2, text);
+    await basePage.hasValueInTableRowWith(text, [rowValue1, rowValue2]);
+  },
+);
+
+Then(
+  'I see {string} in the same row as {string}',
+  async function (this: ICustomWorld, text: string, rowValue: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.hasValueInTableRowWith(text, [rowValue]);
   },
 );

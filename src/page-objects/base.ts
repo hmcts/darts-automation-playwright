@@ -11,21 +11,14 @@ export class BasePage {
   }
 
   async containsText(text: string, visible = true) {
-    const matches = this.page.getByText(text);
-    // check for at least one visible match
-    if ((await matches.count()) > 1) {
-      const multipleMatches = await this.page.getByText(text).all();
-      let visibleCount = 0;
-      for (const match of multipleMatches) {
-        if (await match.isVisible()) {
-          visibleCount++;
-        }
-      }
-      expect(visibleCount).toBeGreaterThanOrEqual(1);
-    } else {
-      await expect(this.page.getByText(text)).toBeVisible({
-        visible,
+    if (!visible) {
+      await expect(this.page.getByText(text).nth(0)).toBeVisible({
+        visible: false,
       });
+    } else {
+      await expect
+        .poll(() => this.page.getByText(text).locator('visible=true').count())
+        .toBeGreaterThan(0);
     }
   }
 
@@ -50,14 +43,10 @@ export class BasePage {
       .click();
   }
 
-  async hasValueInTableRowWith(value1: string, value2: string, text: string) {
-    await expect(
-      this.page
-        .locator('table tbody tr')
-        .filter({ hasText: value1 })
-        .filter({ hasText: value2 })
-        .getByText(text),
-    ).toBeVisible();
+  async hasValueInTableRowWith(text: string, values: string[]) {
+    const locator = this.page.locator('table tbody tr');
+    values.forEach((value) => locator.filter({ hasText: value }));
+    await expect(locator.getByText(text)).toBeVisible();
   }
 
   async fillInputField(field: string, value: string) {
