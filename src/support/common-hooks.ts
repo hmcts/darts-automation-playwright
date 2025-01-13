@@ -60,7 +60,9 @@ Before(async function (this: ICustomWorld, { pickle }) {
   this.context = await browser.newContext({
     acceptDownloads: true,
     recordVideo: process.env.PWVIDEO ? { dir: 'screenshots' } : undefined,
-    viewport: { width: 1200, height: 800 },
+    viewport: { width: 1200, height: 1200 },
+    locale: 'en-GB',
+    timezoneId: 'Europe/London',
   });
 
   await this.context.tracing.start({ screenshots: true, snapshots: true });
