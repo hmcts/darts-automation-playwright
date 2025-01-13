@@ -101,8 +101,7 @@ Feature: Case Search
     And I click on the "Search" link
     # TODO (DT): Added for extra verification
     And I see "Search for a case" on the page
-    # TODO (DT): Commented as the result appear to remain sorted after navigating back to Search
-    # And I click on "Case ID" in the table header
+    And I click on "Case ID" in the table header
     Then I verify the HTML table contains the following values
       | Case ID     | Courthouse         | Courtroom   | Judge(s)         | Defendant(s)    |
       | A{{seq}}001 | Harrow Crown Court | A{{seq}}-1  | JUDGE {{seq}}-1  | Def A{{seq}}-1  |
