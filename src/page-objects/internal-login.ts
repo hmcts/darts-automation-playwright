@@ -20,19 +20,16 @@ export class InternalLoginPage extends BasePage {
     await this.containsText('Enter password');
     await this.fillInputField('password', userCredentials.password);
     await this.clickButton('Sign in');
-    await this.page.waitForTimeout(300);
+    await this.page.waitForTimeout(500);
     const staySignedIn = await this.page
       .getByRole('heading', { name: 'Stay signed in?' })
       .isVisible();
     console.log('staySignedIn is visible', staySignedIn);
     if (staySignedIn) {
-      console.log('clicking stay signed in - No');
+      console.log('stay signed is visible');
       await this.clickButton('No');
     } else {
-      console.log('stay signed is NOT visible, retrying...');
-      await this.page.waitForTimeout(300);
-      console.log('clicking stay signed in - No');
-      await this.clickButton('No');
+      console.log('stay signed is NOT visible');
     }
   }
 
