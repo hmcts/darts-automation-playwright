@@ -26,10 +26,13 @@ export class InternalLoginPage extends BasePage {
       .isVisible();
     console.log('staySignedIn is visible', staySignedIn);
     if (staySignedIn) {
-      console.log('stay signed is visible');
+      console.log('clicking stay signed in - No');
       await this.clickButton('No');
     } else {
-      console.log('stay signed is NOT visible');
+      console.log('stay signed is NOT visible, retrying...');
+      await this.page.waitForTimeout(300);
+      console.log('clicking stay signed in - No');
+      await this.clickButton('No');
     }
   }
 

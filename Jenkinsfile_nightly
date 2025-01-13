@@ -101,6 +101,7 @@ withNightlyPipeline(type, product, component) {
   before('fullFunctionalTest') {
     // set the tags to run on the nightly build
     env.INCLUDE_TAGS = "@smoketest or @regression or @end2end"
+    env.PWVIDEO = 1 
   }
 
   afterAlways('fullFunctionalTest') {
@@ -113,5 +114,7 @@ withNightlyPipeline(type, product, component) {
       reportName           : "Cucumber Test Report"
     ]
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/cucumber-report.json'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'traces/*'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*'
   }
 }
