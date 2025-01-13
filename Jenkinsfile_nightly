@@ -101,7 +101,6 @@ withNightlyPipeline(type, product, component) {
   before('fullFunctionalTest') {
     // set the tags to run on the nightly build
     env.INCLUDE_TAGS = "@smoketest or @regression or @end2end"
-    env.PWVIDEO = 1 
   }
 
   afterAlways('fullFunctionalTest') {

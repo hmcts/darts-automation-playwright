@@ -1,3 +1,6 @@
+import path from 'path';
+import fs from 'fs/promises';
+import { fileURLToPath } from 'url';
 import { ICustomWorld } from './custom-world';
 import { config } from './config';
 import { Before, After, BeforeAll, AfterAll, Status, setDefaultTimeout } from '@cucumber/cucumber';
@@ -95,6 +98,25 @@ After(async function (this: ICustomWorld, { result }) {
     }
   }
   await this.page?.close();
+
+  if (result && result.status !== Status.PASSED) {
+    // rename video
+    const video = this.page?.video();
+    const __filename = fileURLToPath(import.meta.url);
+    const videoDir = path.resolve(path.dirname(__filename), '../..', 'screenshots');
+    const videoPath = await video?.path();
+
+    if (video && videoPath) {
+      // random string to prevent name clashes in example scenarios
+      const rand = Math.floor(Math.random() * 1000000)
+        .toString()
+        .padStart(6, '0');
+      await fs.rename(videoPath, `${videoDir}/${this.feature?.name}_${this.testName}_${rand}.webm`);
+    }
+  } else {
+    await this.page?.video()?.delete();
+  }
+
   await this.context?.close();
 });
 
