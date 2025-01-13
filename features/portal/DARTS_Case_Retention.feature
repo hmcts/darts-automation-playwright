@@ -46,8 +46,8 @@ Feature: Case Retention
     # Close the case
     Given I authenticate from the "CPP" source system
     Given I create an event
-      | message_id | type  | sub_type | event_id   | courthouse         | courtroom   | case_numbers  | event_text        | date_time              | case_retention_fixed_policy | case_total_sentence |
-      | {{seq}}005 | 30300 |          | {{seq}}177 | HARROW CROWN COURT | <courtroom> | <case_number> | Close case{{seq}} | {{timestamp-11:00:00}} | <caseRetention>             | <totalSentence>     |
+      | message_id      | type  | sub_type | event_id   | courthouse         | courtroom   | case_numbers  | event_text        | date_time              | case_retention_fixed_policy | case_total_sentence |
+      | <ref>{{seq}}005 | 30300 |          | {{seq}}177 | HARROW CROWN COURT | <courtroom> | <case_number> | Close case{{seq}} | {{timestamp-11:00:00}} | <caseRetention>             | <totalSentence>     |
 
     Then I click on the breadcrumb link "<case_number>"
     And I click on the "<case_number>" link
@@ -184,9 +184,9 @@ Feature: Case Retention
     Examples:
       | case_number | caseRetention | totalSentence | retention_displayname | display_retentiondate             | courtroom  | ref |
       | R{{seq}}EF1 | 1             | 1Y0M0D        | Not Guilty            | {{displayDate0-{{date+1 years}}}} | {{seq}}-30 | 30  |
-# | R{{seq}}GH1 | 2             | 7Y0M0D        | Non Custodial         | {{displayDate0-{{date+7 years}}}} | {{seq}}-31 | 31  |
-# | R{{seq}}IJ1 | 3             | 3Y0M0D        | Custodial             | {{displayDate0-{{date+7 years}}}} | {{seq}}-32 | 32  |
-# | R{{seq}}KL1 | 3             | 8Y0M0D        | Custodial             | {{displayDate0-{{date+8 years}}}} | {{seq}}-33 | 33  |
+      | R{{seq}}GH1 | 2             | 7Y0M0D        | Non Custodial         | {{displayDate0-{{date+7 years}}}} | {{seq}}-31 | 31  |
+      | R{{seq}}IJ1 | 3             | 3Y0M0D        | Custodial             | {{displayDate0-{{date+7 years}}}} | {{seq}}-32 | 32  |
+      | R{{seq}}KL1 | 3             | 8Y0M0D        | Custodial             | {{displayDate0-{{date+8 years}}}} | {{seq}}-33 | 33  |
 
 # @DMP-1406 @DMP-1899 @DMP-1369 @DMP-2161 @DMP-1437 @DMP-1439
 # Scenario Outline: Case Retention Date - Case Details, Current retention details, audit history LIFE SENTENCE
