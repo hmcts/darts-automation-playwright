@@ -411,7 +411,7 @@ Feature: Request Audio
 
     When I select the "Audio preview and events" radio button
     And I click on "Play preview" in the same row as "<StartTime> - <EndTime>"
-    Then I see "<Text>" in the same row as "<StartTime>" "<EndTime>"
+    Then I see "<Text>" in the same row as "<StartTime> - <EndTime>"
     Examples:
       | StartTime | EndTime  | Text            |
       #    | 11:00:00  | 12:14:05 | Loading preview |
