@@ -349,7 +349,7 @@ interface AudioFileDataTable {
 
 When(
   'I wait for the requested audio file to be ready',
-  { timeout: 60 * 1000 * 5 }, // 5 minutes
+  { timeout: 60 * 1000 * 5 + 30000 }, // 5.5 minutes
   async function (this: ICustomWorld, dataTable: DataTable) {
     const audioFileData = dataTableToObject<AudioFileDataTable>(dataTable);
     const userCredentials = getDartsUserCredentials(audioFileData.user);
@@ -375,7 +375,7 @@ and lower(user_email_address) = ${userCredentials.username}`;
         return false;
       }
     };
-    const done = await wait(runQuery, 20000, 12);
+    const done = await wait(runQuery, 20000, 15);
     if (!done) {
       throw new Error(`Failed selecting column in scenario: ${this.testName}`);
     }

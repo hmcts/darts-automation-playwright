@@ -7,3 +7,12 @@ export interface AddAudioRequest {
   endTime: string;
   audioFile: string;
 }
+
+export interface AddCaseDataTable {
+  courthouse: string;
+  case_number: string;
+  defendants: string;
+  judges: string;
+  prosecutors: string;
+  defenders: string;
+}

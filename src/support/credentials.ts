@@ -13,6 +13,15 @@ export interface ExternalServiceUserCredential {
   useToken: boolean;
 }
 
+export interface AuthRequestBody {
+  grant_type: string;
+  username: string;
+  password: string;
+  client_id: string;
+  client_secret: string;
+  scope: string;
+}
+
 const externalServiceUserCredentials: Record<string, ExternalServiceUserCredential> = {
   VIQ: {
     username: config.usernames.VIQ_USERNAME!,

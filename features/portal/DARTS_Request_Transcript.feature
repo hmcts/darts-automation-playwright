@@ -90,6 +90,8 @@ Feature: Request Transcript
     And I press the "Submit request" button
     #DMP-1012-AC1 and DMP-1138-AC1 Transcript submitted screen
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID
     And I see "What happens next?" on the page
     And I see "We’ll review it and notify you of our decision to approve or reject your request by email and through the DARTS portal." on the page
 
@@ -131,11 +133,14 @@ Feature: Request Transcript
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as a "TRANSCRIBER" user
-    And I click on the "Transcript requests" link
+
+    # TODO (DT): transcript requests is now ordered by case ID by default and only shows 500 results
+    # And I click on the "Transcript requests" link
+    And I navigate to the url "/transcription-requests/{{tra_id}}"
     #DMP-1198-AC1, AC3 and DMP-1203-AC4 Transcript request screen and column names/sortable columns to do
-    And I see "Manual" in the same row as "C{{seq}}002"
+    # And I see "Manual" in the same row as "C{{seq}}002"
     #DMP-1198-AC2 and DMP-1234 View transcript request order
-    And I click on "View" in the same row as "C{{seq}}002"
+    # And I click on "View" in the same row as "C{{seq}}002"
     Then I see "Transcript request" on the page
     And I see "C{{seq}}002" in summary row for "Case ID"
     And I see "Harrow Crown Court" in summary row for "Courthouse"
@@ -316,6 +321,8 @@ Feature: Request Transcript
     And I press the "Submit request" button
     #DMP-1012-AC1 and DMP-1138-AC1 Transcript submitted screen
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID
     And I see "What happens next?" on the page
     And I see "We’ll review it and notify you of our decision to approve or reject your request by email and through the DARTS portal." on the page
 
@@ -356,9 +363,12 @@ Feature: Request Transcript
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as a "TRANSCRIBER" user
-    And I click on the "Transcript requests" link
-    And I see "Manual" in the same row as "C{{seq}}003"
-    And I click on "View" in the same row as "C{{seq}}003"
+    # TODO (DT): transcript requests is now ordered by case ID by default and only shows 500 results
+    # And I click on the "Transcript requests" link
+    And I navigate to the url "/transcription-requests/{{tra_id}}"
+    # And I click on the "Transcript requests" link
+    # And I see "Manual" in the same row as "C{{seq}}003"
+    # And I click on "View" in the same row as "C{{seq}}003"
     Then I see "Transcript request" on the page
     And I see "C{{seq}}003" in summary row for "Case ID"
     And I see "Harrow Crown Court" in summary row for "Courthouse"
@@ -469,6 +479,8 @@ Feature: Request Transcript
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID
     And I see "What happens next?" on the page
     And I see "We’ll review it and notify you of our decision to approve or reject your request by email and through the DARTS portal." on the page
 
@@ -652,6 +664,8 @@ Feature: Request Transcript
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID as "tra_id1"
 
     When I click on the "Return to hearing date" link
     Then I see "Transcripts for this hearing" on the page
@@ -683,6 +697,8 @@ Feature: Request Transcript
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID as "tra_id2"
 
     When I click on the "Return to hearing date" link
     Then I see "Transcripts for this hearing" on the page
@@ -721,8 +737,11 @@ Feature: Request Transcript
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as a "TRANSCRIBER" user
-    And I click on the "Transcript requests" link
-    And I click on "View" in the same row as "C{{seq}}006"
+    # TODO (DT): transcript requests is now ordered by case ID by default and only shows 500 results
+    # And I click on the "Transcript requests" link
+    And I navigate to the url "/transcription-requests/{{tra_id1}}"
+    # And I click on the "Transcript requests" link
+    # And I click on "View" in the same row as "C{{seq}}006"
     Then I see "Transcript request" on the page
 
     #DMP-1243-AC4 Assign to myself and upload transcript
@@ -737,7 +756,9 @@ Feature: Request Transcript
     Then I see "Transcript request complete" on the page
 
     When I click on the "Transcript requests" link
-    And I click on "View" in the same row as "C{{seq}}007"
+    # TODO (DT): transcript requests is now ordered by case ID by default and only shows 500 results
+    And I navigate to the url "/transcription-requests/{{tra_id2}}"
+    # And I click on "View" in the same row as "C{{seq}}007"
     Then I see "Transcript request" on the page
 
     When I select the "Assign to me and upload a transcript" radio button
@@ -818,6 +839,8 @@ Feature: Request Transcript
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID
     And I see "What happens next?" on the page
     And I see "We’ll review it and notify you of our decision to approve or reject your request by email and through the DARTS portal." on the page
 
@@ -907,6 +930,8 @@ Feature: Request Transcript
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID
 
     When I click on the "Return to hearing date" link
     Then I see "Transcripts for this hearing" on the page

@@ -15,6 +15,15 @@ Given('I use transcript request ID', async function (this: ICustomWorld) {
   cache.put('tra_id', traId);
 });
 
+Given(
+  'I use transcript request ID as {string}',
+  async function (this: ICustomWorld, cacheKey: string) {
+    const traId = await this.page?.getByText('Your request ID').locator('strong').textContent();
+    console.log('CACHING TRA_ID =', traId);
+    cache.put(cacheKey, traId);
+  },
+);
+
 Then(
   'I find {string} in the xml response at {string}',
   async function (this: ICustomWorld, cacheName: string, expectedPropertyName: string) {

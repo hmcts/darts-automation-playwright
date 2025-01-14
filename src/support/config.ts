@@ -36,11 +36,19 @@ export const config = {
     useTestHarnessForAudio: process.env.USE_TEST_HARNESS_FOR_AUDIO === 'true' ? true : false,
   },
   apiAuthentication: {
-    endpoint:
-      'https://hmctsstgextid.b2clogin.com/hmctsstgextid.onmicrosoft.com/B2C_1_ropc_darts_signin/oauth2/v2.0/token',
-    clientId: process.env.AAD_B2C_ROPC_CLIENT_ID,
-    clientSecret: process.env.AAD_CLIENT_SECRET,
-    scope: `https://hmctsstgextid.onmicrosoft.com/${process.env.AAD_B2C_ROPC_CLIENT_ID}/Functional.Test`,
+    external: {
+      endpoint:
+        'https://hmctsstgextid.b2clogin.com/hmctsstgextid.onmicrosoft.com/B2C_1_ropc_darts_signin',
+      clientId: process.env.AAD_B2C_ROPC_CLIENT_ID,
+      clientSecret: process.env.AAD_CLIENT_SECRET,
+      scope: `https://hmctsstgextid.onmicrosoft.com/${process.env.AAD_B2C_ROPC_CLIENT_ID}/Functional.Test`,
+    },
+    internal: {
+      endpoint: `https://login.microsoftonline.com/${process.env.AAD_TENANT_ID}`,
+      clientId: process.env.AAD_CLIENT_ID,
+      clientSecret: process.env.AAD_CLIENT_SECRET,
+      scope: `api://${process.env.AAD_CLIENT_ID}/Functional.Test`,
+    },
   },
   usernames: {
     VIQ_USERNAME: process.env.VIQ_EXTERNAL_USERNAME,

@@ -19,15 +19,7 @@ import {
   SoapResponseCodeAndMessage,
 } from '../../support/soap';
 import { splitString } from '../../support/split';
-
-interface AddCaseDataTable {
-  courthouse: string;
-  case_number: string;
-  defendants: string;
-  judges: string;
-  prosecutors: string;
-  defenders: string;
-}
+import { AddCaseDataTable } from '../../support/types';
 
 interface AddCourtLogDataTable {
   courthouse: string;

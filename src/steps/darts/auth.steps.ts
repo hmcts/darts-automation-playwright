@@ -5,9 +5,11 @@ import {
   getDartsUserCredentials,
   DartsUserCredential,
   ExternalServiceUserTypes,
+  DartsUserTypes,
 } from '../../support/credentials';
 import { LoginPage, ExternalLoginPage, InternalLoginPage, BasePage } from '../../page-objects';
 import DartsSoapService from '../../support/darts-soap-service';
+import DartsApiService from '../../support/darts-api-service';
 
 type DartsBrowserContext = BrowserContext & {
   user: DartsUserCredential;
@@ -90,5 +92,12 @@ Given(
   async function (this: ICustomWorld, source: ExternalServiceUserTypes) {
     // generate and store token for SOAP request, if required
     await DartsSoapService.register(source);
+  },
+);
+
+When(
+  'I authenticate as a {string} user',
+  async function (this: ICustomWorld, user: DartsUserTypes) {
+    await DartsApiService.authenticate(user);
   },
 );
