@@ -84,6 +84,15 @@ left join darts.courtroom using(ctr_id)
 left join darts.courthouse using(cth_id)
 `;
 
+const HEARING_MEDIA_REQUEST_JOIN = `
+darts.court_case cas
+join darts.hearing hea using (cas_id)
+join darts.courtroom ctr using (ctr_id)
+join darts.courthouse cth on ctr.cth_id = cth.cth_id
+left join darts.media_request mer using (hea_id)
+left join darts.user_account usr on usr.usr_id = mer.requestor
+`;
+
 export const tableName = (tableName: string): string => {
   switch (tableName) {
     case 'COURTCASE':
@@ -104,6 +113,8 @@ export const tableName = (tableName: string): string => {
       return CASE_TRANSCRIPTION_JOIN;
     case 'NODE_REGISTER':
       return NODE_REGISTER_JOIN;
+    case 'HEARING_MEDIA_REQUEST':
+      return HEARING_MEDIA_REQUEST_JOIN;
     default:
       return tableName;
   }

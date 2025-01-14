@@ -160,6 +160,15 @@ export class BasePage {
     await this.page.waitForTimeout(200);
   }
 
+  async clickTableHeaderInTable(tableHeader: string, tableName: string) {
+    await this.page.waitForTimeout(500);
+    await this.page
+      .locator(`#${tableName} .govuk-table`)
+      .getByLabel(`Sortable column for ${tableHeader}`)
+      .click();
+    await this.page.waitForTimeout(200);
+  }
+
   async hasErrorSummaryContainingText(text: string) {
     const summary = this.page.locator('.govuk-error-summary');
     await expect(summary.getByText(text).first()).toBeVisible();
@@ -255,5 +264,13 @@ export class BasePage {
     for (const option of options) {
       await this.selectOption(option, select);
     }
+  }
+
+  async hasSortedTableHeader(tableHeader: string, sort: 'ascending' | 'descending') {
+    await expect(
+      this.page
+        .getByLabel(`${tableHeader} column header`)
+        .filter({ has: this.page.locator(`:scope*[aria-sort="${sort}"]`) }),
+    ).toBeVisible();
   }
 }

@@ -161,6 +161,7 @@ export const substituteValue = (value: string): Date | number | string | boolean
   value = value.replaceAll('{{jud_id}}', cache.get('jud_id'));
   value = value.replaceAll('{{cmr_id}}', cache.get('cmr_id'));
   value = value.replaceAll('{{node_id}}', cache.get('node_id'));
+  value = value.replaceAll('{{tra_id}}', cache.get('tra_id'));
 
   if (value.startsWith('{{upper-case-')) {
     const upperCaseString = value.substring(

@@ -15,9 +15,9 @@ Given('I am on the portal page', async function (this: ICustomWorld) {
   await loginPage.goto();
 });
 
-Given('I navigate to the url {string}', async function (urlPath: string) {
+Given('I navigate to the url {string}', async function (this: ICustomWorld, urlPath: string) {
   const basePage = new BasePage(this.page!);
-  await basePage.gotoUrlPath(urlPath);
+  await basePage.gotoUrlPath(substituteValue(urlPath) as string);
 });
 
 When('I see {string} on the page', async function (this: ICustomWorld, text: string) {
@@ -357,5 +357,13 @@ Then(
     await basePage.hasValueInTableRowWith(substituteValue(text) as string, [
       substituteValue(rowValue) as string,
     ]);
+  },
+);
+
+Then(
+  '{string} has sort {string} icon',
+  async function (this: ICustomWorld, tableHeader: string, sort: 'ascending' | 'descending') {
+    const basePage = new BasePage(this.page!);
+    await basePage.hasSortedTableHeader(tableHeader, sort);
   },
 );

@@ -6,6 +6,8 @@ import sql, { tableName, getSingleValueFromResult, type SqlResult } from '../../
 import { substituteValue } from '../../support/substitution';
 import { DateTime } from 'luxon';
 import wait from '../../support/wait';
+import { DataTable, dataTableToObject } from '../../support/data-table';
+import { getDartsUserCredentials } from '../../support/credentials';
 
 Then(
   'I see table {string} column {string} is {string} where {string} = {string} and {string} = {string} and {string} = {string} and {string} = {string}',
@@ -335,5 +337,47 @@ Given(
 update ${sql.unsafe(tableName(table))}
 set ${sql.unsafe(column)} = ${substituteValue(value)}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
+  },
+);
+
+interface AudioFileDataTable {
+  user: string;
+  courthouse: string;
+  case_number: string;
+  hearing_date: string;
+}
+
+When(
+  'I wait for the requested audio file to be ready',
+  { timeout: 60 * 1000 * 5 }, // 5 minutes
+  async function (this: ICustomWorld, dataTable: DataTable) {
+    const audioFileData = dataTableToObject<AudioFileDataTable>(dataTable);
+    const userCredentials = getDartsUserCredentials(audioFileData.user);
+
+    const runQuery = async () => {
+      const result: SqlResult = await sql`
+select mer.request_status
+from ${sql.unsafe(tableName('HEARING_MEDIA_REQUEST'))}
+where courthouse_name = ${substituteValue(audioFileData.courthouse)}
+and case_number = ${substituteValue(audioFileData.case_number)}
+and hearing_date = ${substituteValue(audioFileData.hearing_date)}
+and lower(user_email_address) = ${userCredentials.username}`;
+      try {
+        const requestStatus = getSingleValueFromResult(result) as string | number;
+        if (requestStatus === 'COMPLETED') {
+          return true;
+        } else {
+          console.log('Media request has status', requestStatus);
+          return false;
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        return false;
+      }
+    };
+    const done = await wait(runQuery, 20000, 12);
+    if (!done) {
+      throw new Error(`Failed selecting column in scenario: ${this.testName}`);
+    }
   },
 );
