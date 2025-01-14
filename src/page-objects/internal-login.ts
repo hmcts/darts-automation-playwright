@@ -6,11 +6,11 @@ export class InternalLoginPage extends BasePage {
     await this.clickLabel(`I'm an employee of HM Courts and Tribunals Service`);
     await this.clickButton('Continue');
 
-    await this.page.waitForTimeout(300);
-    const userAnotherAccount = await this.page.getByText('Use another account').isVisible();
-    console.log('userAnotherAccount is visible', userAnotherAccount);
-    if (userAnotherAccount) {
-      console.log('Clicking user another account');
+    await this.page.waitForTimeout(500);
+    const useAnotherAccount = await this.page.getByText('Use another account').isVisible();
+    console.log('useAnotherAccount is visible', useAnotherAccount);
+    if (useAnotherAccount) {
+      console.log('Clicking use another account');
       await this.page.getByText('Use another account').click();
     }
 

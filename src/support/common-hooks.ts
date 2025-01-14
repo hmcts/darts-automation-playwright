@@ -111,7 +111,10 @@ After(async function (this: ICustomWorld, { result }) {
       const rand = Math.floor(Math.random() * 1000000)
         .toString()
         .padStart(6, '0');
-      await fs.rename(videoPath, `${videoDir}/${this.feature?.name}_${this.testName}_${rand}.webm`);
+
+      const newVideoPath = `${videoDir}/${this.feature?.name}_${this.testName}_${rand}.webm`;
+      console.log('Renaming video for failed scenario', newVideoPath);
+      await fs.rename(videoPath, newVideoPath);
     }
   } else {
     await this.page?.video()?.delete();

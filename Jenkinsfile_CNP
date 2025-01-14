@@ -95,6 +95,7 @@ withNightlyPipeline(type, product, component) {
   before('fullFunctionalTest') {
     // set the tags to run on the master build
     env.INCLUDE_TAGS = "@smoketest"
+    env.PWVIDEO = 1
   }
 
   afterAlways('fullFunctionalTest') {

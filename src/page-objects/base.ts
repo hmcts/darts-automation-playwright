@@ -24,7 +24,11 @@ export class BasePage {
   }
 
   async clickLabel(text: string) {
-    await this.page.getByLabel(text).click();
+    if (text === 'Assign to me') {
+      await this.page.getByLabel(text).first().click();
+    } else {
+      await this.page.getByLabel(text).click();
+    }
   }
 
   async clickCheckboxInTableRowWith(value1: string, value2: string) {
@@ -44,16 +48,40 @@ export class BasePage {
       .click();
   }
 
+  async hasValueInTableRowWithValue(text: string, value: string) {
+    await expect(
+      this.page
+        .locator('table tbody tr')
+        .filter({ has: this.page.getByText(value, { exact: true }) })
+        .getByRole('cell', { name: text })
+        .filter({ hasNot: this.page.locator('.govuk-checkboxes__item') }),
+    ).toBeVisible();
+  }
+
+  async hasValueInTableRowWithTwoValues(text: string, value1: string, value2: string) {
+    await expect(
+      this.page
+        .locator('table tbody tr')
+        .filter({ has: this.page.getByText(value1, { exact: true }) })
+        .filter({ has: this.page.getByText(value2, { exact: true }) })
+        .getByRole('cell', { name: text })
+        .filter({ hasNot: this.page.locator('.govuk-checkboxes__item') }),
+    ).toBeVisible();
+  }
+
   async hasValueInTableRowWith(text: string, values: string[]) {
-    const locator = this.page.locator('table tbody tr');
-    values.forEach((value) => locator.filter({ hasText: value }));
-    await expect(locator.getByText(text)).toBeVisible();
+    if (values.length === 1) {
+      await this.hasValueInTableRowWithValue(text, values[0]);
+    }
+    if (values.length === 2) {
+      await this.hasValueInTableRowWithTwoValues(text, values[0], values[1]);
+    }
   }
 
   async fillInputField(field: string, value: string) {
     let matching = this.page.getByLabel(field);
     if ((await matching.count()) > 1) {
-      matching = matching.filter({ has: this.page.locator('//*[type="input"]') });
+      matching = matching.filter({ has: this.page.locator(':scope.govuk-input') });
     }
     await matching.fill(value);
   }
@@ -164,6 +192,17 @@ export class BasePage {
       .click();
   }
 
+  async clickTextInSummaryRow(rowHeading: string, textToClick: string) {
+    if (textToClick === 'Change') {
+      textToClick = `${textToClick} ${rowHeading}`;
+    }
+    await this.page
+      .locator('.govuk-summary-list__row')
+      .filter({ hasText: rowHeading })
+      .getByText(textToClick)
+      .click();
+  }
+
   async hasCookieWithKeyValue(cookieName: string, key: string, value: string) {
     const cookies = await this.page.context().cookies();
     const matchingCookie = cookies.find((c) => c.name === cookieName);
@@ -205,6 +244,11 @@ export class BasePage {
           ).toContainText(substituteValue(cellData) as string);
         }
       }
+    }
+  }
+  async verifySelectOptions(select: string, options: string[]) {
+    for (const option of options) {
+      await this.selectOption(option, select);
     }
   }
 }

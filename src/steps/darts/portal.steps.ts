@@ -156,6 +156,16 @@ Then(
   },
 );
 
+Then(
+  'the dropdown {string} contains the options',
+  async function (this: ICustomWorld, dropdown: string, dataTable: DataTable) {
+    const options: string[] = dataTable.rawTable.flat();
+    console.log(dropdown, options);
+    const basePage = new BasePage(this.page!);
+    await basePage.verifySelectOptions(dropdown, options);
+  },
+);
+
 When(
   'I click on the {string} sub-menu link',
   async function (this: ICustomWorld, linkText: string) {
@@ -254,6 +264,17 @@ When(
   },
 );
 
+When(
+  'I click on {string} in summary row for {string}',
+  async function (this: ICustomWorld, textToClick: string, tableRowText: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickTextInSummaryRow(
+      substituteValue(tableRowText) as string,
+      substituteValue(textToClick) as string,
+    );
+  },
+);
+
 When('I check the {string} checkbox', async function (this: ICustomWorld, checkboxLabel: string) {
   const basePage = new BasePage(this.page!);
   await basePage.clickLabel(checkboxLabel);
@@ -295,7 +316,10 @@ Then(
   'I check the checkbox in the same row as {string} {string}',
   async function (this: ICustomWorld, rowValue1: string, rowValue2: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.clickCheckboxInTableRowWith(rowValue1, rowValue2);
+    await basePage.clickCheckboxInTableRowWith(
+      substituteValue(rowValue1) as string,
+      substituteValue(rowValue2) as string,
+    );
   },
 );
 
@@ -303,7 +327,10 @@ Then(
   'I click on {string} in the same row as {string}',
   async function (this: ICustomWorld, clickOn: string, rowValue: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.clickValueInTableRowWith(clickOn, rowValue);
+    await basePage.clickValueInTableRowWith(
+      substituteValue(clickOn) as string,
+      substituteValue(rowValue) as string,
+    );
   },
 );
 
@@ -311,7 +338,10 @@ Then(
   'I see {string} in the same row as {string} {string}',
   async function (this: ICustomWorld, text: string, rowValue1: string, rowValue2: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.hasValueInTableRowWith(substituteValue(text) as string, [rowValue1, rowValue2]);
+    await basePage.hasValueInTableRowWith(substituteValue(text) as string, [
+      substituteValue(rowValue1) as string,
+      substituteValue(rowValue2) as string,
+    ]);
   },
 );
 
@@ -319,6 +349,8 @@ Then(
   'I see {string} in the same row as {string}',
   async function (this: ICustomWorld, text: string, rowValue: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.hasValueInTableRowWith(substituteValue(text) as string, [rowValue]);
+    await basePage.hasValueInTableRowWith(substituteValue(text) as string, [
+      substituteValue(rowValue) as string,
+    ]);
   },
 );

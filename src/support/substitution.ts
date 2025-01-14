@@ -137,7 +137,18 @@ export const substituteValue = (value: string): Date | number | string | boolean
     '{{displayDate0-{{date+99 years}}}}',
     DateTime.now().plus({ years: 99 }).toFormat('d MMM y'),
   );
+  // {{displaydate0-{{date+3285/}}}}
+  value = value.replaceAll(
+    '{{displaydate0-{{date+3285/}}}}',
+    DateTime.now().plus({ days: 3285 }).toFormat('d MMM y'),
+  );
+  // {{displaydate0-{{date+2920/}}}}
+  value = value.replaceAll(
+    '{{displaydate0-{{date+2920/}}}}',
+    DateTime.now().plus({ days: 2920 }).toFormat('d MMM y'),
+  );
   value = value.replaceAll('{{displaydate}}', DateTime.now().toFormat('d MMM y'));
+  value = value.replaceAll('{{displaydate0}}', DateTime.now().toFormat('d MMM y'));
   value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y/MM/dd'));
   value = value.replaceAll('{{timestamp}}', DateTime.now().toISO());
 
