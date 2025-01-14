@@ -924,8 +924,8 @@ __metadata:
   linkType: hard
 
 "@stylistic/eslint-plugin@npm:^2.8.0":
-  version: 2.12.1
-  resolution: "@stylistic/eslint-plugin@npm:2.12.1"
+  version: 2.13.0
+  resolution: "@stylistic/eslint-plugin@npm:2.13.0"
   dependencies:
     "@typescript-eslint/utils": ^8.13.0
     eslint-visitor-keys: ^4.2.0
@@ -934,7 +934,7 @@ __metadata:
     picomatch: ^4.0.2
   peerDependencies:
     eslint: ">=8.40.0"
-  checksum: 15521eac4b67ef1f6a07681b4154650fd4efb56f4d17bb4fb3c8a0c4c351e419210f039cf9239e3c40b7e1723f770e761faad0744bca7a5d17b0e4f4591aad6f
+  checksum: db83e29fb7afba8f192c8751a2f3f358dadf45e787d6cb2cb5103949e9d64ab0c92929162b35a84aa19a2aa3fcfa8c7c2dc25c14739db4549bdd2c363dcc15e1
   languageName: node
   linkType: hard
 
