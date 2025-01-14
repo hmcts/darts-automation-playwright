@@ -15,6 +15,11 @@ Given('I am on the portal page', async function (this: ICustomWorld) {
   await loginPage.goto();
 });
 
+Given('I navigate to the url {string}', async function (urlPath: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.gotoUrlPath(urlPath);
+});
+
 When('I see {string} on the page', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
   await basePage.containsText(substituteValue(text) as string);
