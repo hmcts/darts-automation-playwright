@@ -15,6 +15,10 @@ export class BasePage {
     this.page.goto(config.DARTS_PORTAL + path);
   }
 
+  refreshPage() {
+    this.page.reload();
+  }
+
   async containsText(text: string, visible = true) {
     if (!visible) {
       await expect(this.page.getByText(text).nth(0)).toBeVisible({

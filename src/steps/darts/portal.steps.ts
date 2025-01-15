@@ -4,6 +4,7 @@ import { LoginPage } from '../../page-objects/login';
 import { BasePage, ExternalLoginPage } from '../../page-objects';
 import { DataTable } from '../../support/data-table';
 import { substituteValue } from '../../support/substitution';
+import wait from '../../support/wait';
 
 Given('I am on the landing page', async function (this: ICustomWorld) {
   const loginPage = new LoginPage(this.page!);
@@ -365,5 +366,33 @@ Then(
   async function (this: ICustomWorld, tableHeader: string, sort: 'ascending' | 'descending') {
     const basePage = new BasePage(this.page!);
     await basePage.hasSortedTableHeader(tableHeader, sort);
+  },
+);
+
+Then(
+  'I wait for text {string} on the same row as link {string}',
+  { timeout: 60 * 1000 * 6 }, // 6 minutes
+  async function (waitForText: string, rowValue: string) {
+    // check every 10s for up to 6 minutes
+    await wait(
+      async () => {
+        const basePage = new BasePage(this.page!);
+        try {
+          console.log(`Waiting for text "${waitForText}", on row with value "${rowValue}"`);
+          await basePage.hasValueInTableRowWith(substituteValue(waitForText) as string, [
+            substituteValue(rowValue) as string,
+          ]);
+          console.log('Found');
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          console.log('Not found, reloading page');
+          basePage.refreshPage();
+          return false;
+        }
+      },
+      10000,
+      36,
+    );
   },
 );

@@ -24,6 +24,12 @@ Given(
   },
 );
 
+Given('I use the Audio Request ID', async function (this: ICustomWorld) {
+  const merId = await this.page?.getByText('Your request ID').locator('strong').textContent();
+  console.log('CACHING MER_ID =', merId);
+  cache.put('mer_id', merId);
+});
+
 Then(
   'I find {string} in the xml response at {string}',
   async function (this: ICustomWorld, cacheName: string, expectedPropertyName: string) {
