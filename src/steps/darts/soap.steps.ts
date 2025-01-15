@@ -26,8 +26,9 @@ interface AddCourtLogDataTable {
   courtroom: string;
   case_numbers: string;
   text: string;
-  date: string;
-  time: string;
+  date?: string;
+  time?: string;
+  dateTime?: string;
 }
 
 interface DailyListDataTable {
@@ -216,8 +217,12 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
 
   await Promise.all(
     courtLogData.map(async (courtLog, index) => {
-      const dateObj = DateTime.fromFormat(courtLog.date, 'y-MM-dd');
-      const time = courtLog.time.split(':');
+      const dateObj = courtLog.date
+        ? DateTime.fromFormat(courtLog.date, 'y-MM-dd')
+        : DateTime.fromISO(courtLog.dateTime as string);
+      const time = courtLog.time
+        ? courtLog.time.split(':')
+        : [dateObj.hour.toString(), dateObj.minute.toString(), dateObj.second.toString()];
       const addLogEntry: AddLogEntryObject = {
         log_entry: {
           $Y: dateObj.year.toString(),

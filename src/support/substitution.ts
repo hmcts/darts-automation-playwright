@@ -151,6 +151,7 @@ export const substituteValue = (value: string): Date | number | string | boolean
   value = value.replaceAll('{{displaydate0}}', DateTime.now().toFormat('d MMM y'));
   value = value.replaceAll('{{date+0/}}', DateTime.now().toFormat('y/MM/dd'));
   value = value.replaceAll('{{timestamp}}', DateTime.now().toISO());
+  value = value.replaceAll('{{yyyymmdd hh:mm:ss}}', DateTime.now().toFormat('y-MM-dd HH:mm:ss'));
 
   value = value.replaceAll('{{caseNumber}}', cache.get('caseNumber'));
   value = value.replaceAll('{{cas.cas_id}}', cache.get('cas.cas_id'));
