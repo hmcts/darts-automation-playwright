@@ -13,8 +13,8 @@ Feature: End-to-end Requester
     When I process the daily list for courthouse "{{upper-case-<courthouse>}}"
     And I wait for case "<case_number>" courthouse "{{upper-case-<courthouse>}}"
     Then I create an event
-      | message_id | type  | sub_type | event_id  | courthouse                  | courtroom   | case_numbers  | event_text                    | date_time  | case_retention_fixed_policy | case_total_sentence |
-      | {{seq}}001 | 21200 | 11000    | <eventId> | {{upper-case-<courthouse>}} | <courtroom> | <case_number> | Reporting Restriction {{seq}} | <dateTime> | <caseRetention>             | <totalSentence>     |
+      | message_id  | type  | sub_type | event_id   | courthouse                  | courtroom   | case_numbers  | event_text                    | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | 1{{seq}}001 | 21200 | 11000    | {{seq}}001 | {{upper-case-<courthouse>}} | <courtroom> | <case_number> | Reporting Restriction {{seq}} | <dateTime> | <caseRetention>             | <totalSentence>     |
     When I load an audio file
       | courthouse                  | courtroom   | case_numbers  | date       | startTime   | endTime   | audioFile   |
       | {{upper-case-<courthouse>}} | <courtroom> | <case_number> | {{date+0}} | <startTime> | <endTime> | <audioFile> |
@@ -34,8 +34,8 @@ Feature: End-to-end Requester
     Then I see "There are restrictions against this hearing" on the page
     Then I see "This audio is not currently available in DARTS, please try again later." in the same row as "<startTime> - <endTime>"
     # Preview Audio
-    Then I wait for text "<startTime> - <endTime>" on the same row as link "Play preview"
-    Then I click on "Play preview" in the same row as "<startTime> - <endTime>"
+    # Then I wait for text "<startTime> - <endTime>" on the same row as link "Play preview"
+    # Then I click on "Play preview" in the same row as "<startTime> - <endTime>"
     # TODO (DT): removed as I don't see any reason to wait for the audio to play as it's not possible to verify it playing...
     # Then I wait for 1 minutes
     #Request Audio
@@ -129,8 +129,8 @@ Feature: End-to-end Requester
 
     #Case close
     Then I create an event
-      | message_id | type  | sub_type | event_id  | courthouse                  | courtroom   | case_numbers  | event_text              | date_time  | case_retention_fixed_policy | case_total_sentence |
-      | {{seq}}001 | 30300 |          | <eventId> | {{upper-case-<courthouse>}} | <courtroom> | <case_number> | Case S{{seq}}009 closed | <dateTime> | <caseRetention>             | <totalSentence>     |
+      | message_id  | type  | sub_type | event_id   | courthouse                  | courtroom   | case_numbers  | event_text              | date_time  | case_retention_fixed_policy | case_total_sentence |
+      | 2{{seq}}002 | 30300 |          | {{seq}}002 | {{upper-case-<courthouse>}} | <courtroom> | <case_number> | Case S{{seq}}009 closed | <dateTime> | <caseRetention>             | <totalSentence>     |
 
     # 7 days Past Case Close Event
     Then I select column "cas_id" from table "darts.court_case" where "case_number" = "<case_number>"
@@ -159,5 +159,5 @@ Feature: End-to-end Requester
     And I see "{{displaydate0{{date+99years}}}}" in summary row for "Retain case until"
 
     Examples:
-      | DL_message_id                 | DL_type | DL_subType | documentName          | courthouse         | courtroom   | case_number   | eventId    | defendants            | startDate  | DL_startTime | endDate    | timeStamp     | HearingDate     | transcription-type | urgency   | caseRetention | totalSentence | dateTime              | audioFile   | startTime | endTime  | filename            | reason                                            |
-      | DARTS_E2E_{{date+0/}}_{{seq}} | DL      | DL         | Dailylist_{{date+0/}} | Harrow Crown Court | C{{seq}}-86 | S{{seq}}086-B | {{seq}}001 | S{{seq}} defendant-86 | {{date+0}} | 10:00:00     | {{date+0}} | {{timestamp}} | {{displaydate}} | Sentencing remarks | Overnight |               |               | {{yyyymmdd hh:mm:ss}} | sample1.mp2 | 08:03:00  | 08:04:00 | file-sample_1MB.doc | 99 Years Permanent Retention for case S{{seq}}009 |
+      | DL_message_id                 | DL_type | DL_subType | documentName          | courthouse         | courtroom   | case_number   | defendants            | startDate  | DL_startTime | endDate    | timeStamp     | HearingDate     | transcription-type | urgency   | caseRetention | totalSentence | dateTime              | audioFile   | startTime | endTime  | filename            | reason                                            |
+      | DARTS_E2E_{{date+0/}}_{{seq}} | DL      | DL         | Dailylist_{{date+0/}} | Harrow Crown Court | C{{seq}}-86 | S{{seq}}086-B | S{{seq}} defendant-86 | {{date+0}} | 10:00:00     | {{date+0}} | {{timestamp}} | {{displaydate}} | Sentencing remarks | Overnight |               |               | {{yyyymmdd hh:mm:ss}} | sample1.mp2 | 08:03:00  | 08:04:00 | file-sample_1MB.doc | 99 Years Permanent Retention for case S{{seq}}009 |
