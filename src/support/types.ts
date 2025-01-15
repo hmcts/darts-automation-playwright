@@ -16,3 +16,9 @@ export interface AddCaseDataTable {
   prosecutors: string;
   defenders: string;
 }
+
+export interface GetCasesDataTable {
+  courthouse: string;
+  courtroom: string;
+  date: string;
+}

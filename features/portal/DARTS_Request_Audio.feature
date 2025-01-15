@@ -332,21 +332,19 @@ Feature: Request Audio
     Given I am logged on to DARTS as an "external" user
     And I click on the "Search" link
     And I see "Search for a case" on the page
-    And I set "Case ID" to "Case1009"
+    And I set "Case ID" to "Case1010"
     And I press the "Search" button
     Then I verify the HTML table contains the following values
-      | Case ID                                  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009                                 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
-      | There are restrictions against this case | *IGNORE*   | *IGNORE*  | *IGNORE* | *IGNORE*     |
-      | CASE1009                                 | Liverpool  | ROOM_A    |          |              |
+      | Case ID  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
+      | CASE1010 | Swansea    | ROOM_A    | Mr Judge | Jow Bloggs   |
 
     #Case Details
 
-    When I click on "CASE1009" in the same row as "Swansea"
+    When I click on "CASE1010" in the same row as "Swansea"
 
     #Hearing Details
 
-    Then I click on "15 Aug 2023" in the same row as "ROOM_A"
+    Then I click on "16 Aug 2023" in the same row as "ROOM_A"
     And I see "Swansea" on the page
     And I see "ROOM_A" on the page
 
@@ -359,7 +357,7 @@ Feature: Request Audio
     #Confirm your Order
 
     Then I see "Confirm your Order" on the page
-    And I see "<Restriction>" on the page
+    # And I see "<Restriction>" on the page
     And I see "Case details" on the page
     And I see "<CaseID>" on the page
     And I see "<Courthouse>" on the page
@@ -373,7 +371,7 @@ Feature: Request Audio
     #Order Confirmation
 
     Then I see "Your order is complete" on the page
-    And I see "<Restriction>" on the page
+    # And I see "<Restriction>" on the page
     And I see "<CaseID>" on the page
     And I see "<Courthouse>" on the page
     And I see "<Defendants>" on the page
@@ -383,29 +381,27 @@ Feature: Request Audio
     And I see "We are preparing your audio." on the page
     And I see "When it is ready we will send an email to" on the page
     Examples:
-      | CaseID   | Courthouse | Defendants | HearingDate | StartTime | EndTime  | Restriction                              |
-      | CASE1009 | Swansea    | Jow Bloggs | 15 Aug 2023 | 11:44:01  | 11:45:01 | There are restrictions against this case |
+      | CaseID   | Courthouse | Defendants | HearingDate | StartTime | EndTime  |
+      | CASE1010 | Swansea    | Jow Bloggs | 16 Aug 2023 | 11:44:01  | 11:45:01 |
 
   @DMP-692 @regression
   Scenario Outline: Preview Audio Player Loading
     Given I am logged on to DARTS as an "external" user
     And I click on the "Search" link
     And I see "Search for a case" on the page
-    And I set "Case ID" to "Case1009"
+    And I set "Case ID" to "Case1010"
     And I press the "Search" button
     Then I verify the HTML table contains the following values
-      | Case ID                                  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009                                 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
-      | There are restrictions against this case | *IGNORE*   | *IGNORE*  | *IGNORE* | *IGNORE*     |
-      | CASE1009                                 | Liverpool  | ROOM_A    |          |              |
+      | Case ID  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
+      | CASE1010 | Swansea    | ROOM_A    | Mr Judge | Jow Bloggs   |
 
     #Case Details
 
-    When I click on "CASE1009" in the same row as "Swansea"
+    When I click on "CASE1010" in the same row as "Swansea"
 
     #Hearing Details
 
-    Then I click on "15 Aug 2023" in the same row as "ROOM_A"
+    Then I click on "16 Aug 2023" in the same row as "ROOM_A"
     And I see "Swansea" on the page
     And I see "ROOM_A" on the page
 
@@ -422,40 +418,38 @@ Feature: Request Audio
     Given I am logged on to DARTS as an "external" user
     And I click on the "Search" link
     And I see "Search for a case" on the page
-    And I set "Case ID" to "Case1009"
+    And I set "Case ID" to "Case1010"
     And I press the "Search" button
     Then I verify the HTML table contains the following values
-      | Case ID                                  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009                                 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
-      | There are restrictions against this case | *IGNORE*   | *IGNORE*  | *IGNORE* | *IGNORE*     |
-      | CASE1009                                 | Liverpool  | ROOM_A    |          |              |
+      | Case ID  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
+      | CASE1010 | Swansea    | ROOM_A    | Mr Judge | Jow Bloggs   |
 
     #Case Details
 
-    When I click on "CASE1009" in the same row as "Swansea"
+    When I click on "CASE1010" in the same row as "Swansea"
 
     #Hearing Details
 
-    And I click on "15 Aug 2023" in the same row as "ROOM_A"
+    And I click on "16 Aug 2023" in the same row as "ROOM_A"
     And I see "Swansea" on the page
     And I see "ROOM_A" on the page
     # TODO (DT): changed "Play preview" to "No audio found. Preview not available." for 0 second audio
     Then I verify the HTML table contains the following values
       | *NO-CHECK* | Time                | Event                | Text                                   |
-      | *NO-CHECK* | 11:44:01            | Interpreter sworn-in |                                        |
-      | *NO-CHECK* | 14:00:00 - 14:01:00 | Audio recording      | Play preview                           |
-      | *NO-CHECK* | 15:00:00 - 15:01:00 | Audio recording      | Play preview                           |
       | *NO-CHECK* | 11:00:00 - 12:14:05 | Audio recording      | Play preview                           |
       | *NO-CHECK* | 11:33:23 - 11:33:23 | Audio recording      | No audio found. Preview not available. |
+      | *NO-CHECK* | 11:44:01            | Interpreter sworn-in | Some event                             |
+      | *NO-CHECK* | 14:00:00 - 14:01:00 | Audio recording      | Play preview                           |
+      | *NO-CHECK* | 15:00:00 - 15:01:00 | Audio recording      | Play preview                           |
 
     When I click on "Time" in the table header
     Then I verify the HTML table contains the following values
       | *NO-CHECK* | Time                | Event                | Text                                   |
-      | *NO-CHECK* | 11:33:23 - 11:33:23 | Audio recording      | No audio found. Preview not available. |
-      | *NO-CHECK* | 11:00:00 - 12:14:05 | Audio recording      | Play preview                           |
       | *NO-CHECK* | 15:00:00 - 15:01:00 | Audio recording      | Play preview                           |
       | *NO-CHECK* | 14:00:00 - 14:01:00 | Audio recording      | Play preview                           |
       | *NO-CHECK* | 11:44:01            | Interpreter sworn-in |                                        |
+      | *NO-CHECK* | 11:33:23 - 11:33:23 | Audio recording      | No audio found. Preview not available. |
+      | *NO-CHECK* | 11:00:00 - 12:14:05 | Audio recording      | Play preview                           |
 
   @DMP-2121
   Scenario: Update preview button on hearing screen

@@ -84,10 +84,15 @@ export default class DartsApiService {
     cache.put(API_RESPONSE_CACHE_KEY, JSON.stringify(response.text));
   }
 
-  public static async sendApiGetRequest(path: string): Promise<void> {
-    // console.log('Performing DARTS API GET request', path);
+  public static async sendApiGetRequest(
+    path: string,
+    queryParams?: { [key: string]: string },
+  ): Promise<void> {
+    await this.authenticate();
+    const pathWithQs = queryParams ? `${path}?${querystring.stringify(queryParams)}` : path;
+    // console.log('Performing DARTS API GET request', pathWithQs);
     const response = await this.apiRequest
-      .get(path)
+      .get(pathWithQs)
       .set('Authorization', `Bearer ${cache.get(ACCESS_TOKEN_CACHE_KEY)}`)
       .send();
     // console.log('DARTS API GET response', response.status, response.text);

@@ -1,7 +1,7 @@
 import { ICustomWorld } from '../../support/custom-world';
 import { Given, Then, When } from '@cucumber/cucumber';
-import { DataTable, dataTableToObjectArray } from '../../support/data-table';
-import { AddCaseDataTable } from '../../support/types';
+import { DataTable, dataTableToObject, dataTableToObjectArray } from '../../support/data-table';
+import { AddCaseDataTable, GetCasesDataTable } from '../../support/types';
 import DartsApiService from '../../support/darts-api-service';
 import { expect } from '@playwright/test';
 import { substituteValue } from '../../support/substitution';
@@ -37,6 +37,16 @@ When('I call GET {string} API', async function (this: ICustomWorld, endpoint: st
   await DartsApiService.sendApiGetRequest(substituteValue(endpoint) as string);
 });
 
+Then(
+  'I call GET {string} API with query params:',
+  async function (this: ICustomWorld, endpoint: string, dataTable: DataTable) {
+    const getCasesData = dataTableToObject<GetCasesDataTable>(dataTable) as unknown as {
+      [key: string]: string;
+    };
+    await DartsApiService.sendApiGetRequest(substituteValue(endpoint) as string, getCasesData);
+  },
+);
+
 Then('the DARTS API status code is {int}', function (this: ICustomWorld, statusCode: number) {
   expect(DartsApiService.getResponseStatus()).toBe(statusCode);
 });
@@ -45,3 +55,11 @@ Then('the API response contains:', function (this: ICustomWorld, expectedRespons
   const response = JSON.parse(DartsApiService.getResponse());
   expect(response).toEqual(JSON.parse(expectedResponse));
 });
+
+Then(
+  'the API response contains in array:',
+  function (this: ICustomWorld, expectedResponse: string) {
+    const response = JSON.parse(DartsApiService.getResponse());
+    expect(response).toEqual(expect.arrayContaining([JSON.parse(expectedResponse)]));
+  },
+);
