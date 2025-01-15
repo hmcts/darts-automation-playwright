@@ -122,6 +122,10 @@ export const substituteValue = (value: string): Date | number | string | boolean
     '{{displayDate0-{{date+7 years}}}}',
     DateTime.now().plus({ years: 7 }).toFormat('d MMM y'),
   );
+  value = value.replaceAll(
+    '{{yyyymmdd-{{date+7 years}}}}',
+    DateTime.now().plus({ years: 7 }).toFormat('dd/MM/y'),
+  );
   // {{displayDate0-{{date+8 years}}}}
   value = value.replaceAll(
     '{{displayDate0-{{date+8 years}}}}',

@@ -388,7 +388,7 @@ Feature: Super User Permission
     And I see "A{{seq}}001" on the page
     And I see "Current retention details" on the page
     And I see "A retention policy has yet to be applied to this case." on the page
-    Then I verify the HTML table "Retention audit history" contains the following values
+    Then I verify the HTML table "retentionTable" contains the following values
       | Date retention changed | Retention date | Amended by | Retention policy | Comments | Status  |
       | *NO-CHECK*             | *NO-CHECK*     | *NO-CHECK* | Default          |          | PENDING |
 
@@ -400,7 +400,7 @@ Feature: Super User Permission
     And I click on the "<case_number>" link
     And I click on the "View or change" link
     And I see "Change retention date" on the page
-    Then I verify the HTML table "Retention audit history" contains the following values
+    Then I verify the HTML table "retentionTable" contains the following values
       | Date retention changed | Retention date | Amended by | Retention policy | Comments | Status   |
       | *NO-CHECK*             | *NO-CHECK*     | *NO-CHECK* | Default          |          | COMPLETE |
 
@@ -420,7 +420,7 @@ Feature: Super User Permission
     When I press the "Confirm retention date change" button
     Then I see "Case retention date changed." on the page
     And I see "{{displaydate}}" in the same row as "Date applied"
-    Then I verify the HTML table "Retention audit history" contains the following values
+    Then I verify the HTML table "retentionTable" contains the following values
       | Date retention changed | Retention date | Amended by     | Retention policy | Comments                                            | Status   |
       | *NO-CHECK*             | *NO-CHECK*     | *NO-CHECK*     | Default          |                                                     | COMPLETE |
       | *NO-CHECK*             | *NO-CHECK*     | DartsSuperUser | Manual           | This is my reason for increasing the retention date | COMPLETE |
@@ -441,7 +441,7 @@ Feature: Super User Permission
     When I press the "Confirm retention date change" button
     Then I see "Case retention date changed." on the page
     And I see "{{displaydate}}" in the same row as "Date applied"
-    Then I verify the HTML table "Retention audit history" contains the following values
+    Then I verify the HTML table "retentionTable" contains the following values
       | Date retention changed | Retention date | Amended by     | Retention policy | Comments                                            | Status   |
       | *NO-CHECK*             | *NO-CHECK*     | *NO-CHECK*     | Default          |                                                     | COMPLETE |
       | *NO-CHECK*             | *NO-CHECK*     | DartsSuperUser | Manual           | This is my reason for increasing the retention date | COMPLETE |

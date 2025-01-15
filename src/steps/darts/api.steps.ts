@@ -6,6 +6,7 @@ import { DataTable, dataTableToObjectArray } from '../../support/data-table';
 import DartsTestHarness from '../../support/darts-test-harness';
 import { config } from '../../support/config';
 import { AddAudioRequest } from '../../support/types';
+import { substituteValue } from '../../support/substitution';
 
 When(
   'I process the daily list for courthouse {string}',
@@ -15,7 +16,7 @@ When(
         await DartsApiService.sendApiPostRequest(
           '/dailylists/run',
           undefined,
-          { listing_courthouse: courthouse },
+          { listing_courthouse: substituteValue(courthouse) as string },
           202,
         );
         return true;
