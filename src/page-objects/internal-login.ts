@@ -1,5 +1,6 @@
 import { DartsUserCredential } from '../support/credentials';
 import { BasePage } from '.';
+import { expect } from '@playwright/test';
 
 export class InternalLoginPage extends BasePage {
   async login(userCredentials: DartsUserCredential): Promise<void> {
@@ -30,6 +31,13 @@ export class InternalLoginPage extends BasePage {
       await this.clickButton('No');
     } else {
       console.log('stay signed is NOT visible');
+    }
+    try {
+      await expect(this.page.getByText('Search for a case')).toBeVisible({ timeout: 15000 });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      await this.clickButton('No');
+      await expect(this.page.getByText('Search for a case')).toBeVisible({ timeout: 10000 });
     }
   }
 

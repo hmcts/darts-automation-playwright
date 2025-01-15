@@ -10,6 +10,13 @@ export class ExternalLoginPage extends BasePage {
     await this.fillInputField('Enter your email', userCredentials.username);
     await this.fillInputField('Enter your password', userCredentials.password);
     await this.clickButton('Continue');
+    try {
+      await expect(this.page.getByText('Search for a case')).toBeVisible({ timeout: 15000 });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      await this.clickButton('Continue');
+      await expect(this.page.getByText('Search for a case')).toBeVisible({ timeout: 10000 });
+    }
   }
 
   async clickButton(text: string) {
