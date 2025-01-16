@@ -1,7 +1,7 @@
 Feature: User as a Judge
 
   # TODO (DT): added @review because the following scenario has it, meaning there's no point running this one.
-  @DMP-1033 @DMP-1618 @regression @review
+  @DMP-1033 @DMP-1618 @regression
   Scenario: Judge data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors           | defenders           |
@@ -14,12 +14,12 @@ Feature: User as a Judge
       | {{seq}}001 | 1200 |          | {{seq}}025 | HARROW CROWN COURT | {{seq}}-16 | E{{seq}}001  | {{seq}}DEF-16 | {{timestamp-10:01:00}} |                             |                     |
 
     When I load an audio file
-      | courthouse         | courtroom  | case_numbers | date        | startTime | endTime  | audioFile   |
-      | HARROW CROWN COURT | {{seq}}-16 | E{{seq}}001  | {{date+0/}} | 10:00:00  | 10:01:00 | sample1.mp2 |
+      | courthouse         | courtroom  | case_numbers | date       | startTime | endTime  | audioFile   |
+      | HARROW CROWN COURT | {{seq}}-16 | E{{seq}}001  | {{date+0}} | 10:00:00  | 10:01:00 | sample1.mp2 |
 
   @DMP-1033 @DMP-1618 @regression @review
   Scenario: Judge requesting and viewing transcripts
-    Given I am logged on to DARTS as an JUDGE user
+    Given I am logged on to DARTS as a "JUDGE" user
     And I click on the "Search" link
     And I see "Search for a case" on the page
     And I set "Case ID" to "E{{seq}}001"
@@ -44,17 +44,19 @@ Feature: User as a Judge
     And I set the time fields below "End time" to "10:01:00"
     And I press the "Continue" button
     Then I see "Check and confirm your transcript request" on the page
-    And I see "E{{seq}}001" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "DefE {{seq}}-16" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Court Log" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
+    And I see "E{{seq}}001" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "DefE {{seq}}-16" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Court Log" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
 
     When I set "Comments to the Transcriber (optional)" to "Requesting transcript Court Log for one minute of audio to test judge transcript request."
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    # TODO (DT): caching the transcript request ID for use later when viewing as transcriber
+    And I use transcript request ID
 
     When I click on the "Return to hearing date" link
     Then I see "Transcripts for this hearing" on the page
@@ -67,20 +69,20 @@ Feature: User as a Judge
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as an APPROVER user
+    And I am logged on to DARTS as a "APPROVER" user
     And I click on the "Your transcripts" link
-    And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "View" in the same row as "E{{seq}}001"
     Then I see "Approve transcript request" on the page
-    And I see "E{{seq}}001" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeE {{seq}}-16}}" in the same row as "Judge(s)"
-    And I see "DefE {{seq}}-16" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Court Log" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
-    And I see "Requesting transcript Court Log for one minute of audio to test judge transcript request." in the same row as "Instructions"
-    And I see "Yes" in the same row as "Judge approval"
+    And I see "E{{seq}}001" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeE {{seq}}-16}}" in summary row for "Judge(s)"
+    And I see "DefE {{seq}}-16" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Court Log" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
+    And I see "Requesting transcript Court Log for one minute of audio to test judge transcript request." in summary row for "Instructions"
+    And I see "Yes" in summary row for "Judge approval"
 
     When I select the "Yes" radio button
     And I press the "Submit" button
@@ -91,20 +93,23 @@ Feature: User as a Judge
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as a TRANSCRIBER user
-    And I click on the "Transcript requests" link
-    And I see "Manual" in the same row as "E{{seq}}001"
-    And I click on "View" in the same row as "E{{seq}}001"
+    And I am logged on to DARTS as a "TRANSCRIBER" user
+
+    # TODO (DT): transcript requests is now ordered by case ID by default and only shows 500 results
+    And I navigate to the url "/transcription-requests/{{tra_id}}"
+    # And I click on the "Transcript requests" link
+    # And I see "Manual" in the same row as "E{{seq}}001"
+    # And I click on "View" in the same row as "E{{seq}}001"
     Then I see "Transcript request" on the page
-    And I see "E{{seq}}001" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeE {{seq}}-16}}" in the same row as "Judge(s)"
-    And I see "DefE {{seq}}-16" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Court Log" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
-    And I see "Requesting transcript Court Log for one minute of audio to test judge transcript request." in the same row as "Instructions"
-    And I see "Yes" in the same row as "Judge approval"
+    And I see "E{{seq}}001" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeE {{seq}}-16}}" in summary row for "Judge(s)"
+    And I see "DefE {{seq}}-16" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Court Log" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
+    And I see "Requesting transcript Court Log for one minute of audio to test judge transcript request." in summary row for "Instructions"
+    And I see "Yes" in summary row for "Judge approval"
 
     When I select the "Assign to me" radio button
     And I press the "Continue" button
@@ -115,13 +120,13 @@ Feature: User as a Judge
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as an JUDGE user
+    And I am logged on to DARTS as a "JUDGE" user
     And I click on the "Your transcripts" link
     Then I see "E{{seq}}001" in the same row as "With Transcriber"
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as a TRANSCRIBER user
+    And I am logged on to DARTS as a "TRANSCRIBER" user
     And I click on the "Your work" link
     And I click on "View" in the same row as "E{{seq}}001"
     And I see "Requesting transcript Court Log for one minute of audio to test judge transcript request." in the same row as "Instructions"
@@ -135,7 +140,7 @@ Feature: User as a Judge
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as an JUDGE user
+    And I am logged on to DARTS as a "JUDGE" user
     #DMP-1618-AC1 Judge view transcript screen and view request that was completed (complete)
     And I click on the "Your transcripts" link
     Then I see "E{{seq}}001" in the same row as "Complete"

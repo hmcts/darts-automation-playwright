@@ -63,3 +63,28 @@ Then(
     expect(response).toEqual(expect.arrayContaining([JSON.parse(expectedResponse)]));
   },
 );
+
+When('I get audios for hearing {string}', async function (hearingId: string) {
+  await DartsApiService.sendApiGetRequest(`/audio/hearings/${substituteValue(hearingId)}/audios`);
+});
+
+Then(
+  'I see {string} in the json response is {string}',
+  async function (this: ICustomWorld, responseKey: string, expectedValue: string) {
+    const response: Record<typeof responseKey, string | number | boolean>[] = JSON.parse(
+      DartsApiService.getResponse(),
+    );
+    const found = response.find(
+      (i) => i[responseKey].toString() === substituteValue(expectedValue),
+    );
+    console.log('found', found);
+    expect(found).toBeDefined();
+  },
+);
+
+Then('I see that the json response is empty', async function (this: ICustomWorld) {
+  const response: Record<string, string | number | boolean>[] = JSON.parse(
+    DartsApiService.getResponse(),
+  );
+  expect(response).toHaveLength(0);
+});
