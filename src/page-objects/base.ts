@@ -51,6 +51,14 @@ export class BasePage {
       .click();
   }
 
+  async clickCheckboxInTableRowWithOneValue(value1: string) {
+    await this.page
+      .locator('table tbody tr')
+      .filter({ hasText: value1 })
+      .locator('.govuk-checkboxes__input')
+      .click();
+  }
+
   async clickValueInTableRowWith(clickOn: string, value: string) {
     await this.page
       .locator('table tbody tr')
@@ -64,7 +72,7 @@ export class BasePage {
       this.page
         .locator('table tbody tr')
         .filter({ has: this.page.getByText(value, { exact: true }) })
-        .getByRole('cell', { name: text })
+        .getByRole('cell', { name: text, exact: true })
         .filter({ hasNot: this.page.locator('.govuk-checkboxes__item') }),
     ).toBeVisible();
   }
@@ -109,14 +117,19 @@ export class BasePage {
     await this.page.getByRole('button', { name: new RegExp(`^${text}`) }).click();
   }
 
-  async clickLink(text: string) {
+  async clickLink(text: string, exactMatch: boolean = false) {
     const summaryDetailsLinks = ['Hide restrictions', 'Show restrictions', 'Advanced search'];
     if (summaryDetailsLinks.includes(text)) {
       await this.page.getByText(text).click();
     } else {
       // some links have counts after then, such as "Your audio 21"
       // allow leading 0s in the case of display dates
-      await this.page.getByRole('link', { name: new RegExp(`^0?${text}`) }).click();
+      await this.page
+        .getByRole('link', {
+          name: exactMatch ? text : new RegExp(`^0?${text}`),
+          exact: exactMatch,
+        })
+        .click();
     }
   }
 
@@ -150,6 +163,10 @@ export class BasePage {
     await this.page.getByLabel(dropdown).selectOption(option);
   }
 
+  async selectOptionFromOnlyDropdown(option: string) {
+    await this.page.locator('select').selectOption(option);
+  }
+
   async hasSubNavigationLink(text: string, visible: boolean) {
     const nav = this.page.locator('.moj-sub-navigation');
     await expect(nav.getByRole('link', { name: text }).nth(0)).toBeVisible({ visible });
@@ -158,6 +175,10 @@ export class BasePage {
   async clickSubNavigationLink(text: string) {
     const nav = this.page.locator('.moj-sub-navigation');
     await nav.getByRole('link', { name: text }).nth(0).click();
+  }
+
+  async hasButton(text: string) {
+    await expect(this.page.getByRole('button', { name: text })).toBeVisible();
   }
 
   async clickTableHeader(tableHeader: string) {
@@ -202,6 +223,17 @@ export class BasePage {
         .filter({ hasText: rowHeading })
         .locator('.govuk-summary-list__value'),
     ).toHaveText(new RegExp(`^\\s?0?${expectedValue}\\s?`)); // optional leading/trailing whitespace, optional leading 0
+  }
+
+  async hasSummaryRowContaining(rowHeading: string, expectedValue: string) {
+    expectedValue = expectedValue.replaceAll('(', '\\(');
+    expectedValue = expectedValue.replaceAll(')', '\\)');
+    await expect(
+      this.page
+        .locator('.govuk-summary-list__row')
+        .filter({ hasText: rowHeading })
+        .locator('.govuk-summary-list__value'),
+    ).toContainText(expectedValue);
   }
 
   async hasTableRow(tableRowText: string, expectedValue: string) {
@@ -304,5 +336,11 @@ export class BasePage {
     const filename = cache.get('download_filename');
     if (!filename) throw new Error('No cached value found for "download_filename"');
     expect(filename).toContain(expectedFilename);
+  }
+
+  async hasSearchResultCountGreaterThan(count: number) {
+    const content = await this.page!.locator('#search-results .govuk-table__caption').textContent();
+    const resultCount = parseInt(content?.trim().split(' ')[0] as string, 10);
+    expect(resultCount).toBeGreaterThanOrEqual(count);
   }
 }

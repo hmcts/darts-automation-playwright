@@ -26,6 +26,11 @@ When('I see {string} on the page', async function (this: ICustomWorld, text: str
   await basePage.containsText(substituteValue(text) as string);
 });
 
+When('I see heading {string}', async function (this: ICustomWorld, text: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.hasHeader(substituteValue(text) as string);
+});
+
 Then('I do not see {string} on the page', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
   await basePage.containsText(text, false);
@@ -52,6 +57,12 @@ When('I press the {string} button', async function (this: ICustomWorld, text: st
   } else {
     await basePage.clickButton(substituteValue(text) as string);
   }
+});
+
+When('I press the {string} button and pause', async function (this: ICustomWorld, text: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.clickButton(substituteValue(text) as string);
+  await this.page!.waitForTimeout(500);
 });
 
 When(
@@ -84,6 +95,11 @@ When(
 When('I click on the {string} link', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
   await basePage.clickLink(substituteValue(text) as string);
+});
+
+When('I click on the {string} link exact', async function (this: ICustomWorld, text: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.clickLink(substituteValue(text) as string, true);
 });
 
 When('I click on the {string} button', async function (this: ICustomWorld, text: string) {
@@ -243,6 +259,11 @@ When(
   },
 );
 
+Then('I select {string} from the dropdown', async function (this: ICustomWorld, option: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.selectOptionFromOnlyDropdown(option);
+});
+
 When(
   'I set the time fields below {string} to {string}',
   async function (this: ICustomWorld, label: string, timeString: string) {
@@ -266,6 +287,22 @@ Then(
     await basePage.hasSummaryRow(summaryRowHeading, substituteValue(expectedText) as string);
   },
 );
+
+Then(
+  'I see {string} as one of many in summary row for {string}',
+  async function (this: ICustomWorld, expectedText: string, summaryRowHeading: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.hasSummaryRowContaining(
+      summaryRowHeading,
+      substituteValue(expectedText) as string,
+    );
+  },
+);
+
+Then('I see the {string} button', async function (this: ICustomWorld, text: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.hasButton(text);
+});
 
 Then(
   'I see {string} in the same table row as {string}',
@@ -331,7 +368,7 @@ Given(
 
 When('{string} is {string}', async function (this: ICustomWorld, field: string, value: string) {
   const basePage = new BasePage(this.page!);
-  await basePage.inputHasValue(field, value);
+  await basePage.inputHasValue(field, substituteValue(value) as string);
 });
 
 Then(
@@ -388,7 +425,7 @@ Then(
 Then(
   'I wait for text {string} on the same row as link {string}',
   { timeout: 60 * 1000 * 6 }, // 6 minutes
-  async function (waitForText: string, rowValue: string) {
+  async function (this: ICustomWorld, waitForText: string, rowValue: string) {
     // check every 10s for up to 6 minutes
     await wait(
       async () => {
@@ -412,3 +449,44 @@ Then(
     );
   },
 );
+
+Given(
+  'I add user {string} to group {string}',
+  async function (this: ICustomWorld, username: string, group: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickLink('Users');
+    await basePage.fillInputField('Full name', username);
+    await basePage.clickButton('Search');
+
+    await basePage.clickValueInTableRowWith(
+      substituteValue('View') as string,
+      substituteValue(username) as string,
+    );
+
+    await basePage.hasHeader(username);
+    await basePage.clickLink('User Groups');
+
+    try {
+      await basePage.hasLink(group);
+      console.log(`User ${username} already in group ${group}`);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      // group not found, add assign user to group
+      await basePage.clickButton('Assign groups');
+      await basePage.containsText('Assign groups');
+
+      await basePage.fillInputField('Filter by group name', group);
+      await basePage.clickCheckboxInTableRowWithOneValue(group);
+      await basePage.clickButton('Assign groups');
+      await basePage.hasHeader(username);
+      await basePage.hasLink(group);
+      console.log(`User ${username} assigned to group ${group}`);
+    }
+  },
+);
+
+Then('I see at least {int} search results', async function (count: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.containsText('result');
+  await basePage.hasSearchResultCountGreaterThan(parseInt(count, 10));
+});
