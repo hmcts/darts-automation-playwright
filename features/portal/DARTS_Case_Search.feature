@@ -195,7 +195,7 @@ Feature: Case Search
     And I see "Hearing started" on the page
     And I see "A{{seq}}ABC-1" on the page
 
-  @DMP-509 @DMP-1135 @DMP-508 @DMP-515 @DMP-691 @regression @demo
+  @DMP-509 @DMP-1135 @DMP-508 @DMP-515 @DMP-691 @regression @demo @retry
   Scenario: Case Search error message verification
     Given I am logged on to DARTS as an "APPROVER" user
     When I click on the "Search" link

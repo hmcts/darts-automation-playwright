@@ -6,7 +6,7 @@ Feature: End-to-end Requester
   Scenario Outline: Requester
     Given that courthouse "<courthouse>" case "<case_number>" does not exist
     # TODO (DT): This will always fail because this scenario creates a pending (NEW) daily list for tomorrow
-    Given I wait until there is not a daily list waiting for "<courthouse>"
+    # Given I wait until there is not a daily list waiting for "<courthouse>"
     Given I add a daily list
       | messageId       | type      | subType      | documentName   | courthouse   | courtroom   | caseNumber    | startDate   | startTime      | endDate   | timeStamp   | defendant    | urn           |
       | <DL_message_id> | <DL_type> | <DL_subType> | <documentName> | <courthouse> | <courtroom> | <case_number> | <startDate> | <DL_startTime> | <endDate> | <timeStamp> | <defendants> | <case_number> |

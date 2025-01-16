@@ -55,6 +55,22 @@ When('I press the {string} button', async function (this: ICustomWorld, text: st
 });
 
 When(
+  'I press the {string} button to download the file',
+  async function (this: ICustomWorld, text: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.downloadFileUsingButton(substituteValue(text) as string);
+  },
+);
+
+Then(
+  'I verify the download file matches {string}',
+  async function (this: ICustomWorld, expectedFilename: string) {
+    const basePage = new BasePage(this.page!);
+    basePage.verifyDownloadFilename(substituteValue(expectedFilename) as string);
+  },
+);
+
+When(
   'I press the {string} button on my browser',
   async function (this: ICustomWorld, text: string) {
     if (text === 'back') {

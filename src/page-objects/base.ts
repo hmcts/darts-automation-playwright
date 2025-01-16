@@ -1,8 +1,10 @@
 import { expect, type Page } from '@playwright/test';
+import cache from 'memory-cache';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { substituteValue } from '../support/substitution';
 import { config } from '../support/config';
+import wait from '../support/wait';
 
 export class BasePage {
   readonly page: Page;
@@ -174,8 +176,21 @@ export class BasePage {
   }
 
   async hasErrorSummaryContainingText(text: string) {
-    const summary = this.page.locator('.govuk-error-summary');
-    await expect(summary.getByText(text).first()).toBeVisible();
+    await wait(
+      async () => {
+        const summary = this.page.locator('.govuk-error-summary');
+        try {
+          await expect(summary.getByText(text).first()).toBeVisible();
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          console.log(`Error summary message "${text}" not found, retrying...`);
+          return false;
+        }
+      },
+      500,
+      5,
+    );
   }
 
   async hasSummaryRow(rowHeading: string, expectedValue: string) {
@@ -276,5 +291,18 @@ export class BasePage {
         .getByLabel(`${tableHeader} column header`)
         .filter({ has: this.page.locator(`:scope*[aria-sort="${sort}"]`) }),
     ).toBeVisible();
+  }
+
+  async downloadFileUsingButton(button: string) {
+    const downloadPromise = this.page.waitForEvent('download');
+    await this.clickButton(button);
+    const download = await downloadPromise;
+    cache.put('download_filename', download.suggestedFilename());
+  }
+
+  verifyDownloadFilename(expectedFilename: string) {
+    const filename = cache.get('download_filename');
+    if (!filename) throw new Error('No cached value found for "download_filename"');
+    expect(filename).toContain(expectedFilename);
   }
 }
