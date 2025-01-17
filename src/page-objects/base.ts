@@ -287,12 +287,23 @@ export class BasePage {
     await fileChooser.setFiles(path.join(path.dirname(__filename), '../testdata/', fileName));
   }
 
-  async verifyHtmlTable(tableLocator: string, headings: string[], tableData: string[][]) {
+  async verifyHtmlTable(
+    tableLocator: string,
+    headings: string[],
+    tableData: string[][],
+    exactMatchHeaders: boolean = false,
+  ) {
     const tableHeaders = this.page.locator(`${tableLocator} thead tr th`);
 
     for (const header of headings) {
-      if (header !== '*NO-CHECK*') {
-        await expect(tableHeaders.filter({ hasText: header }).nth(0)).toHaveText(header);
+      if (header !== '*NO-CHECK*' && header !== '*SKIP*') {
+        if (exactMatchHeaders) {
+          await expect(
+            this.page.getByLabel(`${header} column header`, { exact: true }),
+          ).toBeVisible();
+        } else {
+          await expect(tableHeaders.filter({ hasText: header }).nth(0)).toHaveText(header);
+        }
       }
     }
 
@@ -301,7 +312,7 @@ export class BasePage {
       const tableRow = this.page.locator('.govuk-table tbody tr').nth(index);
       index++;
       for (const cellData of rowData) {
-        if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*') {
+        if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
           await expect(
             tableRow.filter({
               has: this.page.getByRole('cell', { name: substituteValue(cellData) as string }),
@@ -311,6 +322,27 @@ export class BasePage {
       }
     }
   }
+
+  async verifyHtmlTableIncludes(tableLocator: string, headings: string[], tableData: string[][]) {
+    for (const header of headings) {
+      if (header !== '*NO-CHECK*' && header !== '*SKIP*') {
+        await expect(
+          this.page.locator(tableLocator).getByLabel(`${header} column header`, { exact: true }),
+        ).toBeVisible();
+      }
+    }
+
+    for (const rowData of tableData) {
+      let row = this.page.locator('.govuk-table tbody tr');
+      for (const cellData of rowData) {
+        if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
+          row = row.filter({ has: this.page.getByRole('cell', { name: cellData }) });
+        }
+      }
+      await expect(row).toBeVisible();
+    }
+  }
+
   async verifySelectOptions(select: string, options: string[]) {
     for (const option of options) {
       await this.selectOption(option, select);

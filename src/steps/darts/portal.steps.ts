@@ -195,6 +195,18 @@ Then(
 );
 
 Then(
+  'I verify the HTML table includes the following values',
+  async function (this: ICustomWorld, dataTable: DataTable) {
+    const data = dataTable.rawTable;
+    const headings = data[0];
+    const tableData = data.slice(1, data.length);
+
+    const basePage = new BasePage(this.page!);
+    await basePage.verifyHtmlTableIncludes('.govuk-table', headings, tableData);
+  },
+);
+
+Then(
   'the dropdown {string} contains the options',
   async function (this: ICustomWorld, dropdown: string, dataTable: DataTable) {
     const options: string[] = dataTable.rawTable.flat();
