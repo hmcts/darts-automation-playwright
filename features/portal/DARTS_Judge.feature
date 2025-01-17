@@ -1,6 +1,6 @@
 Feature: User as a Judge
 
-  # TODO (DT): added @review because the following scenario has it, meaning there's no point running this one.
+  # TODO (DT): we should add @review because the following scenario has it, meaning there's no point running this one.
   @DMP-1033 @DMP-1618 @regression
   Scenario: Judge data creation
     Given I create a case
