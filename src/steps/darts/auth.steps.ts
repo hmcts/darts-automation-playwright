@@ -10,6 +10,7 @@ import {
 import { LoginPage, ExternalLoginPage, InternalLoginPage, BasePage } from '../../page-objects';
 import DartsSoapService from '../../support/darts-soap-service';
 import DartsApiService from '../../support/darts-api-service';
+import wait from '../../support/wait';
 
 type DartsBrowserContext = BrowserContext & {
   user: DartsUserCredential;
@@ -17,31 +18,56 @@ type DartsBrowserContext = BrowserContext & {
 
 When(
   'I am logged on to DARTS as an/a {string} user',
+  { timeout: 2 * 1000 * 60 },
   async function (this: ICustomWorld, role: string) {
     const page = this.page!;
+    const basePage = new BasePage(page);
     const loginPage = new LoginPage(page);
     const internalLoginPage = new InternalLoginPage(page);
     const externalLoginPage = new ExternalLoginPage(page);
     // const stubLoginPage = new StubLoginPage(page);
 
     const userCredentials = getDartsUserCredentials(role);
-    await loginPage.goto();
 
-    // await stubLoginPage.login(userCredentials.role);
+    await wait(
+      async () => {
+        try {
+          await loginPage.goto();
 
-    if (userCredentials.type === 'INTERNAL') {
-      await internalLoginPage.login(userCredentials);
-    }
-    if (userCredentials.type === 'EXTERNAL') {
-      await externalLoginPage.login(userCredentials);
-    }
+          // await stubLoginPage.login(userCredentials.role);
 
-    await expect(page.getByText('Search for a case')).toBeVisible({ timeout: 10000 });
+          if (userCredentials.type === 'INTERNAL') {
+            await internalLoginPage.login(userCredentials);
+          }
+          if (userCredentials.type === 'EXTERNAL') {
+            await externalLoginPage.login(userCredentials);
+          }
 
-    if (this.context) {
-      (this.context as DartsBrowserContext).user = userCredentials;
-    }
-    console.log('Logging in user:', (this.context as DartsBrowserContext).user.username);
+          await expect(page.getByText('Search for a case')).toBeVisible({ timeout: 10000 });
+
+          if (this.context) {
+            (this.context as DartsBrowserContext).user = userCredentials;
+          }
+          console.log('Logging in user:', (this.context as DartsBrowserContext).user.username);
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          try {
+            await basePage.gotoUrlPath('/search');
+            await expect(page.getByText('Search for a case')).toBeVisible();
+            console.log('User found to be logged in anyway:', userCredentials.username);
+            return true;
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          } catch (err2) {
+            console.error(`Failed to login user: ${userCredentials.username}, retrying...`);
+            await this.context?.clearCookies();
+            return false;
+          }
+        }
+      },
+      1000,
+      5,
+    );
   },
 );
 
@@ -54,20 +80,41 @@ When(
     const externalLoginPage = new ExternalLoginPage(page);
 
     const userCredentials = getDartsUserCredentials(role);
-    await loginPage.goto();
 
-    await externalLoginPage.login(userCredentials);
+    await wait(async () => {
+      try {
+        await loginPage.goto();
 
-    await expect(page.getByText('Search for a case')).toBeVisible({ timeout: 10000 });
-    await basePage.clickLink('Switch to Admin Portal');
-    await expect(
-      page.getByText('You can search for cases, hearings, events and audio.'),
-    ).toBeVisible();
+        await externalLoginPage.login(userCredentials);
 
-    if (this.context) {
-      (this.context as DartsBrowserContext).user = userCredentials;
-    }
-    console.log('Logging in user:', (this.context as DartsBrowserContext).user.username);
+        await expect(page.getByText('Search for a case')).toBeVisible({ timeout: 10000 });
+        await basePage.clickLink('Switch to Admin Portal');
+        await expect(
+          page.getByText('You can search for cases, hearings, events and audio.'),
+        ).toBeVisible();
+
+        if (this.context) {
+          (this.context as DartsBrowserContext).user = userCredentials;
+        }
+        console.log('Logging in user:', (this.context as DartsBrowserContext).user.username);
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        try {
+          await basePage.gotoUrlPath('/admin/search');
+          await expect(
+            page.getByText('You can search for cases, hearings, events and audio.'),
+          ).toBeVisible();
+          console.log('User found to be logged in anyway:', userCredentials.username);
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err2) {
+          console.error(`Failed to login user: ${userCredentials.username}, retrying...`);
+          await this.context?.clearCookies();
+          return false;
+        }
+      }
+    });
   },
 );
 
