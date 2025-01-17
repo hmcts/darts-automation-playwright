@@ -19,28 +19,28 @@ Feature: Admin Search
     And I press the "Search" button
     Then I verify the HTML table contains the following values
       | Case ID  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
       | CASE1009 | Liverpool  | ROOM_A    | *IGNORE* | *IGNORE*     |
+      | CASE1009 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
 
     When I click on the "Hearings" link
     Then I verify the HTML table contains the following values
       | Case ID  | Hearing date | Courthouse                  | Courtroom       |
-      | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A          |
+      | CASE1009 | 07/12/2023   | Swansea                     | ROOM_A          |
+      | CASE1009 | 05/12/2023   | Swansea                     | ROOMA           |
+      | CASE1009 | 05/12/2023   | Swansea                     | ROOM_A          |
+      | CASE1009 | 19/09/2023   | Swansea                     | ROOM_A          |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A          |
+      | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A          |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434     |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_XYZ        |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_XYZHHIHIHI |
-      | CASE1009 | 05/12/2023   | Swansea                     | ROOMA           |
-      | CASE1009 | 05/12/2023   | Swansea                     | ROOM_A          |
-      | CASE1009 | 07/12/2023   | Swansea                     | ROOM_A          |
-      | CASE1009 | 19/09/2023   | Swansea                     | ROOM_A          |
       | CASE1009 | 01/01/2023   | Swansea                     | CR1             |
 
     When I click on the "Cases" link
     Then I verify the HTML table contains the following values
       | Case ID  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
       | CASE1009 | Liverpool  | ROOM_A    | *IGNORE* | *IGNORE*     |
+      | CASE1009 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
     And I click on the "Clear search" link
 
     #Courtroom
@@ -50,24 +50,24 @@ Feature: Admin Search
     And I press the "Search" button
     Then I verify the HTML table contains the following values
       | Case ID  | Courthouse         | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009 | Swansea            | Multiple  | Mr Judge | Jow Bloggs   |
-      | CASE1009 | Liverpool          | ROOM_A    | *IGNORE* | *IGNORE*     |
       | 141      | DMP-770-Courthouse | ROOM_A    | Judge 1  | DAVE-D1      |
+      | CASE1009 | Liverpool          | ROOM_A    | *IGNORE* | *IGNORE*     |
+      | CASE1009 | Swansea            | Multiple  | Mr Judge | Jow Bloggs   |
 
     When I click on the "Hearings" link
     Then I verify the HTML table contains the following values
       | Case ID  | Hearing date | Courthouse                  | Courtroom   |
+      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
       | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A      |
       | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A      |
-      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
 
     When I click on the "Cases" link
     Then I verify the HTML table contains the following values
       | Case ID  | Courthouse         | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009 | Swansea            | Multiple  | Mr Judge | Jow Bloggs   |
-      | CASE1009 | Liverpool          | ROOM_A    | *IGNORE* | *IGNORE*     |
       | 141      | DMP-770-Courthouse | ROOM_A    | Judge 1  | DAVE-D1      |
+      | CASE1009 | Liverpool          | ROOM_A    | *IGNORE* | *IGNORE*     |
+      | CASE1009 | Swansea            | Multiple  | Mr Judge | Jow Bloggs   |
     And I click on the "Clear search" link
 
     #Hearing Date-Specific Date
@@ -99,8 +99,8 @@ Feature: Admin Search
     And  I press the "Search" button
     Then I verify the HTML table contains the following values
       | Case ID   | Courthouse         | Courtroom | Judge(s)   | Defendant(s)    |
-      | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
       | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
+      | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
 
     When I click on the "Hearings" link
     Then I verify the HTML table contains the following values
@@ -111,8 +111,8 @@ Feature: Admin Search
     When I click on the "Cases" link
     Then I verify the HTML table contains the following values
       | Case ID   | Courthouse         | Courtroom | Judge(s)   | Defendant(s)    |
-      | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
       | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
+      | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
 
   @DMP-2728 @regression
   Scenario: Associated Audio files for deletion/hidden

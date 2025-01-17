@@ -333,13 +333,30 @@ export class BasePage {
     }
 
     for (const rowData of tableData) {
+      await this.clickLink('Page 1');
+
       let row = this.page.locator('.govuk-table tbody tr');
       for (const cellData of rowData) {
         if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
           row = row.filter({ has: this.page.getByRole('cell', { name: cellData }) });
         }
       }
-      await expect(row).toBeVisible();
+
+      // check pages for
+      await wait(
+        async () => {
+          try {
+            await expect(row).toBeVisible();
+            return true;
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          } catch (err) {
+            await this.clickLink('Next');
+            return false;
+          }
+        },
+        100,
+        2,
+      );
     }
   }
 

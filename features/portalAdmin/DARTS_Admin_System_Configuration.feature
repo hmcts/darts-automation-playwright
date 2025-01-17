@@ -170,20 +170,20 @@ Feature: Admin System configuration
     And I verify the HTML table contains the following values
       | Type                   | Subtype  | Event name | Event handler | Restrictions | Date created | Status   | *SKIP* |
       | 3000                   |          | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
-      | DMP-3913               | ttt      | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
       | 30300                  |          | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
       | 1000                   | 999      | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
       | DMP-2764-Accessibility | *IGNORE* | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
+      | DMP-3913               | ttt      | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
 
-    When  I select the "Active and inactive" radio button
+    When I select the "Active and inactive" radio button
     And I check the "With restrictions" checkbox
     Then I verify the HTML table contains the following values
       | Type                   | Subtype  | Event name | Event handler | Restrictions | Date created | Status   | *SKIP* |
-      | DMP-3913               | ttt      | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
       | 3000                   | *IGNORE* | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
-      | DMP-3913               | ttt      | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
       | 30300                  | *IGNORE* | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
       | DMP-2764-Accessibility | *IGNORE* | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
+      | DMP-3913               | ttt      | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
+      | DMP-3913               | ttt      | *IGNORE*   | *IGNORE*      | *IGNORE*     | *IGNORE*     | *IGNORE* | *SKIP* |
 
     And I check the "With restrictions" checkbox
     # When I click on the "With restrictions" link
