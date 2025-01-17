@@ -57,6 +57,7 @@ Feature: Admin Courthouse
     And I press the "Search" button
     # And I see "HARROW CROWN COURT" in the same row as "Harrow Crown Court"
     And I click on the "HARROW CROWN COURT" link
+    And I see heading "Harrow Crown Court"
     #DMP-4209
     And I see link with text "Back"
     Then I click on the "Back" link
