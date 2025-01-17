@@ -34,11 +34,11 @@ export class BasePage {
     }
   }
 
-  async clickLabel(text: string) {
+  async clickLabel(text: string, exact: boolean = false) {
     if (text === 'Assign to me') {
       await this.page.getByLabel(text).first().click();
     } else {
-      await this.page.getByLabel(text).click();
+      await this.page.getByLabel(text, { exact }).click();
     }
   }
 
@@ -97,8 +97,8 @@ export class BasePage {
     }
   }
 
-  async fillInputField(field: string, value: string) {
-    let matching = this.page.getByLabel(field);
+  async fillInputField(field: string, value: string, exactFieldMatch: boolean = false) {
+    let matching = this.page.getByLabel(field, { exact: exactFieldMatch });
     if ((await matching.count()) > 1) {
       matching = matching.filter({ has: this.page.locator(':scope.govuk-input') });
     }

@@ -242,6 +242,14 @@ When(
   },
 );
 
+When(
+  'I set {string} to {string} with exact field name',
+  async function (this: ICustomWorld, field: string, value: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.fillInputField(field, substituteValue(value) as string, true);
+  },
+);
+
 When('I enter the security code', async function (this: ICustomWorld) {
   const externalLoginPage = new ExternalLoginPage(this.page!);
   await externalLoginPage.enterSecurityCode();
@@ -356,7 +364,7 @@ When('I click on the pagination link {string}', async function (this: ICustomWor
   if (page === 'Previous' || page === 'Next') {
     await basePage.clickLink(page);
   } else {
-    await basePage.clickLabel(`Page ${page}`);
+    await basePage.clickLabel(`Page ${page}`, true);
   }
 });
 
