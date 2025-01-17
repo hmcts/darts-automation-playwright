@@ -20,11 +20,15 @@ import {
   SoapRegisterNodeResponse,
 } from './soap';
 import { ExternalServiceUserTypes, getExternalUserCredentials } from './credentials';
+import wait from './wait';
 
 const SOAP_RESPONSE_CACHE_KEY = 'darts_soap_response';
 const SOAP_GET_CASES_RESPONSE_CACHE_KEY = 'darts_get_cases_soap_response';
 const ACCESS_TOKEN_CACHE_KEY = 'darts_soap_access_token';
 const AUTHENTICATED_SOURCE_CACHE_KEY = 'soap_authenticated_source';
+
+const RETRY_TIMEOUT = 5000;
+const RETRY_ATTEMPTS = 5;
 
 export default class DartsSoapService {
   private static gatewayRequest = supertest(config.DARTS_GATEWAY);
@@ -96,12 +100,30 @@ ${SOAP_ENVELOPE_CLOSE}`;
     }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
-    const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
-      'addCase',
-      this.buildSoapRequest('addCase', caseXml, includesDocumentTag ?? false, authenticatedSource),
+    await wait(
+      async () => {
+        const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
+          'addCase',
+          this.buildSoapRequest(
+            'addCase',
+            caseXml,
+            includesDocumentTag ?? false,
+            authenticatedSource,
+          ),
+        );
+        try {
+          expect(response.status).toEqual(200);
+          cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          console.error(`AddCase return status code found: ${response.status}, retrying...`);
+          return false;
+        }
+      },
+      RETRY_TIMEOUT,
+      RETRY_ATTEMPTS,
     );
-    expect(response.status).toEqual(200);
-    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
   }
 
   static async registerNode(
@@ -210,14 +232,25 @@ ${SOAP_ENVELOPE_CLOSE}`;
 
       addDocumentXml = builder.build(addDocument) as string;
     }
-
-    const response = await this.sendGatewayRequest(
-      'addDocument',
-      this.buildSoapRequest('addDocument', addDocumentXml, true, authenticatedSource, 'ns5'),
+    await wait(
+      async () => {
+        const response = await this.sendGatewayRequest(
+          'addDocument',
+          this.buildSoapRequest('addDocument', addDocumentXml, true, authenticatedSource, 'ns5'),
+        );
+        try {
+          expect(response.status).toEqual(200);
+          cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          console.error(`AddDocument return status code found: ${response.status}, retrying...`);
+          return false;
+        }
+      },
+      RETRY_TIMEOUT,
+      RETRY_ATTEMPTS,
     );
-
-    expect(response.status).toEqual(200);
-    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
   }
 
   static async register(userType: ExternalServiceUserTypes): Promise<void> {
@@ -227,20 +260,34 @@ ${SOAP_ENVELOPE_CLOSE}`;
       return;
     }
     const host = `${config.DARTS_GATEWAY}${config.DARTS_GATEWAY_SERVICE_PATH}`;
-    const response = await this.sendGatewayRequest(
-      'register',
-      this.buildRegisterRequest(host, userType),
-    );
-    expect(response.status).toEqual(200);
 
-    const parser = new XMLParser();
-    const registerResponse: GatewaySoapResponse = parser.parse(response.text);
+    await wait(
+      async () => {
+        const response = await this.sendGatewayRequest(
+          'register',
+          this.buildRegisterRequest(host, userType),
+        );
+        try {
+          expect(response.status).toEqual(200);
 
-    cache.put(
-      ACCESS_TOKEN_CACHE_KEY,
-      registerResponse['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns3:registerResponse']?.return,
+          const parser = new XMLParser();
+          const registerResponse: GatewaySoapResponse = parser.parse(response.text);
+
+          cache.put(
+            ACCESS_TOKEN_CACHE_KEY,
+            registerResponse['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns3:registerResponse']?.return,
+          );
+          cache.put(AUTHENTICATED_SOURCE_CACHE_KEY, userType);
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          console.error(`Register return status code found: ${response.status}, retrying...`);
+          return false;
+        }
+      },
+      RETRY_TIMEOUT,
+      RETRY_ATTEMPTS,
     );
-    cache.put(AUTHENTICATED_SOURCE_CACHE_KEY, userType);
   }
 
   static getResponseObject(): SoapResponse {
