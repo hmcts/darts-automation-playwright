@@ -43,7 +43,7 @@ Feature: External Login Portal
     And I press the "Continue" button
     Then I see an error message "Please enter a valid email address."
 
-  @DMP-682 @regression @demo @obsolete
+  @DMP-682 @regression @demo @broken
   Scenario Outline: Login too many attempts
     Given I am on the portal page
     When I select the "I work with the HM Courts and Tribunals Service" radio button

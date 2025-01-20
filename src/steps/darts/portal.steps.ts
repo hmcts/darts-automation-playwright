@@ -397,6 +397,22 @@ When('I check the {string} checkbox', async function (this: ICustomWorld, checkb
   await basePage.clickLabel(checkboxLabel);
 });
 
+When(
+  'checkbox with name {string} is checked',
+  async function (this: ICustomWorld, checkboxLabel: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.verifyCheckboxIsChecked(checkboxLabel, true);
+  },
+);
+
+When(
+  'checkbox with name {string} is unchecked',
+  async function (this: ICustomWorld, checkboxLabel: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.verifyCheckboxIsChecked(checkboxLabel, false);
+  },
+);
+
 When('I click on the pagination link {string}', async function (this: ICustomWorld, page: string) {
   const basePage = new BasePage(this.page!);
   if (page === 'Previous' || page === 'Next') {

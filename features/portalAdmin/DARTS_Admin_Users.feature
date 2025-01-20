@@ -132,6 +132,7 @@ Feature: Admin-Users
     And I press the "Continue" button and see "Check user details" on the page
     Then I see "Check user details" on the page
     When I press the "Create user" button
+    Then I see "KH{{seq}}002" in summary row for "Full name"
     # Then I see table "darts.user_account" column "user_name" is "KH{{seq}}002" where "user_email_address" = "KH{{seq}}002@test.net"
     And I see table "darts.user_account" column "user_full_name" is "KH{{seq}}002" where "user_email_address" = "KH{{seq}}002@test.net"
     And I see table "darts.user_account" column "is_active" is "true" where "user_email_address" = "KH{{seq}}002@test.net"

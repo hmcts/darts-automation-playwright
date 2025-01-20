@@ -1,30 +1,5 @@
 Feature: Admin portal
 
-  @regression
-  Scenario: Admin portal data creation
-
-    Given I create a case
-      | courthouse         | courtroom  | case_number | defendants     | judges           | prosecutors         | defenders         |
-      | HARROW CROWN COURT | B{{seq}}-6 | B{{seq}}006 | Def B{{seq}}-6 | Judge B{{seq}}-6 | testprosecutorsix   | testdefendersix   |
-      | HARROW CROWN COURT | B{{seq}}-7 | B{{seq}}007 | Def B{{seq}}-7 | Judge B{{seq}}-7 | testprosecutorseven | testdefenderseven |
-      | HARROW CROWN COURT | B{{seq}}-8 | B{{seq}}008 | Def B{{seq}}-8 | Judge B{{seq}}-8 | testprosecutoreight | testdefendereight |
-      | HARROW CROWN COURT | B{{seq}}-9 | B{{seq}}009 | Def B{{seq}}-9 | Judge B{{seq}}-9 | testprosecutornine  | testdefendernine  |
-
-    Given I authenticate from the "CPP" source system
-    Given I create an event
-      | message_id | type | sub_type | event_id   | courthouse         | courtroom  | case_numbers | event_text    | date_time              | case_retention_fixed_policy | case_total_sentence |
-      | {{seq}}006 | 1100 |          | {{seq}}006 | HARROW CROWN COURT | B{{seq}}-6 | B{{seq}}006  | B{{seq}}ABC-6 | {{timestamp-10:00:00}} |                             |                     |
-      | {{seq}}007 | 1100 |          | {{seq}}007 | HARROW CROWN COURT | B{{seq}}-7 | B{{seq}}007  | B{{seq}}ABC-7 | {{timestamp-10:00:00}} |                             |                     |
-      | {{seq}}008 | 1100 |          | {{seq}}008 | HARROW CROWN COURT | B{{seq}}-8 | B{{seq}}008  | B{{seq}}ABC-8 | {{timestamp-10:00:00}} |                             |                     |
-      | {{seq}}009 | 1100 |          | {{seq}}009 | HARROW CROWN COURT | B{{seq}}-9 | B{{seq}}009  | B{{seq}}ABC-9 | {{timestamp-10:00:00}} |                             |                     |
-
-    When I load an audio file
-      | courthouse         | courtroom  | case_numbers | date       | startTime | endTime  | audioFile   |
-      | HARROW CROWN COURT | B{{seq}}-6 | B{{seq}}006  | {{date+0}} | 10:01:00  | 10:02:00 | sample1.mp2 |
-      | HARROW CROWN COURT | B{{seq}}-7 | B{{seq}}007  | {{date+0}} | 10:01:00  | 10:02:00 | sample1.mp2 |
-      | HARROW CROWN COURT | B{{seq}}-8 | B{{seq}}008  | {{date+0}} | 10:01:00  | 10:02:00 | sample1.mp2 |
-      | HARROW CROWN COURT | B{{seq}}-9 | B{{seq}}009  | {{date+0}} | 10:01:00  | 10:02:00 | sample1.mp2 |
-
   @DMP-2959 @review
   Scenario: Add error messaging to Search Transcripts screen
     Given I am logged on to the admin portal as an "ADMIN" user

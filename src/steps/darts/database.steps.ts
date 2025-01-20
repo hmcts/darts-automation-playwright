@@ -109,16 +109,32 @@ Then(
     whereColName1: string,
     whereColValue1: string,
   ) {
-    const result: SqlResult = await sql`
+    const runQuery = async () => {
+      const result: SqlResult = await sql`
 select ${sql.unsafe(column)}
 from ${sql.unsafe(tableName(table))}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
 
-    const returnedColumnValue = getSingleValueFromResult(result) as string | number;
-    if (expectedValue === 'not null') {
-      expect(returnedColumnValue).not.toBeNull();
-    } else {
-      expect(returnedColumnValue).toEqual(substituteValue(expectedValue));
+      try {
+        const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+        if (expectedValue === 'not null') {
+          expect(returnedColumnValue).not.toBeNull();
+        } else {
+          expect(returnedColumnValue).toEqual(substituteValue(expectedValue));
+        }
+        console.error('DATA FOUND');
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        console.error('DATA NOT FOUND, retrying...');
+        return false;
+      }
+    };
+    // if we check right away, sometimes the data isn't found ¯\_(ツ)_/¯
+    // retry running the query
+    const done = await wait(runQuery, 200, 20);
+    if (!done) {
+      throw new Error(`Failed checking column in scenario: ${this.testName}`);
     }
   },
 );
@@ -132,13 +148,28 @@ Given(
     whereColName1: string,
     whereColValue1: string,
   ) {
-    const result: SqlResult = await sql`
+    const runQuery = async () => {
+      const result: SqlResult = await sql`
 select ${sql.unsafe(column)}
 from ${sql.unsafe(tableName(table))}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
-
-    const returnedColumnValue = getSingleValueFromResult(result) as string | number;
-    cache.put(column, returnedColumnValue);
+      try {
+        const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+        cache.put(column, returnedColumnValue);
+        console.error('DATA FOUND');
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        console.error('DATA NOT FOUND, retrying...');
+        return false;
+      }
+    };
+    // if we check right away, sometimes the data isn't found ¯\_(ツ)_/¯
+    // retry running the query
+    const done = await wait(runQuery, 200, 20);
+    if (!done) {
+      throw new Error(`Failed selecting column in scenario: ${this.testName}`);
+    }
   },
 );
 
@@ -169,7 +200,7 @@ and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}`;
       }
     };
     // if we check right away, sometimes the data isn't found ¯\_(ツ)_/¯
-    // retry running the the query
+    // retry running the query
     const done = await wait(runQuery, 200, 20);
     if (!done) {
       throw new Error(`Failed selecting column in scenario: ${this.testName}`);
@@ -236,7 +267,7 @@ and ${sql.unsafe(whereColName4)} = ${substituteValue(whereColValue4)}`;
     };
 
     // if we check right away, sometimes the data isn't found ¯\_(ツ)_/¯
-    // retry running the the query
+    // retry running the query
     const done = await wait(runQuery, 200, 20);
     if (!done) {
       throw new Error(`Failed selecting column in scenario: ${this.testName}`);
@@ -388,7 +419,7 @@ Given(
     const result: SqlResult = await sql`
 select count(*)
 from darts.user_account
-where LOWER(user_email_address) = LOWER(${userEmail})`;
+where LOWER(user_email_address) = LOWER(${substituteValue(userEmail)})`;
     const count = getSingleValueFromResult(result) as string;
     expect(parseInt(count, 10)).toBe(0);
   },

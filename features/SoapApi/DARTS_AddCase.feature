@@ -101,8 +101,7 @@ Feature: AddCase using SOAP
       | courthouse         | caseNumber  | defendantName | judgeName | prosecutors | defenders |
       | HARROW CROWN COURT | T{{seq}}604 | MISSING       | MISSING   | MISSING     | MISSING   |
 
-  # TODO: @broken added here. This scenario isn't run during the darts-automation nightly run, not sure why.
-  @DMP-1706 @ClientProblemException @review @broken
+  @DMP-1706 @ClientProblemException @review
   Scenario Outline: SOAP addCase with participant elements empty
     Given I see table "COURTCASE" column "count(cas_id)" is "0" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>"
     When I create a case

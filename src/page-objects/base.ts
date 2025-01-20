@@ -42,6 +42,10 @@ export class BasePage {
     }
   }
 
+  async verifyCheckboxIsChecked(checkbox: string, checked: boolean) {
+    await expect(this.page.getByLabel(checkbox)).toBeChecked({ checked });
+  }
+
   async clickCheckboxInTableRowWith(value1: string, value2: string) {
     await this.page
       .locator('table tbody tr')

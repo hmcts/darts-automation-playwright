@@ -22,57 +22,12 @@ Feature: Portal Tests
     Then I do not see "You have rejected additional cookies. You can change your cookie settings at any time." on the page
     And Cookie "cookie_policy" "appInsightsCookiesEnabled" value is "false"
 
-  @smoketest @obsolete
-  Scenario: External logon
-    Given I am logged on to DARTS as an external user
-    Then  I see "Welcome to DARTS" on the page
-    And   I see "All content is available under the Open Government Licence v3.0, except where otherwise stated" on the page
-
-  @smoketest @demo @obsolete
-  Scenario: External logon
-    Given I am logged on to DARTS as an "external" user
-    Then  I see "Search for a case" on the page
-    And   I do not see "Welcome to DARTS" on the page
-    And   I see "All content is available under the Open Government Licence v3.0, except where otherwise stated" on the page
-
-  @DMP-407 @smoketest @demo @obsolete
-  Scenario: Search - Verify link
-    Given I am logged on to DARTS as an "external" user
-    When  I click on the "Search" link
-    Then  I see "Search for a case" on the page
-    And   I do not see "Welcome to DARTS" on the page
-
-  @DMP-407 @DMP-860 @smoketest @demo @obsolete
-  Scenario: Your audio - Verify link
-    Given I am logged on to DARTS as an "external" user
-    When  I click on the "Your audio" link
-    Then  I see "Your audio" on the page
-    And   I do not see "Welcome to DARTS" on the page
-
-  @DMP-407 @DMP-860 @smoketest @demo @obsolete
-  Scenario: Your Transcripts - Verify link
-    Given I am logged on to DARTS as an "external" user
-    When  I click on the "Your transcripts" link
-    Then  I see "Your transcripts" on the page
-    And   I do not see "Welcome to DARTS" on the page
-
   @DMP-407 @smoketest @demo
   Scenario: Logout
     Given I am logged on to DARTS as an "external" user
     When  I click on the "Sign out" link
     Then  I see "Sign in to the DARTS Portal" on the page
     And   I do not see "Welcome to DARTS" on the page
-
-  @DMP-407 @smoketest @demo @obsolete
-  Scenario: HMCTS Link
-    Given I am logged on to DARTS as an "external" user
-    When  I click on the "Search" link
-    Then  I do not see "Welcome to DARTS" on the page
-    When  I click on the "Your audio" link
-    And  I click on the "HMCTS" link
-    Then  I see "Search for a case" on the page
-    And   I do not see "Welcome to DARTS" on the page
-    And   I Sign out
 
   @DMP-407 @smoketest @demo
   Scenario: Sign out Internal user
