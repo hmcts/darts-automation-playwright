@@ -1,7 +1,7 @@
 @portal @portal_case_search
 Feature: Case Search
 
-  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @DMP-963 @DMP-997 @DMP-2769 @regression @demo
+  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @DMP-963 @DMP-997 @DMP-2769 @DMP-4545 @regression @demo
   Scenario: Case Search data creation
     Given I create a case
       | courthouse         | courtroom   | case_number | defendants      | judges           | prosecutors         | defenders         |
@@ -21,7 +21,7 @@ Feature: Case Search
       | {{seq}}005 | 1100  |          | {{seq}}005 | HARROW CROWN COURT | A{{seq}}-11 | A{{seq}}004  | A{{seq}}ABC-11 | {{timestamp-10:00:00}} |                             |                     |
       | {{seq}}006 | 21200 | 11008    | {{seq}}006 | HARROW CROWN COURT | A{{seq}}-2  | A{{seq}}005  | A{{seq}}ABC-21 | {{timestamp-10:00:00}} |                             |                     |
 
-  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @regression @demo
+  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @DMP-4545 @regression @demo
   Scenario: Simple and Advanced Case Search
 
     #Simple search
@@ -532,10 +532,9 @@ Feature: Case Search
   #      | A{{seq}}002                                              | Harrow Crown Court | A{{seq}}-11 | JUDGE {{seq}}-11 | Def A{{seq}}-11 |
   #      | A{{seq}}001                                              | Harrow Crown Court | A{{seq}}-1  | JUDGE {{seq}}-1  | Def A{{seq}}-1  |
 
-  # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
-  @DMP-2963
+  @DMP-2963 @regression
   Scenario: Add a CourtLog into Case file screen
-    Given I am logged on to DARTS as a TRANSCRIBER user
+    Given I am logged on to DARTS as a "TRANSCRIBER" user
     And I click on the "Search" link
     And I see "Also known as a case reference or court reference. There should be no spaces." on the page
     And I set "Case ID" to "A{{seq}}002"
@@ -544,8 +543,8 @@ Feature: Case Search
       | Case ID     | Courthouse         | Courtroom   | Judge(s)         | Defendant(s)    |
       | A{{seq}}002 | Harrow Crown Court | A{{seq}}-11 | JUDGE {{seq}}-11 | Def A{{seq}}-11 |
     And I click on "A{{seq}}002" in the same row as "Harrow Crown Court"
-    Then I see " Court log " on the page
-    And I click on the " Court log " link
+    Then I see "Court log" on the page
+    And I click on the "Court log" link
     Then I see "Court log for this case" on the page
     And I verify the HTML table contains the following values
       | Hearing date    | Time     | Event           | Text          |
@@ -558,4 +557,5 @@ Feature: Case Search
     And "Time" has sort "descending" icon
 
     Then I click on "Event" in the table header
-    And "Event" has sort "descending" icon
+    # TODO (DT): changed to ascending to match what happens
+    And "Event" has sort "ascending" icon

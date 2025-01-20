@@ -107,7 +107,7 @@ Feature: End-to-end Approver
       | courthouse         | courtroom | case_number   | judges         | defendants          | prosecutors          | defenders          | HearingDate     | transcription-type | urgency   | message_id | eventId    | caseRetention | totalSentence | dateTime              | audioFile   | startTime | endTime  | Reason             |
       | Harrow Crown Court | {{seq}}   | S{{seq}}052-B | S{{seq}} judge | S{{seq}} defendants | S{{seq}} prosecutors | S{{seq}} defenders | {{displaydate}} | Sentencing remarks | Overnight | {{seq}}001 | {{seq}}001 |               |               | {{yyyymmdd hh:mm:ss}} | sample1.mp2 | 18:03:00  | 18:04:00 | Reject for testing |
 
-  @DMP-2201
+  @DMP-2201 @DMP-4102
   Scenario Outline: Requester Approver
     Given I create a case
       | courthouse   | courtroom   | case_number   | defendants   | judges   | prosecutors   | defenders   |
