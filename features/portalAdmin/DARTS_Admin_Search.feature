@@ -114,8 +114,8 @@ Feature: Admin Search
     When I click on the "Hearings" link
     Then I verify the HTML table contains the following values
       | Case ID   | Hearing date | Courthouse         | Courtroom |
-      | T99662622 | 02/07/2024   | Harrow Crown Court | GET99662  |
       | T99662621 | 02/07/2024   | Harrow Crown Court | GET99662  |
+      | T99662622 | 02/07/2024   | Harrow Crown Court | GET99662  |
 
     When I click on the "Cases" link
     Then I verify the HTML table contains the following values
