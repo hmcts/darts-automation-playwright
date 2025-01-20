@@ -42,6 +42,14 @@ When('I select the {string} radio button', async function (this: ICustomWorld, t
 });
 
 When(
+  'I select the {string} radio button with exact name',
+  async function (this: ICustomWorld, text: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickLabel(text, true);
+  },
+);
+
+When(
   'I select the {string} radio button with label {string}',
   async function (this: ICustomWorld, _: string, label: string) {
     const basePage = new BasePage(this.page!);
@@ -58,6 +66,28 @@ When('I press the {string} button', async function (this: ICustomWorld, text: st
     await basePage.clickButton(substituteValue(text) as string);
   }
 });
+
+Then(
+  'I press the {string} button and see {string} on the page',
+  async function (this: ICustomWorld, text: string, expectedText: string) {
+    const basePage = new BasePage(this.page!);
+    await wait(
+      async () => {
+        try {
+          await basePage.clickButton(substituteValue(text) as string);
+          await basePage.containsText(expectedText);
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          console.error('Press button and see text not completed, retrying...');
+          return false;
+        }
+      },
+      500,
+      10,
+    );
+  },
+);
 
 When('I press the {string} button and pause', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
@@ -228,6 +258,14 @@ Then('I see an error message {string}', async function (this: ICustomWorld, text
   const basePage = new BasePage(this.page!);
   await basePage.hasErrorSummaryContainingText(text);
 });
+
+Then(
+  'I see {string} has error message {string}',
+  async function (this: ICustomWorld, field: string, error: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.hasFieldWithError(field, error);
+  },
+);
 
 When(
   'I set {string} to {string}',
@@ -505,8 +543,33 @@ Given(
   },
 );
 
-Then('I see at least {int} search results', async function (count: string) {
+Then('I see at least {int} search results', async function (this: ICustomWorld, count: string) {
   const basePage = new BasePage(this.page!);
   await basePage.containsText('result');
   await basePage.hasSearchResultCountGreaterThan(parseInt(count, 10));
+});
+
+Given('I reactivate user {string}', async function (this: ICustomWorld, username: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.clickLink('Users');
+  await basePage.fillInputField('Full name', username, true);
+  await basePage.clickLabel('All');
+  await basePage.clickButton('Search');
+
+  await basePage.clickValueInTableRowWith(
+    substituteValue('View') as string,
+    substituteValue(username) as string,
+  );
+
+  await basePage.hasHeader(username);
+
+  try {
+    await basePage.containsText('Active user');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err) {
+    await basePage.clickButton('Activate user');
+    await basePage.hasHeader(username);
+    await basePage.clickButton('Reactivate user');
+    await basePage.containsText('User record activated');
+  }
 });

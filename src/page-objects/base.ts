@@ -114,6 +114,8 @@ export class BasePage {
   }
 
   async clickButton(text: string) {
+    text = text.replaceAll('(', '\\(');
+    text = text.replaceAll(')', '\\)');
     await this.page.getByRole('button', { name: new RegExp(`^${text}`) }).click();
   }
 
@@ -212,6 +214,13 @@ export class BasePage {
       500,
       5,
     );
+  }
+
+  async hasFieldWithError(field: string, error: string) {
+    this.page
+      .locator('.govuk-form-group')
+      .filter({ has: this.page.getByLabel(field) })
+      .getByText(error);
   }
 
   async hasSummaryRow(rowHeading: string, expectedValue: string) {

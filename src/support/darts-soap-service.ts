@@ -134,17 +134,22 @@ ${SOAP_ENVELOPE_CLOSE}`;
     }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
-    const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
-      'registerNode',
-      this.buildSoapRequest(
+
+    await wait(async () => {
+      const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
         'registerNode',
-        registerNodeXml,
-        includesDocumentTag ?? false,
-        authenticatedSource,
-        'ns2',
-      ),
-    );
-    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+        this.buildSoapRequest(
+          'registerNode',
+          registerNodeXml,
+          includesDocumentTag ?? false,
+          authenticatedSource,
+          'ns2',
+        ),
+      );
+      if ([500, 502, 504].includes(response.status)) return false;
+      cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+      return true;
+    });
   }
 
   static async getCases(
@@ -160,26 +165,39 @@ ${SOAP_ENVELOPE_CLOSE}`;
     } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
-    const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
-      'getCases',
-      this.buildSoapRequest(
+
+    await wait(async () => {
+      const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
         'getCases',
-        getCasesXml,
-        true,
-        authenticatedSource,
-        'com',
-        includesSoapActionTag,
-      ),
-    );
-    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
-    if (response.status === 200) {
-      const responseObj = this.getResponseObject() as ProxySoapResponse;
-      const cases = responseObj['S:Envelope']['S:Body']['ns2:getCasesResponse']?.return.cases;
-      cache.put(SOAP_GET_CASES_RESPONSE_CACHE_KEY, cases);
-    }
-    if (!ignoreResponseStatus) {
-      expect(response.status).toEqual(200);
-    }
+        this.buildSoapRequest(
+          'getCases',
+          getCasesXml,
+          true,
+          authenticatedSource,
+          'com',
+          includesSoapActionTag,
+        ),
+      );
+      try {
+        cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+        if (response.status === 200) {
+          const responseObj = this.getResponseObject() as ProxySoapResponse;
+          const cases = responseObj['S:Envelope']['S:Body']['ns2:getCasesResponse']?.return.cases;
+          cache.put(SOAP_GET_CASES_RESPONSE_CACHE_KEY, cases);
+        }
+        if (!ignoreResponseStatus) {
+          expect(response.status).toEqual(200);
+          return true;
+        } else {
+          if ([500, 502, 504].includes(response.status)) return false;
+        }
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        console.error(`GetCases return status code found: ${response.status}, retrying...`);
+        return false;
+      }
+    });
   }
 
   static async addLogEntry(
@@ -190,17 +208,26 @@ ${SOAP_ENVELOPE_CLOSE}`;
     }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
-    const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
-      'addLogEntry',
-      this.buildSoapRequest(
+    await wait(async () => {
+      const response = await this[useGateway ? 'sendGatewayRequest' : 'sendProxyRequest'](
         'addLogEntry',
-        addLogEntryXml,
-        includesDocumentTag ?? false,
-        authenticatedSource,
-      ),
-    );
-    expect(response.status).toEqual(200);
-    cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+        this.buildSoapRequest(
+          'addLogEntry',
+          addLogEntryXml,
+          includesDocumentTag ?? false,
+          authenticatedSource,
+        ),
+      );
+      try {
+        expect(response.status).toEqual(200);
+        cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        console.error(`AddLogEntry return status code found: ${response.status}, retrying...`);
+        return false;
+      }
+    });
   }
 
   static async addDocument(

@@ -102,6 +102,12 @@ join darts.hearing_media_ae hm using (hea_id)
 left join darts.media med using (med_id)
 `;
 
+const USER_GROUP_JOIN = `
+darts.user_account
+left join darts.security_group_user_account_ae using(usr_id)
+left join darts.security_group using(grp_id)
+`;
+
 export const tableName = (tableName: string): string => {
   switch (tableName) {
     case 'COURTCASE':
@@ -126,6 +132,8 @@ export const tableName = (tableName: string): string => {
       return HEARING_MEDIA_REQUEST_JOIN;
     case 'CASE_AUDIO':
       return CASE_AUDIO_JOIN;
+    case 'USER_GROUP':
+      return USER_GROUP_JOIN;
     default:
       return tableName;
   }

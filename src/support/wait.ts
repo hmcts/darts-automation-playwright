@@ -1,5 +1,5 @@
 export default async (
-  fn: () => Promise<unknown>,
+  fn: () => Promise<boolean>,
   delayMs: number = 1000,
   maxRetries: number = 20,
 ) => {

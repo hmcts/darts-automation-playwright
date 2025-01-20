@@ -381,3 +381,15 @@ and lower(user_email_address) = ${userCredentials.username}`;
     }
   },
 );
+
+Given(
+  'that user email {string} does not exist',
+  async function (this: ICustomWorld, userEmail: string) {
+    const result: SqlResult = await sql`
+select count(*)
+from darts.user_account
+where LOWER(user_email_address) = LOWER(${userEmail})`;
+    const count = getSingleValueFromResult(result) as string;
+    expect(parseInt(count, 10)).toBe(0);
+  },
+);
