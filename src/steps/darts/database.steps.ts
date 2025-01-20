@@ -122,11 +122,9 @@ where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
         } else {
           expect(returnedColumnValue).toEqual(substituteValue(expectedValue));
         }
-        console.error('DATA FOUND');
         return true;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
-        console.error('DATA NOT FOUND, retrying...');
         return false;
       }
     };
@@ -156,11 +154,9 @@ where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
       try {
         const returnedColumnValue = getSingleValueFromResult(result) as string | number;
         cache.put(column, returnedColumnValue);
-        console.error('DATA FOUND');
         return true;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
-        console.error('DATA NOT FOUND, retrying...');
         return false;
       }
     };

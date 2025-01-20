@@ -101,7 +101,7 @@ Feature: Add Daily List using SOAP
       <document>
       <![CDATA[<cs:DailyList xmlns:cs="http://www.courtservice.gov.uk/schemas/courtservice" xmlns:p2="http://www.govtalk.gov.uk/people/bs7666" xmlns:apd="http://www.govtalk.gov.uk/people/AddressAndPersonalDetails">
       <cs:DocumentID>
-      <cs:DocumentName>DailyList_467_{{numdate+0}}000001.xml</cs:DocumentName>
+      <cs:DocumentName>DailyList_467_{{date+0}}000001.xml</cs:DocumentName>
       <cs:UniqueID>CSDDL170974{{seq}}001</cs:UniqueID>
       <cs:DocumentType>DL</cs:DocumentType>
       <cs:TimeStamp>{{timestamp}}</cs:TimeStamp>
@@ -193,7 +193,7 @@ Feature: Add Daily List using SOAP
       <document>
       <![CDATA[<cs:DailyList xmlns:cs="http://www.courtservice.gov.uk/schemas/courtservice" xmlns:p2="http://www.govtalk.gov.uk/people/bs7666" xmlns:apd="http://www.govtalk.gov.uk/people/AddressAndPersonalDetails">
       <cs:DocumentID>
-      <cs:DocumentName>DailyList_467_{{numdate+0}}000001.xml</cs:DocumentName>
+      <cs:DocumentName>DailyList_467_{{date+0}}000001.xml</cs:DocumentName>
       <cs:UniqueID>CSDDL170974{{seq}}001</cs:UniqueID>
       <cs:DocumentType>DL</cs:DocumentType>
       <cs:TimeStamp>{{timestamp}}</cs:TimeStamp>
@@ -288,7 +288,7 @@ Feature: Add Daily List using SOAP
       <document>
       <![CDATA[<cs:DailyList xmlns:cs="http://www.courtservice.gov.uk/schemas/courtservice" xmlns:p2="http://www.govtalk.gov.uk/people/bs7666" xmlns:apd="http://www.govtalk.gov.uk/people/AddressAndPersonalDetails">
       <cs:DocumentID>
-      <cs:DocumentName>DailyList_467_{{numdate+0}}000001.xml</cs:DocumentName>
+      <cs:DocumentName>DailyList_467_{{date+0}}000001.xml</cs:DocumentName>
       <cs:UniqueID>CSDDL170974{{seq}}001</cs:UniqueID>
       <cs:DocumentType>DL</cs:DocumentType>
       <cs:TimeStamp>{{timestamp}}</cs:TimeStamp>
@@ -462,7 +462,7 @@ Feature: Add Daily List using SOAP
   @reads-and-writes-system-properties
   Scenario: Daily List successful with TimeMarkingNote 3:00 PM
     Given that courthouse "YORK" case "T{{seq}}120" does not exist
-    Given I wait until there is not a daily list waiting for "YORK"
+    # Given I wait until there is not a daily list waiting for "YORK"
     Given I authenticate from the "CPP" source system
     And I see table "darts.daily_list" column "count(job_status)" is "0" where "unique_id" = "CSDDL170974{{seq}}002" and "message_id" = "58b211f5-426d-81be-00{{seq}}002"
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -473,7 +473,7 @@ Feature: Add Daily List using SOAP
       <document>
       <![CDATA[<cs:DailyList xmlns:cs="http://www.courtservice.gov.uk/schemas/courtservice" xmlns:p2="http://www.govtalk.gov.uk/people/bs7666" xmlns:apd="http://www.govtalk.gov.uk/people/AddressAndPersonalDetails">
       <cs:DocumentID>
-      <cs:DocumentName>DailyList_467_{{numdate+0}}000002.xml</cs:DocumentName>
+      <cs:DocumentName>DailyList_467_{{date+0}}000002.xml</cs:DocumentName>
       <cs:UniqueID>CSDDL170974{{seq}}002</cs:UniqueID>
       <cs:DocumentType>DL</cs:DocumentType>
       <cs:TimeStamp>{{timestamp}}</cs:TimeStamp>
