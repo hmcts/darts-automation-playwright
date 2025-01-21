@@ -28,11 +28,15 @@ yarn --version
 
 ## Developing and running tests locally
 
+### Prereqs
+
 To develop tests locally, first you need to ensure the following
 
 - you are connected to [HMCTS VPN](https://portal.platform.hmcts.net/)
 - you have set the required secrets in your terminal by running `source ./bin/secrets-stg.sh`
 - run `yarn install`
+
+### Commands
 
 After that there are various `yarn` commands and combinations that can be used to run the tests.
 
