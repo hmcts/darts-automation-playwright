@@ -1,4 +1,4 @@
-@admin @admin_users
+@admin @admin_users @retry
 Feature: Admin-Users
 
   @DMP-2323 @regression
