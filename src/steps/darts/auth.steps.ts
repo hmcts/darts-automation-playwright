@@ -55,6 +55,10 @@ When(
           try {
             await basePage.gotoUrlPath('/search');
             await expect(page.getByText('Search for a case')).toBeVisible();
+
+            if (this.context) {
+              (this.context as DartsBrowserContext).user = userCredentials;
+            }
             console.log('User found to be logged in anyway:', userCredentials.username);
             return true;
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -107,6 +111,10 @@ When(
             await expect(
               page.getByText('You can search for cases, hearings, events and audio.'),
             ).toBeVisible();
+
+            if (this.context) {
+              (this.context as DartsBrowserContext).user = userCredentials;
+            }
             console.log('User found to be logged in anyway:', userCredentials.username);
             return true;
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
