@@ -343,7 +343,7 @@ Given('I call SOAP getCases', async function (this: ICustomWorld, dataTable: Dat
   };
 
   const getCasesXml = builder.build(getCases) as string;
-  await DartsSoapService.getCases(getCasesXml);
+  await DartsSoapService.getCases(getCasesXml, { useGateway: true });
 });
 
 // this is only used in the GetCases feature

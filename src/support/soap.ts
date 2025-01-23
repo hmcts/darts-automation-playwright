@@ -238,6 +238,9 @@ export interface GatewaySoapResponse {
       'ns3:registerNodeResponse'?: {
         return: SoapRegisterNodeResponse;
       };
+      'ns3:getCasesResponse'?: {
+        return: SoapGetCasesResponse;
+      };
     };
   };
 }

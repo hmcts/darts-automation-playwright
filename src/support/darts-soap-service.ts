@@ -181,8 +181,19 @@ ${SOAP_ENVELOPE_CLOSE}`;
       try {
         cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
         if (response.status === 200) {
-          const responseObj = this.getResponseObject() as ProxySoapResponse;
-          const cases = responseObj['S:Envelope']['S:Body']['ns2:getCasesResponse']?.return.cases;
+          const responseObj = useGateway
+            ? (this.getResponseObject() as GatewaySoapResponse)
+            : (this.getResponseObject() as ProxySoapResponse);
+          let cases;
+          if (useGateway) {
+            cases = (responseObj as GatewaySoapResponse)['SOAP-ENV:Envelope']['SOAP-ENV:Body'][
+              'ns3:getCasesResponse'
+            ]?.return.cases;
+          } else {
+            cases = (responseObj as ProxySoapResponse)['S:Envelope']['S:Body'][
+              'ns2:getCasesResponse'
+            ]?.return.cases;
+          }
           cache.put(SOAP_GET_CASES_RESPONSE_CACHE_KEY, cases);
         }
         if (!ignoreResponseStatus) {
@@ -348,6 +359,9 @@ ${SOAP_ENVELOPE_CLOSE}`;
         }
         if (body['ns3:registerNodeResponse']) {
           return body['ns3:registerNodeResponse'].return;
+        }
+        if (body['ns3:getCasesResponse']) {
+          return body['ns3:getCasesResponse'].return;
         }
       }
     if ((responseObj as ProxySoapResponse)['S:Envelope']) {
