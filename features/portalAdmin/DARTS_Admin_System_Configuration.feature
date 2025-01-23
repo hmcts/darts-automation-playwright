@@ -1,4 +1,4 @@
-@admin @admin_system_config
+@admin @admin_system_config @retry
 Feature: Admin System configuration
 
   @DMP-2669 @DMP2668
