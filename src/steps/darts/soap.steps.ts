@@ -324,7 +324,7 @@ When('I register a node', async function (this: ICustomWorld, dataTable: DataTab
       mac_address: registerNodeData.mac_address,
     },
   };
-  await DartsSoapService.registerNode(xmlescape(builder.build(registerNode)));
+  await DartsSoapService.registerNode(xmlescape(builder.build(registerNode)), { useGateway: true });
 });
 
 Given('I call SOAP getCases', async function (this: ICustomWorld, dataTable: DataTable) {
@@ -353,6 +353,7 @@ When(
     await DartsSoapService.getCases(substituteValue(getCasesXml) as string, {
       includesSoapActionTag: true,
       ignoreResponseStatus: true,
+      useGateway: true,
     });
   },
 );
