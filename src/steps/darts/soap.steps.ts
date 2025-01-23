@@ -112,7 +112,9 @@ When('I create a case', async function (this: ICustomWorld, dataTable: DataTable
       };
 
       await new Promise((r) => setTimeout(r, 200 * index));
-      await DartsSoapService.addCase(xmlescape(builder.build(addCaseObj) as string));
+      await DartsSoapService.addCase(xmlescape(builder.build(addCaseObj) as string), {
+        useGateway: true,
+      });
     }),
   );
 });
@@ -242,7 +244,9 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
       };
 
       await new Promise((r) => setTimeout(r, 200 * index));
-      await DartsSoapService.addLogEntry(xmlescape(builder.build(addLogEntry) as string));
+      await DartsSoapService.addLogEntry(xmlescape(builder.build(addLogEntry) as string), {
+        useGateway: true,
+      });
     }),
   );
 });
