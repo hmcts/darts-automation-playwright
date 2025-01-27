@@ -14,11 +14,11 @@ export class BasePage {
   }
 
   async gotoUrlPath(path: string): Promise<void> {
-    this.page.goto(config.DARTS_PORTAL + path);
+    await this.page.goto(config.DARTS_PORTAL + path);
   }
 
-  refreshPage() {
-    this.page.reload();
+  async refreshPage() {
+    await this.page.reload();
   }
 
   async containsText(text: string, visible = true) {
