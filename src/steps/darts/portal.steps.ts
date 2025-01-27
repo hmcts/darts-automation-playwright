@@ -240,7 +240,6 @@ Then(
   'the dropdown {string} contains the options',
   async function (this: ICustomWorld, dropdown: string, dataTable: DataTable) {
     const options: string[] = dataTable.rawTable.flat();
-    console.log(dropdown, options);
     const basePage = new BasePage(this.page!);
     await basePage.verifySelectOptions(dropdown, options);
   },

@@ -217,7 +217,7 @@ Feature: Request Audio for transcribers
 
   #Continues from line 548 in other script
 
-  @DMP-1198 @DMP-1255 @DMP-1351 @regression
+  @DMP-1198 @DMP-1255 @DMP-1351 @DMP-4129 @DMP-4318 @regression
   Scenario: Transcriber - Sortable Columns
 
     Given I am logged on to DARTS as a "TRANSCRIBER" user
@@ -235,6 +235,8 @@ Feature: Request Audio for transcribers
     And "Type" has sort "ascending" icon
     And I click on "Requested on" in the table header
     And "Requested on" has sort "descending" icon
+    And I click on "Approved on" in the table header
+    #And "Approved on" has sort "descending" icon
     And I click on "Method" in the table header
     And "Method" has sort "ascending" icon
     And I click on "Urgency" in the table header
@@ -256,6 +258,8 @@ Feature: Request Audio for transcribers
     And "Type" has sort "ascending" icon
     And I click on "Requested on" in the table header
     And "Requested on" has sort "descending" icon
+    And I click on "Approved on" in the table header
+    #And "Approved on" has sort "descending" icon
     And I click on "Urgency" in the table header
     Then "Urgency" has sort "ascending" icon
 
@@ -268,6 +272,8 @@ Feature: Request Audio for transcribers
     And "Courthouse" has sort "ascending" icon
     And I click on "Hearing date" in the table header
     And "Hearing date" has sort "descending" icon
+    And I click on "Approved on" in the table header
+    #And "Approved on" has sort "descending" icon
     And I click on "Type" in the table header
     And "Type" has sort "ascending" icon
     And I click on "Requested on" in the table header

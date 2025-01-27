@@ -189,7 +189,7 @@ export class BasePage {
 
   async clickTableHeader(tableHeader: string) {
     await this.page.waitForTimeout(500);
-    await this.page.getByLabel(`Sortable column for ${tableHeader}`).click();
+    await this.page.getByLabel(`Sortable column for ${tableHeader}`).first().click();
     await this.page.waitForTimeout(200);
   }
 

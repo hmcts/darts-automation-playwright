@@ -156,7 +156,7 @@ Feature: Admin Courthouse
     Then I set "Region" to "London"
     Then I press the "Search" button
     And I see at least 40 search results
-    And I set "Courthouse name" to "guil"
+    And I set "Courthouse name" to "guild"
     Then I press the "Search" button
     And I see "2 results" on the page
     And I verify the HTML table contains the following values

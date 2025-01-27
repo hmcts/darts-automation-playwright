@@ -454,6 +454,7 @@ Feature: Admin-Users
       | Local Judge  | darts.judge1@hmcts.net | Active | View |
 
     And I click on "View" in the same row as "Local Judge"
+    And I see heading "Local Judge"
     And I see link with text "Back"
     Then I click on the "Back" link
     And I verify the HTML table contains the following values

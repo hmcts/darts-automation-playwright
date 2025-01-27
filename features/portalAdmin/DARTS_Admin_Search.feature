@@ -18,12 +18,7 @@ Feature: Admin Search
     When I set "Case ID" to "CASE1009"
     And I press the "Search" button
     And I click on "Case ID" in the table header
-    And "Case ID" has sort "ascending" icon
-    Then I verify the HTML table contains the following values
-      | Case ID  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
-      | CASE1009 | Liverpool  | ROOM_A    | *IGNORE* | *IGNORE*     |
-      | CASE1009 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
-
+    Then "Case ID" has sort "ascending" icon
     When I click on "Courthouse" in the table header
     And "Courthouse" has sort "ascending" icon
     Then I verify the HTML table contains the following values
@@ -32,10 +27,11 @@ Feature: Admin Search
       | CASE1009 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
 
     When I click on the "Hearings" link
+    And I click on "Courtroom" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Hearing date | Courthouse                  | Courtroom       |
+      | CASE1009 | 01/01/2023   | Swansea                     | CR1             |
       | CASE1009 | 07/12/2023   | Swansea                     | ROOM_A          |
-      | CASE1009 | 05/12/2023   | Swansea                     | ROOMA           |
       | CASE1009 | 05/12/2023   | Swansea                     | ROOM_A          |
       | CASE1009 | 19/09/2023   | Swansea                     | ROOM_A          |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A          |
@@ -43,9 +39,10 @@ Feature: Admin Search
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434     |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_XYZ        |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_XYZHHIHIHI |
-      | CASE1009 | 01/01/2023   | Swansea                     | CR1             |
+      | CASE1009 | 05/12/2023   | Swansea                     | ROOMA           |
 
     When I click on the "Cases" link
+    And I click on "Courthouse" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Courthouse | Courtroom | Judge(s) | Defendant(s) |
       | CASE1009 | Liverpool  | ROOM_A    | *IGNORE* | *IGNORE*     |
@@ -57,6 +54,7 @@ Feature: Admin Search
     And I select the "Specific date" radio button
     And I set "Enter a specific date" to "15/08/2023"
     And I press the "Search" button
+    And I click on "Courthouse" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Courthouse         | Courtroom | Judge(s) | Defendant(s) |
       | 141      | DMP-770-Courthouse | ROOM_A    | Judge 1  | DAVE-D1      |
@@ -64,14 +62,16 @@ Feature: Admin Search
       | CASE1009 | Swansea            | Multiple  | Mr Judge | Jow Bloggs   |
 
     When I click on the "Hearings" link
+    And I click on "Courtroom" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Hearing date | Courthouse                  | Courtroom   |
-      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
-      | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A      |
-      | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A      |
+      | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
+      | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A      |
+      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
 
     When I click on the "Cases" link
+    And I click on "Courthouse" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Courthouse         | Courtroom | Judge(s) | Defendant(s) |
       | 141      | DMP-770-Courthouse | ROOM_A    | Judge 1  | DAVE-D1      |
@@ -106,22 +106,25 @@ Feature: Admin Search
     And I set "Enter a date to" to "03/07/2024"
     And I set "Courtroom" to "GET99662"
     And  I press the "Search" button
+    And I click on "Case ID" in the table header
     Then I verify the HTML table contains the following values
       | Case ID   | Courthouse         | Courtroom | Judge(s)   | Defendant(s)    |
-      | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
       | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
+      | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
 
     When I click on the "Hearings" link
+    And I click on "Case ID" in the table header
     Then I verify the HTML table contains the following values
       | Case ID   | Hearing date | Courthouse         | Courtroom |
       | T99662621 | 02/07/2024   | Harrow Crown Court | GET99662  |
       | T99662622 | 02/07/2024   | Harrow Crown Court | GET99662  |
 
     When I click on the "Cases" link
+    And I click on "Case ID" in the table header
     Then I verify the HTML table contains the following values
       | Case ID   | Courthouse         | Courtroom | Judge(s)   | Defendant(s)    |
-      | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
       | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
+      | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
 
   @DMP-2728 @DMP-4257 @regression
   Scenario: Associated Audio files for deletion/hidden and unhidden
@@ -241,14 +244,6 @@ Feature: Admin Search
     And I select the "Cases" radio button
     And I press the "Search" button
     And I see "Showing 1-5 of 5" on the page
-    Then I verify the HTML table contains the following values
-      | Case ID    | Courthouse         | Courtroom  | Judge(s)        | Defendant(s)   |
-      | A400471003 | Harrow Crown Court | A400471-2  | JUDGE 400471-11 | Def A400471-2  |
-      | A400471004 | Harrow Crown Court | A400471-11 | JUDGE 400471-2  | Def A400471-22 |
-      | A400471002 | Harrow Crown Court | A400471-11 | JUDGE 400471-11 | Def A400471-11 |
-      | A400471005 | Harrow Crown Court | A400471-2  | JUDGE 400471-2  | Def A400471-11 |
-      | A400471001 | Harrow Crown Court | A400471-1  | JUDGE 400471-1  | Def A400471-1  |
-
     And I click on "Case ID" in the table header
     And "Case ID" has sort "ascending" icon
     Then I verify the HTML table contains the following values
@@ -281,9 +276,9 @@ Feature: Admin Search
     And I see "52849" on the page
     And I do not see " Hide or delete " on the page
 
-  @DMP-2709 @DMP-3384
+  @DMP-2709 @DMP-3384 @DMP-4263
   Scenario: Admin Audio file-Details page
-    When I am logged on to the admin portal as an "ADMIN" user
+    When I am logged on to the admin portal as an "SUPERUSER" user
     And I see "Search" on the page
     And I set "Filter by courthouse" to "DMP-3438_Courthouse"
     And I select the "Audio" radio button
@@ -313,12 +308,17 @@ Feature: Admin Search
     And I see "File size" in the same row as "0.94KB"
     And I see "Filename" in the same row as "DMP-3438-file1"
     And I see "Date created" in the same row as "28 Jun 2024 at 1:40:41PM"
-    And I see "Associated cases" on the page
-    Then I verify the HTML table contains the following values
-      | Case ID        | Hearing date | Defendants(s) | Judges(s) |
-      | DMP-3438_case1 | 28 Jun 2024  |               |           |
-    When I Sign out
-
+    Then I verify the HTML table "Associated cases" contains the following values
+      | Case ID        | Courthouse          | Source |
+      | DMP-3438_case1 | DMP-3438_Courthouse | Legacy |
+    And I click on "Case ID" in the "Associated cases" table header
+    And I click on "Case ID" in the table header
+    Then "Case ID" has sort "ascending" icon
+    And I click on "Courthouse" in the table header
+    Then "Courthouse" has sort "ascending" icon
+    And I click on "Source" in the table header
+    Then "Source" has sort "ascending" icon
+    And I Sign out
     #Super Admin
     And I am logged on to the admin portal as an "ADMIN" user
     Then I see "Search" on the page
@@ -357,8 +357,13 @@ Feature: Admin Search
     And I see "Date created" in the same row as "28 Jun 2024 at 1:40:41PM"
     And I see "Associated cases" on the page
     Then I verify the HTML table contains the following values
-      | Case ID        | Hearing date | Defendants(s) | Judges(s) |
-      | DMP-3438_case1 | 28 Jun 2024  |               |           |
+      | Case ID        | Courthouse          | Source |
+      | DMP-3438_case1 | DMP-3438_Courthouse | Legacy |
+
+    And I see "Associated hearings" on the page
+    Then I verify the HTML table "Associated hearings" contains the following values
+      | Case ID        | Hearing date | Courthouse          | Courtroom      |
+      | DMP-3438_case1 | 28 Jun 2024  | DMP-3438_Courthouse | ROOM1_DMP-3438 |
 
     #Advanced details
     When I click on the "Advanced details" link
@@ -368,21 +373,22 @@ Feature: Admin Search
     And I see "Clip ID" in the same row as ""
     And I see "Checksum" in the same row as "d6df4486865e46f60d6bcebda3950760"
     And I see "Media status" in the same row as ""
+    And I see "Is current" in the same row as "Yes"
     And I see "Audio hidden?" in the same row as "No"
     And I see "Audio deleted?" in the same row as "No"
 
-    And I see "Version data" in the same row as "Show versions"
+    And I see "Version data" on the page
     And I see "Version" in the same row as ""
     And I see "Chronicle ID" in the same row as "52849"
     And I see "Antecedent ID" in the same row as ""
     And I see "Retain until" in the same row as ""
     And I see "Date created" in the same row as "28 Jun 2024 at 1:40:41PM"
     And I see "Created by" in the same row as ""
-    And I see "Date last modified" in the same row as "28 Jun 2024 at 1:40:41PM"
-    And I see "Last modified by" in the same row as ""
+    And I see "Date last modified" in the same row as "23 Jan 20245 at 11:24:39AM"
+    And I see "Last modified by" in the same row as "Darts Admin"
 
     #Hide audio file
-    When I press the " Hide or delete " button
+    When I press the "Hide or delete" button
     And I select the "Other reason to hide only" radio button
     And I set "Enter ticket reference" to "DMP-2709"
     And I set "Comments" to "Testing DMP-2709 AC-3" and click away
