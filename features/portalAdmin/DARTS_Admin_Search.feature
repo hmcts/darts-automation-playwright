@@ -1,4 +1,4 @@
-@admin @admin_search
+@admin @admin_search @retry
 Feature: Admin Search
 
   @DMP-3129 @DMP-4532 @regression
