@@ -109,11 +109,12 @@ withNightlyPipeline(type, product, component) {
       allowMissing         : true,
       alwaysLinkToLastBuild: true,
       keepAll              : true,
-      reportDir            : "reports",
+      reportDir            : "functional-output/functional",
       reportFiles          : "report.html",
       reportName           : "Cucumber Test Report"
     ]
-    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/cucumber-report.json'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/cucumber-report.json'
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/functional/cucumber-result.xml'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'traces/*'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*'
   }

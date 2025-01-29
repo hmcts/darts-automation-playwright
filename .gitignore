@@ -63,9 +63,7 @@ typings/
 .env
 
 #reports
-reports/*.html
-reports/*.json
-
+functional-output
 traces/
 
 #build

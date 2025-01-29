@@ -1,10 +1,11 @@
 const config = {
   import: ['src/**/*.ts'],
   format: [
-    'json:reports/cucumber-report.json',
-    'html:reports/report.html',
+    'json:functional-output/functional/cucumber-report.json',
+    'html:functional-output/functional/report.html',
     'summary',
     'progress-bar',
+    'junit:functional-output/functional/cucumber-result.xml',
   ],
   formatOptions: { snippetInterface: 'async-await' },
   tags: `(not @broken and not @obsolete and not @TODO and not @review) and ${process.env.INCLUDE_TAGS ? `(${process.env.INCLUDE_TAGS})` : '(@smoketest or @regression or @end2end)'}`,
