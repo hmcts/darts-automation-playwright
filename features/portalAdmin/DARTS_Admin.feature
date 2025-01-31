@@ -353,8 +353,8 @@ Feature: Admin portal
     Then I see "Events and audio recordings" on the page
     Then I verify the HTML table contains the following values
       | *NO-CHECK* | Time                    | Event           | Text          |
-      | *NO-CHECK* | 10:00:00                | Hearing started | B{{seq}}ABC-6 |
       | *NO-CHECK* | <startTime> - <endTime> | *NO-CHECK*      | *NO-CHECK*    |
+      | *NO-CHECK* | 10:00:00                | Hearing started | B{{seq}}ABC-6 |
 
     Examples:
       | courthouse         | courtroom  | caseId      | startTime | endTime  |

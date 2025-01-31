@@ -564,7 +564,7 @@ Feature: Case Search
     And "Event" has sort "ascending" icon
 
 
-  @DMP-4129 @DMP-4318 @regression @dave
+  @DMP-4129 @DMP-4318 @regression
   Scenario: Column sorting for User and Admin Portal
     Given I am logged on to DARTS as a "REQUESTER" user
 
