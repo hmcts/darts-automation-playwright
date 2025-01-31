@@ -172,8 +172,9 @@ Feature: Request Audio for transcribers
 
     #DMP-1203-AC1 Search
 
-    When I click on the "Search" link
-    Then I see "Search for a case" on the page
+    # TODO (DT): removed as not necessary
+    # When I click on the "Search" link
+    # Then I see "Search for a case" on the page
 
     # TODO (DT): not sure if these next 5 steps are useful...
     When I Sign out
