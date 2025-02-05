@@ -1,8 +1,7 @@
 #!groovy
 
 properties([
-  // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
-  pipelineTriggers([cron('H 08 * * 1-5')])
+  pipelineTriggers([cron('15 08 * * 1-5')])
 ])
 
 @Library("Infrastructure")
