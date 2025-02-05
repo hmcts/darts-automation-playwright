@@ -283,6 +283,10 @@ ${SOAP_ENVELOPE_CLOSE}`;
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
           console.error(`AddDocument return status code found: ${response.status}, retrying...`);
+          if (response.status === 500) {
+            // possibly the token is no longer valid, refresh that before retrying
+            await this.register(authenticatedSource || 'XHIBIT');
+          }
           return false;
         }
       },
