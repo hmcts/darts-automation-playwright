@@ -346,7 +346,14 @@ export class BasePage {
     }
 
     for (const rowData of tableData) {
-      await this.clickLink('Page 1');
+      const page1Visible = await this.page
+        .getByRole('link', {
+          name: new RegExp(`^0?Page 1`),
+        })
+        .isVisible();
+      if (page1Visible) {
+        await this.clickLink('Page 1');
+      }
 
       let row = this.page.locator('.govuk-table tbody tr');
       for (const cellData of rowData) {

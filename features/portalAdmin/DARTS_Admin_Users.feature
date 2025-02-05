@@ -448,6 +448,7 @@ Feature: Admin-Users
     Then I set "Full name" to "judge"
     And I select the "All" radio button
     And I press the "Search" button
+    And I click on "Full name" in the table header
     Then I verify the HTML table contains the following values
       | Full name    | Email                  | Status | View |
       | global_judge | darts.judge@hmcts.net  | Active | View |
@@ -455,7 +456,6 @@ Feature: Admin-Users
 
     And I click on "View" in the same row as "Local Judge"
     And I see heading "Local Judge"
-    And I see link with text "Back"
     Then I click on the "Back" link
     And I verify the HTML table contains the following values
       | Full name    | Email                  | Status | View |

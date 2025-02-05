@@ -62,12 +62,12 @@ Feature: Admin Search
       | CASE1009 | Swansea            | Multiple  | Mr Judge | Jow Bloggs   |
 
     When I click on the "Hearings" link
-    And I click on "Courtroom" in the table header
+    And I click on "Courthouse" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Hearing date | Courthouse                  | Courtroom   |
-      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A      |
-      | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
       | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A      |
+      | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
+      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A      |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
 
     When I click on the "Cases" link
@@ -126,7 +126,7 @@ Feature: Admin Search
       | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
       | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
 
-  @DMP-2728 @DMP-4257 @regression
+  @DMP-2728 @DMP-4257 @DMP-4573 @regression
   Scenario: Associated Audio files for deletion/hidden and unhidden
     When I am logged on to the admin portal as an "ADMIN" user
     And I set "Case ID" to "CASE1009"
@@ -200,7 +200,7 @@ Feature: Admin Search
       | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | 1              | *NO-CHECK*  |
       | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | *NO-CHECK* | 1              | *NO-CHECK*  |
 
-    #AC5 & AC6 Test cancel link
+    #DMP-4573-AC1 & DMP-4257-AC5 & AC6 Test cancel link
 
     When I click on the "Cancel" link
     Then I see "This file is hidden in DARTS" on the page

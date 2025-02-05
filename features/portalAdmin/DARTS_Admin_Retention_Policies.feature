@@ -20,4 +20,6 @@ Feature: Admin Retention Policies
 
     #AC 2 - View inactive polices
     And I click on the "Inactive" link
-    Then I do not see "No data to display." on the page
+    Then I verify the HTML table includes the following values
+      | Display name    | Name                        | Description | Fixed policy key | Duration | Policy start | Policy end |
+      | Legacy Standard | DARTS Standard Retention v3 | *NO-CHECK*  | -2               | 7y 0m 0d | *NO-CHECK*   | *NO-CHECK* |
