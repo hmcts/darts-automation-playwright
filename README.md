@@ -95,8 +95,13 @@ If tests fail on Jenkins runs then traces and videos will be recorded and saved 
 
 1. Check the "Cucumber Test Report" for the build, filtering to failed.
 1. See the step that failed and determine if it could have been related to a known issue.
-1. Download the trace ZIP and use the Trace viewer to assess the failure.
+1. If the failure is within a portal/admin portal feature:
+   1. Download the trace ZIP and use the Trace viewer to assess the failure.
+1. If the failure is a SOAP/JSON API step:
+   1. View the console log to see the error.
+   1. Crosscheck app insights for staging for any related errors.
 1. Run the feature locally, if it passes then it could be some flakiness on Jenkins, this is expected to some degree.
+   1. Assess if the flakiness could be improved.
 1. If the feature fails locally, make any changes required to fix it and create a PR.
 1. Once the PR is merged run the tests on Jenkins and cross your fingers.
 
