@@ -365,13 +365,19 @@ When(
     // however the soapBody uses CDATA and the proxy rejects this as invalid XML.
     // darts-automation uses the gateway which is why this passes there.
     const useGateway = true;
+    const ignoreResponseStatus = true;
     if (soapAction === 'addCase') {
-      await DartsSoapService.addCase(soapBody, { includesDocumentTag: true, useGateway });
+      await DartsSoapService.addCase(soapBody, {
+        includesDocumentTag: true,
+        useGateway,
+        ignoreResponseStatus,
+      });
     }
     if (soapAction === 'addLogEntry') {
       await DartsSoapService.addLogEntry(substituteValue(soapBody) as string, {
         includesDocumentTag: true,
         useGateway,
+        ignoreResponseStatus,
       });
     }
     if (soapAction === 'addDocument') {
@@ -381,6 +387,7 @@ When(
         undefined,
         undefined,
         substituteValue(soapBody) as string,
+        { ignoreResponseStatus },
       );
     }
     if (soapAction === 'registerNode') {
@@ -405,8 +412,17 @@ Then('the SOAP response contains:', async function (this: ICustomWorld, expected
 
 Then('the API status code is {int}', async function (this: ICustomWorld, statusCode: number) {
   const response = DartsSoapService.getResponseCodeAndMessage() as SoapResponseCodeAndMessage;
+  console.log('Soap step response', response);
   if (!response) {
     throw new Error('API status code could not be found.');
   }
   expect(response.code).toBe(statusCode);
 });
+
+Then(
+  'the SOAP fault response includes {string}',
+  async function (this: ICustomWorld, text: string) {
+    const response = DartsSoapService.getResponseCodeAndMessage() as SoapResponseCodeAndMessage;
+    expect(response.message).toContain(text);
+  },
+);

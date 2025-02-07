@@ -841,7 +841,9 @@ Feature: Test operation of SOAP events
       </be:DartsEvent>]]>
       </document>
       """
-    Then the API status code is 404
+    # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
+    Then the API status code is 500
+    And the SOAP fault response includes "Courthouse Not Found"
 
   @EVENT_API @SOAP_API @DMP-2960 @regression
   Scenario: Create an event using invalid type / subtype
@@ -862,7 +864,9 @@ Feature: Test operation of SOAP events
       </be:DartsEvent>]]>
       </document>
       """
-    Then the API status code is 404
+    # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
+    Then the API status code is 500
+    And the SOAP fault response includes "Handler Not Found"
 
   @regression
   @reads-and-writes-system-properties

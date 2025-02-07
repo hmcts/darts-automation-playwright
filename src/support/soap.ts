@@ -219,29 +219,55 @@ export interface SoapFaultResponse {
   };
 }
 
+export interface SoapFaultServiceExceptionResponse {
+  'SOAP-ENV:Fault': {
+    faultcode: string;
+    faultstring: string;
+    detail: {
+      'ns3:ServiceException': {
+        exceptionBean: {
+          attribute: {
+            name: string;
+            type: string;
+          };
+          exceptionClass: string;
+          genericType: string;
+          message: string;
+          messageId: string;
+        };
+        message: string;
+        messageArgs: string;
+        messageId: string;
+        stackTraceAsString: string;
+      };
+    };
+  };
+}
+
 export interface GatewaySoapResponse {
   'SOAP-ENV:Envelope': {
     'SOAP-ENV:Header': string;
-    'SOAP-ENV:Body': SoapFaultResponse & {
-      'ns3:addCaseResponse'?: {
-        return: SoapResponseCodeAndMessage;
+    'SOAP-ENV:Body': SoapFaultServiceExceptionResponse &
+      SoapFaultResponse & {
+        'ns3:addCaseResponse'?: {
+          return: SoapResponseCodeAndMessage;
+        };
+        'ns3:addLogEntryResponse'?: {
+          return: SoapResponseCodeAndMessage;
+        };
+        'ns3:addDocumentResponse'?: {
+          return: SoapResponseCodeAndMessage;
+        };
+        'ns3:registerResponse'?: {
+          return: string;
+        };
+        'ns3:registerNodeResponse'?: {
+          return: SoapRegisterNodeResponse;
+        };
+        'ns3:getCasesResponse'?: {
+          return: SoapGetCasesResponse;
+        };
       };
-      'ns3:addLogEntryResponse'?: {
-        return: SoapResponseCodeAndMessage;
-      };
-      'ns3:addDocumentResponse'?: {
-        return: SoapResponseCodeAndMessage;
-      };
-      'ns3:registerResponse'?: {
-        return: string;
-      };
-      'ns3:registerNodeResponse'?: {
-        return: SoapRegisterNodeResponse;
-      };
-      'ns3:getCasesResponse'?: {
-        return: SoapGetCasesResponse;
-      };
-    };
   };
 }
 

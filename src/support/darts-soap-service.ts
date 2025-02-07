@@ -18,10 +18,12 @@ import {
   SoapFaultResponse,
   SoapGetCasesResponse,
   SoapRegisterNodeResponse,
+  SoapFaultServiceExceptionResponse,
 } from './soap';
 import { ExternalServiceUserTypes, getExternalUserCredentials } from './credentials';
 import wait from './wait';
 
+const SOAP_HTTP_RESPONSE_CODE_CACHE_KEY = 'darts_soap_http_response_code';
 const SOAP_RESPONSE_CACHE_KEY = 'darts_soap_response';
 const SOAP_GET_CASES_RESPONSE_CACHE_KEY = 'darts_get_cases_soap_response';
 const ACCESS_TOKEN_CACHE_KEY = 'darts_soap_access_token';
@@ -97,7 +99,8 @@ ${SOAP_ENVELOPE_CLOSE}`;
     {
       includesDocumentTag,
       useGateway,
-    }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
+      ignoreResponseStatus,
+    }: { includesDocumentTag?: boolean; useGateway?: boolean; ignoreResponseStatus?: boolean } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
     await wait(
@@ -112,7 +115,10 @@ ${SOAP_ENVELOPE_CLOSE}`;
           ),
         );
         try {
-          expect(response.status).toEqual(200);
+          if (!ignoreResponseStatus) {
+            expect(response.status).toEqual(200);
+          }
+          cache.put(SOAP_HTTP_RESPONSE_CODE_CACHE_KEY, response.status);
           cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
           return true;
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -131,7 +137,7 @@ ${SOAP_ENVELOPE_CLOSE}`;
     {
       includesDocumentTag,
       useGateway,
-    }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
+    }: { includesDocumentTag?: boolean; useGateway?: boolean; ignoreResponseStatus?: boolean } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
 
@@ -146,7 +152,8 @@ ${SOAP_ENVELOPE_CLOSE}`;
           'ns2',
         ),
       );
-      if ([500, 502, 504].includes(response.status)) return false;
+      if ([502, 504].includes(response.status)) return false;
+      cache.put(SOAP_HTTP_RESPONSE_CODE_CACHE_KEY, response.status);
       cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
       return true;
     });
@@ -216,7 +223,8 @@ ${SOAP_ENVELOPE_CLOSE}`;
     {
       includesDocumentTag,
       useGateway,
-    }: { includesDocumentTag?: boolean; useGateway?: boolean } = {},
+      ignoreResponseStatus,
+    }: { includesDocumentTag?: boolean; useGateway?: boolean; ignoreResponseStatus?: boolean } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'VIQ';
     await wait(async () => {
@@ -230,7 +238,10 @@ ${SOAP_ENVELOPE_CLOSE}`;
         ),
       );
       try {
-        expect(response.status).toEqual(200);
+        if (!ignoreResponseStatus) {
+          expect(response.status).toEqual(200);
+        }
+        cache.put(SOAP_HTTP_RESPONSE_CODE_CACHE_KEY, response.status);
         cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
         return true;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -247,6 +258,7 @@ ${SOAP_ENVELOPE_CLOSE}`;
     subType?: string,
     documentXmlString?: string,
     addDocumentXmlString?: string,
+    { ignoreResponseStatus }: { ignoreResponseStatus?: boolean } = {},
   ): Promise<void> {
     const authenticatedSource = cache.get(AUTHENTICATED_SOURCE_CACHE_KEY) ?? 'XHIBIT';
     if (!cache.get(AUTHENTICATED_SOURCE_CACHE_KEY)) {
@@ -277,7 +289,10 @@ ${SOAP_ENVELOPE_CLOSE}`;
           this.buildSoapRequest('addDocument', addDocumentXml, true, authenticatedSource, 'ns5'),
         );
         try {
-          expect(response.status).toEqual(200);
+          if (!ignoreResponseStatus) {
+            expect(response.status).toEqual(200);
+          }
+          cache.put(SOAP_HTTP_RESPONSE_CODE_CACHE_KEY, response.status);
           cache.put(SOAP_RESPONSE_CACHE_KEY, response.text);
           return true;
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -332,6 +347,10 @@ ${SOAP_ENVELOPE_CLOSE}`;
     );
   }
 
+  static getResponseStatusCode(): number {
+    return cache.get(SOAP_HTTP_RESPONSE_CODE_CACHE_KEY);
+  }
+
   static getResponseObject(): SoapResponse {
     const parser = new XMLParser();
     return parser.parse(cache.get(SOAP_RESPONSE_CACHE_KEY));
@@ -342,32 +361,38 @@ ${SOAP_ENVELOPE_CLOSE}`;
     | SoapGetCasesResponse
     | SoapRegisterNodeResponse
     | SoapFaultResponse
+    | SoapFaultServiceExceptionResponse
     | undefined {
     const parser = new XMLParser();
     const responseObj: SoapResponse = parser.parse(cache.get(SOAP_RESPONSE_CACHE_KEY));
     if (!responseObj) {
       throw new Error('SOAP response not found');
     }
-    if (responseObj)
-      if ((responseObj as GatewaySoapResponse)['SOAP-ENV:Envelope']) {
-        const r = responseObj as GatewaySoapResponse;
-        const body = r['SOAP-ENV:Envelope']['SOAP-ENV:Body'];
-        if (body['ns3:addCaseResponse']) {
-          return body['ns3:addCaseResponse'].return;
-        }
-        if (body['ns3:addLogEntryResponse']) {
-          return body['ns3:addLogEntryResponse'].return;
-        }
-        if (body['ns3:addDocumentResponse']) {
-          return body['ns3:addDocumentResponse'].return;
-        }
-        if (body['ns3:registerNodeResponse']) {
-          return body['ns3:registerNodeResponse'].return;
-        }
-        if (body['ns3:getCasesResponse']) {
-          return body['ns3:getCasesResponse'].return;
-        }
+    if ((responseObj as GatewaySoapResponse)['SOAP-ENV:Envelope']) {
+      const r = responseObj as GatewaySoapResponse;
+      const body = r['SOAP-ENV:Envelope']['SOAP-ENV:Body'];
+      if (body['ns3:addCaseResponse']) {
+        return body['ns3:addCaseResponse'].return;
       }
+      if (body['ns3:addLogEntryResponse']) {
+        return body['ns3:addLogEntryResponse'].return;
+      }
+      if (body['ns3:addDocumentResponse']) {
+        return body['ns3:addDocumentResponse'].return;
+      }
+      if (body['ns3:registerNodeResponse']) {
+        return body['ns3:registerNodeResponse'].return;
+      }
+      if (body['ns3:getCasesResponse']) {
+        return body['ns3:getCasesResponse'].return;
+      }
+      if (body['SOAP-ENV:Fault']) {
+        return {
+          code: 500,
+          message: body['SOAP-ENV:Fault'].faultstring,
+        };
+      }
+    }
     if ((responseObj as ProxySoapResponse)['S:Envelope']) {
       const r = responseObj as ProxySoapResponse;
       const body = r['S:Envelope']['S:Body'];

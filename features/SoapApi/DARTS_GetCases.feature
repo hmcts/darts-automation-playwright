@@ -35,7 +35,9 @@ Feature: GetCases using SOAP
       <date>{{yyyymmdd}}</date>
       </com:getCases>
       """
-    Then the API status code is 404
+    # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
+    Then the API status code is 500
+    And the SOAP fault response includes "Courthouse Not Found"
 
   Scenario: getCases authentication from XHIBIT fails
     Given I authenticate from the "XHIBIT" source system
