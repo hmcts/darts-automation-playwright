@@ -207,7 +207,7 @@ ${SOAP_ENVELOPE_CLOSE}`;
           expect(response.status).toEqual(200);
           return true;
         } else {
-          if ([500, 502, 504].includes(response.status)) return false;
+          if ([502, 504].includes(response.status)) return false;
         }
         return true;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

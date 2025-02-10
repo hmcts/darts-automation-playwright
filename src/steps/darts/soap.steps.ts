@@ -412,7 +412,6 @@ Then('the SOAP response contains:', async function (this: ICustomWorld, expected
 
 Then('the API status code is {int}', async function (this: ICustomWorld, statusCode: number) {
   const response = DartsSoapService.getResponseCodeAndMessage() as SoapResponseCodeAndMessage;
-  console.log('Soap step response', response);
   if (!response) {
     throw new Error('API status code could not be found.');
   }
