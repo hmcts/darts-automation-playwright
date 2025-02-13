@@ -36,7 +36,7 @@
     "allure-cucumberjs": "3.1.0",
     "cucumber-html-reporter": "7.2.0",
     "eslint": "9.11.1",
-    "eslint-config-prettier": "9.1.0",
+    "eslint-config-prettier": "10.0.1",
     "eslint-plugin-playwright": "1.8.3",
     "eslint-plugin-prettier": "5.2.3",
     "fs-extra": "11.3.0",
