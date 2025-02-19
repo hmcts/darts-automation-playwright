@@ -33,6 +33,9 @@ yarn --version
 To develop tests locally, first you need to ensure the following
 
 - you are connected to [HMCTS VPN](https://portal.platform.hmcts.net/)
+- you have the Azure CLI and `jq` installed
+    - [install Azure CLI with homebrew](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-macos#install-with-homebrew)
+    - `brew install jq`
 - you have set the required secrets in your terminal by running `source ./bin/secrets-stg.sh`
 - run `yarn install`
 
@@ -47,8 +50,8 @@ After that there are various `yarn` commands and combinations that can be used t
 
 You can set the `<options>` for the command depending on what you want to run.
 
-- `feature/portal/DARTS_Portal.feature` - specify single feature file
-- `feature/portal/*.feature` - specify multiple feature files using wildcards
+- `features/portal/DARTS_Portal.feature` - specify single feature file
+- `features/portal/*.feature` - specify multiple feature files using wildcards
 - `-- --tags @smoketest` - specify a tag to run, uses [Cucumber Tag expressions](https://cucumber.io/docs/cucumber/api/#tag-expressions)
 
 Note, that Cucumber is configured with the following tag expression by default, meaning that no features/scenarios with those tags will be run.
