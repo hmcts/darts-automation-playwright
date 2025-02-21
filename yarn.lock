@@ -1905,7 +1905,7 @@ __metadata:
     luxon: ^3.5.0
     md5-file: ^5.0.0
     memory-cache: ^0.2.0
-    multiple-cucumber-html-reporter: 3.9.1
+    multiple-cucumber-html-reporter: 3.9.2
     open: 10.1.0
     postgres: ^3.4.5
     prettier: 3.5.1
@@ -3509,9 +3509,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multiple-cucumber-html-reporter@npm:3.9.1":
-  version: 3.9.1
-  resolution: "multiple-cucumber-html-reporter@npm:3.9.1"
+"multiple-cucumber-html-reporter@npm:3.9.2":
+  version: 3.9.2
+  resolution: "multiple-cucumber-html-reporter@npm:3.9.2"
   dependencies:
     find: ^0.3.0
     fs-extra: ^11.3.0
@@ -3520,7 +3520,7 @@ __metadata:
     luxon: ^3.5.0
     open: ^8.4.2
     uuid: ^11.0.5
-  checksum: be479c4a49a2da4747066b371b328695cd587837c7626d129d47d720d39b1f7536d948ee371b87853929a3d7ce218ca68f83d96c5a6500e7730f3af28b2c7121
+  checksum: e5e2cc7538144f11770d96bcf88183ec0405dfe99c8a2ad05bce28ff8bd533cc0674938fca3fe879495b025c3173a1b43cd8cdca458c4d815e4999f1bbf8634e
   languageName: node
   linkType: hard
 
