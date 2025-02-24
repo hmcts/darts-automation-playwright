@@ -2,6 +2,9 @@
 
 DARTS automation written using Playwright with TypeScript.
 
+This framework supersedes the old Selenium/Java framework as of 21/02/2025.
+Old framework to be archived: https://github.com/hmcts/darts-automation
+
 To use this repo you will need `node` v20 or v22 and `yarn` v3.
 
 I recommend using a version manager such as [NVM](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) to manage node.js versions.
@@ -34,8 +37,8 @@ To develop tests locally, first you need to ensure the following
 
 - you are connected to [HMCTS VPN](https://portal.platform.hmcts.net/)
 - you have the Azure CLI and `jq` installed
-    - [install Azure CLI with homebrew](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-macos#install-with-homebrew)
-    - `brew install jq`
+  - [install Azure CLI with homebrew](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-macos#install-with-homebrew)
+  - `brew install jq`
 - you have set the required secrets in your terminal by running `source ./bin/secrets-stg.sh`
 - run `yarn install`
 
