@@ -468,7 +468,7 @@ Feature: Admin Search
     When I click on "Text" in the table header
     Then "Text" has sort "ascending" icon
 
-  @3309
+  @DMP-3309
   Scenario: Event_ID Screen
     When I am logged on to the admin portal as an "ADMIN" user
     And I see "Search" on the page
@@ -514,3 +514,36 @@ Feature: Admin Search
     And I see "Created by" in the same row as "System"
     And I see "Date last modified" in the same row as "07 Nov 2024 at 10:23:48"
     And I see "Last modified by" in the same row as "System"
+
+  @DMP-3311 @DMP-4818 @regression
+  Scenario: Event version screen
+    Given I am logged on to the admin portal as an "ADMIN" user
+    When I set "Filter by courthouse" to "Swansea"
+    And I set "Case ID" to "DMP"
+    And I select the "Specific date" radio button
+    And I set "Enter a specific date" to "22/07/2024"
+    And I select the "Events" radio button
+    And I press the "Search" button
+    And I click on the "340850" link
+    And I click on the "Advanced details" sub-menu link
+    And I click on the "Show versions" link
+    Then I see "All versions of this event" on the page
+    And I see "Source event ID" on the page
+    And I see "340850" on the page
+
+    When I see "Current version" on the page
+    Then I verify the HTML table "currentVersionTable" contains the following values
+      | Event ID | Timestamp               | Name                    | Courthouse         | Courtroom            | Text                                                   |
+      | 1429497  | 06 Feb 2025 at 16:23:12 | Proceedings in chambers | Harrow Crown Court | COURTROOM-DMP-4596-1 | New Case, Event and Hearing are created for DMP-4596-1 |
+
+    And I see "Previous versions" on the page
+    And I see "1429477" in the same row as "New Case, Event and Hearing are created for DMP-4596"
+    And I see "1414713" in the same row as "New Case, Event and Hearing are created for DMP-4596-Case1"
+    And I see "932957" in the same row as "AC2- New event to linked CASE4199-2 & CASE4199-3"
+
+    When I click on the pagination link "2"
+    Then I see "248353" in the same row as "Start Recording, New Case"
+
+    When I click on the "Back to event details" link
+    Then I see "StandardEventHandler" on the page
+    And I see "Show versions" on the page
