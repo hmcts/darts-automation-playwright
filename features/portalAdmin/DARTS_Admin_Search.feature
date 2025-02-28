@@ -536,13 +536,11 @@ Feature: Admin Search
       | Event ID | Timestamp               | Name                    | Courthouse         | Courtroom            | Text                                                   |
       | 1429497  | 06 Feb 2025 at 16:23:12 | Proceedings in chambers | Harrow Crown Court | COURTROOM-DMP-4596-1 | New Case, Event and Hearing are created for DMP-4596-1 |
 
-    And I see "Previous versions" on the page
-    And I see "1429477" in the same row as "New Case, Event and Hearing are created for DMP-4596"
-    And I see "1414713" in the same row as "New Case, Event and Hearing are created for DMP-4596-Case1"
-    And I see "932957" in the same row as "AC2- New event to linked CASE4199-2 & CASE4199-3"
-
-    When I click on the pagination link "2"
-    Then I see "248353" in the same row as "Start Recording, New Case"
+    Then I verify the HTML table "previousVersionsTable" includes the following values
+      | Event ID | Timestamp               | Name                    | Courthouse          | Courtroom          | Text                                                 |
+      | 1429477  | 06 Feb 2025 at 14:55:31 | Proceedings in chambers | Swansea             | COURTROOM-DMP-4596 | New Case, Event and Hearing are created for DMP-4596 |
+      | 252473   | 05 Oct 2023 at 13:08:27 | LOG                     | Swansea             | 1                  | System : Stop Recording : Stop: Case Code:0001       |
+      | 148522   | 14 Feb 2024 at 13:14:00 | Jury in                 | DMP-2166_Courthouse | ROOM3_DMP-2166     | event 3                                              |
 
     When I click on the "Back to event details" link
     Then I see "StandardEventHandler" on the page
