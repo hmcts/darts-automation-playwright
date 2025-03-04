@@ -322,7 +322,7 @@ export class BasePage {
 
     let index = 0;
     for (const rowData of tableData) {
-      const tableRow = this.page.locator('.govuk-table tbody tr').nth(index);
+      const tableRow = this.page.locator(`${tableLocator} tbody tr`).nth(index);
       index++;
       for (const cellData of rowData) {
         if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
@@ -336,12 +336,23 @@ export class BasePage {
     }
   }
 
-  async verifyHtmlTableIncludes(tableLocator: string, headings: string[], tableData: string[][]) {
+  async verifyHtmlTableIncludes(
+    tableLocator: string,
+    headings: string[],
+    tableData: string[][],
+    exactMatchHeaders = false,
+  ) {
+    const tableHeaders = this.page.locator(`${tableLocator} thead tr th`);
+
     for (const header of headings) {
       if (header !== '*NO-CHECK*' && header !== '*SKIP*') {
-        await expect(
-          this.page.locator(tableLocator).getByLabel(`${header} column header`, { exact: true }),
-        ).toBeVisible();
+        if (exactMatchHeaders) {
+          await expect(
+            this.page.getByLabel(`${header} column header`, { exact: true }),
+          ).toBeVisible();
+        } else {
+          await expect(tableHeaders.filter({ hasText: header }).nth(0)).toHaveText(header);
+        }
       }
     }
 
@@ -355,28 +366,45 @@ export class BasePage {
         await this.clickLink('Page 1');
       }
 
-      let row = this.page.locator('.govuk-table tbody tr');
+      let row = this.page.locator(`${tableLocator} tbody tr`);
       for (const cellData of rowData) {
         if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
           row = row.filter({ has: this.page.getByRole('cell', { name: cellData }) });
         }
       }
 
-      // check pages for
-      await wait(
-        async () => {
-          try {
-            await expect(row).toBeVisible();
-            return true;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          } catch (err) {
+      let pageContains: boolean = false;
+      let canGoNext: boolean = false;
+      let counter: number = 0;
+      do {
+        try {
+          await expect(row).toBeVisible();
+          pageContains = true;
+        } catch {
+          counter++;
+          pageContains = false;
+          canGoNext = await this.canGoToNextPage();
+          console.log(`canGoNext ${canGoNext}, counter ${counter}`);
+          if (canGoNext) {
             await this.clickLink('Next');
-            return false;
+          } else {
+            throw new Error(`Row not found serching ${counter} pages`);
           }
-        },
-        100,
-        2,
-      );
+        }
+      } while (!pageContains && canGoNext);
+    }
+  }
+
+  async canGoToNextPage(): Promise<boolean> {
+    try {
+      console.log('Checking for next link');
+      const nextLink = this.page.getByRole('link', { name: 'Next' });
+      await expect(nextLink).toBeVisible();
+      console.log('Next link found');
+      return true;
+    } catch {
+      console.log('Next link not found');
+      return false;
     }
   }
 
