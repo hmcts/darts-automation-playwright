@@ -516,7 +516,7 @@ Feature: Admin Search
     And I see "Last modified by" in the same row as "System"
 
   @DMP-3311 @DMP-4818 @regression
-  Scenario: Event version screen
+  Scenario: Event version screen - all versions of an event are correctly displayed
     Given I am logged on to the admin portal as an "ADMIN" user
     When I set "Filter by courthouse" to "Swansea"
     And I set "Case ID" to "DMP"
