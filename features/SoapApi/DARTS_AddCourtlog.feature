@@ -31,7 +31,7 @@ Feature: Add Courtlog SOAP
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}131 | test defendent11~test defendent22 | test judge | test prosecutor | test defender |
 
   @regression
-  Scenario Outline: SOAP courtLog where case dooes not exist and the courtlog creates the case
+  Scenario Outline: SOAP courtLog where case does not exist and the courtlog creates the case
     Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>"
     When I add courtlogs
       | courthouse   | courtroom   | case_numbers | text                  | date       | time     |
@@ -55,6 +55,27 @@ Feature: Add Courtlog SOAP
     Examples:
       | courthouse         | courtroom    | caseNumber  | defendants                        | judges     | prosecutors     | defenders     |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}132 | test defendent11~test defendent22 | test judge | test prosecutor | test defender |
+
+  @regression @DMP-3945
+  Scenario Outline: SOAP courtLog where courtlog creates different cases with whitespace maintained
+    Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "  <caseNumber>  " and "courthouse_name" = "<courthouse>"
+    And I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "<caseNumber>  " and "courthouse_name" = "<courthouse>"
+    When I add courtlogs
+      | courthouse   | courtroom   | case_numbers       | text                  | date       | time     |
+      | <courthouse> | <courtroom> | "  <caseNumber>  " | log details {{seq}}-1 | {{date-0}} | 10:00:01 |
+    And the API status code is 200
+    When I add courtlogs
+      | courthouse   | courtroom   | case_numbers     | text                  | date       | time     |
+      | <courthouse> | <courtroom> | "<caseNumber>  " | log details {{seq}}-1 | {{date-0}} | 10:00:01 |
+    And the API status code is 200
+    And I select column "cas.cas_id" from table "COURTCASE" where "courthouse_name" = "<courthouse>" and "case_number" = "  <caseNumber>  "
+    And I see table "COURTCASE" column "case_number" is "  T{{seq}}134  " where "cas.cas_id" = "{{cas.cas_id}}"
+    And I select column "cas.cas_id" from table "COURTCASE" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>  "
+    And I see table "COURTCASE" column "case_number" is "T{{seq}}134  " where "cas.cas_id" = "{{cas.cas_id}}"
+
+    Examples:
+      | courthouse         | courtroom    | caseNumber  | defendants                        | judges     | prosecutors     | defenders     |
+      | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}134 | test defendent11~test defendent22 | test judge | test prosecutor | test defender |
 
   @regression
   Scenario: addLogEntry successful baseline

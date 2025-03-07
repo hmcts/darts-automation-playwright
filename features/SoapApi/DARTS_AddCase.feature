@@ -137,6 +137,27 @@ Feature: AddCase using SOAP
       | courthouse         | caseNumber  | defendant1      | judgeName  | prosecutors     | defenders     |
       | HARROW CROWN COURT | T{{seq}}606 | test defendent1 | test judge | test prosecutor | test defender |
 
+  @DMP-3945
+  Scenario Outline: SOAP addCase case numbers including whitespace, should create different cases
+    Given I see table "COURTCASE" column "count(cas_id)" is "0" where "courthouse_name" = "<courthouse>" and "case_number" = "  <caseNumber>  "
+    And I see table "COURTCASE" column "count(cas_id)" is "0" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>  "
+    When I create a case
+      | courthouse   | case_number        | defendants   | judges      | prosecutors   | defenders   | courtroom |
+      | <courthouse> | "  <caseNumber>  " | <defendant1> | <judgeName> | <prosecutors> | <defenders> | 1         |
+    And the API status code is 200
+    And I create a case
+      | courthouse   | case_number      | defendants   | judges      | prosecutors   | defenders   | courtroom |
+      | <courthouse> | "<caseNumber>  " | <defendant1> | <judgeName> | <prosecutors> | <defenders> | 1         |
+    Then the API status code is 200
+    And I select column "cas.cas_id" from table "COURTCASE" where "courthouse_name" = "<courthouse>" and "case_number" = "  <caseNumber>  "
+    And I see table "COURTCASE" column "case_number" is "  T{{seq}}608  " where "cas.cas_id" = "{{cas.cas_id}}"
+    And I select column "cas.cas_id" from table "COURTCASE" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>  "
+    And I see table "COURTCASE" column "case_number" is "T{{seq}}608  " where "cas.cas_id" = "{{cas.cas_id}}"
+
+    Examples:
+      | courthouse         | caseNumber  | defendant1      | judgeName  | prosecutors     | defenders     |
+      | HARROW CROWN COURT | T{{seq}}608 | test defendent1 | test judge | test prosecutor | test defender |
+
   @DMP-1706
   Scenario: addCase successful baseline
     Given I authenticate from the "VIQ" source system
