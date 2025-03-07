@@ -34,7 +34,12 @@ export const dataTableToObjectArray = <T>(dataTable: DataTable): T[] => {
       if (val === 'MISSING') {
         obj[key] = null;
       } else {
-        obj[key] = substituteValue(item[keyIndex]);
+        let valToSub = val;
+        // to be able to maintain whitespace in data table strings, such as "  T{{seq}}608  "
+        if (val.startsWith('"') && val.endsWith('"')) {
+          valToSub = valToSub.split('"').join('');
+        }
+        obj[key] = substituteValue(valToSub);
       }
     });
     objArray.push(obj as T);

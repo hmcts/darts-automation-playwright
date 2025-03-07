@@ -823,6 +823,52 @@ Feature: Test operation of SOAP events
     Then the API status code is 200
     And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "T{{seq}}256" and "courthouse_name" = "HARROW CROWN COURT"
 
+  @EVENT_API @SOAP_API @DMP-2960 @DMP-3945 @regression
+  Scenario: Verify that a case is created with whitespace retained
+    Given that courthouse "HARROW CROWN COURT" case "  T{{seq}}400  " does not exist
+    Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "  T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
+    And I authenticate from the "XHIBIT" source system
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}421</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}421" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}U</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>  T{{seq}}400  </be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 200
+    And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "  T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
+
+  @EVENT_API @SOAP_API @DMP-2960 @DMP-3945 @regression
+  Scenario: Verify that another case is created with different whitespace retained
+    Given that courthouse "HARROW CROWN COURT" case "T{{seq}}400  " does not exist
+    Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
+    And I authenticate from the "XHIBIT" source system
+    When I call POST SOAP API using soap action "addDocument" and body:
+      """
+      <messageId>{{seq}}422</messageId>
+      <type>10100</type>
+      <document>
+      <![CDATA[<be:DartsEvent xmlns:be="urn:integration-cjsonline-gov-uk:pilot:entities" ID="{{seq}}422" Y="{{yyyy-{{date-0}}}}" M="{{mm-{{date-0}}}}" D="{{dd-{{date-0}}}}" H="12" MIN="04" S="10">
+      <be:CourtHouse>HARROW CROWN COURT</be:CourtHouse>
+      <be:CourtRoom>ROOM {{seq}}U</be:CourtRoom>
+      <be:CaseNumbers>
+      <be:CaseNumber>T{{seq}}400  </be:CaseNumber>
+      </be:CaseNumbers>
+      <be:EventText>text {{seq}} CD2</be:EventText>
+      </be:DartsEvent>]]>
+      </document>
+      """
+    Then the API status code is 200
+    And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
+
   @EVENT_API @SOAP_API @DMP-2960 @regression
   Scenario: Verify that event creation for an invalid courthouse fails
     Given I authenticate from the "XHIBIT" source system
