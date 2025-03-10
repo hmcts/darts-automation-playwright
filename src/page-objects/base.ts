@@ -322,7 +322,7 @@ export class BasePage {
 
     let index = 0;
     for (const rowData of tableData) {
-      const tableRow = this.page.locator('.govuk-table tbody tr').nth(index);
+      const tableRow = this.page.locator(`${tableLocator} tbody tr`).nth(index);
       index++;
       for (const cellData of rowData) {
         if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
@@ -355,7 +355,7 @@ export class BasePage {
         await this.clickLink('Page 1');
       }
 
-      let row = this.page.locator('.govuk-table tbody tr');
+      let row = this.page.locator(`${tableLocator} tbody tr`);
       for (const cellData of rowData) {
         if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
           row = row.filter({ has: this.page.getByRole('cell', { name: cellData }) });
@@ -375,8 +375,21 @@ export class BasePage {
           }
         },
         100,
-        2,
+        20,
       );
+    }
+  }
+
+  async canGoToNextPage(): Promise<boolean> {
+    try {
+      console.log('Checking for next link');
+      const nextLink = this.page.getByRole('link', { name: 'Next' });
+      await expect(nextLink).toBeVisible();
+      console.log('Next link found');
+      return true;
+    } catch {
+      console.log('Next link not found');
+      return false;
     }
   }
 

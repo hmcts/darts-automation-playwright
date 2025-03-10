@@ -468,7 +468,7 @@ Feature: Admin Search
     When I click on "Text" in the table header
     Then "Text" has sort "ascending" icon
 
-  @3309
+  @DMP-3309
   Scenario: Event_ID Screen
     When I am logged on to the admin portal as an "ADMIN" user
     And I see "Search" on the page
@@ -514,3 +514,31 @@ Feature: Admin Search
     And I see "Created by" in the same row as "System"
     And I see "Date last modified" in the same row as "07 Nov 2024 at 10:23:48"
     And I see "Last modified by" in the same row as "System"
+
+  @DMP-3311 @DMP-4818 @regression
+  Scenario: Event version screen - all versions of an event are correctly displayed
+    Given I am logged on to the admin portal as an "ADMIN" user
+    When I set "Filter by courthouse" to "Harrow Crown Court"
+    And I set "Case ID" to "DMP-3311"
+    And I select the "Events" radio button
+    And I press the "Search" button
+    And I click on the "1672370" link
+    And I click on the "Advanced details" sub-menu link
+    And I click on the "Show versions" link
+    Then I see "All versions of this event" on the page
+    And I see "Source event ID" on the page
+    And I see "1741621553" on the page
+
+    When I see "Current version" on the page
+    Then I verify the HTML table "currentVersionTable" contains the following values
+      | Event ID | Timestamp               | Name            | Courthouse         | Courtroom | Text                 |
+      | 1672370  | 10 Mar 2025 at 15:47:35 | Hearing started | Harrow Crown Court | 98363     | DT TEST 1741621695 3 |
+
+    Then I verify the HTML table "previousVersionsTable" includes the following values
+      | Event ID | Timestamp               | Name            | Courthouse         | Courtroom | Text                 |
+      | 1672369  | 10 Mar 2025 at 15:45:55 | Hearing started | Harrow Crown Court | 98363     | DT TEST 1741621623 2 |
+      | 1672349  | 10 Mar 2025 at 15:45:53 | Hearing started | Harrow Crown Court | 98363     | DT TEST 1741621553 1 |
+
+    When I click on the "Back to event details" link
+    Then I see "DarStartHandler" on the page
+    And I see "Show versions" on the page
