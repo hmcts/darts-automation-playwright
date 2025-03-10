@@ -518,30 +518,27 @@ Feature: Admin Search
   @DMP-3311 @DMP-4818 @regression
   Scenario: Event version screen - all versions of an event are correctly displayed
     Given I am logged on to the admin portal as an "ADMIN" user
-    When I set "Filter by courthouse" to "Swansea"
-    And I set "Case ID" to "DMP"
-    And I select the "Specific date" radio button
-    And I set "Enter a specific date" to "22/07/2024"
+    When I set "Filter by courthouse" to "Harrow Crown Court"
+    And I set "Case ID" to "DMP-3311"
     And I select the "Events" radio button
     And I press the "Search" button
-    And I click on the "340850" link
+    And I click on the "1672370" link
     And I click on the "Advanced details" sub-menu link
     And I click on the "Show versions" link
     Then I see "All versions of this event" on the page
     And I see "Source event ID" on the page
-    And I see "340850" on the page
+    And I see "1741621553" on the page
 
     When I see "Current version" on the page
     Then I verify the HTML table "currentVersionTable" contains the following values
-      | Event ID | Timestamp               | Name                    | Courthouse         | Courtroom            | Text                                                   |
-      | 1429497  | 06 Feb 2025 at 16:23:12 | Proceedings in chambers | Harrow Crown Court | COURTROOM-DMP-4596-1 | New Case, Event and Hearing are created for DMP-4596-1 |
+      | Event ID | Timestamp               | Name            | Courthouse         | Courtroom | Text                 |
+      | 1672370  | 10 Mar 2025 at 15:47:35 | Hearing started | Harrow Crown Court | 98363     | DT TEST 1741621695 3 |
 
     Then I verify the HTML table "previousVersionsTable" includes the following values
-      | Event ID | Timestamp               | Name                    | Courthouse          | Courtroom          | Text                                                 |
-      | 1429477  | 06 Feb 2025 at 14:55:31 | Proceedings in chambers | Swansea             | COURTROOM-DMP-4596 | New Case, Event and Hearing are created for DMP-4596 |
-      | 252473   | 05 Oct 2023 at 13:08:27 | LOG                     | Swansea             | 1                  | System : Stop Recording : Stop: Case Code:0001       |
-      | 148522   | 14 Feb 2024 at 13:14:00 | Jury in                 | DMP-2166_Courthouse | ROOM3_DMP-2166     | event 3                                              |
+      | Event ID | Timestamp               | Name            | Courthouse         | Courtroom | Text                 |
+      | 1672369  | 10 Mar 2025 at 15:45:55 | Hearing started | Harrow Crown Court | 98363     | DT TEST 1741621623 2 |
+      | 1672349  | 10 Mar 2025 at 15:45:53 | Hearing started | Harrow Crown Court | 98363     | DT TEST 1741621553 1 |
 
     When I click on the "Back to event details" link
-    Then I see "StandardEventHandler" on the page
+    Then I see "DarStartHandler" on the page
     And I see "Show versions" on the page

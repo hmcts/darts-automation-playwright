@@ -336,23 +336,12 @@ export class BasePage {
     }
   }
 
-  async verifyHtmlTableIncludes(
-    tableLocator: string,
-    headings: string[],
-    tableData: string[][],
-    exactMatchHeaders = false,
-  ) {
-    const tableHeaders = this.page.locator(`${tableLocator} thead tr th`);
-
+  async verifyHtmlTableIncludes(tableLocator: string, headings: string[], tableData: string[][]) {
     for (const header of headings) {
       if (header !== '*NO-CHECK*' && header !== '*SKIP*') {
-        if (exactMatchHeaders) {
-          await expect(
-            this.page.getByLabel(`${header} column header`, { exact: true }),
-          ).toBeVisible();
-        } else {
-          await expect(tableHeaders.filter({ hasText: header }).nth(0)).toHaveText(header);
-        }
+        await expect(
+          this.page.locator(tableLocator).getByLabel(`${header} column header`, { exact: true }),
+        ).toBeVisible();
       }
     }
 
@@ -373,25 +362,21 @@ export class BasePage {
         }
       }
 
-      let pageContains: boolean = false;
-      let canGoNext: boolean = false;
-      let counter: number = 0;
-      do {
-        try {
-          await expect(row).toBeVisible();
-          pageContains = true;
-        } catch {
-          counter++;
-          pageContains = false;
-          canGoNext = await this.canGoToNextPage();
-          console.log(`canGoNext ${canGoNext}, counter ${counter}`);
-          if (canGoNext) {
+      // check pages for
+      await wait(
+        async () => {
+          try {
+            await expect(row).toBeVisible();
+            return true;
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          } catch (err) {
             await this.clickLink('Next');
-          } else {
-            throw new Error(`Row not found serching ${counter} pages`);
+            return false;
           }
-        }
-      } while (!pageContains && canGoNext);
+        },
+        100,
+        20,
+      );
     }
   }
 
