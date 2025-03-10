@@ -9,15 +9,15 @@ import { AddAudioRequest } from './types';
 const API_RESPONSE_CACHE_KEY = 'darts_api_response';
 
 export default class DartsTestHarness {
-  private static testHarnessRequest = supertest(config.DARTS_TEST_HARNESS);
+  private static readonly testHarnessRequest = supertest(config.DARTS_TEST_HARNESS);
 
   public static async addAudio(addAudioDetails: AddAudioRequest): Promise<void> {
     const userCredentials = getExternalUserCredentials('VIQ');
     const body = {
-      destinationUrl: `${config.DARTS_PROXY}${config.DARTS_PROXY_SERVICE_PATH}`,
+      destinationUrl: `${config.DARTS_GATEWAY}/service`,
       username: userCredentials.username,
       password: userCredentials.password,
-      transferFormat: 'UCF',
+      transferFormat: config.DARTS_TEST_HARNESS_TRANSFER_FORMAT,
       audioFiles: [
         {
           startDate: DateTime.fromFormat(
@@ -38,12 +38,11 @@ export default class DartsTestHarness {
         },
       ],
     };
-    console.log('Performing DARTS test harness addAudio request', addAudioDetails, body);
+    console.log('Performing DARTS test harness addAudio request', addAudioDetails);
     const response = await this.testHarnessRequest
-      .post('/audio/ucf-test-harness')
+      .post('/audio/external-component-test-harness')
       .set('Content-Type', 'application/json')
       .send(body);
-    console.log(response.status, response.text);
     expect(response.status).toEqual(200);
     cache.put(API_RESPONSE_CACHE_KEY, response.text);
   }

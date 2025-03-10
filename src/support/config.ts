@@ -27,13 +27,15 @@ export const config = {
   DARTS_PORTAL: process.env.DARTS_PORTAL ?? 'https://darts.staging.apps.hmcts.net',
   DARTS_API: process.env.DARTS_GATEWAY ?? 'https://darts-api.staging.platform.hmcts.net',
   DARTS_TEST_HARNESS:
-    process.env.DARTS_TEST_HARNESS ?? 'http://darts-ucf-test-harness.staging.platform.hmcts.net',
+    process.env.DARTS_TEST_HARNESS ??
+    'http://darts-external-component-test-harness.staging.platform.hmcts.net',
+  DARTS_TEST_HARNESS_TRANSFER_FORMAT: process.env.DARTS_TEST_HARNESS_TRANSFER_FORMAT ?? 'MTOM',
   DARTS_GATEWAY: process.env.DARTS_GATEWAY ?? 'http://darts-gateway.staging.platform.hmcts.net',
   DARTS_PROXY: process.env.DARTS_PROXY ?? 'http://darts-proxy.staging.platform.hmcts.net',
   DARTS_GATEWAY_SERVICE_PATH: '/service/darts',
   DARTS_PROXY_SERVICE_PATH: '/service/darts/DARTSService',
   features: {
-    useTestHarnessForAudio: process.env.USE_TEST_HARNESS_FOR_AUDIO === 'true' ? true : false,
+    manualAudioUpload: process.env.AUDIO_MANUAL_UPLOAD === 'true',
   },
   apiAuthentication: {
     external: {
