@@ -380,19 +380,6 @@ export class BasePage {
     }
   }
 
-  async canGoToNextPage(): Promise<boolean> {
-    try {
-      console.log('Checking for next link');
-      const nextLink = this.page.getByRole('link', { name: 'Next' });
-      await expect(nextLink).toBeVisible();
-      console.log('Next link found');
-      return true;
-    } catch {
-      console.log('Next link not found');
-      return false;
-    }
-  }
-
   async verifySelectOptions(select: string, options: string[]) {
     for (const option of options) {
       await this.selectOption(option, select);
