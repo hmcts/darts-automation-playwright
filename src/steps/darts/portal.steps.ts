@@ -213,6 +213,18 @@ Then(
 );
 
 Then(
+  'I verify the HTML table {string} includes the following values',
+  async function (this: ICustomWorld, tableCssId: string, dataTable: DataTable) {
+    const data = dataTable.rawTable;
+    const headings = data[0];
+    const tableData = data.slice(1, data.length);
+
+    const basePage = new BasePage(this.page!);
+    await basePage.verifyHtmlTableIncludes(`#${tableCssId} .govuk-table`, headings, tableData);
+  },
+);
+
+Then(
   'I verify the HTML table contains the following values',
   async function (this: ICustomWorld, dataTable: DataTable) {
     const data = dataTable.rawTable;

@@ -322,7 +322,7 @@ export class BasePage {
 
     let index = 0;
     for (const rowData of tableData) {
-      const tableRow = this.page.locator('.govuk-table tbody tr').nth(index);
+      const tableRow = this.page.locator(`${tableLocator} tbody tr`).nth(index);
       index++;
       for (const cellData of rowData) {
         if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
@@ -355,18 +355,19 @@ export class BasePage {
         await this.clickLink('Page 1');
       }
 
-      let row = this.page.locator('.govuk-table tbody tr');
+      let row = this.page.locator(`${tableLocator} tbody tr`);
       for (const cellData of rowData) {
         if (cellData !== '*IGNORE*' && cellData !== '*NO-CHECK*' && cellData !== '*SKIP*') {
           row = row.filter({ has: this.page.getByRole('cell', { name: cellData }) });
         }
       }
 
-      // check pages for
-      await wait(
+      let rowFound = false;
+      // check up to 20 pages for the row - if this isn't enough, consider refining the search further as this takes time.
+      rowFound = await wait(
         async () => {
           try {
-            await expect(row).toBeVisible();
+            await expect(row).toBeVisible({ timeout: 500 });
             return true;
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (err) {
@@ -375,8 +376,9 @@ export class BasePage {
           }
         },
         100,
-        2,
+        20,
       );
+      expect(rowFound).toBeTruthy();
     }
   }
 
