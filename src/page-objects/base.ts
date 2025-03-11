@@ -362,11 +362,12 @@ export class BasePage {
         }
       }
 
-      // check pages for
-      await wait(
+      let rowFound = false;
+      // check up to 20 pages for the row - if this isn't enough, consider refining the search further as this takes time.
+      rowFound = await wait(
         async () => {
           try {
-            await expect(row).toBeVisible();
+            await expect(row).toBeVisible({ timeout: 500 });
             return true;
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (err) {
@@ -377,6 +378,7 @@ export class BasePage {
         100,
         20,
       );
+      expect(rowFound).toBeTruthy();
     }
   }
 
