@@ -453,9 +453,8 @@ Feature: Case Search
     And I see "Search for a case" on the page
     And I click on the "Advanced search" link
     And I select the "Date range" radio button
-    #  Date range changed from {{date-7/}} - {{date+0/}} as more than 500 results sometines
-    And I set "Enter a date from" to "{{date-5/}}"
-    And I set "Enter a date to" to "{{date-1/}}"
+    And I set "Enter a date from" to "{{date-7/}}"
+    And I set "Enter a date to" to "{{date-0/}}"
     And I set "Judge's name" to "JUDGE NAME"
     And I set "Courtroom" to "3"
     And I set "Courthouse" to "Harrow Crown Court"
