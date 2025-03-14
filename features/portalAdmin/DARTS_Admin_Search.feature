@@ -543,7 +543,7 @@ Feature: Admin Search
     Then I see "DarStartHandler" on the page
     And I see "Show versions" on the page
 
-  @DMP-4180 @DMP-3642 @DMP-3214 @DMP-3307 @DMP-3226 @regression @AG
+  @DMP-4180 @DMP-3642 @DMP-3214 @DMP-3307 @DMP-3226 @regression
   Scenario: Basic case file screen, including case details, hearings, restrictions and additional case details
 
     Given I am logged on to the admin portal as an "ADMIN" user
