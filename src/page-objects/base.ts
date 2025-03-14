@@ -103,7 +103,10 @@ export class BasePage {
 
   async fillInputField(field: string, value: string, exactFieldMatch: boolean = false) {
     let matching = this.page.getByLabel(field, { exact: exactFieldMatch });
-    if ((await matching.count()) > 1) {
+    try {
+      await expect(matching).toHaveCount(1, { timeout: 500 });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
       matching = matching.filter({ has: this.page.locator(':scope.govuk-input') });
     }
     await matching.fill(value);
