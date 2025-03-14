@@ -546,8 +546,6 @@ Feature: Admin Search
   @DMP-4180 @DMP-3642 @regression
   Scenario: Basic case file screen
 
-    #Retention, why is link there if case is open?
-
     Given I am logged on to the admin portal as an "ADMIN" user
     And I see "You can search for cases, hearings, events and audio." on the page
     And I set "Case ID" to "CASE1009"
