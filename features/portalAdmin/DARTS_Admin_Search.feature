@@ -543,8 +543,8 @@ Feature: Admin Search
     Then I see "DarStartHandler" on the page
     And I see "Show versions" on the page
 
-  @DMP-4180 @DMP-3642 @regression
-  Scenario: Basic case file screen
+  @DMP-4180 @DMP-3642 @DMP-3214 @DMP-3307 @DMP-3226 @regression @AG
+  Scenario: Basic case file screen, including case details, hearings, restrictions and additional case details
 
     Given I am logged on to the admin portal as an "ADMIN" user
     And I see "You can search for cases, hearings, events and audio." on the page
@@ -560,6 +560,8 @@ Feature: Admin Search
     And I see "Mrs Prosecutor" in summary row for "Prosecutor(s)"
     And I see "No date applied" in summary row for "Retained until"
 
+    #Case with restrictions
+
     When I see "There are restrictions against this case" on the page
     And I see "Important" on the page
     And I click on the "Show restrictions" link
@@ -568,25 +570,10 @@ Feature: Admin Search
     And I click on the "Hide restrictions" link
     Then I do not see "Restriction applied: Judge directed on reporting restrictions" on the page
 
-    #Case with no restrictions
+    #Hearing tab
 
-    When I click on the "Search" link
-    And I set "Case ID" to "E1665001"
-    And I press the "Search" button
-    And I click on "E1665001" in the same row as "Harrow Crown Court"
-    Then I see "Case details" on the page
-    And I do not see "There are restrictions against this case" on the page
-
-  @DMP-3214 @DMP-3307 @regression
-  Scenario: Navigating to case file screen, hearing tab
-
-    Given I am logged on to the admin portal as an "ADMIN" user
-    And I see "You can search for cases, hearings, events and audio." on the page
-    And I set "Case ID" to "CASE1009"
-    And I press the "Search" button
-    And I click on "CASE1009" in the same row as "Swansea"
-    Then I see "Case details" on the page
-    And I verify the HTML table contains the following values
+    When I click on the "Hearings" sub-menu link
+    Then I verify the HTML table contains the following values
       | Hearing date | Judge | Courtroom       | No. of transcripts |
       | 07 Dec 2023  |       | ROOM_A          | 0                  |
       | 05 Dec 2023  |       | ROOMA           | 0                  |
@@ -598,16 +585,9 @@ Feature: Admin Search
       | 15 Aug 2023  |       | ROOM_XYZHHIHIHI | 2                  |
       | 01 Jan 2023  |       | CR1             | 0                  |
 
-  @DMP-3226 @regression
-  Scenario: Navigating to case file screen, additional case details tab
+    #Additional case details tab
 
-    Given I am logged on to the admin portal as an "ADMIN" user
-    And I see "You can search for cases, hearings, events and audio." on the page
-    And I set "Case ID" to "CASE1009"
-    And I press the "Search" button
-    And I click on "CASE1009" in the same row as "Swansea"
-    And I see "Case details" on the page
-    And I click on the "Additional case details" sub-menu link
+    When I click on the "Additional case details" sub-menu link
     Then I see "141" in summary row for "Database ID"
     And I see "-" in summary row for "Case object ID"
     And I see "-" in summary row for "Case object name"
@@ -632,13 +612,19 @@ Feature: Admin Search
     And I see "03/12/2024" in summary row for "Date last modified"
     And I see "System" in summary row for "Last modified by"
 
-  @DMP-3214 @DMP-3307 @regression
-  Scenario: Navigating to hearing details screen and tabs
+    #Case with no restrictions
+
+    When I click on the "Search" link
+    And I see "You can search for cases, hearings, events and audio." on the page
+    And I set "Case ID" to "E1665001"
+    And I press the "Search" button
+    And I click on "E1665001" in the same row as "Harrow Crown Court"
+    Then I see "Case details" on the page
+    And I do not see "There are restrictions against this case" on the page
 
     #Navigate to hearing details screen via search screen
 
-    Given I am logged on to the admin portal as an "ADMIN" user
-    And I see "You can search for cases, hearings, events and audio." on the page
+    When I click on the "Search" link
     And I set "Case ID" to "C161466005"
     And I select the "Hearings" radio button
     And I press the "Search" button
@@ -679,6 +665,7 @@ Feature: Admin Search
     #Navigate to hearing details screen via hearing link on case file screen
 
     When I click on the "Search" link
+    And I see "You can search for cases, hearings, events and audio." on the page
     And I set "Case ID" to "C161466005"
     And I select the "Cases" radio button
     And I press the "Search" button
