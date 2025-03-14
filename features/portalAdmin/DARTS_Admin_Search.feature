@@ -542,3 +542,179 @@ Feature: Admin Search
     When I click on the "Back to event details" link
     Then I see "DarStartHandler" on the page
     And I see "Show versions" on the page
+
+  @DMP-4180 @DMP-3642 @regression
+  Scenario: Basic case file screen
+
+    #Retention, why is link there if case is open?
+
+    Given I am logged on to the admin portal as an "ADMIN" user
+    And I see "You can search for cases, hearings, events and audio." on the page
+    And I set "Case ID" to "CASE1009"
+    And I press the "Search" button
+    And I click on "CASE1009" in the same row as "Swansea"
+    Then I see "Case details" on the page
+    And I see "CASE1009" in summary row for "Case ID"
+    And I see "Swansea" in summary row for "Courthouse"
+    And I see "Mr Judge" in summary row for "Judge(s)"
+    And I see "Jow Bloggs" in summary row for "Defendant(s)"
+    And I see "Mr Defender" in summary row for "Defence"
+    And I see "Mrs Prosecutor" in summary row for "Prosecutor(s)"
+    And I see "No date applied" in summary row for "Retained until"
+
+    When I see "There are restrictions against this case" on the page
+    And I see "Important" on the page
+    And I click on the "Show restrictions" link
+    And I see "Restriction applied: Judge directed on reporting restrictions" on the page
+    And I see "For full details, check the events for each hearing below." on the page
+    And I click on the "Hide restrictions" link
+    Then I do not see "Restriction applied: Judge directed on reporting restrictions" on the page
+
+    #Case with no restrictions
+
+    When I click on the "Search" link
+    And I set "Case ID" to "E1665001"
+    And I press the "Search" button
+    And I click on "E1665001" in the same row as "Harrow Crown Court"
+    Then I see "Case details" on the page
+    And I do not see "There are restrictions against this case" on the page
+
+  @DMP-3214 @DMP-3307 @regression
+  Scenario: Navigating to case file screen, hearing tab
+
+    Given I am logged on to the admin portal as an "ADMIN" user
+    And I see "You can search for cases, hearings, events and audio." on the page
+    And I set "Case ID" to "CASE1009"
+    And I press the "Search" button
+    And I click on "CASE1009" in the same row as "Swansea"
+    Then I see "Case details" on the page
+    And I verify the HTML table contains the following values
+      | Hearing date | Judge | Courtroom       | No. of transcripts |
+      | 07 Dec 2023  |       | ROOM_A          | 0                  |
+      | 05 Dec 2023  |       | ROOMA           | 0                  |
+      | 05 Dec 2023  |       | ROOM_A          | 0                  |
+      | 19 Sep 2023  |       | ROOM_A          | 5                  |
+      | 15 Aug 2023  |       | ROOM_A          | 81                 |
+      | 15 Aug 2023  |       | ROOM_A12434     | 2                  |
+      | 15 Aug 2023  |       | ROOM_XYZ        | 1                  |
+      | 15 Aug 2023  |       | ROOM_XYZHHIHIHI | 2                  |
+      | 01 Jan 2023  |       | CR1             | 0                  |
+
+  @DMP-3226 @regression
+  Scenario: Navigating to case file screen, additional case details tab
+
+    Given I am logged on to the admin portal as an "ADMIN" user
+    And I see "You can search for cases, hearings, events and audio." on the page
+    And I set "Case ID" to "CASE1009"
+    And I press the "Search" button
+    And I click on "CASE1009" in the same row as "Swansea"
+    And I see "Case details" on the page
+    And I click on the "Additional case details" sub-menu link
+    Then I see "141" in summary row for "Database ID"
+    And I see "-" in summary row for "Case object ID"
+    And I see "-" in summary row for "Case object name"
+    And I see "-" in summary row for "Case type"
+    And I see "-" in summary row for "Upload priority"
+    And I see "No" in summary row for "Case closed?"
+    And I see "-" in summary row for "Date case closed"
+    And I see "Yes" in summary row for "Interpreter used?"
+    And I see "No" in summary row for "Retention updated?"
+    And I see "-" in summary row for "Retention retries?"
+    And I see "No" in summary row for "Case anonymised?"
+    And I see "-" in summary row for "Case anonymised by"
+    And I see "-" in summary row for "Date anonymised"
+    And I see "-" in summary row for "Retention confidence score"
+    And I see "-" in summary row for "Retention confidence reason"
+    And I see "-" in summary row for "Retention confidence date updated"
+    And I see "No" in summary row for "Case deleted?"
+    And I see "-" in summary row for "Case deleted by"
+    And I see "-" in summary row for "Date deleted"
+    And I see "16/08/2024" in summary row for "Date created"
+    And I see "System" in summary row for "Created by"
+    And I see "03/12/2024" in summary row for "Date last modified"
+    And I see "System" in summary row for "Last modified by"
+
+  @DMP-3214 @DMP-3307 @regression
+  Scenario: Navigating to hearing details screen and tabs
+
+    #Navigate to hearing details screen via search screen
+
+    Given I am logged on to the admin portal as an "ADMIN" user
+    And I see "You can search for cases, hearings, events and audio." on the page
+    And I set "Case ID" to "C161466005"
+    And I select the "Hearings" radio button
+    And I press the "Search" button
+    And I click on the "C161466005" link
+    Then I see "Hearing details" on the page
+    And I see "C161466005" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "161466-12" in summary row for "Courtroom"
+    And I see "13 Mar 2025" in summary row for "Hearing date"
+    And I see "DefC 161466-12" in summary row for "Defendant(s)"
+    And I see "testdefendertwelve" in summary row for "Defence"
+    And I see "testprosecutortwelve" in summary row for "Prosecutor(s)"
+    And I see "JUDGEC 161466-12" in summary row for "Judge(s)"
+    And I see "" in summary row for "Scheduled start time"
+    And I see "Yes" in summary row for "Hearing took place"
+    And I see "13 Mar 2025 09:09:19" in summary row for "Date created"
+    And I see "System" in summary row for "Created by"
+    And I see "13 Mar 2025 09:09:29" in summary row for "Date last modified"
+    And I see "System" in summary row for "Last modified by"
+
+    When I click on the "Audio" sub-menu link
+    Then I verify the HTML table contains the following values
+      | Audio ID | Filename           | Start time | End time | Channel number |
+      | 154413   | testHarness_x1.mp2 | 12:00 PM   | 12:01 PM | 1              |
+
+    When I click on the "Events" sub-menu link
+    Then I verify the HTML table contains the following values
+      | Event ID | Time stamp              | Name            |
+      | 1684697  | 13 Mar 2025 at 12:00:00 | Hearing started |
+      | 1684773  | 13 Mar 2025 at 12:01:00 | Hearing ended   |
+
+    When I click on the "Transcripts" sub-menu link
+    Then I verify the HTML table contains the following values
+      | Transcript ID | Type            | Requested by | Requested on | Status                 |
+      | 217054        | Specified Times | Requestor    | 13 Mar 2025  | Awaiting Authorisation |
+      | 217073        | Court Log       | Requestor    | 13 Mar 2025  | Rejected               |
+
+    #Navigate to hearing details screen via hearing link on case file screen
+
+    When I click on the "Search" link
+    And I set "Case ID" to "C161466005"
+    And I select the "Cases" radio button
+    And I press the "Search" button
+    And I click on the "C161466005" link
+    And I click on the "13 Mar 2025" link
+    Then I see "Hearing details" on the page
+    And I see "C161466005" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "161466-12" in summary row for "Courtroom"
+    And I see "13 Mar 2025" in summary row for "Hearing date"
+    And I see "DefC 161466-12" in summary row for "Defendant(s)"
+    And I see "testdefendertwelve" in summary row for "Defence"
+    And I see "testprosecutortwelve" in summary row for "Prosecutor(s)"
+    And I see "JUDGEC 161466-12" in summary row for "Judge(s)"
+    And I see "" in summary row for "Scheduled start time"
+    And I see "Yes" in summary row for "Hearing took place"
+    And I see "13 Mar 2025 09:09:19" in summary row for "Date created"
+    And I see "System" in summary row for "Created by"
+    And I see "13 Mar 2025 09:09:29" in summary row for "Date last modified"
+    And I see "System" in summary row for "Last modified by"
+
+    When I click on the "Audio" sub-menu link
+    Then I verify the HTML table contains the following values
+      | Audio ID | Filename           | Start time | End time | Channel number |
+      | 154413   | testHarness_x1.mp2 | 12:00 PM   | 12:01 PM | 1              |
+
+    When I click on the "Events" sub-menu link
+    Then I verify the HTML table contains the following values
+      | Event ID | Time stamp              | Name            |
+      | 1684697  | 13 Mar 2025 at 12:00:00 | Hearing started |
+      | 1684773  | 13 Mar 2025 at 12:01:00 | Hearing ended   |
+
+    When I click on the "Transcripts" sub-menu link
+    Then I verify the HTML table contains the following values
+      | Transcript ID | Type            | Requested by | Requested on | Status                 |
+      | 217054        | Specified Times | Requestor    | 13 Mar 2025  | Awaiting Authorisation |
+      | 217073        | Court Log       | Requestor    | 13 Mar 2025  | Rejected               |
