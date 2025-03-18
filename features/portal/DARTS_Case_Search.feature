@@ -50,12 +50,11 @@ Feature: Case Search
     And I click on the "Advanced search" link
     And I set "Case ID" to "A{{seq}}"
     And I set "Courthouse" to "Harrow Crown Court"
-    And I set "Courtroom" to "A{{seq}}-1"
+    And I set "Courtroom" to "A{{seq}}-11"
     And I press the "Search" button
     And I click on "Case ID" in the table header
     Then I verify the HTML table contains the following values
       | Case ID     | Courthouse         | Courtroom   | Judge(s)         | Defendant(s)    |
-      | A{{seq}}001 | Harrow Crown Court | A{{seq}}-1  | JUDGE {{seq}}-1  | Def A{{seq}}-1  |
       | A{{seq}}002 | Harrow Crown Court | A{{seq}}-11 | JUDGE {{seq}}-11 | Def A{{seq}}-11 |
       | A{{seq}}004 | Harrow Crown Court | A{{seq}}-11 | JUDGE {{seq}}-2  | Def A{{seq}}-22 |
 
@@ -456,7 +455,6 @@ Feature: Case Search
     And I set "Enter a date from" to "{{date-7/}}"
     And I set "Enter a date to" to "{{date-0/}}"
     And I set "Judge's name" to "JUDGE NAME"
-    And I set "Courtroom" to "3"
     And I set "Courthouse" to "Harrow Crown Court"
     And I press the "Search" button
     Then I do not see link with text "Previous"
@@ -477,7 +475,7 @@ Feature: Case Search
     Given I am logged on to DARTS as an "APPROVER" user
     And I click on the "Search" link
     And I click on the "Advanced search" link
-    And I set "Courtroom" to "A{{seq}}-1"
+    And I set "Courtroom" to "A{{seq}}-11"
     And I set "Courthouse" to "Harrow Crown Court"
     And I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -488,7 +486,6 @@ Feature: Case Search
     And I click on "Case ID" in the table header
     Then I verify the HTML table contains the following values
       | Case ID     | Courthouse         | Courtroom   | Judge(s)         | Defendant(s)    |
-      | A{{seq}}001 | Harrow Crown Court | A{{seq}}-1  | JUDGE {{seq}}-1  | Def A{{seq}}-1  |
       | A{{seq}}002 | Harrow Crown Court | A{{seq}}-11 | JUDGE {{seq}}-11 | Def A{{seq}}-11 |
       | A{{seq}}004 | Harrow Crown Court | A{{seq}}-11 | JUDGE {{seq}}-2  | Def A{{seq}}-22 |
 
