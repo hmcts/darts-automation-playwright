@@ -29,8 +29,8 @@ Feature: Cases Endpoints
       """
 
   @DMP-458 @regression
-  Scenario: test /cases with courtroom in json body
-    Given I call POST "/cases" API using json body:
+  Scenario: test /cases/addCase with courtroom in json body
+    Given I call POST "/cases/addCase" API using json body:
       """
       {
         "case_id": 10458,
