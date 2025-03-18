@@ -21,7 +21,7 @@ When('I create a case using json', async function (this: ICustomWorld, dataTable
       };
 
       await new Promise((r) => setTimeout(r, 200 * index));
-      await DartsApiService.sendApiPostRequest('/cases', body, {}, 201);
+      await DartsApiService.sendApiPostRequest('/cases/addCase', body, {}, 201);
     }),
   );
 });
