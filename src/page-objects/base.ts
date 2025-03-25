@@ -71,6 +71,15 @@ export class BasePage {
       .click();
   }
 
+  async clickButtonInTableRowWithTwoValues(button: string, value1: string, value2: string) {
+    await this.page
+      .locator('table tbody tr')
+      .filter({ has: this.page.getByText(value1, { exact: true }) })
+      .filter({ has: this.page.getByText(value2, { exact: true }) })
+      .getByRole('button', { name: button })
+      .click();
+  }
+
   async hasValueInTableRowWithValue(text: string, value: string) {
     await expect(
       this.page

@@ -1,7 +1,6 @@
 @admin @admin_transcripts
 Feature: Admin portal transcripts
 
-  # TODO (DT): we should add @review because all the following scenarios have it, meaning there's no point running this one.
   @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression
   Scenario: Admin change transcription status data creation
     Given I create a case
@@ -38,7 +37,7 @@ Feature: Admin portal transcripts
       | HARROW CROWN COURT | {{seq}}-44 | G{{seq}}005  | {{date+0}} | 12:30:00  | 12:31:00 | sample1.mp2 |
       | HARROW CROWN COURT | {{seq}}-45 | G{{seq}}006  | {{date+0}} | 13:00:00  | 13:01:00 | sample1.mp2 |
 
-  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression @review
+  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression
   Scenario: Change manual transcription status
 
     Given I am logged on to DARTS as a "REQUESTER" user
@@ -59,18 +58,18 @@ Feature: Admin portal transcripts
     And I press the "Continue" button
     Then I see "Events, audio and specific times requests" on the page
 
-    #    When I set the time fields below "Start time" to "09:30:00"
-    #    And I set the time fields below "End time" to "09:31:00"
+    #When I set the time fields below "Start time" to "09:30:00"
+    #And I set the time fields below "End time" to "09:31:00"
     When I check the checkbox in the same row as "10:30:00" "Hearing started"
     And I check the checkbox in the same row as "10:31:00" "Hearing ended"
     And I press the "Continue" button
     Then I see "Check and confirm your transcript request" on the page
-    And I see "G{{seq}}001" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "DefG {{seq}}-40" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Specified Times" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
+    And I see "G{{seq}}001" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "DefG {{seq}}-40" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Specified Times" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
     And I see "Provide any further instructions or comments for the transcriber." on the page
 
     When I set "Comments to the Transcriber (optional)" to "This transcript request is for awaiting authorisation to requested scenario"
@@ -98,18 +97,18 @@ Feature: Admin portal transcripts
     And I press the "Continue" button
     Then I see "Events, audio and specific times requests" on the page
 
-    #    When I set the time fields below "Start time" to "10:00:00"
-    #    And I set the time fields below "End time" to "10:01:00"
+    #When I set the time fields below "Start time" to "10:00:00"
+    #And I set the time fields below "End time" to "10:01:00"
     When I check the checkbox in the same row as "11:00:00" "Hearing started"
     And I check the checkbox in the same row as "11:01:00" "Hearing ended"
     And I press the "Continue" button
     Then I see "Check and confirm your transcript request" on the page
-    And I see "G{{seq}}002" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "DefG {{seq}}-41" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Specified Times" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
+    And I see "G{{seq}}002" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "DefG {{seq}}-41" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Specified Times" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
     And I see "Provide any further instructions or comments for the transcriber." on the page
 
     When I set "Comments to the Transcriber (optional)" to "This transcript request is for awaiting authorisation to closed scenario"
@@ -137,18 +136,18 @@ Feature: Admin portal transcripts
     And I press the "Continue" button
     Then I see "Events, audio and specific times requests" on the page
 
-    #    When I set the time fields below "Start time" to "10:30:00"
-    #    And I set the time fields below "End time" to "10:31:00"
+    #When I set the time fields below "Start time" to "10:30:00"
+    #And I set the time fields below "End time" to "10:31:00"
     When I check the checkbox in the same row as "11:30:00" "Hearing started"
     And I check the checkbox in the same row as "11:31:00" "Hearing ended"
     And I press the "Continue" button
     Then I see "Check and confirm your transcript request" on the page
-    And I see "G{{seq}}003" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "DefG {{seq}}-42" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Specified Times" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
+    And I see "G{{seq}}003" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "DefG {{seq}}-42" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Specified Times" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
     And I see "Provide any further instructions or comments for the transcriber." on the page
 
     When I set "Comments to the Transcriber (optional)" to "This transcript request is for approved to closed scenario"
@@ -176,24 +175,25 @@ Feature: Admin portal transcripts
     And I press the "Continue" button
     Then I see "Events, audio and specific times requests" on the page
 
-    #    When I set the time fields below "Start time" to "11:00:00"
-    #    And I set the time fields below "End time" to "11:01:00"
+    #When I set the time fields below "Start time" to "11:00:00"
+    #And I set the time fields below "End time" to "11:01:00"
     When I check the checkbox in the same row as "12:00:00" "Hearing started"
     And I check the checkbox in the same row as "12:01:00" "Hearing ended"
     And I press the "Continue" button
     Then I see "Check and confirm your transcript request" on the page
-    And I see "G{{seq}}004" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "DefG {{seq}}-43" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Specified Times" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
+    And I see "G{{seq}}004" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "DefG {{seq}}-43" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Specified Times" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
     And I see "Provide any further instructions or comments for the transcriber." on the page
 
     When I set "Comments to the Transcriber (optional)" to "This transcript request is for with transcriber to approved scenario"
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    And I use transcript request ID as "tra_id1"
 
     When I click on the "Return to hearing date" link
     Then I see "Transcripts for this hearing" on the page
@@ -215,24 +215,25 @@ Feature: Admin portal transcripts
     And I press the "Continue" button
     Then I see "Events, audio and specific times requests" on the page
 
-    #    When I set the time fields below "Start time" to "11:30:00"
-    #    And I set the time fields below "End time" to "11:31:00"
+    #When I set the time fields below "Start time" to "11:30:00"
+    #And I set the time fields below "End time" to "11:31:00"
     When I check the checkbox in the same row as "12:30:00" "Hearing started"
     And I check the checkbox in the same row as "12:31:00" "Hearing ended"
     And I press the "Continue" button
     Then I see "Check and confirm your transcript request" on the page
-    And I see "G{{seq}}005" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "DefG {{seq}}-44" in the same row as "Defendant(s)"
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Specified Times" in the same row as "Request type"
-    And I see "Overnight" in the same row as "Urgency"
+    And I see "G{{seq}}005" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "DefG {{seq}}-44" in summary row for "Defendant(s)"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Specified Times" in summary row for "Request type"
+    And I see "Overnight" in summary row for "Urgency"
     And I see "Provide any further instructions or comments for the transcriber." on the page
 
     When I set "Comments to the Transcriber (optional)" to "This transcript request is for with transcriber to closed scenario"
     And I check the "I confirm I have received authorisation from the judge." checkbox
     And I press the "Submit request" button
     Then I see "Transcript request submitted" on the page
+    And I use transcript request ID as "tra_id2"
 
     When I click on the "Return to hearing date" link
     Then I see "Transcripts for this hearing" on the page
@@ -242,30 +243,30 @@ Feature: Admin portal transcripts
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as an APPROVER user
+    And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
-    #    And I click on the "Transcript requests to review" link
+    #And I click on the "Transcript requests to review" link
     And I click on "View" in the same row as "G{{seq}}003"
-    And I see "This transcript request is for approved to closed scenario" in the same row as "Instructions"
+    And I see "This transcript request is for approved to closed scenario" in summary row for "Instructions"
     And I select the "Yes" radio button
     And I press the "Submit" button
-    #    And I click on the "Transcript requests to review" link
+    #And I click on the "Transcript requests to review" link
     Then I see "Requests to approve or reject" on the page
     And I do not see "G{{seq}}003" on the page
 
     When I click on "View" in the same row as "G{{seq}}004"
-    And I see "This transcript request is for with transcriber to approved scenario" in the same row as "Instructions"
+    And I see "This transcript request is for with transcriber to approved scenario" in summary row for "Instructions"
     And I select the "Yes" radio button
     And I press the "Submit" button
-    #    And I click on the "Transcript requests to review" link
+    #And I click on the "Transcript requests to review" link
     Then I see "Requests to approve or reject" on the page
     And I do not see "G{{seq}}004" on the page
 
     When I click on "View" in the same row as "G{{seq}}005"
-    And I see "This transcript request is for with transcriber to closed scenario" in the same row as "Instructions"
+    And I see "This transcript request is for with transcriber to closed scenario" in summary row for "Instructions"
     And I select the "Yes" radio button
     And I press the "Submit" button
-    #    And I click on the "Transcript requests to review" link
+    #And I click on the "Transcript requests to review" link
     Then I see "Requests to approve or reject" on the page
     And I do not see "G{{seq}}005" on the page
 
@@ -287,7 +288,7 @@ Feature: Admin portal transcripts
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as an REQUESTER user
+    And I am logged on to DARTS as a "REQUESTER" user
     And I set "Case ID" to "G{{seq}}003"
     And I press the "Search" button
     And I click on the "G{{seq}}003" link
@@ -303,10 +304,8 @@ Feature: Admin portal transcripts
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as a TRANSCRIBER user
-    And I click on the "Transcript requests" link
-    And I see "Manual" in the same row as "G{{seq}}004"
-    And I click on "View" in the same row as "G{{seq}}004"
+    And I am logged on to DARTS as a "TRANSCRIBER" user
+    And I navigate to the url "/transcription-requests/{{tra_id1}}"
     And I select the "Assign to me" radio button
     And I press the "Continue" button
     Then I see "G{{seq}}004" on the page
@@ -314,9 +313,7 @@ Feature: Admin portal transcripts
     When I click on the "Completed today" link
     Then I do not see "G{{seq}}004" on the page
 
-    When I click on the "Transcript requests" link
-    And I see "Manual" in the same row as "G{{seq}}005"
-    And I click on "View" in the same row as "G{{seq}}005"
+    And I navigate to the url "/transcription-requests/{{tra_id2}}"
     And I select the "Assign to me" radio button
     And I press the "Continue" button
     And I click on the "To do" link
@@ -343,32 +340,31 @@ Feature: Admin portal transcripts
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to the admin portal as an ADMIN user
+    And I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}001"
     And I press the "Search" button
     #DMP-2525-AC1 and AC2 Transcript request details and stages
-    Then I see "Current status" on the page
-    And I see "Awaiting Authorisation" in the same row as "Status"
+    Then I see "Awaiting Authorisation" in summary row for "Status"
     And I see "Assigned to" on the page
-    And I do not see "Associated groups" on the page
+    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
     And I see "Request details" on the page
-    And I see "{{displaydate}}" in the same row as "Hearing date"
-    And I see "Specified Times" in the same row as "Request type"
-    And I see "Manual" in the same row as "Request method"
+    And I see "{{displaydate}}" in summary row for "Hearing date"
+    And I see "Specified Times" in summary row for "Request type"
+    And I see "Manual" in summary row for "Request method"
     And I see "Request ID" on the page
-    And I see "Overnight" in the same row as "Urgency"
-    And I see "Start time 10:30:00 - End time 10:31:00" in the same row as "Audio for transcript"
+    And I see "Overnight" in summary row for "Urgency"
+    And I see "Start time 10:30:00 - End time 10:31:00" in summary row for "Audio for transcript"
     And I see "Requested by" on the page
     And I see "Received" on the page
-    And I see "This transcript request is for awaiting authorisation to requested scenario" in the same row as "Instructions"
-    And I see "Yes" in the same row as "Judge approval"
+    And I see "This transcript request is for awaiting authorisation to requested scenario" in summary row for "Instructions"
+    And I see "Yes" in summary row for "Judge approval"
     And I see "Case details" on the page
-    And I see "G{{seq}}001" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeG {{seq}}-40}}" in the same row as "Judge(s)"
-    And I see "DefG {{seq}}-40" in the same row as "Defendant(s)"
+    And I see "G{{seq}}001" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeG {{seq}}-40}}" in summary row for "Judge(s)"
+    And I see "DefG {{seq}}-40" in summary row for "Defendant(s)"
 
     #DMP-2525-AC3 and DMP-1265 Change status link and process
     When I click on the "Change status" link
@@ -378,8 +374,8 @@ Feature: Admin portal transcripts
     And I see "You have 217 characters remaining" on the page
     And I press the "Save changes" button
     Then I see "Status updated" on the page
-    And I see "Requested" in the same row as "Status"
-    And I do not see "Associated groups" on the page
+    And I see "Requested" in summary row for "Status"
+    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
 
     #DMP-2538 Transcript request history
     When I click on the "History" link
@@ -392,17 +388,18 @@ Feature: Admin portal transcripts
     #Case 2: Awaiting authorisation -> Closed
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}002"
     And I press the "Search" button
-    Then I see "Awaiting Authorisation" in the same row as "Status"
-    And I do not see "Associated groups" on the page
-    And I see "Start time 11:00:00 - End time 11:01:00" in the same row as "Audio for transcript"
-    And I see "This transcript request is for awaiting authorisation to closed scenario" in the same row as "Instructions"
-    And I see "G{{seq}}002" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeG {{seq}}-41}}" in the same row as "Judge(s)"
-    And I see "DefG {{seq}}-41" in the same row as "Defendant(s)"
+    Then I see "Awaiting Authorisation" in summary row for "Status"
+    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
+    And I see "Start time 11:00:00 - End time 11:01:00" in summary row for "Audio for transcript"
+    And I see "This transcript request is for awaiting authorisation to closed scenario" in summary row for "Instructions"
+    And I see "G{{seq}}002" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeG {{seq}}-41}}" in summary row for "Judge(s)"
+    And I see "DefG {{seq}}-41" in summary row for "Defendant(s)"
 
     When I click on the "Change status" link
     And I select "Closed" from the "Select status" dropdown
@@ -411,7 +408,7 @@ Feature: Admin portal transcripts
     And I see "You have 220 characters remaining" on the page
     And I press the "Save changes" button
     Then I see "Status updated" on the page
-    And I see "Closed" in the same row as "Status"
+    And I see "Closed" in summary row for "Status"
 
     When I click on the "History" link
     Then I see "Requested by Requestor (darts.requester@hmcts.net)" on the page
@@ -423,18 +420,19 @@ Feature: Admin portal transcripts
     #Case 3: Approved -> Closed
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}003"
     And I press the "Search" button
     #DMP-3133-AC1 Check status is "Approved" and not "With Transcriber"
-    Then I see "Approved" in the same row as "Status"
-    And I see "Associated groups" on the page
-    And I see "Start time 11:30:00 - End time 11:31:00" in the same row as "Audio for transcript"
-    And I see "This transcript request is for approved to closed scenario" in the same row as "Instructions"
-    And I see "G{{seq}}003" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeG {{seq}}-42}}" in the same row as "Judge(s)"
-    And I see "DefG {{seq}}-42" in the same row as "Defendant(s)"
+    Then I see "Approved" in summary row for "Status"
+    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
+    And I see "Start time 11:30:00 - End time 11:31:00" in summary row for "Audio for transcript"
+    And I see "This transcript request is for approved to closed scenario" in summary row for "Instructions"
+    And I see "G{{seq}}003" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeG {{seq}}-42}}" in summary row for "Judge(s)"
+    And I see "DefG {{seq}}-42" in summary row for "Defendant(s)"
 
     When I click on the "Change status" link
     And I select "Closed" from the "Select status" dropdown
@@ -443,7 +441,7 @@ Feature: Admin portal transcripts
     And I see "You have 220 characters remaining" on the page
     And I press the "Save changes" button
     Then I see "Status updated" on the page
-    And I see "Closed" in the same row as "Status"
+    And I see "Closed" in summary row for "Status"
 
     When I click on the "History" link
     Then I see "Requested by Requestor (darts.requester@hmcts.net)" on the page
@@ -456,17 +454,18 @@ Feature: Admin portal transcripts
     #Case 4: With transcriber -> Approved
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}004"
     And I press the "Search" button
-    Then I see "With Transcriber" in the same row as "Status"
-    And I see "Associated groups" on the page
-    And I see "Start time 12:00:00 - End time 12:01:00" in the same row as "Audio for transcript"
-    And I see "This transcript request is for with transcriber to approved scenario" in the same row as "Instructions"
-    And I see "G{{seq}}004" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeG {{seq}}-43}}" in the same row as "Judge(s)"
-    And I see "DefG {{seq}}-43" in the same row as "Defendant(s)"
+    Then I see "With Transcriber" in summary row for "Status"
+    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
+    And I see "Start time 12:00:00 - End time 12:01:00" in summary row for "Audio for transcript"
+    And I see "This transcript request is for with transcriber to approved scenario" in summary row for "Instructions"
+    And I see "G{{seq}}004" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeG {{seq}}-43}}" in summary row for "Judge(s)"
+    And I see "DefG {{seq}}-43" in summary row for "Defendant(s)"
 
     When I click on the "Change status" link
     And I select "Approved" from the "Select status" dropdown
@@ -475,7 +474,7 @@ Feature: Admin portal transcripts
     And I see "You have 218 characters remaining" on the page
     And I press the "Save changes" button
     Then I see "Status updated" on the page
-    And I see "Approved" in the same row as "Status"
+    And I see "Approved" in summary row for "Status"
 
     When I click on the "History" link
     Then I see "Requested by Requestor (darts.requester@hmcts.net)" on the page
@@ -489,18 +488,19 @@ Feature: Admin portal transcripts
     #Case 5: With transcriber -> Closed
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}005"
     And I press the "Search" button
     #DMP-3133-AC2 Check status is still "With Transcriber"
-    Then I see "With Transcriber" in the same row as "Status"
-    And I see "Associated groups" on the page
-    And I see "Start time 12:30:00 - End time 12:31:00" in the same row as "Audio for transcript"
-    And I see "This transcript request is for with transcriber to closed scenario" in the same row as "Instructions"
-    And I see "G{{seq}}005" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeG {{seq}}-44}}" in the same row as "Judge(s)"
-    And I see "DefG {{seq}}-44" in the same row as "Defendant(s)"
+    Then I see "With Transcriber" in summary row for "Status"
+    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
+    And I see "Start time 12:30:00 - End time 12:31:00" in summary row for "Audio for transcript"
+    And I see "This transcript request is for with transcriber to closed scenario" in summary row for "Instructions"
+    And I see "G{{seq}}005" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeG {{seq}}-44}}" in summary row for "Judge(s)"
+    And I see "DefG {{seq}}-44" in summary row for "Defendant(s)"
 
     When I click on the "Change status" link
     And I select "Closed" from the "Select status" dropdown
@@ -509,7 +509,7 @@ Feature: Admin portal transcripts
     And I see "You have 220 characters remaining" on the page
     And I press the "Save changes" button
     Then I see "Status updated" on the page
-    And I see "Closed" in the same row as "Status"
+    And I see "Closed" in summary row for "Status"
 
     When I click on the "History" link
     Then I see "Requested by Requestor (darts.requester@hmcts.net)" on the page
@@ -523,25 +523,27 @@ Feature: Admin portal transcripts
     #Case 1: Requested -> Closed (using case 1 again)
 
     And I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}001"
     And I press the "Search" button
-    Then I see "Current status" on the page
-    And I see "Requested" in the same row as "Status"
-    And I do not see "Associated groups" on the page
-    And I see "Start time 10:30:00 - End time 10:31:00" in the same row as "Audio for transcript"
-    And I see "This transcript request is for awaiting authorisation to requested scenario" in the same row as "Instructions"
-    And I see "G{{seq}}001" in the same row as "Case ID"
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{upper-case-JudgeG {{seq}}-40}}" in the same row as "Judge(s)"
-    And I see "DefG {{seq}}-40" in the same row as "Defendant(s)"
+    Then I see "Requested" in summary row for "Status"
+    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
+    And I see "Start time 10:30:00 - End time 10:31:00" in summary row for "Audio for transcript"
+    And I see "Requested by" on the page
+    And I see "Received" on the page
+    And I see "This transcript request is for awaiting authorisation to requested scenario" in summary row for "Instructions"
+    And I see "G{{seq}}001" in summary row for "Case ID"
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{upper-case-JudgeG {{seq}}-40}}" in summary row for "Judge(s)"
+    And I see "DefG {{seq}}-40" in summary row for "Defendant(s)"
 
     When I click on the "Change status" link
     And I select "Closed" from the "Select status" dropdown
     And I set "Comment (optional)" to "Changing status to closed for case 1"
     And I press the "Save changes" button
     Then I see "Status updated" on the page
-    And I see "Closed" in the same row as "Status"
+    And I see "Closed" in summary row for "Status"
 
     When I click on the "History" link
     Then I see "Requested by Requestor (darts.requester@hmcts.net)" on the page
@@ -556,7 +558,7 @@ Feature: Admin portal transcripts
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as a REQUESTER user
+    And I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
     And I set "Case ID" to "G{{seq}}001"
     And I press the "Search" button
@@ -621,9 +623,18 @@ Feature: Admin portal transcripts
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as a TRANSCRIBER user
-    And I click on the "Transcript requests" link
-    Then I see "Manual" in the same row as "G{{seq}}004"
+    And I am logged on to DARTS as a "TRANSCRIBER" user
+    And I navigate to the url "/transcription-requests/{{tra_id1}}"
+    Then I see "This transcript request is for with transcriber to approved scenario" in summary row for "Instructions"
+    And I see "Choose an action" on the page
+
+    When I select the "Assign to me and upload a transcript" radio button
+    And I press the "Continue" button
+    Then I see "Upload transcript file" on the page
+
+    When I upload the file "file-sample_1MB.doc" at "Upload transcript file"
+    And I press the "Attach file and complete" button
+    Then I see "Transcript request complete" on the page
 
   #Case 1: Awaiting authorisation -> Requested then Requested -> Closed
 
@@ -635,6 +646,90 @@ Feature: Admin portal transcripts
 
   #Case 5: With transcriber -> Closed
 
+  @DMP-4239 @DMP-4243 @regression
+  Scenario: Delete transcript functionality for admin users
+
+    #AG: Piggybacks from previous scenario, if test flakes, might need to set up the transcript as part of this scenario instead
+
+    When I am logged on to the admin portal as an "ADMIN" user
+    And I click on the "Transcripts" link
+    And I click on the "Completed transcripts" link
+    And I click on the "Advanced search" link
+    And I set "Case ID" to "G{{seq}}004"
+    And I press the "Search" button
+    And I press the "Hide or delete" button
+    And I select the "Public interest immunity" radio button
+    And I set "Enter ticket reference" to "{{seq}}"
+    And I set "Comments" to "Transcript being marked for deletion"
+    And I press the "Hide or delete" button
+    Then I see "Files successfully hidden or marked for deletion" on the page
+    And I see "Check for associated files" on the page
+    And I see "There may be other associated audio or transcript files that also need hiding or deleting." on the page
+
+    When I press the "Continue" button
+    Then I see "This file is hidden in DARTS and is marked for manual deletion" on the page
+    And I see "DARTS user cannot view this file. You can unmark for deletion and it will no longer be hidden." on the page
+    And I see "Marked for manual deletion by - Darts Admin" on the page
+    And I see "Reason - Public interest immunity" on the page
+    And I see "Transcript being marked for deletion" on the page
+    And I Sign out
+
+    #Sign in as Admin 2 to reject transcript deletion request
+
+    When I am logged on to the admin portal as an "ADMIN2" user
+    And I click on the "File deletion" link
+    And I click on the "Transcripts" sub-menu link
+    And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-43"
+    And I see "Delete transcript file" on the page
+    And I click on the "Cancel" link
+    And I see "Files marked for deletion" on the page
+    And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-43"
+    And I see "Delete transcript file" on the page
+    Then I verify the HTML table contains the following values
+      | Transcript ID | Case ID     | Courthouse         | Hearing date | Marked by   | Comments   |
+      | *NO-CHECK*    | G{{seq}}004 | Harrow Crown Court | *NO-CHECK*   | Darts Admin | *NO-CHECK* |
+
+    When I see "Approve or reject file deletion?" on the page
+    And I press the "Confirm" button
+    Then I see an error message "Select your decision"
+
+    When I select the "Reject and unhide" radio button
+    And I press the "Confirm" button
+    Then I see "Transcript file unmarked for deletion and unhidden" on the page
+
+    #Request deletion again
+
+    When I click on the "Transcripts" link
+    And I click on the "Completed transcripts" link
+    And I click on the "Advanced search" link
+    And I set "Case ID" to "G{{seq}}004"
+    And I press the "Search" button
+    And I press the "Hide or delete" button
+    And I select the "Public interest immunity" radio button
+    And I set "Enter ticket reference" to "{{seq}}"
+    And I set "Comments" to "Transcript being marked for deletion again"
+    And I press the "Hide or delete" button
+    Then I see "Files successfully hidden or marked for deletion" on the page
+
+    When I press the "Continue" button
+    Then I see "This file is hidden in DARTS and is marked for manual deletion" on the page
+    And I see "DARTS user cannot view this file. You can unmark for deletion and it will no longer be hidden." on the page
+    And I see "Marked for manual deletion by - Darts Admin2" on the page
+    And I see "Reason - Public interest immunity" on the page
+    And I see "Transcript being marked for deletion again" on the page
+    And I Sign out
+
+    # #Sign in as an Admin to approve transcript deletion request
+
+    When I am logged on to the admin portal as an "ADMIN" user
+    And I click on the "File deletion" link
+    And I click on the "Transcripts" sub-menu link
+    And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-43"
+    And I select the "Approve" radio button
+    And I press the "Confirm" button
+
+    Then I see "Transcript file deleted" on the page
+    And I do not see "{{seq}}-43" on the page
 
   @DMP-3139 @DMP-3469 @DMP-3406 @DMP-3564 @DMP-3565
   Scenario: Transcript advanced search
