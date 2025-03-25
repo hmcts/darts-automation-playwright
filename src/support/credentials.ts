@@ -95,6 +95,12 @@ const dartsUserCredentials: Record<string, DartsUserCredential> = {
     type: 'EXTERNAL',
     role: 'ADMIN',
   },
+  ADMIN2: {
+    username: 'darts.admin2@hmcts.net',
+    password: config.passwords.AUTOMATION_EXTERNAL_PASSWORD!,
+    type: 'EXTERNAL',
+    role: 'ADMIN',
+  },
   SUPERUSER: {
     username: 'darts.superuser@hmcts.net',
     password: config.passwords.AUTOMATION_EXTERNAL_PASSWORD!,

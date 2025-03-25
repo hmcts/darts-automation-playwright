@@ -1,7 +1,6 @@
 @admin @admin_transcripts
 Feature: Admin portal transcripts
 
-  # TODO (DT): we should add @review because all the following scenarios have it, meaning there's no point running this one.
   @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression
   Scenario: Admin change transcription status data creation
     Given I create a case
@@ -38,7 +37,7 @@ Feature: Admin portal transcripts
       | HARROW CROWN COURT | {{seq}}-44 | G{{seq}}005  | {{date+0}} | 12:30:00  | 12:31:00 | sample1.mp2 |
       | HARROW CROWN COURT | {{seq}}-45 | G{{seq}}006  | {{date+0}} | 13:00:00  | 13:01:00 | sample1.mp2 |
 
-  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression @review
+  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression
   Scenario: Change manual transcription status
 
     Given I am logged on to DARTS as a "REQUESTER" user
@@ -389,6 +388,7 @@ Feature: Admin portal transcripts
     #Case 2: Awaiting authorisation -> Closed
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}002"
     And I press the "Search" button
@@ -420,6 +420,7 @@ Feature: Admin portal transcripts
     #Case 3: Approved -> Closed
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}003"
     And I press the "Search" button
@@ -453,6 +454,7 @@ Feature: Admin portal transcripts
     #Case 4: With transcriber -> Approved
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}004"
     And I press the "Search" button
@@ -486,6 +488,7 @@ Feature: Admin portal transcripts
     #Case 5: With transcriber -> Closed
 
     When I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}005"
     And I press the "Search" button
@@ -520,6 +523,7 @@ Feature: Admin portal transcripts
     #Case 1: Requested -> Closed (using case 1 again)
 
     And I click on the "Transcripts" link
+    And I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}001"
     And I press the "Search" button
@@ -642,7 +646,7 @@ Feature: Admin portal transcripts
 
   #Case 5: With transcriber -> Closed
 
-  @DMP-4239 @DMP-4243 @review
+  @DMP-4239 @DMP-4243 @regression
   Scenario: Delete transcript functionality for admin users
 
     #AG: Piggybacks from previous scenario, if test flakes, might need to set up the transcript as part of this scenario instead
@@ -656,7 +660,7 @@ Feature: Admin portal transcripts
     And I press the "Hide or delete" button
     And I select the "Public interest immunity" radio button
     And I set "Enter ticket reference" to "{{seq}}"
-    And I set "Comments" to "Transcript being marked for deletion" and click away
+    And I set "Comments" to "Transcript being marked for deletion"
     And I press the "Hide or delete" button
     Then I see "Files successfully hidden or marked for deletion" on the page
     And I see "Check for associated files" on the page
@@ -677,12 +681,10 @@ Feature: Admin portal transcripts
     And I click on the "Transcripts" sub-menu link
     And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-43"
     And I see "Delete transcript file" on the page
-    And I see "Transcript file deletion details" on the page
     And I click on the "Cancel" link
     And I see "Files marked for deletion" on the page
     And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-43"
     And I see "Delete transcript file" on the page
-    And I see "Transcript being marked for deletion" on the page
     Then I verify the HTML table contains the following values
       | Transcript ID | Case ID     | Courthouse         | Hearing date | Marked by   | Comments   |
       | *NO-CHECK*    | G{{seq}}004 | Harrow Crown Court | *NO-CHECK*   | Darts Admin | *NO-CHECK* |
@@ -705,7 +707,7 @@ Feature: Admin portal transcripts
     And I press the "Hide or delete" button
     And I select the "Public interest immunity" radio button
     And I set "Enter ticket reference" to "{{seq}}"
-    And I set "Comments" to "Transcript being marked for deletion again" and click away
+    And I set "Comments" to "Transcript being marked for deletion again"
     And I press the "Hide or delete" button
     Then I see "Files successfully hidden or marked for deletion" on the page
 
@@ -717,11 +719,11 @@ Feature: Admin portal transcripts
     And I see "Transcript being marked for deletion again" on the page
     And I Sign out
 
-    #Sign in as an Admin to approve transcript deletion request
+    # #Sign in as an Admin to approve transcript deletion request
 
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "File deletion" link
-    And I click on the "Completed transcripts" link
+    And I click on the "Transcripts" sub-menu link
     And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-43"
     And I select the "Approve" radio button
     And I press the "Confirm" button

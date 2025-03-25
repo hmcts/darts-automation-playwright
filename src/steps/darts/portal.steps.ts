@@ -489,6 +489,18 @@ Then(
   },
 );
 
+When(
+  'I press the {string} button in the same row as {string} {string}',
+  async function (this: ICustomWorld, button: string, rowValue1: string, rowValue2: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickButtonInTableRowWithTwoValues(
+      substituteValue(button) as string,
+      substituteValue(rowValue1) as string,
+      substituteValue(rowValue2) as string,
+    );
+  },
+);
+
 Then(
   'I see {string} in the same row as {string}',
   async function (this: ICustomWorld, text: string, rowValue: string) {
