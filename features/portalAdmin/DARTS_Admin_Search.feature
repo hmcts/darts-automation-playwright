@@ -50,6 +50,14 @@ Feature: Admin Search
     And I click on the "Clear search" link
 
     #Courtroom
+    And I set "Filter by courthouse" to "Swansea"
+    And I click option "Swansea"
+    And I set "Filter by courthouse" to "Liverpool"
+    And I click option "Liverpool"
+    And I set "Filter by courthouse" to "DMP-770-Courthouse"
+    And I click option "DMP-770-Courthouse"
+    And I set "Filter by courthouse" to "Leeds Combined Court Centre"
+    And I click option "Leeds Combined Court Centre"
     When I set "Courtroom" to "ROOM_A"
     And I select the "Specific date" radio button
     And I set "Enter a specific date" to "15/08/2023"
@@ -101,6 +109,8 @@ Feature: Admin Search
     Then I click on the "Clear search" link
 
     #Hearing Date-Date Range
+    And I set "Filter by courthouse" to "Harrow Crown Court"
+    And I click option "Harrow Crown Court"
     When I select the "Date range" radio button
     And I set "Enter a date from" to "02/07/2024"
     And I set "Enter a date to" to "03/07/2024"

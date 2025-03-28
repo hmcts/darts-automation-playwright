@@ -334,7 +334,7 @@ Feature: Admin portal
     And I press the "Unhide" button
     And I do not see "This file is hidden in DARTS" on the page
     And I see "{{med_id}}" on the page
-    Then I click on the "Advanced details" link
+    Then I click on the "Advanced audio file details" link
     And I see "No" in summary row for "Audio hidden?"
     And I click on the "Back" link
     And I press the "Search" button

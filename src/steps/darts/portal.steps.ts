@@ -328,6 +328,11 @@ When(
   },
 );
 
+When('I click option {string}', async function (this: ICustomWorld, option: string) {
+  const basePage = new BasePage(this.page!);
+  await basePage.selectOptionOnly(option);
+});
+
 Then('I select {string} from the dropdown', async function (this: ICustomWorld, option: string) {
   const basePage = new BasePage(this.page!);
   await basePage.selectOptionFromOnlyDropdown(option);
@@ -552,6 +557,8 @@ Given(
   async function (this: ICustomWorld, username: string, group: string) {
     const basePage = new BasePage(this.page!);
     await basePage.clickLink('Users');
+    await basePage.containsText('Search for user');
+    await basePage.clickLink('Clear search');
     await basePage.fillInputField('Full name', username);
     await basePage.clickButton('Search');
 

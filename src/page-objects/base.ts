@@ -181,6 +181,10 @@ export class BasePage {
     await this.page.getByLabel(dropdown).selectOption(option);
   }
 
+  async selectOptionOnly(option: string) {
+    await this.page.getByRole('option', { name: option, exact: true }).click();
+  }
+
   async selectOptionFromOnlyDropdown(option: string) {
     await this.page.locator('select').selectOption(option);
   }
