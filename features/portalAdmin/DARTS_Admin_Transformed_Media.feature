@@ -104,24 +104,24 @@ Feature: Admin-Transformed Media
     And I click on the "Advanced search" link
     And I set "Case ID" to "B163576006"
     And I press the "Search" button
-    Then I see "B163576006" in the same row as "5721"
+    Then I see "B163576006" in the same row as "5830"
 
     #Single and multiple delete, cancel link
 
-    When I check the checkbox in the same row as "5721" "B163576006"
+    When I check the checkbox in the same row as "5830" "B163576006"
     And I press the "Delete" button
     Then I see "Are you sure you want to delete this item?" on the page
     And I verify the HTML table contains the following values
-      | Media ID | Case ID    | Courthouse         | Hearing date | Owner       | Requested by | Date requested |
-      | 5721     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | Darts Admin  | 17 Mar 2025    |
+      | Media ID | Case ID    | Courthouse         | Hearing date | Owner       | Requested by             | Date requested |
+      | 5830     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | david.thompson@hmcts.net | 28 Mar 2025    |
 
     When I click on the "Cancel" link
-    And I see "B163576006" in the same row as "5721"
-    And I check the checkbox in the same row as "5721" "B163576006"
-    And I check the checkbox in the same row as "5720" "B163576006"
+    And I see "B163576006" in the same row as "5830"
+    And I check the checkbox in the same row as "5830" "B163576006"
+    And I check the checkbox in the same row as "5829" "B163576006"
     And I press the "Delete" button
     Then I see "Are you sure you want to delete these items?" on the page
     And I verify the HTML table contains the following values
-      | Media ID | Case ID    | Courthouse         | Hearing date | Owner       | Requested by | Date requested |
-      | 5721     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | Darts Admin  | 17 Mar 2025    |
-      | 5720     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | Darts Admin  | 17 Mar 2025    |
+      | Media ID | Case ID    | Courthouse         | Hearing date | Owner       | Requested by             | Date requested |
+      | 5830     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | david.thompson@hmcts.net | 28 Mar 2025    |
+      | 5829     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | david.thompson@hmcts.net | 28 Mar 2025    |
