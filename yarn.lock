@@ -414,21 +414,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cucumber/html-formatter@npm:21.10.0":
+  version: 21.10.0
+  resolution: "@cucumber/html-formatter@npm:21.10.0"
+  peerDependencies:
+    "@cucumber/messages": ">=18"
+  checksum: acfd8929be271860eda8130d51a3bf2fb87b0b24d941b03b3bd495ae0ba2dd77ae6435983463951563cfa109e0cb972bbeddfff9321e2dc603eed1c4f231a5b3
+  languageName: node
+  linkType: hard
+
 "@cucumber/html-formatter@npm:21.7.0":
   version: 21.7.0
   resolution: "@cucumber/html-formatter@npm:21.7.0"
   peerDependencies:
     "@cucumber/messages": ">=18"
   checksum: 7c7127b6c4c7d17a6e1c6423c8999f12cdc96b10253906a2a15094795a83c7e1c32ce71b6c7c2f72473647c285ad1c2c7bcd765a4fb3dde02c243be8b2e61217
-  languageName: node
-  linkType: hard
-
-"@cucumber/html-formatter@npm:21.9.0":
-  version: 21.9.0
-  resolution: "@cucumber/html-formatter@npm:21.9.0"
-  peerDependencies:
-    "@cucumber/messages": ">=18"
-  checksum: 239570041f86845450406a796124373cab9e26c9e298f694db84ffe4c1aab00b0d1f09c2dce09dcf07c6e2aff872c8af3dd7ca133936fdf926aa111387237c71
   languageName: node
   linkType: hard
 
@@ -1875,7 +1875,7 @@ __metadata:
   dependencies:
     "@azure/storage-blob": ^12.26.0
     "@cucumber/cucumber": 11.2.0
-    "@cucumber/html-formatter": 21.9.0
+    "@cucumber/html-formatter": 21.10.0
     "@cucumber/messages": ^26.0.1
     "@cucumber/pretty-formatter": 1.0.1
     "@eslint/eslintrc": ^3.2.0
