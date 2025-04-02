@@ -374,7 +374,8 @@ Feature: Admin portal transcripts
     And I see "You have 217 characters remaining" on the page
     And I press the "Save changes" button
     Then I see "Status updated" on the page
-    And I see "Requested" in summary row for "Status"
+    # When changing to Requested state, the workflow is automatically moved on to Awaiting Authorisation
+    And I see "Awaiting Authorisation" in summary row for "Status"
     #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
 
     #DMP-2538 Transcript request history
@@ -520,40 +521,6 @@ Feature: Admin portal transcripts
     And I see "Closed by Darts Admin (darts.admin@hmcts.net)" on the page
     And I see "Changing status to closed for case 5" on the page
 
-    #Case 1: Requested -> Closed (using case 1 again)
-
-    And I click on the "Transcripts" link
-    And I click on the "Clear search" link
-    And I click on the "Advanced search" link
-    And I set "Case ID" to "G{{seq}}001"
-    And I press the "Search" button
-    Then I see "Requested" in summary row for "Status"
-    #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
-    And I see "Start time 10:30:00 - End time 10:31:00" in summary row for "Audio for transcript"
-    And I see "Requested by" on the page
-    And I see "Received" on the page
-    And I see "This transcript request is for awaiting authorisation to requested scenario" in summary row for "Instructions"
-    And I see "G{{seq}}001" in summary row for "Case ID"
-    And I see "Harrow Crown Court" in summary row for "Courthouse"
-    And I see "{{upper-case-JudgeG {{seq}}-40}}" in summary row for "Judge(s)"
-    And I see "DefG {{seq}}-40" in summary row for "Defendant(s)"
-
-    When I click on the "Change status" link
-    And I select "Closed" from the "Select status" dropdown
-    And I set "Comment (optional)" to "Changing status to closed for case 1"
-    And I press the "Save changes" button
-    Then I see "Status updated" on the page
-    And I see "Closed" in summary row for "Status"
-
-    When I click on the "History" link
-    Then I see "Requested by Requestor (darts.requester@hmcts.net)" on the page
-    And I see "This transcript request is for awaiting authorisation to requested scenario" on the page
-    And I see "Awaiting Authorisation by Requestor (darts.requester@hmcts.net)" on the page
-    And I see "Requested by Darts Admin (darts.admin@hmcts.net)" on the page
-    And I see "Changing status to requested for case 1" on the page
-    And I see "Closed by Darts Admin (darts.admin@hmcts.net)" on the page
-    And I see "Changing status to closed for case 1" on the page
-
     #Check back on requester to confirm correct statuses
 
     When I Sign out
@@ -564,12 +531,12 @@ Feature: Admin portal transcripts
     And I press the "Search" button
     And I click on "G{{seq}}001" in the same row as "Harrow Crown Court"
     And I click on the "All Transcripts" link
-    And I see "Closed" in the same row as "Specified Times"
+    And I see "Awaiting Authorisation" in the same row as "Specified Times"
 
     When I click on the "Hearings" link
     And I click on the "{{displaydate}}" link
     And I click on the "Transcripts" link
-    And I see "Closed" in the same row as "Specified Times"
+    And I see "Awaiting Authorisation" in the same row as "Specified Times"
 
     When I click on the "Search" link
     And I set "Case ID" to "G{{seq}}002"
