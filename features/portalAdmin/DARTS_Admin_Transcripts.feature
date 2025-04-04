@@ -624,6 +624,17 @@ Feature: Admin portal transcripts
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}004"
     And I press the "Search" button
+
+    When I press the "Hide or delete" button
+    And I select the "Public interest immunity" radio button
+    And I set "Enter ticket reference" to "12345"
+    And I set "Comments" to "Hiding to test unhide button"
+    And I press the "Hide or delete" button
+    Then I see "Files successfully hidden or marked for deletion" on the page
+    And I press the "Continue" button
+    And I press the "Unmark for deletion and unhide" button
+    Then I do not see "Hiding to test unhide button" on the page
+
     And I press the "Hide or delete" button
     And I select the "Public interest immunity" radio button
     And I set "Enter ticket reference" to "{{seq}}"

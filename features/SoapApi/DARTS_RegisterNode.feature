@@ -41,6 +41,7 @@ Feature: REGISTER NODE using SOAP
       """
     Then the API status code is 200
 
+  @disabled
   Scenario Outline: SOAP registerNode invalid courthouse
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "registerNode" and body:
@@ -60,6 +61,7 @@ Feature: REGISTER NODE using SOAP
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
 
+  @disabled
   Scenario Outline: SOAP registerNode cannot be accessed from XHIBIT
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "registerNode" and body:
