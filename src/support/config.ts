@@ -1,4 +1,7 @@
 import { LaunchOptions } from '@playwright/test';
+import { Settings } from 'luxon';
+
+Settings.defaultZone = 'Europe/London';
 
 const randomNumber = Math.floor(Math.random() * 1000000)
   .toString()
