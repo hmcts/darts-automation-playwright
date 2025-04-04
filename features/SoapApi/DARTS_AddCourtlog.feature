@@ -1,4 +1,4 @@
-@COURTLOG @SOAP_API
+@COURTLOG @SOAP_API @smoketest
 Feature: Add Courtlog SOAP
 
   @regression

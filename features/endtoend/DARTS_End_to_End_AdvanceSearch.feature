@@ -13,7 +13,17 @@ Feature: End-to-end Advance Search
     Then I click on the "Search" link
     Then I click on the "Advanced search" link
 
+    #Case Number
+    Then I set "Case ID" to "<case_number>"
+    Then I press the "Search" button
+    Then I see "1 result" on the page
+    Then I verify the HTML table contains the following values
+      | Case ID       | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
+      | <case_number> | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
+
     #Courthouse
+    When I click on the "Clear search" link
+    And I click on the "Advanced search" link
     When I set "Courthouse" to "<courthouse>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -298,16 +308,6 @@ Feature: End-to-end Advance Search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
-    Then I verify the HTML table contains the following values
-      | Case ID       | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
-      | <case_number> | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
-
-    #Case Number
-    When I click on the "Clear search" link
-    And I click on the "Advanced search" link
-    Then I set "Case ID" to "<case_number>"
-    Then I press the "Search" button
-    Then I see "1 result" on the page
     Then I verify the HTML table contains the following values
       | Case ID       | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
       | <case_number> | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
@@ -368,12 +368,12 @@ Feature: End-to-end Advance Search
     #    Then I see "using filters to restrict the number of results" on the pagew
 
     Examples:
-      | user        | courthouse         | case_number   | defendants              | judges              | prosecutors           | defenders           | courtroom  | keywords             | dateTime      | todaysDate  |
-      | REQUESTER   | Harrow Crown Court | S{{seq}}081-B | S{{seq}} DEFENDANT-B081 | S{{seq}} JUDGE-B081 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}81 | SIT LOG-81-{{seq}}-B | {{timestamp}} | {{date+0/}} |
-      | JUDGE       | Harrow Crown Court | S{{seq}}082-B | S{{seq}} DEFENDANT-B082 | S{{seq}} JUDGE-B082 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}82 | SIT LOG-82-{{seq}}-B | {{timestamp}} | {{date+0/}} |
-      | TRANSCRIBER | Harrow Crown Court | S{{seq}}083-B | S{{seq}} DEFENDANT-B083 | S{{seq}} JUDGE-B083 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}83 | SIT LOG-83-{{seq}}-B | {{timestamp}} | {{date+0/}} |
+      | user      | courthouse         | case_number   | defendants              | judges              | prosecutors           | defenders           | courtroom  | keywords             | dateTime      | todaysDate  |
+      | REQUESTER | Harrow Crown Court | S{{seq}}081-B | S{{seq}} DEFENDANT-B081 | S{{seq}} JUDGE-B081 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}81 | SIT LOG-81-{{seq}}-B | {{timestamp}} | {{date+0/}} |
+  # | JUDGE       | Harrow Crown Court | S{{seq}}082-B | S{{seq}} DEFENDANT-B082 | S{{seq}} JUDGE-B082 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}82 | SIT LOG-82-{{seq}}-B | {{timestamp}} | {{date+0/}} |
+  # | TRANSCRIBER | Harrow Crown Court | S{{seq}}083-B | S{{seq}} DEFENDANT-B083 | S{{seq}} JUDGE-B083 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}83 | SIT LOG-83-{{seq}}-B | {{timestamp}} | {{date+0/}} |
 
-  @DMP-1927 @demo
+  @DMP-1927 @demo @dave
   Scenario Outline: Advance Search for a case details created using events
     Given I create a case
       | courthouse   | courtroom   | case_number   | defendants   | judges   | prosecutors   | defenders   |
@@ -386,7 +386,18 @@ Feature: End-to-end Advance Search
     Then I click on the "Search" link
     Then I click on the "Advanced search" link
 
+    #Case Number
+    Then I set "Case ID" to "<case_number>"
+    Then I press the "Search" button
+    Then I see "1 result" on the page
+    Then I verify the HTML table contains the following values
+      | Case ID                                  | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
+      | <case_number>                            | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
+      | There are restrictions against this case | *IGNORE*     | *IGNORE*    | *IGNORE*                | *IGNORE*     |
+
     #Courthouse
+    When I click on the "Clear search" link
+    And I click on the "Advanced search" link
     When I set "Courthouse" to "<courthouse>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -682,17 +693,6 @@ Feature: End-to-end Advance Search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
-    Then I verify the HTML table contains the following values
-      | Case ID                                  | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
-      | <case_number>                            | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
-      | There are restrictions against this case | *IGNORE*     | *IGNORE*    | *IGNORE*                | *IGNORE*     |
-
-    #Case Number
-    When I click on the "Clear search" link
-    And I click on the "Advanced search" link
-    Then I set "Case ID" to "<case_number>"
-    Then I press the "Search" button
-    Then I see "1 result" on the page
     Then I verify the HTML table contains the following values
       | Case ID                                  | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
       | <case_number>                            | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
@@ -755,7 +755,7 @@ Feature: End-to-end Advance Search
     #    Then I see "using filters to restrict the number of results" on the page
 
     Examples:
-      | user        | courthouse         | courtroom   | case_number   | dateTime              | message_id | eventId    | type  | subType | caseRetention | totalSentence | prosecutors              | defenders              | defendants              | judges              | keywords                | todaysDate  |
-      | REQUESTER   | Harrow Crown Court | C{{seq}}091 | S{{seq}}091-B | {{yyyymmdd hh:mm:ss}} | {{seq}}082 | {{seq}}042 | 21200 | 11000   |               |               | S{{seq}} PROSECUTOR-B091 | S{{seq}} DEFENDER-B091 | S{{seq}} DEFENDANT-B091 | S{{seq}} JUDGE-B091 | SIT LOG-82-{{seq}}-B091 | {{date+0/}} |
-      | JUDGE       | Harrow Crown Court | C{{seq}}092 | S{{seq}}092-B | {{yyyymmdd hh:mm:ss}} | {{seq}}082 | {{seq}}042 | 21200 | 11000   |               |               | S{{seq}} PROSECUTOR-B092 | S{{seq}} DEFENDER-B092 | S{{seq}} DEFENDANT-B092 | S{{seq}} JUDGE-B092 | SIT LOG-82-{{seq}}-B092 | {{date+0/}} |
-      | TRANSCRIBER | Harrow Crown Court | C{{seq}}093 | S{{seq}}093-B | {{yyyymmdd hh:mm:ss}} | {{seq}}082 | {{seq}}042 | 21200 | 11000   |               |               | S{{seq}} PROSECUTOR-B093 | S{{seq}} DEFENDER-B093 | S{{seq}} DEFENDANT-B093 | S{{seq}} JUDGE-B093 | SIT LOG-82-{{seq}}-B093 | {{date+0/}} |
+      | user      | courthouse         | courtroom   | case_number   | dateTime              | message_id | eventId    | type  | subType | caseRetention | totalSentence | prosecutors              | defenders              | defendants              | judges              | keywords                | todaysDate  |
+      | REQUESTER | Harrow Crown Court | C{{seq}}091 | S{{seq}}091-B | {{yyyymmdd hh:mm:ss}} | {{seq}}082 | {{seq}}042 | 21200 | 11000   |               |               | S{{seq}} PROSECUTOR-B091 | S{{seq}} DEFENDER-B091 | S{{seq}} DEFENDANT-B091 | S{{seq}} JUDGE-B091 | SIT LOG-82-{{seq}}-B091 | {{date+0/}} |
+# | JUDGE       | Harrow Crown Court | C{{seq}}092 | S{{seq}}092-B | {{yyyymmdd hh:mm:ss}} | {{seq}}082 | {{seq}}042 | 21200 | 11000   |               |               | S{{seq}} PROSECUTOR-B092 | S{{seq}} DEFENDER-B092 | S{{seq}} DEFENDANT-B092 | S{{seq}} JUDGE-B092 | SIT LOG-82-{{seq}}-B092 | {{date+0/}} |
+# | TRANSCRIBER | Harrow Crown Court | C{{seq}}093 | S{{seq}}093-B | {{yyyymmdd hh:mm:ss}} | {{seq}}082 | {{seq}}042 | 21200 | 11000   |               |               | S{{seq}} PROSECUTOR-B093 | S{{seq}} DEFENDER-B093 | S{{seq}} DEFENDANT-B093 | S{{seq}} JUDGE-B093 | SIT LOG-82-{{seq}}-B093 | {{date+0/}} |

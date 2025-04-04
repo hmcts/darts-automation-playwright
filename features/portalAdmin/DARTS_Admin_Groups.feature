@@ -107,6 +107,7 @@ Feature: Admin Groups
     Then I click on the "Groups" link
     And I press the "Create group" button
     #AC1 - Group Details
+    And I do not see "Loading group details" on the page
     And I see "Create group" on the page
     And I see "Group details" on the page
     And I see "Group name" on the page
