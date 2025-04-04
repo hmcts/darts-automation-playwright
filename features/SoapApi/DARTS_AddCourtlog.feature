@@ -11,15 +11,15 @@ Feature: Add Courtlog SOAP
       | courthouse   | courtroom   | case_numbers | text                  | date       | time     |
       | <courthouse> | <courtroom> | <caseNumber> | log details {{seq}}-1 | {{date-0}} | 10:00:01 |
       | <courthouse> | <courtroom> | <caseNumber> | log details {{seq}}-2 | {{date-0}} | 11:00:01 |
-    And I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_ts" = "{{db-timestamp-{{date-yyyymmdd-0}} 10:00:01}}"
-    Then I see table "EVENT" column "event_text" is "log details {{seq}}-1" where "eve.eve_id" = "{{eve.eve_id}}"
+    And I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_text" = "log details {{seq}}-1"
+    Then I see table "EVENT" column "event_ts::time" is "{{time-10:00:01}}" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "event_name" is "LOG" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "interpreter_used" is "false" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "handler" is "StandardEventHandler" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "active" is "true" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "case_closed_ts" is "null" where "eve.eve_id" = "{{eve.eve_id}}"
-    When I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_ts" = "{{db-timestamp-{{date-yyyymmdd-0}} 11:00:01}}"
-    Then I see table "EVENT" column "event_text" is "log details {{seq}}-2" where "eve.eve_id" = "{{eve.eve_id}}"
+    When I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_text" = "log details {{seq}}-2"
+    Then I see table "EVENT" column "event_ts::time" is "{{time-11:00:01}}" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "event_name" is "LOG" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "interpreter_used" is "false" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "handler" is "StandardEventHandler" where "eve.eve_id" = "{{eve.eve_id}}"
@@ -37,15 +37,15 @@ Feature: Add Courtlog SOAP
       | courthouse   | courtroom   | case_numbers | text                  | date       | time     |
       | <courthouse> | <courtroom> | <caseNumber> | log details {{seq}}-1 | {{date-0}} | 10:00:01 |
       | <courthouse> | <courtroom> | <caseNumber> | log details {{seq}}-2 | {{date-0}} | 11:00:01 |
-    And I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_ts" = "{{db-timestamp-{{date-yyyymmdd-0}} 10:00:01}}"
-    Then I see table "EVENT" column "event_text" is "log details {{seq}}-1" where "eve.eve_id" = "{{eve.eve_id}}"
+    And I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_text" = "log details {{seq}}-1"
+    Then I see table "EVENT" column "event_ts::time" is "{{time-10:00:01}}" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "event_name" is "LOG" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "interpreter_used" is "false" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "handler" is "StandardEventHandler" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "active" is "true" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "case_closed_ts" is "null" where "eve.eve_id" = "{{eve.eve_id}}"
-    When I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_ts" = "{{db-timestamp-{{date-yyyymmdd-0}} 11:00:01}}"
-    Then I see table "EVENT" column "event_text" is "log details {{seq}}-2" where "eve.eve_id" = "{{eve.eve_id}}"
+    When I select column "eve.eve_id" from table "EVENT" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "event_text" = "log details {{seq}}-2"
+    Then I see table "EVENT" column "event_ts::time" is "{{time-11:00:01}}" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "event_name" is "LOG" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "interpreter_used" is "false" where "eve.eve_id" = "{{eve.eve_id}}"
     And I see table "EVENT" column "handler" is "StandardEventHandler" where "eve.eve_id" = "{{eve.eve_id}}"

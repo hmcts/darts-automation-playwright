@@ -256,8 +256,11 @@ where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}
 and ${sql.unsafe(whereColName2)} = ${substituteValue(whereColValue2)}
 and ${sql.unsafe(whereColName3)} = ${substituteValue(whereColValue3)}
 and ${sql.unsafe(whereColName4)} = ${substituteValue(whereColValue4)}`;
+      console.log('runQuery result', result);
       try {
         const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+
+        console.log('runQuery returnedColumnValue', returnedColumnValue);
         cache.put(column, returnedColumnValue);
         return true;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

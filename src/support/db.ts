@@ -140,6 +140,7 @@ export const tableName = (tableName: string): string => {
 };
 
 export const getSingleValueFromResult = (result: SqlResult): string | number => {
+  console.log('getSingleValueFromResult', result);
   if (result.length === 0) {
     throw new Error('Single value result expected, none found');
   }
