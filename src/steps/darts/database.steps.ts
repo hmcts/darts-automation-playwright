@@ -120,7 +120,7 @@ where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
       try {
         const returnedColumnValue = getSingleValueFromResult(result) as string | number;
         console.log('runQuery returnedColumnValue', returnedColumnValue);
-        console.log('runQuery expectedValue', expectedValue);
+        console.log('runQuery expectedValue', substituteValue(expectedValue));
         if (expectedValue === 'not null') {
           expect(returnedColumnValue).not.toBeNull();
         } else {
