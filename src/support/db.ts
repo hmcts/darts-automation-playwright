@@ -140,8 +140,12 @@ export const tableName = (tableName: string): string => {
 };
 
 export const getSingleValueFromResult = (result: SqlResult): string | number => {
+  console.log('getSingleValueFromResult', result);
   if (result.length === 0) {
     throw new Error('Single value result expected, none found');
   }
+  console.log('getSingleValueFromResult', Object.keys(result[0]));
+  console.log('getSingleValueFromResult', result[0]);
+  console.log('getSingleValueFromResult', result[0][Object.keys(result[0])[0]]);
   return result[0][Object.keys(result[0])[0]];
 };

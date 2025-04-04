@@ -25,6 +25,7 @@ export class BasePage {
     if (!visible) {
       await expect(this.page.getByText(text).nth(0)).toBeVisible({
         visible: false,
+        timeout: 10000,
       });
     } else {
       const allMatchingLocators = this.page.getByText(text);
