@@ -115,6 +115,8 @@ select ${sql.unsafe(column)}
 from ${sql.unsafe(tableName(table))}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
 
+      console.log('runQuery result', result);
+
       try {
         const returnedColumnValue = getSingleValueFromResult(result) as string | number;
         if (expectedValue === 'not null') {
