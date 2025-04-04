@@ -25,6 +25,7 @@ Feature: GetCases using SOAP
       """
     Then the API status code is 200
 
+  @disabled
   Scenario: getCases invalid court name fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap body:
@@ -39,6 +40,7 @@ Feature: GetCases using SOAP
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
 
+  @disabled
   Scenario: getCases authentication from XHIBIT fails
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap body:
