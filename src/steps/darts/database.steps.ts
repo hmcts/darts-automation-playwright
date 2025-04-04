@@ -130,7 +130,7 @@ where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
     };
     // if we check right away, sometimes the data isn't found ¯\_(ツ)_/¯
     // retry running the query
-    const done = await wait(runQuery, 200, 20);
+    const done = await wait(runQuery, 200, 30);
     if (!done) {
       throw new Error(`Failed checking column in scenario: ${this.testName}`);
     }
