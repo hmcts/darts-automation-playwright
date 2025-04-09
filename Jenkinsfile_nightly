@@ -99,6 +99,8 @@ withNightlyPipeline(type, product, component) {
 
   before('fullFunctionalTest') {
     // set the tags to run on the nightly build
+    // Using manual uploads until https://tools.hmcts.net/jira/browse/DMP-4992 is fixed
+    env.AUDIO_MANUAL_UPLOAD = true
     env.INCLUDE_TAGS = "@smoketest or @regression or @end2end"
     env.PWVIDEO = 1
   }
