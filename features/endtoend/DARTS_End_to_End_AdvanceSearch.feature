@@ -13,7 +13,17 @@ Feature: End-to-end Advance Search
     Then I click on the "Search" link
     Then I click on the "Advanced search" link
 
+    #Case Number
+    Then I set "Case ID" to "<case_number>"
+    Then I press the "Search" button
+    Then I see "1 result" on the page
+    Then I verify the HTML table contains the following values
+      | Case ID       | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
+      | <case_number> | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
+
     #Courthouse
+    When I click on the "Clear search" link
+    And I click on the "Advanced search" link
     When I set "Courthouse" to "<courthouse>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -298,16 +308,6 @@ Feature: End-to-end Advance Search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
-    Then I verify the HTML table contains the following values
-      | Case ID       | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
-      | <case_number> | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
-
-    #Case Number
-    When I click on the "Clear search" link
-    And I click on the "Advanced search" link
-    Then I set "Case ID" to "<case_number>"
-    Then I press the "Search" button
-    Then I see "1 result" on the page
     Then I verify the HTML table contains the following values
       | Case ID       | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
       | <case_number> | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
@@ -386,7 +386,18 @@ Feature: End-to-end Advance Search
     Then I click on the "Search" link
     Then I click on the "Advanced search" link
 
+    #Case Number
+    Then I set "Case ID" to "<case_number>"
+    Then I press the "Search" button
+    Then I see "1 result" on the page
+    Then I verify the HTML table contains the following values
+      | Case ID                                  | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
+      | <case_number>                            | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
+      | There are restrictions against this case | *IGNORE*     | *IGNORE*    | *IGNORE*                | *IGNORE*     |
+
     #Courthouse
+    When I click on the "Clear search" link
+    And I click on the "Advanced search" link
     When I set "Courthouse" to "<courthouse>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -682,17 +693,6 @@ Feature: End-to-end Advance Search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
-    Then I verify the HTML table contains the following values
-      | Case ID                                  | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
-      | <case_number>                            | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |
-      | There are restrictions against this case | *IGNORE*     | *IGNORE*    | *IGNORE*                | *IGNORE*     |
-
-    #Case Number
-    When I click on the "Clear search" link
-    And I click on the "Advanced search" link
-    Then I set "Case ID" to "<case_number>"
-    Then I press the "Search" button
-    Then I see "1 result" on the page
     Then I verify the HTML table contains the following values
       | Case ID                                  | Courthouse   | Courtroom   | Judge(s)                | Defendant(s) |
       | <case_number>                            | <courthouse> | <courtroom> | {{upper-case-<judges>}} | <defendants> |

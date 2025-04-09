@@ -114,7 +114,6 @@ Then(
 select ${sql.unsafe(column)}
 from ${sql.unsafe(tableName(table))}
 where ${sql.unsafe(whereColName1)} = ${substituteValue(whereColValue1)}`;
-
       try {
         const returnedColumnValue = getSingleValueFromResult(result) as string | number;
         if (expectedValue === 'not null') {
@@ -254,6 +253,7 @@ and ${sql.unsafe(whereColName3)} = ${substituteValue(whereColValue3)}
 and ${sql.unsafe(whereColName4)} = ${substituteValue(whereColValue4)}`;
       try {
         const returnedColumnValue = getSingleValueFromResult(result) as string | number;
+
         cache.put(column, returnedColumnValue);
         return true;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -53,6 +53,12 @@ export const substituteValue = (value: string): Date | number | string | boolean
   if (['true', 'false', 'null'].includes(value)) {
     return JSON.parse(value);
   }
+  // eg. {{time-10:00:01}} - convert from local to UTC time to use in database checks
+  if (value.startsWith('{{time-')) {
+    const fmt = 'HH:mm:ss';
+    const time = value.substring(value.indexOf('{{time-') + 7, value.indexOf('}}'));
+    return DateTime.fromFormat(time, fmt).toUTC().toFormat(fmt);
+  }
   // eg. {{date-0}} or {{date+0}} or {{date-yyyymmdd-0}}
   if (
     (value.startsWith('{{date-') ||
