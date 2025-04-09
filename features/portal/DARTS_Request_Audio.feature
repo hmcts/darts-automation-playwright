@@ -436,18 +436,18 @@ Feature: Request Audio
     # TODO (DT): changed "Play preview" to "No audio found. Preview not available." for 0 second audio
     Then I verify the HTML table contains the following values
       | *NO-CHECK* | Time                | Event                | Text                                   |
-      | *NO-CHECK* | 15:00:00 - 15:01:00 | Audio recording      | Play preview                           |
-      | *NO-CHECK* | 14:00:00 - 14:01:00 | Audio recording      | Play preview                           |
-      | *NO-CHECK* | 11:44:01            | Interpreter sworn-in | Some event                             |
-      | *NO-CHECK* | 11:33:23 - 11:33:23 | Audio recording      | No audio found. Preview not available. |
       | *NO-CHECK* | 11:00:00 - 12:14:05 | Audio recording      | Play preview                           |
+      | *NO-CHECK* | 11:33:23 - 11:33:23 | Audio recording      | No audio found. Preview not available. |
+      | *NO-CHECK* | 11:44:01            | Interpreter sworn-in | Some event                             |
+      | *NO-CHECK* | 14:00:00 - 14:01:00 | Audio recording      | Play preview                           |
+      | *NO-CHECK* | 15:00:00 - 15:01:00 | Audio recording      | Play preview                           |
 
     When I click on "Time" in the table header
     Then I verify the HTML table contains the following values
       | *NO-CHECK* | Time                | Event                | Text                                   |
       | *NO-CHECK* | 15:00:00 - 15:01:00 | Audio recording      | Play preview                           |
       | *NO-CHECK* | 14:00:00 - 14:01:00 | Audio recording      | Play preview                           |
-      | *NO-CHECK* | 11:44:01            | Interpreter sworn-in |                                        |
+      | *NO-CHECK* | 11:44:01            | Interpreter sworn-in | Some event                             |
       | *NO-CHECK* | 11:33:23 - 11:33:23 | Audio recording      | No audio found. Preview not available. |
       | *NO-CHECK* | 11:00:00 - 12:14:05 | Audio recording      | Play preview                           |
 
