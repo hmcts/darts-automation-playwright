@@ -1,4 +1,4 @@
-@end2end @end2end6 @end2end_advanced_search
+@end2end @end2end6 @end2end_advanced_search @retry
 Feature: End-to-end Advance Search
 
   @DMP-1927 @demo
