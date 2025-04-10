@@ -101,15 +101,15 @@ Feature: Admin Groups
     And I click on the "Add user" link
     Then I see "Darts Admin" in the same row as "darts.admin@hmcts.net"
 
-  @DMP-2317 @regression
+  @DMP-2317 @regression @retry
   Scenario: Create a new group (Translation or Transcriber)
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Groups" link
     And I press the "Create group" button
     #AC1 - Group Details
-    And I do not see "Loading group details" on the page
     And I see "Create group" on the page
     And I see "Group details" on the page
+    And I do not see "Loading group details" on the page
     And I see "Group name" on the page
     And I see "Description" on the page
     And I see "Role" on the page
