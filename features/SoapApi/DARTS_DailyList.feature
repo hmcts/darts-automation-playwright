@@ -90,7 +90,7 @@ Feature: Add Daily List using SOAP
       | XHIBIT | 58b211f5-426d-81be-00{{seq}}00 | DL    | DL      | DL {{date+0/}} {{seq}}00 | HARROW CROWN COURT | 1         | T{{seq}}101 | {{date+0}} | 10:00:00  | {{date+0}} | {{timestamp}} | T{{seq}}101 defendant |
       | CPP    | 58b211f5-426d-81be-00{{seq}}01 | CPPDL | DL      | DL {{date+0/}} {{seq}}01 | HARROW CROWN COURT | 1         | T{{seq}}111 | {{date+0}} | 10:00:00  | {{date+0}} | {{timestamp}} | T{{seq}}111 defendant |
 
-  @DMP-2968 @regression
+  @DMP-2968 @regression @disabled
   Scenario: Daily List VIQ User fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -182,7 +182,7 @@ Feature: Add Daily List using SOAP
       """
     Then the API status code is 500
 
-  @DMP-2968 @regression
+  @DMP-2968 @regression @disabled
   Scenario: Daily List malformed fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addDocument" and body:

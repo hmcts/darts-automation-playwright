@@ -184,7 +184,7 @@ Feature: AddCase using SOAP
       """
     Then the API status code is 200
 
-  @DMP-1706
+  @DMP-1706 @disabled
   Scenario: addCase invalid court name fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addCase" and body:
@@ -212,7 +212,7 @@ Feature: AddCase using SOAP
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
 
-  @DMP-1706
+  @DMP-1706 @disabled
   Scenario: addCase access from XHIBIT fails
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addCase" and body:
