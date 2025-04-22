@@ -95,7 +95,7 @@ Feature: Add Courtlog SOAP
       """
     Then the API status code is 200
 
-  @regression @disabled
+  @regression
   Scenario: addLogEntry with invalid court fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addLogEntry" and body:
@@ -115,7 +115,7 @@ Feature: Add Courtlog SOAP
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
 
-  @regression @disabled
+  @regression
   Scenario: addLogEntry with authenticating from XHIBIT fails
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addLogEntry" and body:
