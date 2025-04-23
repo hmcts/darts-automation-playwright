@@ -347,7 +347,7 @@ Feature: Admin portal transcripts
     And I press the "Search" button
     #DMP-2525-AC1 and AC2 Transcript request details and stages
     Then I see "Awaiting Authorisation" in summary row for "Status"
-    And I see "Assigned to" on the page
+    And I see "Last actioned by" on the page
     #And I do not see "Associated groups" on the page - AG: Has this requirement changed? Sometimes associated groups are visible
     And I see "Request details" on the page
     And I see "{{displaydate}}" in summary row for "Hearing date"
@@ -620,7 +620,7 @@ Feature: Admin portal transcripts
 
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link
-    And I click on the "Completed transcripts" link
+    And I click on the "Transcript documents" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}004"
     And I press the "Search" button
@@ -678,7 +678,7 @@ Feature: Admin portal transcripts
     #Request deletion again
 
     When I click on the "Transcripts" link
-    And I click on the "Completed transcripts" link
+    And I click on the "Transcript documents" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "G{{seq}}004"
     And I press the "Search" button
@@ -713,7 +713,7 @@ Feature: Admin portal transcripts
   Scenario: Transcript advanced search
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link
-    And I click on the "Completed transcripts" link
+    And I click on the "Transcript documents" link
     Then I click on the "Advanced search" link
     #Search with Courthouse
     And I set "Courthouse" to "Leeds" and click away
@@ -824,7 +824,7 @@ Feature: Admin portal transcripts
       | 17165      | S1034021 | Harrow Crown Court | 15 Feb 2024  | 19 Feb 2024 10:41 | Complete | Manual         |
 
     #Search with Case ID
-    Then I click on the "Completed transcripts" link
+    Then I click on the "Transcript documents" link
     And I set "Case ID" to "DMP-3104"
     And I press the "Search" button
     Then I verify the HTML table contains the following values
@@ -834,7 +834,7 @@ Feature: Admin portal transcripts
     And I click on the "6637" link
     And I see "Back" on the page
     And I click on the "Back" link
-    And I see "Completed transcripts" on the page
+    And I see "Transcript documents" on the page
     Then I verify the HTML table contains the following values
       | Transcript ID | Request ID | Case ID  | Courthouse | Hearing date | Request method | Is hidden |
       | 6617          | 36329      | DMP-3104 | Swansea    | 07 Jun 2024  | Manual         | No        |

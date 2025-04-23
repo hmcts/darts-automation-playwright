@@ -64,7 +64,7 @@ Feature: Admin portal
   Scenario: Deletion Reasons
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link
-    Then I click on the "Completed transcripts" link
+    Then I click on the "Transcript documents" link
     And I set "Case ID" to "DMP1600-case1"
     And I press the "Search" button
     Then I click on "761" in the same row as "Manual"
@@ -104,13 +104,13 @@ Feature: Admin portal
   Scenario: Transcription File Details Page
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link
-    Then I click on the "Completed transcripts" link
+    Then I click on the "Transcript documents" link
     And I set "Case ID" to "C1216002"
     And I press the "Search" button
     #Basic details
     Then I click on the "Back" link
     And I see "Transcripts" on the page
-    And I click on the "Completed transcripts" link
+    And I click on the "Transcript documents" link
     And I set "Case ID" to "C1216002"
     And I press the "Search" button
 

@@ -103,10 +103,9 @@ Feature: Portal Tests
     And I verify sub-menu links for "File deletion":
       | Transcripts | Audio files |
       | Y           | Y           |
-    # changed "Completed transcripts" from "X" to "Y"
     And I verify sub-menu links for "Transcripts":
-      | Completed transcripts | Transcript requests |
-      | Y                     | Y                   |
+      | Transcript documents | Transcript requests |
+      | Y                    | Y                   |
     And I verify sub-menu links for "System configuration":
       | Event mappings | Automated tasks | Retention policies |
       | Y              | Y               | Y                  |
