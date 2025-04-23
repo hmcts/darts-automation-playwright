@@ -780,7 +780,7 @@ Feature: Test operation of SOAP events
       """
     Then the API status code is 200
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression @disabled
+  @EVENT_API @SOAP_API @DMP-2960 @regression
   Scenario: Verify that VIQ cannot create an event
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -869,7 +869,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 200
     And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression @disabled
+  @EVENT_API @SOAP_API @DMP-2960 @regression
   Scenario: Verify that event creation for an invalid courthouse fails
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -891,7 +891,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression @disabled
+  @EVENT_API @SOAP_API @DMP-2960 @regression
   Scenario: Create an event using invalid type / subtype
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addDocument" and body:
