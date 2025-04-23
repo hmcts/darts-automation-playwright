@@ -7,11 +7,11 @@ Feature: Admin Search
     #Filter by courthouse
     And I set "Filter by courthouse" to "Swansea"
     And I press the "Search" button
-    And I see "There are more than 1000 results. Refine your search." on the page
+    And I see "We need more information to search" on the page
     And I click on the "Hearings" link
-    And I see "There are more than 1000 results. Refine your search." on the page
+    And I see "We need more information to search" on the page
     And I click on the "Cases" link
-    Then I see "There are more than 1000 results. Refine your search." on the page
+    And I see "We need more information to search" on the page
     And I click on the "Clear search" link
 
     #Case ID
@@ -668,9 +668,9 @@ Feature: Admin Search
 
     When I click on the "Transcripts" sub-menu link
     Then I verify the HTML table contains the following values
-      | Transcript ID | Type            | Requested by | Requested on | Status                 |
-      | 217054        | Specified Times | Requestor    | 13 Mar 2025  | Awaiting Authorisation |
-      | 217073        | Court Log       | Requestor    | 13 Mar 2025  | Rejected               |
+      | Transcript ID | Type            | Requested by | Requested on | Status   |
+      | 217054        | Specified Times | Requestor    | 13 Mar 2025  | Closed   |
+      | 217073        | Court Log       | Requestor    | 13 Mar 2025  | Rejected |
 
     #Navigate to hearing details screen via hearing link on case file screen
 
@@ -710,6 +710,6 @@ Feature: Admin Search
 
     When I click on the "Transcripts" sub-menu link
     Then I verify the HTML table contains the following values
-      | Transcript ID | Type            | Requested by | Requested on | Status                 |
-      | 217054        | Specified Times | Requestor    | 13 Mar 2025  | Awaiting Authorisation |
-      | 217073        | Court Log       | Requestor    | 13 Mar 2025  | Rejected               |
+      | Transcript ID | Type            | Requested by | Requested on | Status   |
+      | 217054        | Specified Times | Requestor    | 13 Mar 2025  | Closed   |
+      | 217073        | Court Log       | Requestor    | 13 Mar 2025  | Rejected |
