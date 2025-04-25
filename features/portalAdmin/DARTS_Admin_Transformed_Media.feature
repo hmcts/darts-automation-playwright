@@ -97,31 +97,35 @@ Feature: Admin-Transformed Media
   @DMP-4178 @regression
   Scenario: Delete single and multiple transformed media, with cancel link
 
-    #AG - Need a piece of media to delete, must be repeatable
-
+    # Using the transformed media from the
     Given I am logged on to the admin portal as an "ADMIN" user
     When I click on the "Transformed media" link
     And I click on the "Advanced search" link
-    And I set "Case ID" to "B163576006"
+    And I set "Case ID" to "B{{seq}}006"
     And I press the "Search" button
-    Then I see "B163576006" in the same row as "5830"
+    Then I see "B{{seq}}006" in the same row as "ZIP"
+    Then I see "B{{seq}}006" in the same row as "MP3"
 
     #Single and multiple delete, cancel link
-
-    When I check the checkbox in the same row as "5830" "B163576006"
+    When I check the checkbox in the same row as "ZIP" "B{{seq}}006"
     And I press the "Delete" button
     Then I see "Are you sure you want to delete this item?" on the page
     And I verify the HTML table contains the following values
-      | Media ID | Case ID    | Courthouse         | Hearing date | Owner       | Requested by             | Date requested |
-      | 5830     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | david.thompson@hmcts.net | 28 Mar 2025    |
+      | Media ID | Case ID     | Courthouse         | Hearing date     | Owner       | Requested by | Date requested   |
+      | *IGNORE* | B{{seq}}006 | Harrow Crown Court | {{displaydate0}} | Transcriber | Transcriber  | {{displaydate0}} |
 
     When I click on the "Cancel" link
-    And I see "B163576006" in the same row as "5830"
-    And I check the checkbox in the same row as "5830" "B163576006"
-    And I check the checkbox in the same row as "5829" "B163576006"
+    Then I see "B{{seq}}006" in the same row as "ZIP"
+    Then I see "B{{seq}}006" in the same row as "MP3"
+    When I check the checkbox in the same row as "ZIP" "B{{seq}}006"
+    When I check the checkbox in the same row as "MP3" "B{{seq}}006"
     And I press the "Delete" button
     Then I see "Are you sure you want to delete these items?" on the page
     And I verify the HTML table contains the following values
-      | Media ID | Case ID    | Courthouse         | Hearing date | Owner       | Requested by             | Date requested |
-      | 5830     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | david.thompson@hmcts.net | 28 Mar 2025    |
-      | 5829     | B163576006 | Harrow Crown Court | 17 Mar 2025  | Darts Admin | david.thompson@hmcts.net | 28 Mar 2025    |
+      | Media ID | Case ID     | Courthouse         | Hearing date     | Owner       | Requested by | Date requested   |
+      | *IGNORE* | B{{seq}}006 | Harrow Crown Court | {{displaydate0}} | Transcriber | Transcriber  | {{displaydate0}} |
+      | *IGNORE* | B{{seq}}006 | Harrow Crown Court | {{displaydate0}} | Transcriber | Transcriber  | {{displaydate0}} |
+    When I click on the "Yes - delete" button
+    And I set "Case ID" to "B{{seq}}006"
+    And I press the "Search" button
+    Then I see "No data to display." on the page
