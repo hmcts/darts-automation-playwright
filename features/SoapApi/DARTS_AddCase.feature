@@ -158,6 +158,24 @@ Feature: AddCase using SOAP
       | courthouse         | caseNumber  | defendant1      | judgeName  | prosecutors     | defenders     |
       | HARROW CROWN COURT | T{{seq}}608 | test defendent1 | test judge | test prosecutor | test defender |
 
+  @DMP-4272
+  Scenario Outline: SOAP addCase with long defendant name to trigger defendant name overflow warning in Dynatrace
+    Given I see table "COURTCASE" column "count(cas_id)" is "0" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>"
+    When I create a case
+      | courthouse   | case_number  | defendants      | judges      | prosecutors   | defenders   |
+      | <courthouse> | <caseNumber> | <defendantName> | <judgeName> | <prosecutors> | <defenders> |
+    Then the API status code is 200
+    And I select column "cas.cas_id" from table "COURTCASE" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>"
+    And I see table "COURTCASE" column "case_closed" is "false" where "cas.cas_id" = "{{cas.cas_id}}"
+    And I see table "CASE_JUDGE" column "judge_name" is "<judgeName>" where "cas_id" = "{{cas.cas_id}}"
+    And I see table "darts.prosecutor" column "prosecutor_name" is "<prosecutors>" where "cas_id" = "{{cas.cas_id}}"
+    And I see table "darts.defence" column "defence_name" is "<defenders>" where "cas_id" = "{{cas.cas_id}}"
+    And I see table "darts.defendant" column "defendant_name" is "<defendantName>" where "cas_id" = "{{cas.cas_id}}"
+
+    Examples:
+      | courthouse         | caseNumber  | defendantName                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | judgeName  | prosecutors     | defenders     |
+      | HARROW CROWN COURT | T{{seq}}601 | JbhfpMbd EAYXXKmVXjbW3Yf2v5ykXMIhSe7GGamZA1aQVtnLggqY0TaPEPw CAs4 kCZpsvxof8OYY6VCNCRi5hyz4qwOt3JEkkdG7u19Xe6xJetwS69NxkO659od4YJ2k2uiVYA6oR4fZp4SqTUXnt3QdOkcXWB7Q9DnH2TGXG9ft1FuNLtpOWuPuOtreQaV2HOryFgAeI5GicOZ9U rc3hEW2Q5mGrZv3LfTHfmkYYf4aCgQmLSTDnACZxlc6aT8oeF8y22KiKwFrtXAQLgaj cfSC7xdJNhy0jkAWPihjYjFf6WoWV6ermC4OsTJWpPmhKgdZhh8zkn5xCxBaNWTXKb6tBSsmkp 3QzWICT3jE keTVTJgyVy4cgAaU4oCrm4WhrBHZgrhVRTrDieUmfbEYtep09nOZbjEyThPzvykqBsala6iiQZJZJ6s nthVAzaJrkjF3ABMnPsGgxbbTPCXVyAk3d33ClLEHgtnc0Oarex5tsZFKfbDjU AHWWeBLsW1oLSmkNX8k1sM4Ebvh6oNLxDeNzyomq0qSeQxORyK6jeJGFa9xPdeNltc0YzmZvM9nrdd4g7X r4RO7Ahh | test judge | test prosecutor | test defender |
+
   @DMP-1706
   Scenario: addCase successful baseline
     Given I authenticate from the "VIQ" source system
