@@ -27,7 +27,7 @@
     "@cucumber/html-formatter": "21.10.1",
     "@cucumber/messages": "^26.0.1",
     "@cucumber/pretty-formatter": "1.0.1",
-    "@playwright/test": "1.51.1",
+    "@playwright/test": "1.52.0",
     "@stylistic/eslint-plugin": "^2.8.0",
     "@types/fs-extra": "11.0.4",
     "@types/node": "^22.10.5",
