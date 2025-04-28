@@ -2016,7 +2016,7 @@ __metadata:
     md5-file: ^5.0.0
     memory-cache: ^0.2.0
     multiple-cucumber-html-reporter: 3.9.2
-    open: 10.1.0
+    open: 10.1.1
     postgres: ^3.4.5
     prettier: 3.5.3
     supertest: ^7.0.0
@@ -3751,15 +3751,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:10.1.0":
-  version: 10.1.0
-  resolution: "open@npm:10.1.0"
+"open@npm:10.1.1":
+  version: 10.1.1
+  resolution: "open@npm:10.1.1"
   dependencies:
     default-browser: ^5.2.1
     define-lazy-prop: ^3.0.0
     is-inside-container: ^1.0.0
     is-wsl: ^3.1.0
-  checksum: 079b0771616bac13b08129b0300032dc9328d72f345e460dd0416b8a8196a5bdf5e0251fefec8aa2a6a97c736734ac65dd8f1d29ab3fc9a13e85624aa5bc4470
+  checksum: a3ad8460a7066d400be1697e568ffbd7ed85790f93e846f0674d783a71bf654b8aa648dd9663865294cfef238fbd5f2026c4580b61f3507d6c646b8e5e5f0a53
   languageName: node
   linkType: hard
 
