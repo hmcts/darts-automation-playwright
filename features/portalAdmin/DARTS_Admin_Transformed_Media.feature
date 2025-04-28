@@ -102,6 +102,7 @@ Feature: Admin-Transformed Media
     When I click on the "Transformed media" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "B{{seq}}006"
+    And I set "Owner" to "Transcriber"
     And I press the "Search" button
     Then I see "B{{seq}}006" in the same row as "ZIP"
     Then I see "B{{seq}}006" in the same row as "MP3"
