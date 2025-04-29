@@ -159,7 +159,7 @@ Feature: AddCase using SOAP
       | HARROW CROWN COURT | T{{seq}}608 | test defendent1 | test judge | test prosecutor | test defender |
 
   @DMP-4272
-  Scenario Outline: SOAP addCase with long defendant name to trigger defendant name overflow warning in Dynatrace
+  Scenario Outline: SOAP addCase with defendant name overflow issue
     Given I see table "COURTCASE" column "count(cas_id)" is "0" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>"
     When I create a case
       | courthouse   | case_number  | defendants      | judges      | prosecutors   | defenders   |
