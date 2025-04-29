@@ -130,10 +130,14 @@ export class BasePage {
     await timeField.locator('input').nth(2).fill(timeData[2]);
   }
 
-  async clickButton(text: string) {
-    text = text.replaceAll('(', '\\(');
-    text = text.replaceAll(')', '\\)');
-    await this.page.getByRole('button', { name: new RegExp(`^${text}`) }).click();
+  async clickButton(text: string, exactMatch: boolean = false) {
+    if (exactMatch) {
+      await this.page.getByRole('button', { name: text, exact: true }).click();
+    } else {
+      text = text.replaceAll('(', '\\(');
+      text = text.replaceAll(')', '\\)');
+      await this.page.getByRole('button', { name: new RegExp(`^${text}`) }).click();
+    }
   }
 
   async clickLink(text: string, exactMatch: boolean = false) {

@@ -67,6 +67,14 @@ When('I press the {string} button', async function (this: ICustomWorld, text: st
   }
 });
 
+When(
+  'I press the {string} button with exact name',
+  async function (this: ICustomWorld, text: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickButton(substituteValue(text) as string, true);
+  },
+);
+
 Then(
   'I press the {string} button and see {string} on the page',
   async function (this: ICustomWorld, text: string, expectedText: string) {

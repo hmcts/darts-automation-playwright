@@ -79,7 +79,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     Then I upload the file "file-sample_1MB.doc" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     # TODO (DT): Added for extra verification
     And I see "You have added an annotation" on the page
     And I press the "back" button on my browser
@@ -109,7 +109,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     Then I upload the file "file-sample_1MB.doc" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     # TODO (DT): Added for extra verification
     And I see "You have added an annotation" on the page
     And I press the "back" button on my browser
@@ -163,7 +163,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     And I upload the file "file-sample_1MB.doc" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     Then I see "You have added an annotation" on the page
 
   @DMP-1552-AC1-AC4-AC7 @regression
@@ -180,7 +180,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     Then I upload the file "file-sample_1MB.doc" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     # TODO (DT): Added for extra verification
     And I see "You have added an annotation" on the page
     And I press the "back" button on my browser
@@ -222,7 +222,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     And I upload the file "file-sample_1MB.doc" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     # TODO (DT): Added for extra verification
     And I see "You have added an annotation" on the page
     And I click on the "Return to hearing level" link
@@ -243,7 +243,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     Then I upload the file "file-sample_1MB.doc" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     # TODO (DT): Added for extra verification
     And I see "You have added an annotation" on the page
     And I press the "back" button on my browser
@@ -276,5 +276,5 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     Then I upload the file "file-sample_1MB.doc" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     Then I see "You have added an annotation" on the page

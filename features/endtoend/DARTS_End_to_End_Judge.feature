@@ -31,7 +31,7 @@ Feature: End-to-end Judge
     And I click on the "Annotations" link
     And I press the "Upload annotation" button
     Then I upload the file "<annotation_document>" at "Upload annotation file"
-    And I press the "Upload" button
+    And I press the "Upload" button with exact name
     Then I see "You have added an annotation" on the page
     Then I click on the "Return to case level" link
 
