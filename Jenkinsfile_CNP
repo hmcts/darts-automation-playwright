@@ -1,5 +1,16 @@
 #!groovy
-@Library("Infrastructure") 
+
+properties([
+  parameters([
+    string(
+      name: 'INCLUDE_TAGS',
+      defaultValue: '@smoketest',
+      description: 'The cucumber tags to run, defaults to @smoketest. Uses cucumber tag expressions, see https://cucumber.io/docs/cucumber/api/#tag-expressions'
+    )
+  ])
+])
+
+@Library("Infrastructure")
 
 import uk.gov.hmcts.contino.GradleBuilder
 
@@ -86,15 +97,17 @@ def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 withNightlyPipeline(type, product, component) {
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(90)
-  // enableSlackNotifications('#darts-builds')
+  enableSlackNotifications('#darts-builds')
 
   afterSuccess('build') {
     yarnBuilder.yarn('playwright install')
   }
 
   before('fullFunctionalTest') {
-    // set the tags to run on the master build
-    env.INCLUDE_TAGS = "@smoketest"
+    // only run tags where the @smoketest, @regression or @end2end tag also exists
+    // this prevents running tests which are not defined
+    env.INCLUDE_TAGS = '((@smoketest or @regression or @end2end) and (' + env.INCLUDE_TAGS + '))'
+    printf 'Running with INCLUDE_TAGS: %s', env.INCLUDE_TAGS
     env.PWVIDEO = 1
   }
 
