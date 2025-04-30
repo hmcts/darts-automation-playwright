@@ -128,6 +128,10 @@ If tests fail on Jenkins runs then traces and videos will be recorded and saved 
 - tests against the staging environments
 - can be triggered to run anytime within Jenkins
 
+### INCLUDE_TAGS parameter
+
+To run the build with specific tags, choose the "Build with parameters" option and specify the tag expression to use.
+
 ## Browser selection
 
 By default we will use chromium. You can define an environment variable called BROWSER and

@@ -75,8 +75,8 @@ Feature: Admin Search
       | Case ID  | Hearing date | Courthouse                  | Courtroom   |
       | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A      |
       | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
-      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A      |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
+      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A      |
 
     When I click on the "Cases" link
     And I click on "Courthouse" in the table header

@@ -1,7 +1,14 @@
 #!groovy
 
 properties([
-  pipelineTriggers([cron('15 07 * * 1-5')])
+  pipelineTriggers([cron('15 07 * * 1-5')]),
+  parameters([
+    string(
+      name: 'INCLUDE_TAGS',
+      defaultValue: '@smoketest or @regression or @end2end',
+      description: 'The cucumber tags to run, defaults to @smoketest or @regression or @end2end. Uses cucumber tag expressions, see https://cucumber.io/docs/cucumber/api/#tag-expressions'
+    )
+  ])
 ])
 
 @Library("Infrastructure")
@@ -91,17 +98,19 @@ def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 withNightlyPipeline(type, product, component) {
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(180)
-  // enableSlackNotifications('#darts-builds')
+  enableSlackNotifications('#darts-builds')
   
   afterSuccess('build') {
     yarnBuilder.yarn('playwright install')
   }
 
   before('fullFunctionalTest') {
-    // set the tags to run on the nightly build
     // Using manual uploads until https://tools.hmcts.net/jira/browse/DMP-4992 is fixed
     env.AUDIO_MANUAL_UPLOAD = true
-    env.INCLUDE_TAGS = "@smoketest or @regression or @end2end"
+    // only run tags where the @smoketest, @regression or @end2end tag also exists
+    // this prevents running tests which are not defined
+    env.INCLUDE_TAGS = '((@smoketest or @regression or @end2end) and (' + env.INCLUDE_TAGS + '))'
+    printf 'Running with INCLUDE_TAGS: %s', env.INCLUDE_TAGS
     env.PWVIDEO = 1
   }
 
