@@ -24,7 +24,7 @@ export default function() {
   return {
     default: {
       ...common,
-      parallel: 10,
+      parallel: 5,
     },
     sequential: {
       ...common,
