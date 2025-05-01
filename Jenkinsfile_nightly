@@ -109,7 +109,10 @@ withNightlyPipeline(type, product, component) {
     env.AUDIO_MANUAL_UPLOAD = true
     // only run tags where the @smoketest, @regression or @end2end tag also exists
     // this prevents running tests which are not defined
-    env.INCLUDE_TAGS = '((@smoketest or @regression or @end2end) and (' + env.INCLUDE_TAGS + '))'
+    env.INCLUDE_TAGS = '((@smoketest or @regression or @end2end)';
+    if (!params.INCLUDE_TAGS.isEmpty()) {
+      env.INCLUDE_TAGS += " and ${params.INCLUDE_TAGS})"
+    }
     printf 'Running with INCLUDE_TAGS: %s', env.INCLUDE_TAGS
     env.PWVIDEO = 1
   }
