@@ -1,14 +1,14 @@
 #!groovy
 
 properties([
-    pipelineTriggers([cron('15 07 * * 1-5')]),
-    parameters([
-        string(
-            name: 'INCLUDE_TAGS',
-            defaultValue: '@smoketest or @regression or @end2end',
-            description: 'The cucumber tags to run, defaults to @smoketest or @regression or @end2end. Uses cucumber tag expressions, see https://cucumber.io/docs/cucumber/api/#tag-expressions'
-        )
-    ])
+  pipelineTriggers([cron('15 07 * * 1-5')]),
+  parameters([
+    string(
+      name: 'INCLUDE_TAGS',
+      defaultValue: '@smoketest or @regression or @end2end',
+      description: 'The cucumber tags to run, defaults to @smoketest or @regression or @end2end. Uses cucumber tag expressions, see https://cucumber.io/docs/cucumber/api/#tag-expressions'
+    )
+  ])
 ])
 
 @Library("Infrastructure")
@@ -21,63 +21,63 @@ def component = "automation-playwright"
 
 
 def secrets = [
-    'darts-${env}': [
-        secret('api-FUNC-TEST-ROPC-PASSWORD', 'FUNC_TEST_ROPC_USERNAME'),
-        secret('api-FUNC-TEST-ROPC-USERNAME', 'FUNC_TEST_ROPC_PASSWORD'),
-        secret('AzureAdB2CTenantId', 'AAD_B2C_TENANT_ID'),
+  'darts-${env}': [
+    secret('api-FUNC-TEST-ROPC-PASSWORD', 'FUNC_TEST_ROPC_USERNAME'),
+    secret('api-FUNC-TEST-ROPC-USERNAME', 'FUNC_TEST_ROPC_PASSWORD'),
+    secret('AzureAdB2CTenantId', 'AAD_B2C_TENANT_ID'),
 //    secret('AzureAdB2CClientIdKey', 'AAD_B2C_CLIENT_ID_KEY'),
 //    secret('AzureAdB2CClientSecretKey', 'AAD_B2C_CLIENT_SECRET_KEY'),
-        secret('AzureAdB2CFuncTestROPCGlobalUsername', 'FUNC_TEST_ROPC_GLOBAL_USERNAME'),
-        secret('AzureAdB2CFuncTestROPCGlobalPassword', 'FUNC_TEST_ROPC_GLOBAL_PASSWORD'),
-        secret('AzureAdB2CFuncTestROPCClientId', 'AAD_B2C_ROPC_CLIENT_ID'),
+    secret('AzureAdB2CFuncTestROPCGlobalUsername', 'FUNC_TEST_ROPC_GLOBAL_USERNAME'),
+    secret('AzureAdB2CFuncTestROPCGlobalPassword', 'FUNC_TEST_ROPC_GLOBAL_PASSWORD'),
+    secret('AzureAdB2CFuncTestROPCClientId', 'AAD_B2C_ROPC_CLIENT_ID'),
 //    secret('AzureAdB2CFuncTestROPCClientIdKey', 'AAD_B2C_ROPC_CLIENT_ID_KEY'),
 //    secret('AzureAdB2CFuncTestROPCClientSecretKey', 'AAD_B2C_ROPC_CLIENT_SECRET_KEY'),
-        secret('AzureAdB2CFuncTestROPCClientSecret', 'AAD_B2C_ROPC_CLIENT_SECRET'),
-        secret('api-POSTGRES-SCHEMA', 'DARTS_API_DB_SCHEMA'),
-        secret('api-POSTGRES-HOST', 'DARTS_API_DB_HOST'),
-        secret('api-POSTGRES-DATABASE', 'DARTS_API_DB_DATABASE'),
-        secret('api-POSTGRES-PORT', 'DARTS_API_DB_PORT'),
-        secret('api-POSTGRES-USER', 'DARTS_API_DB_USERNAME'),
-        secret('api-POSTGRES-PASS', 'DARTS_API_DB_PASSWORD'),
-        secret('AzureStorageConnectionString', 'AZURE_STORAGE_CONNECTION_STRING'),
-        secret('AzureADTenantId', 'AAD_TENANT_ID'),
-        secret('AzureADClientId', 'AAD_CLIENT_ID'),
-        secret('AzureADClientSecret', 'AAD_CLIENT_SECRET'),
-        secret('AutomationTestUserName', 'AUTOMATION_USERNAME'),
-        secret('AutomationTestPassword', 'AUTOMATION_PASSWORD'),
-        secret('DartsTranscriberTestUsername', 'AUTOMATION_TRANSCRIBER_USERNAME'),
-        secret('DartsLanguageShopTestUsername', 'AUTOMATION_LANGUAGE_SHOP_TEST_USERNAME'),
-        secret('DartsExternalUsersTestPassword', 'AUTOMATION_EXTERNAL_PASSWORD'),
-        secret('DartsJudgeTestUsername', 'AUTOMATION_JUDGE_TEST_USERNAME'),
-        secret('DartsRequesterTestUsername', 'AUTOMATION_REQUESTER_TEST_USERNAME'),
-        secret('DartsApproverTestUsername', 'AUTOMATION_APPROVER_TEST_USERNAME'),
-        secret('DartsAppealCourtTestUsername', 'AUTOMATION_APPEAL_COURT_TEST_USERNAME'),
-        secret('DartsInternalUserTestPassword', 'AUTOMATION_INTERNAL_PASSWORD'),
-        secret('DartsRequesterApproverUsername', 'AUTOMATION_REQUESTER_APPROVER_USERNAME'),
-        secret('DartsRequesterApproverPassword', 'AUTOMATION_REQUESTER_APPROVER_PASSWORD'),
-        secret('DartsSuperUser', 'AUTOMATION_SUPER_USER_USERNAME'),
-        secret('XhibitUserName', 'XHIBIT_USERNAME'),
-        secret('XhibitPassword', 'XHIBIT_PASSWORD'),
-        secret('CppUserName', 'CPP_USERNAME'),
-        secret('CppPassword', 'CPP_PASSWORD'),
-        secret('DarMidTierUserName', 'DAR_MID_TIER_USERNAME'),
-        secret('DarMidTierPassword', 'DAR_MID_TIER_PASSWORD'),
-        secret('DarPCMidTierUserName', 'DAR_PC_MID_TIER_USERNAME'),
-        secret('DarPCMidTierPassword', 'DAR_PC_MID_TIER_PASSWORD'),
-        secret('DarPCUserName', 'DAR_PC_USERNAME'),
-        secret('DarPCPassword', 'DAR_PC_PASSWORD'),
-        secret('DartsAdminUserName', 'DARTS_ADMIN_USERNAME'),
-        secret('DartsAdmin2UserName', 'DARTS_ADMIN2_USERNAME'),
-        secret('ViQExternalPassword', 'VIQ_EXTERNAL_PASSWORD'),
-        secret('ViQExternalUserName', 'VIQ_EXTERNAL_USERNAME'),
-        secret('ViQInternalPassword', 'VIQ_INTERNAL_PASSWORD'),
-        secret('XhibitExternalPassword', 'XHIBIT_EXTERNAL_PASSWORD'),
-        secret('XhibitExternalUserName', 'XHIBIT_EXTERNAL_USERNAME'),
-        secret('XhibitInternalPassword', 'XHIBIT_INTERNAL_PASSWORD'),
-        secret('CPExternalPassword', 'CP_EXTERNAL_PASSWORD'),
-        secret('CPExternalUserName', 'CP_EXTERNAL_USERNAME'),
-        secret('CPInternalPassword', 'CP_INTERNAL_PASSWORD')
-    ],
+    secret('AzureAdB2CFuncTestROPCClientSecret', 'AAD_B2C_ROPC_CLIENT_SECRET'),
+    secret('api-POSTGRES-SCHEMA', 'DARTS_API_DB_SCHEMA'),
+    secret('api-POSTGRES-HOST', 'DARTS_API_DB_HOST'),
+    secret('api-POSTGRES-DATABASE', 'DARTS_API_DB_DATABASE'),
+    secret('api-POSTGRES-PORT', 'DARTS_API_DB_PORT'),
+    secret('api-POSTGRES-USER', 'DARTS_API_DB_USERNAME'),
+    secret('api-POSTGRES-PASS', 'DARTS_API_DB_PASSWORD'),
+    secret('AzureStorageConnectionString', 'AZURE_STORAGE_CONNECTION_STRING'),
+    secret('AzureADTenantId', 'AAD_TENANT_ID'),
+    secret('AzureADClientId', 'AAD_CLIENT_ID'),
+    secret('AzureADClientSecret', 'AAD_CLIENT_SECRET'),
+    secret('AutomationTestUserName', 'AUTOMATION_USERNAME'),
+    secret('AutomationTestPassword', 'AUTOMATION_PASSWORD'),
+    secret('DartsTranscriberTestUsername', 'AUTOMATION_TRANSCRIBER_USERNAME'),
+    secret('DartsLanguageShopTestUsername', 'AUTOMATION_LANGUAGE_SHOP_TEST_USERNAME'),
+    secret('DartsExternalUsersTestPassword', 'AUTOMATION_EXTERNAL_PASSWORD'),
+    secret('DartsJudgeTestUsername', 'AUTOMATION_JUDGE_TEST_USERNAME'),
+    secret('DartsRequesterTestUsername', 'AUTOMATION_REQUESTER_TEST_USERNAME'),
+    secret('DartsApproverTestUsername', 'AUTOMATION_APPROVER_TEST_USERNAME'),
+    secret('DartsAppealCourtTestUsername', 'AUTOMATION_APPEAL_COURT_TEST_USERNAME'),
+    secret('DartsInternalUserTestPassword', 'AUTOMATION_INTERNAL_PASSWORD'),
+    secret('DartsRequesterApproverUsername', 'AUTOMATION_REQUESTER_APPROVER_USERNAME'),
+    secret('DartsRequesterApproverPassword', 'AUTOMATION_REQUESTER_APPROVER_PASSWORD'),
+    secret('DartsSuperUser', 'AUTOMATION_SUPER_USER_USERNAME'),
+    secret('XhibitUserName', 'XHIBIT_USERNAME'),
+    secret('XhibitPassword', 'XHIBIT_PASSWORD'),
+    secret('CppUserName', 'CPP_USERNAME'),
+    secret('CppPassword', 'CPP_PASSWORD'),
+    secret('DarMidTierUserName', 'DAR_MID_TIER_USERNAME'),
+    secret('DarMidTierPassword', 'DAR_MID_TIER_PASSWORD'),
+    secret('DarPCMidTierUserName', 'DAR_PC_MID_TIER_USERNAME'),
+    secret('DarPCMidTierPassword', 'DAR_PC_MID_TIER_PASSWORD'),
+    secret('DarPCUserName', 'DAR_PC_USERNAME'),
+    secret('DarPCPassword', 'DAR_PC_PASSWORD'),
+    secret('DartsAdminUserName', 'DARTS_ADMIN_USERNAME'),
+    secret('DartsAdmin2UserName', 'DARTS_ADMIN2_USERNAME'),
+    secret('ViQExternalPassword', 'VIQ_EXTERNAL_PASSWORD'),
+    secret('ViQExternalUserName', 'VIQ_EXTERNAL_USERNAME'),
+    secret('ViQInternalPassword', 'VIQ_INTERNAL_PASSWORD'),
+    secret('XhibitExternalPassword', 'XHIBIT_EXTERNAL_PASSWORD'),
+    secret('XhibitExternalUserName', 'XHIBIT_EXTERNAL_USERNAME'),
+    secret('XhibitInternalPassword', 'XHIBIT_INTERNAL_PASSWORD'),
+    secret('CPExternalPassword', 'CP_EXTERNAL_PASSWORD'),
+    secret('CPExternalUserName', 'CP_EXTERNAL_USERNAME'),
+    secret('CPInternalPassword', 'CP_INTERNAL_PASSWORD')
+  ],
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -119,12 +119,12 @@ withNightlyPipeline(type, product, component) {
 
   afterAlways('fullFunctionalTest') {
     publishHTML target: [
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "functional-output/functional",
-        reportFiles          : "report.html",
-        reportName           : "Cucumber Test Report"
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "functional-output/functional",
+      reportFiles          : "report.html",
+      reportName           : "Cucumber Test Report"
     ]
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'traces/*'
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'screenshots/*'
