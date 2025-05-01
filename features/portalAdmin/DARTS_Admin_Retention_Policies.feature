@@ -1,7 +1,7 @@
 @admin @admin_retention_policies
 Feature: Admin Retention Policies
 
-  @DMP-2466 @regression
+  @DMP-2466 @regression @sequential
   Scenario: Retention Policies primary page
     Given I am logged on to the admin portal as an "ADMIN" user
     #AC1 - View active polices

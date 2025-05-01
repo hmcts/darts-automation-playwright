@@ -1,6 +1,6 @@
 Feature: External Login Portal
 
-  @DMP-552 @DMP-436 @DMP-363 @DMP-541 @regression @demo
+  @DMP-552 @DMP-436 @DMP-363 @DMP-541 @regression @demo @sequential
   Scenario: Existing External User error message verification
     Given I am on the portal page
     #DMP-436
@@ -43,7 +43,7 @@ Feature: External Login Portal
     And I press the "Continue" button
     Then I see an error message "Please enter a valid email address."
 
-  @DMP-682 @regression @demo @broken
+  @DMP-682 @regression @demo @broken @sequential
   Scenario Outline: Login too many attempts
     Given I am on the portal page
     When I select the "I work with the HM Courts and Tribunals Service" radio button
@@ -78,7 +78,7 @@ Feature: External Login Portal
       | email                  |
       | preksha.jain@hmcts.net |
 
-  @DMP-493 @DMP-681 @demo @regression
+  @DMP-493 @DMP-681 @demo @regression @sequential
   Scenario Outline: Forgotten Password
     Given I am on the landing page
     When I see "Sign in to the DARTS Portal" on the page
@@ -110,7 +110,7 @@ Feature: External Login Portal
       | email                   |
       | dartsexternal@HMCTS.net |
 
-  @DMP-1245 @demo @regression
+  @DMP-1245 @demo @regression @sequential
   Scenario: Forgotten Password - Invalid email address error
     Given I am on the portal page
     When I see "Sign in to the DARTS Portal" on the page
@@ -124,7 +124,7 @@ Feature: External Login Portal
     And I set "Email address" to "test"
     Then I see "Enter an email address in the correct format, like name@example.com" on the page
 
-  @DMP-1245 @demo @regression
+  @DMP-1245 @demo @regression @sequential
   Scenario: Forgotten Password - No email address error
     Given I am on the portal page
     When I see "Sign in to the DARTS Portal" on the page
@@ -138,7 +138,7 @@ Feature: External Login Portal
     And I press the "Send code" button
     Then I see "Email address is required." on the page
 
-  @DMP-455 @DMP-361 @DMP-435 @DMP-436 @DMP-439 @DMP-452
+  @DMP-455 @DMP-361 @DMP-435 @DMP-436 @DMP-439 @DMP-452 @sequential
   Scenario Outline: External user logs in first time
     #Step def for landing on correct screen - confirm content on all screens even if not interacted with
 
@@ -186,7 +186,7 @@ Feature: External Login Portal
       | email                   | password   | phoneNum    |
       | externaluser1@gmail.com | Password1! | 07911123456 |
 
-  @DMP-455 @DMP-361 @DMP-435 @DMP-436 @DMP-451 @DMP-452
+  @DMP-455 @DMP-361 @DMP-435 @DMP-436 @DMP-451 @DMP-452 @sequential
   Scenario Outline: External user logs in second time/subsequent logins
 
     Given I am on the landing page
@@ -220,7 +220,7 @@ Feature: External Login Portal
       | email                   | password   | phoneNum    |
       | externaluser1@gmail.com | Password1! | 07911123456 |
 
-  @DMP-455 @DMP-361 @DMP-436 @DMP-493 @DMP-494 @DMP-495 @DMP-585
+  @DMP-455 @DMP-361 @DMP-436 @DMP-493 @DMP-494 @DMP-495 @DMP-585 @sequential
   Scenario Outline: External user forgotten password, existing account
 
     #Pre-existing user who has logged in before, consider new user too
@@ -275,7 +275,7 @@ Feature: External Login Portal
       | email                   | newPassword |
       | externaluser1@gmail.com | Password2!  |
 
-  @DMP-455 @DMP-361 @DMP-436 @DMP-493 @DMP-494 @DMP-495 @DMP-585
+  @DMP-455 @DMP-361 @DMP-436 @DMP-493 @DMP-494 @DMP-495 @DMP-585 @sequential
   Scenario Outline: External user forgotten password, new account
 
     #New user who has NOT logged in before

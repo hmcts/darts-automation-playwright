@@ -1,7 +1,7 @@
 @admin @admin_groups
 Feature: Admin Groups
 
-  @DMP-2299 @regression @DMP-4209
+  @DMP-2299 @regression @DMP-4209 @sequential
   Scenario: Viewing Group Details
     Given I am logged on to the admin portal as an "ADMIN" user
     When I click on the "Groups" link
@@ -31,7 +31,7 @@ Feature: Admin Groups
     When I click on the "Users" sub-menu link
     Then I see "darts.requester.approver@hmcts.net" in the same row as "Approver Requester"
 
-  @DMP-2302 @regression @TODO
+  @DMP-2302 @regression @TODO @sequential
   Scenario: Edit a Group
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Groups" link
@@ -52,7 +52,7 @@ Feature: Admin Groups
     And I press the "Save changes" button
     Then I see an error message "There is an existing group with this name"
 
-  @DMP-2305 @regression
+  @DMP-2305 @regression @sequential
   Scenario: Removing users from a group confirmation screen
     Given I am logged on to the admin portal as an "ADMIN" user
     When I click on the "Groups" link
@@ -64,7 +64,7 @@ Feature: Admin Groups
     And I see "Are you sure you want to remove 1 user from this group?" on the page
     Then I press the "No - cancel" button
 
-  @DMP-2303 @regression
+  @DMP-2303 @regression @sequential
   Scenario: Viewing group details - Users
     When I am logged on to the admin portal as an "ADMIN" user
     #AC1 - View users
@@ -87,7 +87,7 @@ Feature: Admin Groups
     Then I see "1 user removed" on the page
     And I do not see "darts.admin@hmcts.net" on the page
 
-  @DMP-2581 @regression @TODO
+  @DMP-2581 @regression @TODO @sequential
   Scenario: Viewing groups - Adding a user
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Groups" link
@@ -101,7 +101,7 @@ Feature: Admin Groups
     And I click on the "Add user" link
     Then I see "Darts Admin" in the same row as "darts.admin@hmcts.net"
 
-  @DMP-2317 @regression @retry
+  @DMP-2317 @regression @retry @sequential
   Scenario: Create a new group (Translation or Transcriber)
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Groups" link

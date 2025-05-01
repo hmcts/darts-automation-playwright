@@ -1,6 +1,6 @@
 Feature: Portal Tests
 
-  @smoketest @demo
+  @smoketest @demo @sequential
   Scenario: Accept cookies
     Given I am on the landing page
     Then I see link with text "View cookies"
@@ -11,7 +11,7 @@ Feature: Portal Tests
     Then I do not see "You have accepted additional cookies. You can change your cookie settings at any time." on the page
     And Cookie "cookie_policy" "appInsightsCookiesEnabled" value is "true"
 
-  @smoketest @demo
+  @smoketest @demo @sequential
   Scenario: Reject cookies
     Given I am on the landing page
     Then I see link with text "View cookies"
@@ -22,14 +22,14 @@ Feature: Portal Tests
     Then I do not see "You have rejected additional cookies. You can change your cookie settings at any time." on the page
     And Cookie "cookie_policy" "appInsightsCookiesEnabled" value is "false"
 
-  @DMP-407 @smoketest @demo
+  @DMP-407 @smoketest @demoential @sequential
   Scenario: Logout
     Given I am logged on to DARTS as an "external" user
     When  I click on the "Sign out" link
     Then  I see "Sign in to the DARTS Portal" on the page
     And   I do not see "Welcome to DARTS" on the page
 
-  @DMP-407 @smoketest @demo
+  @DMP-407 @smoketest @demo @sequential
   Scenario: Sign out Internal user
     Given I am logged on to DARTS as a "requester" user
     Then  I see "Search for a case" on the page
@@ -38,7 +38,7 @@ Feature: Portal Tests
     When  I am logged on to DARTS as an "approver" user
     Then  I see "Search for a case" on the page
 
-  @DMP-407 @smoketest @demo
+  @DMP-407 @smoketest @demo @sequential
   Scenario: Sign out External user
     Given I am logged on to DARTS as an "external" user
     Then  I see "Search for a case" on the page
@@ -47,7 +47,7 @@ Feature: Portal Tests
     When  I am logged on to DARTS as a "transcriber" user
     Then  I see "Search for a case" on the page
 
-  @DMP-407 @smoketest @demo
+  @DMP-407 @smoketest @demo @sequential
   Scenario Outline: All roles
     Given I am logged on to DARTS as a "<role>" user
     Then I see "Search for a case" on the page
@@ -74,7 +74,7 @@ Feature: Portal Tests
       | ADMIN        | Search for a case | Y         | Y               | N                  | N        |
       | SUPERUSER    | Search for a case | Y         | Y               | N                  | N        |
 
-  @DMP-407 @smoketest @demo
+  @DMP-407 @smoketest @demo @sequential
   Scenario Outline: Requester-Approver links
     When I am logged on to DARTS as a "<role>" user
     Then I see "Search for a case" on the page
@@ -93,7 +93,7 @@ Feature: Portal Tests
       | role              | search            | yourAudio | yourTranscripts | transcriptRequests | yourWork |
       | REQUESTERAPPROVER | Search for a case | Y         | Y               | N                  | N        |
 
-  @Admin @smoketest @demo
+  @Admin @smoketest @demo @sequential
   Scenario: Admin User
     When  I am logged on to the admin portal as an "ADMIN" user
     Then  I see "Users" on the page

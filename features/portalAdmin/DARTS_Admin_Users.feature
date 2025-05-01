@@ -1,7 +1,7 @@
 @admin @admin_users @retry
 Feature: Admin-Users
 
-  @DMP-2323 @regression
+  @DMP-2323 @regression @sequential
   Scenario: Admin change transcription status data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors             | defenders             |
@@ -17,7 +17,7 @@ Feature: Admin-Users
       | courthouse         | courtroom  | case_numbers | date       | startTime | endTime  | audioFile   |
       | HARROW CROWN COURT | {{seq}}-46 | H{{seq}}001  | {{date+0}} | 10:30:00  | 10:31:00 | sample1.mp2 |
 
-  @DMP-634 @regression
+  @DMP-634 @regression @sequential
   Scenario: Verify screen contents - Search for Users
     Given I am logged on to the admin portal as an "ADMIN" user
     Then I do not see "Search for user" on the page
@@ -29,7 +29,7 @@ Feature: Admin-Users
     And I see "Inactive users" on the page
     And I see "All" on the page
 
-  @DMP-2178 @DMP-630-AC1-AC2 @regression
+  @DMP-2178 @DMP-630-AC1-AC2 @regression @sequential
   Scenario Outline: New user account - Check user details
     Given that user email "<Email>" does not exist
     Given I am logged on to the admin portal as an "ADMIN" user
@@ -81,7 +81,7 @@ Feature: Admin-Users
       | Full name  | Email                       | Description |
       | Joe Bloggs | darts.test{{seq}}@hmcts.net | Test        |
 
-  @DMP-630 @regression
+  @DMP-630 @regression @sequential
   Scenario Outline: Create a new user account to verify error messages
     Given I am logged on to the admin portal as an "ADMIN" user
     When I click on the "Users" link
@@ -103,7 +103,7 @@ Feature: Admin-Users
       | Test         |                       |                                                                                                                                                                                                                                                                       | Email       | Enter an email address                                              | DMP-630-AC3-4 |
       | Test         | Test999@hmcts.net     | Test. Test. Test. Test. Test. Test. Test. Test. Test. Test. Test v. Test.   Test.   Test. Test.   Test. Test. v. Test. Test TestTestTestvvvvvvvTest Test Test Test TestTest Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test | Description | Enter a description shorter than 256 characters                     | DMP-630-AC3-5 |
 
-  @DMP-724 @DMP-2222 @DMP-2225 @DMP-2224 @regression
+  @DMP-724 @DMP-2222 @DMP-2225 @DMP-2224 @regression @sequential
   Scenario: Create Users
     #Login admin
     Given that user email "KH{{seq}}001@test.net" does not exist
@@ -143,7 +143,7 @@ Feature: Admin-Users
     Then I see "User record deactivated" on the page
     And I see table "darts.user_account" column "is_active" is "false" where "user_email_address" = "KH{{seq}}002@test.net"
 
-  @DMP-724 @regression
+  @DMP-724 @regression @sequential
   Scenario: Update user personal detail
     #Login admin
     Given I am logged on to the admin portal as an "ADMIN" user
@@ -165,7 +165,7 @@ Feature: Admin-Users
     When I press the "Yes - continue" button
     Then I see "User updated" on the page
 
-  @DMP-724 @regression
+  @DMP-724 @regression @sequential
   Scenario: Update user personal detail - error messages
     #Login admin
     Given I am logged on to the admin portal as an "ADMIN" user
@@ -195,7 +195,7 @@ Feature: Admin-Users
     When I set "Description (optional)" to "abcdefghijklmnopqrstuvwxy1abcdefghijklmnopqrstuvwxy2abcdefghijklmnopqrstuvwxy3abcdefghijklmnopqrstuvwxy4abcdefghijklmnopqrstuvwxy5abcdefghijklmnopqrstuvwxy6abcdefghijklmnopqrstuvwxy7abcdefghijklmnopqrstuvwxy8abcdefghijklmnopqrstuvwxy9abcdefghijklmnopqrstuvwxy0abcdefg"
     Then I see "Description" has error message "Enter a description shorter than 256 characters"
 
-  @regression
+  @regression @sequential
   Scenario: Viewing a user's groups
 
     Given I am logged on to the admin portal as an "ADMIN" user
@@ -210,7 +210,7 @@ Feature: Admin-Users
     And I see "hmcts_staff_6" in the same row as "RCJ Appeals"
     And I see "hmcts_staff_1" in the same row as "Approver"
 
-  @DMP-2225 @regression
+  @DMP-2225 @regression @sequential
   Scenario: Assigning user groups
     #Login admin
     Given I am logged on to the admin portal as an "ADMIN" user
@@ -231,7 +231,7 @@ Feature: Admin-Users
     Then I see "Assigned 1 group" on the page
     And I see "Approver" in the same row as "Swansea_APPROVER"
 
-  @DMP-2224 @regression
+  @DMP-2224 @regression @sequential
   Scenario: Removing a group confirmation screen
     #Login admin
     Given I am logged on to the admin portal as an "ADMIN" user
@@ -249,7 +249,7 @@ Feature: Admin-Users
     Then I press the "Yes - continue" button
     Then I see "This user is not a member of any groups." on the page
 
-  @DMP-2323 @DMP-2340 @regression
+  @DMP-2323 @DMP-2340 @regression @sequential
   Scenario: Deactivate user and last user in group and reactivate
     Given I am logged on to the admin portal as an "ADMIN" user
     Given I reactivate user "Testuserone"
@@ -343,7 +343,7 @@ Feature: Admin-Users
     Then I see "Assigned 1 group" on the page
 
   @DMP-2323 @TODO
-  # requires a second transcriber
+  # requires a second transcriber @sequential
   Scenario: Deactivate user with transcript
 
     #Create transcript request and assign to user
@@ -435,7 +435,7 @@ Feature: Admin-Users
     And I click on the "Transcript requests" link
     And I see "Manual" in the same row as "H{{seq}}001"
 
-  @DMP-4209 @regression
+  @DMP-4209 @regression @sequential
   Scenario: Back link
     Given I am logged on to the admin portal as an "ADMIN" user
     When I click on the "Users" link

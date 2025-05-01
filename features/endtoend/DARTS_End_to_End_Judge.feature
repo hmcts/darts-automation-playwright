@@ -2,7 +2,7 @@
 Feature: End-to-end Judge
 
   @DMP-2200
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Judge
     #Given I create a case
     # | courthouse   | |case_number   | defendants   | judges   | prosecutors   | defenders   |

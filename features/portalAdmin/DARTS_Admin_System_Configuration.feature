@@ -1,7 +1,7 @@
 @admin @admin_system_config @retry
 Feature: Admin System configuration
 
-  @DMP-2669 @DMP-2668
+  @DMP-2669 @DMP-2668 @sequential
   Scenario: Automated tasks- primary & details page
     #DMP-2668-AC1-AC2
     When I am logged on to the admin portal as an "ADMIN" user
@@ -93,7 +93,7 @@ Feature: Admin System configuration
     Then I see "The start date must be before the end date" on the page
     And I see "The end date must be after the start date" on the page
 
-  @DMP-2746 @DMP-2674 @regression
+  @DMP-2746 @DMP-2674 @regression @sequential
   Scenario: Add event mapping
     Given I am logged on to the admin portal as an "ADMIN" user
     And I see "You can search for cases, hearings, events and audio." on the page
@@ -152,7 +152,7 @@ Feature: Admin System configuration
     When I set "Filter by type, subtype, or name" to "DMP-2746-Automation-Type {{seq}}"
     Then I see "There are no matching results." on the page
 
-  @DMP-754 @regression
+  @DMP-754 @regression @sequential
   Scenario: View event mapping
     Given I am logged on to the admin portal as an "ADMIN" user
     When I see "You can search for cases, hearings, events and audio." on the page
@@ -209,7 +209,7 @@ Feature: Admin System configuration
     And I select "Stop And Close Handler" from the "Filter by event handler" dropdown
     Then I see "There are no matching results." on the page
 
-  @DMP-3028 @regression
+  @DMP-3028 @regression @sequential
   Scenario: Testing attempt to add identical event mapping
     Given I am logged on to the admin portal as an "ADMIN" user
     When I click on the "System configuration" link
@@ -235,7 +235,7 @@ Feature: Admin System configuration
     When I click on the "Go back" link
     Then I see "Tick if this event mapping has reporting restrictions" on the page
 
-  @DMP-2763
+  @DMP-2763 @sequential
   Scenario: Edit event mapping
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "System configuration" link
@@ -277,7 +277,7 @@ Feature: Admin System configuration
     Then I see "Saved new version of event mapping" on the page
     And I see "System configuration" on the page
 
-  @DMP-2764
+  @DMP-2764 @sequential
   Scenario: Delete event mapping
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "System configuration" link
@@ -329,7 +329,7 @@ Feature: Admin System configuration
     And I click on the "Go back" link
     Then I see "Offences put to defendant" on the page
 
-  @DMP-2471 @DMP-2475
+  @DMP-2471 @DMP-2475 @sequential
   Scenario: Create and Edit new retention policy
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "System configuration" link

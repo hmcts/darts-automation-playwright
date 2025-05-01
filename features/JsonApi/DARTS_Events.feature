@@ -1,6 +1,6 @@
 Feature: Test operation of post events
 
-  @EVENT_API @EVENT1 @JSON_API
+  @EVENT_API @EVENT1 @JSON_API @sequential
   Scenario Outline: Create a case and hearing via events
     Given that courthouse "<courthouse>" case "<case_number>" does not exist
     When I create a case using json
@@ -37,7 +37,7 @@ Feature: Test operation of post events
       | Harrow Crown Court | T{{seq}}002 | Room {{seq}} | {{displaydate}} | {{timestamp-12:06:40}} | {{timestamp-12:06:40}} |
 
 
-  @EVENT_API @EVENT1A @JSON_API
+  @EVENT_API @EVENT1A @JSON_API @sequential
   Scenario Outline: Create a case and hearing via events
     Given that courthouse "<courthouse>" case "<case_number>" does not exist
     When I create an event using json
@@ -49,7 +49,7 @@ Feature: Test operation of post events
       | Harrow Crown Court | T{{seq}}003 | Room {{seq}} | {{displaydate}} | {{timestamp-12:06:40}} | {{timestamp-12:06:40}} |
 
 
-  @EVENT_API @EVENT2 @JSON_API
+  @EVENT_API @EVENT2 @JSON_API @sequential
   Scenario Outline: Create a case and hearing via events
     Given that courthouse "<courthouse>" case "<case_number>" does not exist
     When I create a case using json

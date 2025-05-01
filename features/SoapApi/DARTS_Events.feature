@@ -9,7 +9,7 @@ Feature: Test operation of SOAP events
   handler, event_name & event_text is as expected
 
   @STANDARD_EVENT @regression
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Create a case for event tests
     Given that courthouse "<courthouse>" case "<caseNumbers>" does not exist
     # TODO (DT): This will always fail because this the daily list scenario creates a pending (NEW) daily list for tomorrow
@@ -23,7 +23,7 @@ Feature: Test operation of SOAP events
       | courthouse         | courtroom    | caseNumbers |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 |
 
-  @STANDARD_EVENT @regression
+  @STANDARD_EVENT @regression @sequential
   Scenario Outline: Create standard events
     Given I authenticate from the "XHIBIT" source system
     Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
@@ -284,7 +284,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:16:40}} | {{seq}}231 | {{seq}}231 | 407132 |         | text {{seq}} |               |               | Case to be listed                                                                                                                      |       |
 
 
-  @regression
+  @regression @sequential
   Scenario Outline: Create a LOG event
     Given I authenticate from the "XHIBIT" source system
     Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
@@ -305,7 +305,7 @@ Feature: Test operation of SOAP events
       | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type | subType | eventText | caseRetention | totalSentence | text | notes |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:17:00}} | {{seq}}232 | {{seq}}232 | LOG  |         | log text  |               |               | LOG  |       |
 
-  @regression
+  @regression @sequential
   Scenario Outline: Create a SetReportingRestriction event
     Given I authenticate from the "XHIBIT" source system
     Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
@@ -337,7 +337,7 @@ Feature: Test operation of SOAP events
       #   Lift restrictions
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:21:20}} | {{seq}}243 | {{seq}}243 | 21201 |         | text {{seq}} |               |               | Restrictions lifted                                                          |       |
 
-  @regression
+  @regression @sequential
   Scenario Outline: Create a SetInterpreterUsed event
     Given I authenticate from the "XHIBIT" source system
     Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
@@ -361,7 +361,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:20}} | {{seq}}245 | {{seq}}244 | 20612 |         | text {{seq}} |               |               | Appeal interpreter sworn in |       |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:22:40}} | {{seq}}246 | {{seq}}244 | 20917 |         | text {{seq}} |               |               | Interpretor sworn           |       |
 
-  @SENTENCING_EVENT @regression
+  @SENTENCING_EVENT @regression @sequential
   Scenario Outline: Create a Sentencing event
     Given I authenticate from the "XHIBIT" source system
     Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
@@ -488,7 +488,7 @@ Feature: Test operation of SOAP events
   #  | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:02:40}} | {{seq}}364 | {{seq}}364 | STS1821 | 11532   | [Defendant: DEFENDANT ONE] | 4             | 26Y0M0D       | Serious Terrorism Sentence 18 to 21                                                            |       |
 
 
-  @regression
+  @regression @sequential
   Scenario Outline: Create a DarStart event
     Given I authenticate from the "XHIBIT" source system
     Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
@@ -514,7 +514,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:20}} | {{seq}}369 | {{seq}}369 | 10500 |         | text {{seq}} |               |               | Resume          |       |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:04:40}} | {{seq}}370 | {{seq}}370 | 20913 |         | text {{seq}} |               |               | Jury returns    |       |
 
-  @regression
+  @regression @sequential
   Scenario Outline: Create a DarStop event
     Given I authenticate from the "XHIBIT" source system
     Given I select column "cas.cas_id" from table "COURTCASE" where "cas.case_number" = "<caseNumbers>" and "courthouse_name" = "<courthouse>"
@@ -540,7 +540,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-11:23:40}} | {{seq}}249 | {{seq}}249 | 30600 |         | text {{seq}} |               |               | Hearing ended     | ex StopAndCloseHandler |
 
   @regression @retention
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Create a StopAndClose event for custodial sentence - not life
     retention is 7 years or length of sentence
     Only 1 stop & close event per case is used to verify that a case_retention row is created
@@ -582,7 +582,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | RM {{seq}}A24 | T{{seq}}224 | {{timestamp-12:07:00}} | {{seq}}624 | {{seq}}624 | 30300 |         | text {{seq}} | 3             | 7Y3M7D        | Case closed  | 7Y3M7D          |
 
   @regression @retention
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Create a StopAndClose event for LIFE sentence
     Difference from other sentencing event is
     table CASE_RETENTION column total_sentence is not set
@@ -624,7 +624,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | RM {{seq}}A25 | T{{seq}}225 | {{timestamp-12:07:00}} | {{seq}}625 | {{seq}}625 | 30300 |         | text {{seq}} | 4             | 4Y4M4D        | Case closed  | 99Y0M0D         |
 
   @regression @retention
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Create a StopAndClose event for non-custodial sentence
     Only 1 stop & close event per case works due to retentions
     Test creates a courtroom & hearing for each case
@@ -664,7 +664,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | RM {{seq}}A21 | T{{seq}}221 | {{timestamp-12:07:00}} | {{seq}}621 | {{seq}}621 | 30300 |         | text {{seq}} | 1             |               | Case closed  | 1Y0M0D          |
       | HARROW CROWN COURT | RM {{seq}}A22 | T{{seq}}222 | {{timestamp-12:07:00}} | {{seq}}622 | {{seq}}622 | 30300 |         | text {{seq}} | 2             |               | Case closed  | 7Y0M0D          |
 
-  @regression @TODO
+  @regression @TODO @sequential
   Scenario Outline: Create a Null event
     # An event row is not created
     Given I authenticate from the "XHIBIT" source system
@@ -677,7 +677,7 @@ Feature: Test operation of SOAP events
       | courthouse         | courtroom    | caseNumbers | dateTime               | msgId      | eventId    | type  | subType | eventText    | caseRetention | totalSentence | text    | notes |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}201 | {{timestamp-12:08:00}} | {{seq}}376 | {{seq}}376 | 40790 |         | text {{seq}} |               |               | Results |       |
 
-  @regression
+  @regression @sequential
   Scenario Outline: Create case with an event
     Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
     Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>"
@@ -696,7 +696,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | 1             | T{{seq}}230 | {{timestamp-12:04:00}} | {{seq}}41 | {{seq}}41 | 10100 |         | text {{seq}}1 |               |               | Case called on |       |
       | HARROW CROWN COURT | ROOM {{seq}}Z | T{{seq}}231 | {{timestamp-12:04:00}} | {{seq}}42 | {{seq}}42 | 10100 |         | text {{seq}}1 |               |               | Case called on |       |
 
-  @regression
+  @regression @sequential
   Scenario Outline: Event creates a courtroom / hearing
     Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
     Given I create a case
@@ -713,7 +713,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | ROOM {{seq}}B | T{{seq}}260 | {{timestamp-10:00:00}} | {{seq}}0 | {{seq}}0 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant | courtroom & hearing |
       | HARROW CROWN COURT | 1             | T{{seq}}261 | {{timestamp-10:00:00}} | {{seq}}1 | {{seq}}1 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant | hearing only        |
 
-  @EVENT_API @SOAP_API @DMP-2835 @regression @TODO
+  @EVENT_API @SOAP_API @DMP-2835 @regression @TODO @sequential
   Scenario: Event for 2 cases from CPP
     messages for 2 cases differ between CPP & XHIBIT
     Given I authenticate from the "CPP" source system
@@ -736,7 +736,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 200
   #TODO Database verifications here
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression @TODO
+  @EVENT_API @SOAP_API @DMP-2960 @regression @TODO @sequential
   Scenario: Event for 2 cases from XHIBIT
     messages for 2 cases differ between CPP & XHIBIT
     Given I authenticate from the "XHIBIT" source system
@@ -760,7 +760,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 200
   #TODO Database verifications here
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression
+  @EVENT_API @SOAP_API @DMP-2960 @regression @sequential
   Scenario: Create an event baseline
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -780,7 +780,7 @@ Feature: Test operation of SOAP events
       """
     Then the API status code is 200
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression
+  @EVENT_API @SOAP_API @DMP-2960 @regression @sequential
   Scenario: Verify that VIQ cannot create an event
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -800,7 +800,7 @@ Feature: Test operation of SOAP events
       """
     Then the API status code is 500
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression
+  @EVENT_API @SOAP_API @DMP-2960 @regression @sequential
   Scenario: Verify that a case is created by an event if the case does not already exist
     Given that courthouse "HARROW CROWN COURT" case "T{{seq}}256" does not exist
     Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "T{{seq}}256" and "courthouse_name" = "HARROW CROWN COURT"
@@ -823,7 +823,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 200
     And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "T{{seq}}256" and "courthouse_name" = "HARROW CROWN COURT"
 
-  @EVENT_API @SOAP_API @DMP-2960 @DMP-3945 @regression
+  @EVENT_API @SOAP_API @DMP-2960 @DMP-3945 @regression @sequential
   Scenario: Verify that a case is created with whitespace retained
     Given that courthouse "HARROW CROWN COURT" case "  T{{seq}}400  " does not exist
     Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "  T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
@@ -846,7 +846,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 200
     And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "  T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
 
-  @EVENT_API @SOAP_API @DMP-2960 @DMP-3945 @regression
+  @EVENT_API @SOAP_API @DMP-2960 @DMP-3945 @regression @sequential
   Scenario: Verify that another case is created with different whitespace retained
     Given that courthouse "HARROW CROWN COURT" case "T{{seq}}400  " does not exist
     Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
@@ -869,7 +869,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 200
     And I see table "EVENT" column "count(eve.eve_id)" is "1" where "cas.case_number" = "T{{seq}}400  " and "courthouse_name" = "HARROW CROWN COURT"
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression
+  @EVENT_API @SOAP_API @DMP-2960 @regression @sequential
   Scenario: Verify that event creation for an invalid courthouse fails
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -891,7 +891,7 @@ Feature: Test operation of SOAP events
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
 
-  @EVENT_API @SOAP_API @DMP-2960 @regression
+  @EVENT_API @SOAP_API @DMP-2960 @regression @sequential
   Scenario: Create an event using invalid type / subtype
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -915,7 +915,7 @@ Feature: Test operation of SOAP events
     And the SOAP fault response includes "Handler Not Found"
 
   @regression
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Verify that a hearing courtroom can be modified by an event
     where a case is added via daily lists (so a hearing record exists)
     if the first event added is for a different courtroom
@@ -942,7 +942,7 @@ Feature: Test operation of SOAP events
       | HARROW CROWN COURT | ROOM {{seq}}A | ROOM {{seq}}B | T{{seq}}258 | {{timestamp-10:00:00}} | {{seq}}45 | {{seq}}45 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant |       |
       | HARROW CROWN COURT | ROOM {{seq}}A | 1             | T{{seq}}259 | {{timestamp-10:00:00}} | {{seq}}45 | {{seq}}45 | 1000 | 1001    | text {{seq}}E |               |               | Offences put to defendant |       |
 
-  @regression @DMP-1941 @DMP-1928
+  @regression @DMP-1941 @DMP-1928 @sequential
   Scenario Outline: Create Poll Check events
     These tests will help populate the relevant section of the DARTS Dynatrace Dashboard each time they are executed
     NB: The usual 'Then' step is missing as the 'When' step includes the assertion of the API response code

@@ -3,7 +3,7 @@ Feature: End-to-end Language Shop User
 
   @DMP-2056
   @review
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Language Shop User
     #    Given I create a case
     #      | courthouse   | case_number   | defendants   | judges   | prosecutors   | defenders   |

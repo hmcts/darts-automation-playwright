@@ -1,7 +1,7 @@
 @request-audio-for-transcribers
 Feature: Request Audio for transcribers
 
-  @DMP-696 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-1255 @DMP-1326 @DMP-1331 @DMP-1351 @regression @fix
+  @DMP-696 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-1255 @DMP-1326 @DMP-1331 @DMP-1351 @regression @fix @sequential
   Scenario: Request Transcription only data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors             | defenders             |
@@ -17,7 +17,7 @@ Feature: Request Audio for transcribers
       | courthouse         | courtroom  | case_numbers | date       | startTime | endTime  | audioFile   |
       | HARROW CROWN COURT | {{seq}}-17 | F{{seq}}001  | {{date+0}} | 10:30:00  | 10:31:00 | sample1.mp2 |
 
-  @DMP-696 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-1326 @DMP-1331 @DMP-1351 @regression @fix @MissingData
+  @DMP-696 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-1326 @DMP-1331 @DMP-1351 @regression @fix @MissingData @sequential
   Scenario: Transcriber behaviour, including audio request handling
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -218,7 +218,7 @@ Feature: Request Audio for transcribers
 
   #Continues from line 548 in other script
 
-  @DMP-1198 @DMP-1255 @DMP-1351 @DMP-4129 @DMP-4318 @regression
+  @DMP-1198 @DMP-1255 @DMP-1351 @DMP-4129 @DMP-4318 @regression @sequential
   Scenario: Transcriber - Sortable Columns
 
     Given I am logged on to DARTS as a "TRANSCRIBER" user
@@ -282,7 +282,7 @@ Feature: Request Audio for transcribers
     And I click on "Urgency" in the table header
     Then "Urgency" has sort "ascending" icon
 
-  @DMP-1255-AC1 @later
+  @DMP-1255-AC1 @later @sequential
   Scenario: Transcriber's Your Work - List all to do items
 
     Given I am logged on to DARTS as a "TRANSCRIBER" user
@@ -296,7 +296,7 @@ Feature: Request Audio for transcribers
       | *IGNORE*      | *IGNORE*       | *IGNORE*     | *IGNORE*    | *IGNORE*          | *IGNORE* |
       | *IGNORE*      | *IGNORE*       | *IGNORE*     | *IGNORE*    | *IGNORE*          | *IGNORE* |
 
-  @DMP-1255-AC4 @later
+  @DMP-1255-AC4 @later @sequential
   Scenario Outline: Transcriber's Your Work -  View Link on automatic requests takes to Manual Transcript request
     Given I am logged on to DARTS as a "TRANSCRIBER" user
     When I click on the "Your work" link
@@ -317,7 +317,7 @@ Feature: Request Audio for transcribers
       | CaseID        | Courthouse     | RequestType                    | urgency               | RequestMethod | RequestID | HearingDate | JudgeApproval | RequestedOn       |
       | DMP1600-case1 | London_DMP1600 | Summing up (including verdict) | Up to 12 working days | Automated     | 4013      | 11 Oct 2023 | Yes           | 05 Dec 2023 10:44 |
 
-  @DMP-1353 @later
+  @DMP-1353 @later @sequential
   Scenario: Check to ensure transcript request cannot be assigned to two different users
 
     Given I am logged on to DARTS as a "TRANSCRIBER" user

@@ -15,7 +15,7 @@ Feature: Case File Screen
 
     Given I click on "CASE1009" in the same row as "Swansea"
 
-  @DMP-965
+  @DMP-965 @sequential
   Scenario: Case File Screen Sort with Hearing Table
     When I click on "Hearing date" in the table header
     Then "Hearing date" has sort "descending" icon
@@ -26,7 +26,7 @@ Feature: Case File Screen
       | 15 Aug 2023  |       | ROOM_XYZ        | 1                  |
       | 15 Aug 2023  |       | ROOM_XYZhhihihi | 0                  |
 
-  @DMP-965
+  @DMP-965 @sequential
   Scenario: Case File Screen Sort with Courtroom
     When I click on "Courtroom" in the table header
     Then "Courtroom" has sort "descending" icon
@@ -37,7 +37,7 @@ Feature: Case File Screen
       | 15 Aug 2023  |       | ROOM_A12434     | 1                  |
       | 15 Aug 2023  |       | ROOM_A          | 1                  |
 
-  @DMP-965
+  @DMP-965 @sequential
   Scenario: Case File Screen Sort with No. of transcripts
     When I click on "No. of transcripts" in the table header
     Then "No. of transcripts" has sort "descending" icon
@@ -48,7 +48,7 @@ Feature: Case File Screen
       | 15 Aug 2023  |       | ROOM_XYZ        | 1                  |
       | 15 Aug 2023  |       | ROOM_XYZhhihihi | 0                  |
 
-  @DMP-965
+  @DMP-965 @sequential
   Scenario: Case File Screen Sort with Judge
     When I click on "Judge" in the table header
     Then "Judge" has sort "descending" icon
@@ -59,7 +59,7 @@ Feature: Case File Screen
       | 15 Aug 2023  |       | ROOM_XYZ        | 1                  |
       | 15 Aug 2023  |       | ROOM_XYZhhihihi | 0                  |
 
-  @DMP-769
+  @DMP-769 @sequential
   Scenario: All transcripts tab
     Then I click on the "All Transcripts" link
     And I see "All transcripts for this case" on the page
@@ -70,7 +70,7 @@ Feature: Case File Screen
       | 14 Aug 2023  | Sentencing remarks | 19 Sep 2023 00:00:00 | system       | CLOSED   |      |
       | 14 Aug 2023  | Sentencing remarks | 19 Sep 2023 00:00:00 | system       | COMPLETE | View |
 
-  @DMP-1606
+  @DMP-1606 @sequential
   Scenario: Case File Screen with Restrictions on case
     Given I see "There are restrictions against this case" on the page
     And I see "Important" on the page

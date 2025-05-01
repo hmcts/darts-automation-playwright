@@ -2,7 +2,7 @@
 Feature: End-to-end Requester
 
   @DMP-2206
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Requester
     Given that courthouse "<courthouse>" case "<case_number>" does not exist
     # TODO (DT): This will always fail because this scenario creates a pending (NEW) daily list for tomorrow

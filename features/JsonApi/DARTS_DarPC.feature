@@ -1,6 +1,6 @@
 Feature: DAR-PC Source System
 
-  @DMP-1170
+  @DMP-1170 @sequential
   Scenario: Get /cases
     Given I authenticate from the "VIQ" source system
     Then I call GET "/cases" API with query params:

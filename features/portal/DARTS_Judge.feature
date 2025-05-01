@@ -1,7 +1,7 @@
 Feature: User as a Judge
 
   # TODO (DT): we should add @review because the following scenario has it, meaning there's no point running this one.
-  @DMP-1033 @DMP-1618 @regression
+  @DMP-1033 @DMP-1618 @regression @sequential
   Scenario: Judge data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors           | defenders           |
@@ -17,7 +17,7 @@ Feature: User as a Judge
       | courthouse         | courtroom  | case_numbers | date       | startTime | endTime  | audioFile   |
       | HARROW CROWN COURT | {{seq}}-16 | E{{seq}}001  | {{date+0}} | 10:00:00  | 10:01:00 | sample1.mp2 |
 
-  @DMP-1033 @DMP-1618 @regression @review
+  @DMP-1033 @DMP-1618 @regression @review @sequential
   Scenario: Judge requesting and viewing transcripts
     Given I am logged on to DARTS as a "JUDGE" user
     And I click on the "Search" link

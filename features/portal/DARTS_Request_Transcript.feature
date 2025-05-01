@@ -1,7 +1,7 @@
 @request_transcript
 Feature: Request Transcript
 
-  @DMP-696 @DMP-862 @DMP-868 @DMP-872 @DMP-892 @DMP-917 @DMP-925 @DMP-934 @DMP-1009 @DMP-1011 @DMP-1012 @DMP-1025 @DMP-1028 @DMP-1033 @DMP-1053 @DMP-1054 @DMP-1138 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-1326 @DMP-2123 @DMP-2124 @DMP-2740 @DMP-4129 @DMP-4318 @regression
+  @DMP-696 @DMP-862 @DMP-868 @DMP-872 @DMP-892 @DMP-917 @DMP-925 @DMP-934 @DMP-1009 @DMP-1011 @DMP-1012 @DMP-1025 @DMP-1028 @DMP-1033 @DMP-1053 @DMP-1054 @DMP-1138 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-1326 @DMP-2123 @DMP-2124 @DMP-2740 @DMP-4129 @DMP-4318 @regression @sequential
   Scenario: Request Transcription data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors            | defenders            |
@@ -41,7 +41,7 @@ Feature: Request Transcript
       | HARROW CROWN COURT | {{seq}}-14 | C{{seq}}007  | {{date+0}} | 13:00:00  | 13:01:00 | sample1.mp2 |
 
   @DMP-862 @DMP-917 @DMP-925 @DMP-934 @DMP-1011 @DMP-1012 @DMP-1025 @DMP-1033 @DMP-1138 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-2740 @DMP-4318 @regression @MissingData
-  @review
+  @review @sequential
   Scenario: Request Transcription, Specified Times with Event Checkboxes
 
     Given I am logged on to DARTS as a "REQUESTER" user
@@ -316,7 +316,7 @@ Feature: Request Transcript
     Then I see "Transcripts for this hearing" on the page
     And I see "Complete" in the same row as "Specified Times"
 
-  @DMP-917 @DMP-862 @DMP-868 @DMP-934 @DMP-1011 @DMP-1012 @DMP-1138 @regression
+  @DMP-917 @DMP-862 @DMP-868 @DMP-934 @DMP-1011 @DMP-1012 @DMP-1138 @regression @sequential
   Scenario: Request Transcription, Court Log by Manually Entering Time
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -484,7 +484,7 @@ Feature: Request Transcript
     Then I see "file-sample_1MB.doc" on the page
     And I see "Start time 11:00:00 - End time 11:01:00" in summary row for "Audio for transcript"
 
-  @DMP-696 @DMP-1053 @DMP-1203 @DMP-1243 @DMP-1326 @DMP-2123 @DMP-4129 @regression @fix @MissingData @review
+  @DMP-696 @DMP-1053 @DMP-1203 @DMP-1243 @DMP-1326 @DMP-2123 @DMP-4129 @regression @fix @MissingData @review @sequential
   Scenario: Request Transcription, Court Log, Assign to me and get audio, complete and single delete
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -679,7 +679,7 @@ Feature: Request Transcript
     Then I see "Your transcripts" on the page
     And I do not see "C{{seq}}004" on the page
 
-  @DMP-1054 @DMP-1243 @DMP-2124 @DMP-4129 @regression
+  @DMP-1054 @DMP-1243 @DMP-2124 @DMP-4129 @regression @sequential
   Scenario: Request two transcriptions, assign to me and attach transcript, complete and multiple delete
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -846,7 +846,7 @@ Feature: Request Transcript
     And I do not see "C{{seq}}006" on the page
     And I do not see "C{{seq}}007" on the page
 
-  @DMP-1009 @DMP-1011 @DMP-1025 @DMP-1028 @DMP-4073 @regression
+  @DMP-1009 @DMP-1011 @DMP-1025 @DMP-1028 @DMP-4073 @regression @sequential
   Scenario: Request Transcription, Rejected by Approver
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -983,7 +983,7 @@ Feature: Request Transcript
     And I see "Court Log" in the same row as "Rejected"
     And I see "Specified Times" in the same row as "Awaiting Authorisation"
 
-  @DMP-872 @DMP-862 @regression @MissingData
+  @DMP-872 @DMP-862 @regression @MissingData @sequential
   Scenario: No Audio Available for Transcript Request
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -1014,7 +1014,7 @@ Feature: Request Transcript
       | Case ID     | Courthouse         | Courtroom | Judge(s)                        | Defendant(s)   |
       | C{{seq}}001 | Harrow Crown Court | {{seq}}-8 | {{upper-case-JudgeC {{seq}}-8}} | DefC {{seq}}-8 |
 
-  @DMP-892 @DMP-917 @DMP-1012 @regression @MissingData @review
+  @DMP-892 @DMP-917 @DMP-1012 @regression @MissingData @review @sequential
   Scenario: Transcript - Request a new transcript cancel links
 
     #TODO: Are cancel links working as intended? AC seems to indicate cancel takes you back to Hearing Details rather than back a screen. Check this.
@@ -1054,7 +1054,7 @@ Feature: Request Transcript
     When I click on the "Cancel" link
     Then I see "Events, audio and specific times requests" on the page
 
-  @DMP-892 @DMP-1012 @regression
+  @DMP-892 @DMP-1012 @regression @sequential
   Scenario: Request Transcription Errors
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -1100,7 +1100,7 @@ Feature: Request Transcript
     Then I see an error message "You must confirm that you have authority to request a transcript"
     And I see "You must have authorisation from a judge to confirm this request." on the page
 
-  @DMP-892 @regression
+  @DMP-892 @regression @sequential
   Scenario: Request Transcript Dropdowns
     Given I am logged on to DARTS as a "REQUESTER" user
     And I click on the "Search" link
@@ -1136,7 +1136,7 @@ Feature: Request Transcript
       | Specified Times                   |
       | Other                             |
 
-  @DMP-917
+  @DMP-917 @sequential
   Scenario: Verify Audio list pagination
 
     #TODO: Will sort later, need a case with many audio files?

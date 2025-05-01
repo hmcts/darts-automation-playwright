@@ -1,7 +1,7 @@
 @JSON_API @json_courthouses
 Feature: Courthouse endpoint
 
-  @DMP-1250 @regression
+  @DMP-1250 @regression @sequential
   Scenario: GET courthouses
     When I call GET "/courthouses" API
     Then the DARTS API status code is 200
@@ -17,7 +17,7 @@ Feature: Courthouse endpoint
       }
       """
 
-  @DMP-635 @broken
+  @DMP-635 @broken @sequential
   Scenario: POST courthouse
     Given I authenticate as an "admin" user
     When I call POST "/courthouses" API using json body:
@@ -40,7 +40,7 @@ Feature: Courthouse endpoint
       }
       """
 
-  @DMP-746 @broken
+  @DMP-746 @broken @sequential
   Scenario: POST courthouse - Duplicate courthouse
     Given I call POST "/courthouses" API using json body:
       """

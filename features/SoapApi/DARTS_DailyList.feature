@@ -6,7 +6,7 @@ Feature: Add Daily List using SOAP
   #
 
   @DMP-2968 @regression
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario Outline: Daily List Single Case Scenario - lists for today and tomorrow
     First is replaced
     Second is ignored when processed
@@ -90,7 +90,7 @@ Feature: Add Daily List using SOAP
       | XHIBIT | 58b211f5-426d-81be-00{{seq}}00 | DL    | DL      | DL {{date+0/}} {{seq}}00 | HARROW CROWN COURT | 1         | T{{seq}}101 | {{date+0}} | 10:00:00  | {{date+0}} | {{timestamp}} | T{{seq}}101 defendant |
       | CPP    | 58b211f5-426d-81be-00{{seq}}01 | CPPDL | DL      | DL {{date+0/}} {{seq}}01 | HARROW CROWN COURT | 1         | T{{seq}}111 | {{date+0}} | 10:00:00  | {{date+0}} | {{timestamp}} | T{{seq}}111 defendant |
 
-  @DMP-2968 @regression
+  @DMP-2968 @regression @sequential
   Scenario: Daily List VIQ User fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -182,7 +182,7 @@ Feature: Add Daily List using SOAP
       """
     Then the API status code is 500
 
-  @DMP-2968 @regression
+  @DMP-2968 @regression @sequential
   Scenario: Daily List malformed fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -277,7 +277,7 @@ Feature: Add Daily List using SOAP
     And the SOAP fault response includes "Invalid XML Document"
 
   @DMP-2968 @regression
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario: Daily List successful
     Given that courthouse "YORK" case "T{{seq}}110" does not exist
     # Given I wait until there is not a daily list waiting for "YORK"
@@ -461,7 +461,7 @@ Feature: Add Daily List using SOAP
     And I see table "CASE_HEARING" column "case_closed" is "false" where "case_number" = "T{{seq}}110" and "courthouse_name" = "YORK" and "courtroom_name" = "1"
 
   @DMP-2968 @regression
-  @reads-and-writes-system-properties
+  @reads-and-writes-system-properties @sequential
   Scenario: Daily List successful with TimeMarkingNote 3:00 PM
     Given that courthouse "YORK" case "T{{seq}}120" does not exist
     # Given I wait until there is not a daily list waiting for "YORK"
@@ -645,7 +645,7 @@ Feature: Add Daily List using SOAP
     Then I see table "darts.daily_list" column "job_status" is "PROCESSED" where "unique_id" = "CSDDL170974{{seq}}002" and "message_id" = "58b211f5-426d-81be-00{{seq}}002"
     And I see table "CASE_HEARING" column "case_closed" is "false" where "case_number" = "T{{seq}}120" and "courthouse_name" = "YORK" and "courtroom_name" = "1"
 
-  @DMP-3945 @regression
+  @DMP-3945 @regression @sequential
   Scenario: Daily List successful with cases containing differing whitespace
     Given that courthouse "YORK" case "  T{{seq}}121  " does not exist
     And that courthouse "YORK" case "T{{seq}}121  " does not exist
