@@ -1,6 +1,6 @@
 @SOAP_API @REGISTER_NODE @regression
 Feature: REGISTER NODE using SOAP
-
+ @sequential
   Scenario Outline: SOAP registerNode including create courtroom
     When I register a node
       | courthouse   | courtroom   | hostname   | ip_address   | mac_address   | type   |
@@ -23,7 +23,7 @@ Feature: REGISTER NODE using SOAP
       | courthouse         | courtroom  | hostname            | ip_address                    | mac_address                       | type |
       | HARROW CROWN COURT | 1          | Harrow_DAR_{{seq}}1 | {{ip-address-10.101.101.111}} | {{mac-address-12-34-56-78-90-11}} | DAR  |
       | HARROW CROWN COURT | REG{{seq}} | Harrow_DAR_{{seq}}2 | {{ip-address-10.101.101.112}} | {{mac-address-12-34-56-78-90-12}} | DAR  |
-
+ @sequential
   Scenario Outline: SOAP registerNode successful baseline
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "registerNode" and body:
@@ -40,7 +40,7 @@ Feature: REGISTER NODE using SOAP
       </document>
       """
     Then the API status code is 200
-
+ @sequential
   Scenario Outline: SOAP registerNode invalid courthouse
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "registerNode" and body:
@@ -59,7 +59,7 @@ Feature: REGISTER NODE using SOAP
     # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
-
+ @sequential
   Scenario Outline: SOAP registerNode cannot be accessed from XHIBIT
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "registerNode" and body:

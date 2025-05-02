@@ -1,5 +1,5 @@
 Feature: Super User Permission
-  @DMP-2404 @DMP-2562
+  @DMP-2404 @DMP-2562 @sequential
   Scenario: Case Search data creation
 
     Given I create a case
@@ -15,7 +15,7 @@ Feature: Super User Permission
       | courthouse         | courtroom  | case_numbers | date        | startTime | endTime  | audioFile   |
       | Harrow Crown Court | A{{seq}}-1 | A{{seq}}001  | {{date+0/}} | 09:30:00  | 09:31:00 | sample1.mp2 |
 
-  @DMP-2404-CaseSearch
+  @DMP-2404-CaseSearch @sequential
   Scenario: Case search
     When I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Search" link
@@ -233,7 +233,7 @@ Feature: Super User Permission
     Then I see an error message "You have not selected a start date. Select a start date to define your search"
     Then I see an error message "You have not entered a recognised date in the correct format (for example 31/01/2023)"
 
-  @DMP-2404-Audio
+  @DMP-2404-Audio @sequential
   Scenario: Audio
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Search" link
@@ -283,7 +283,7 @@ Feature: Super User Permission
     And I see "Expired" on the page
 
   # SUPERUSER does not request transcripts?
-  @DMP-2404-Transcription
+  @DMP-2404-Transcription @sequential
   Scenario: Transcription
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Search" link
@@ -344,7 +344,7 @@ Feature: Super User Permission
     Then I see "A{{seq}}001" in the same row as "Awaiting Authorisation"
     And I Sign out
 
-  @DMP-2404-Retention
+  @DMP-2404-Retention @sequential
   Scenario Outline: Retention
     When I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Search" link
@@ -451,7 +451,7 @@ Feature: Super User Permission
       | case_number |
       | A{{seq}}001 |
 
-  @DMP-2562 @MissingData
+  @DMP-2562 @MissingData @sequential
   Scenario: Request download audio for Super Admin
     When I am logged on to DARTS as an Admin user
     And I click on the "Search" link
@@ -520,7 +520,7 @@ Feature: Super User Permission
     And I see "We are preparing your audio." on the page
     And I see "When it is ready we will send an email to Darts Admin and notify you in the DARTS application." on the page
 
-  @DMP-3810
+  @DMP-3810 @sequential
   Scenario: Can search for cases / audio / events / hearings
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link
@@ -555,7 +555,7 @@ Feature: Super User Permission
     Then I select the "Audio" radio button
     And I press the "Search" button
     And I see "A{{seq}}-1" in the same row as "Harrow Crown Court"
-
+ @sequential
   Scenario Outline: Users
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link
@@ -594,7 +594,7 @@ Feature: Super User Permission
     Examples:
       | user_name | user_email_address |
       | DMP 3810  | DMP3810@hmcts.net  |
-
+ @sequential
   Scenario: Courthouses
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link
@@ -615,7 +615,7 @@ Feature: Super User Permission
     And I see "Harrow Crown Court" on the page
     And I do not see the "Edit courthouse" button
 
-  # Two things that could happen here... one result redirects to the record, more than one result shows a list of results
+  # Two things that could happen here... one result redirects to the record, more than one result shows a list of results @sequential
   Scenario: Transformed media
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link
@@ -637,7 +637,7 @@ Feature: Super User Permission
     And I see "Transformed media" on the page
     And I see "Owner" in the same row as "DartsSuperUser (darts.superuser@hmcts.net)"
     And I do not see link with text "Change"
-
+ @sequential
   Scenario: Audio (accessed via search audio)
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link

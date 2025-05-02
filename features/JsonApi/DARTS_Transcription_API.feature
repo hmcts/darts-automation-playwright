@@ -1,6 +1,6 @@
 Feature: Transcription Endpoints
 
-  @DMP-1335 @JSON_API
+  @DMP-1335 @JSON_API @sequential
   Scenario: Return all data from the "transcription_type" table
     When I call GET "/transcriptions/types" API
     Then the DARTS API status code is 200
@@ -50,7 +50,7 @@ Feature: Transcription Endpoints
       ]
       """
 
-  @DMP-1336 @DMP-1598
+  @DMP-1336 @DMP-1598 @sequential
   Scenario: Transcription Urgency Priority / Sort Order
     Given I authenticate as a "Judge" user
     When I call GET "/transcriptions/urgencies" API

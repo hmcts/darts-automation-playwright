@@ -2,7 +2,7 @@ Feature: User as a Requester and Approver
 
   Background:
     Given I am logged on to DARTS as an "REQUESTERAPPROVER" user
-  @DMP-1146
+  @DMP-1146 @sequential
   Scenario: Verify Your Transcript Screen logged in as RequesterApprover
     When I click on the "Your Transcripts" link
     And I see "Your Transcripts" on the page
@@ -34,7 +34,7 @@ Feature: User as a Requester and Approver
     And I see "Next" on the page
     And I see "Previous" on the page
 
-  @DMP-1033
+  @DMP-1033 @sequential
   Scenario Outline: View Transcript - Via Your Transcriptions screen
     When I click on the "Your Transcripts" link
     And I see "Your Transcripts" on the page

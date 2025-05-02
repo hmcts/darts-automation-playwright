@@ -1,6 +1,6 @@
 Feature: Audio Request Endpoint
 
-  @DMP-982-AC1
+  @DMP-982-AC1 @sequential
   Scenario: Audio Request POST Endpoint
     Given I authenticate as an "EXTERNAL" user
     When I call POST "/audio-requests" API using json body:
@@ -15,7 +15,7 @@ Feature: Audio Request Endpoint
       """
     Then the API status code is 200
 
-  @DMP-982-AC2
+  @DMP-982-AC2 @sequential
   Scenario: Audio Request POST Endpoint with invalid hearing id
     Given I authenticate as an "EXTERNAL" user
     When I call POST "/audio-requests" API using json body:
@@ -38,7 +38,7 @@ Feature: Audio Request Endpoint
       }
       """
 
-  @DMP-1726 @DMP-1271
+  @DMP-1726 @DMP-1271 @sequential
   Scenario: Audio Request PATCH Endpoint
     Given I authenticate as a "Requester" user
     When I call GET "/audio-requests/v2" API with header "user_id=-37" and query params "expired=false"
@@ -76,7 +76,7 @@ Feature: Audio Request Endpoint
       }
       """
 
-  @DMP-1726
+  @DMP-1726 @sequential
   Scenario: Audio Request PATCH Endpoint
     Given I authenticate as a "Requester" user
     When I call GET "/audio-requests/v2: API with header "user_id=-37" and query params "expired=false"
@@ -97,7 +97,7 @@ Feature: Audio Request Endpoint
       }
       """
 
-  @DMP-1726
+  @DMP-1726 @sequential
   Scenario: Audio Request PATCH Endpoint
     Given I authenticate as a "Requester" user
     When I call GET "/audio-requests/v2" API with header "user_id=-37" and query params "expired=true"
@@ -121,13 +121,13 @@ Feature: Audio Request Endpoint
       }
       """
 
-  @DMP-1730-AC1 @DMP-1091
+  @DMP-1730-AC1 @DMP-1091 @sequential
   Scenario: Audio Request Transformed Media Endpoint
     Given I authenticate as a "Requester" user
     When I call PATCH "/audio-requests/7633" API
     Then the API status code is 204
 
-  @DMP-1730-AC2 @DMP-1091
+  @DMP-1730-AC2 @DMP-1091 @sequential
   Scenario: Audio Request Transformed Media Endpoint-404
     Given I authenticate as a "Requester" user
     When I call PATCH "/audio-requests/7632" API
@@ -141,7 +141,7 @@ Feature: Audio Request Endpoint
       }
       """
 
-  @DMP-1091-AC3
+  @DMP-1091-AC3 @sequential
   Scenario: Audio Request Transformed Media Endpoint-401
     Given I authenticate as a "Requester" user
     When I call PATCH "/audio-requests/6493" API

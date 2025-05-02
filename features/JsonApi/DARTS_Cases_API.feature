@@ -1,7 +1,7 @@
 @JSON_API @json_cases
 Feature: Cases Endpoints
 
-  @DMP-458 @regression
+  @DMP-458 @regression @sequential
   Scenario: Create a case
     When I create a case using json
       | courthouse         | case_number | defendants | judges     | prosecutors     | defenders     |
@@ -28,7 +28,7 @@ Feature: Cases Endpoints
       }
       """
 
-  @DMP-458 @regression
+  @DMP-458 @regression @sequential
   Scenario: test /cases/addCase with courtroom in json body
     Given I call POST "/cases/addCase" API using json body:
       """
@@ -61,7 +61,7 @@ Feature: Cases Endpoints
       }
       """
 
-  @DMP-462 @regression
+  @DMP-462 @regression @sequential
   Scenario: test POST /courtlogs
     Given I call POST "/courtlogs" API using json body:
       """
@@ -84,7 +84,7 @@ Feature: Cases Endpoints
       }
       """
 
-  @regression
+  @regression @sequential
   Scenario: test GET cases
     When I select column "cas.cas_id" from table "COURTCASE" where "case_number" = "T20220001" and "courthouse_name" = "SWANSEA"
     And  I authenticate as a "requester" user

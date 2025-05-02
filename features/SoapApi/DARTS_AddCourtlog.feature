@@ -1,7 +1,7 @@
 @COURTLOG @SOAP_API
 Feature: Add Courtlog SOAP
 
-  @regression
+  @regression @sequential
   Scenario Outline: SOAP courtLog where case exists & hearing exists
     Given that courthouse "<courthouse>" case "<caseNumber>" does not exist
     Given I create a case
@@ -30,7 +30,7 @@ Feature: Add Courtlog SOAP
       | courthouse         | courtroom    | caseNumber  | defendants                        | judges     | prosecutors     | defenders     |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}131 | test defendent11~test defendent22 | test judge | test prosecutor | test defender |
 
-  @regression
+  @regression @sequential
   Scenario Outline: SOAP courtLog where case does not exist and the courtlog creates the case
     Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "<caseNumber>" and "courthouse_name" = "<courthouse>"
     When I add courtlogs
@@ -56,7 +56,7 @@ Feature: Add Courtlog SOAP
       | courthouse         | courtroom    | caseNumber  | defendants                        | judges     | prosecutors     | defenders     |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}132 | test defendent11~test defendent22 | test judge | test prosecutor | test defender |
 
-  @regression @DMP-3945
+  @regression @DMP-3945 @sequential
   Scenario Outline: SOAP courtLog where courtlog creates different cases with whitespace maintained
     Given I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "  <caseNumber>  " and "courthouse_name" = "<courthouse>"
     And I see table "COURTCASE" column "COUNT(cas_id)" is "0" where "cas.case_number" = "<caseNumber>  " and "courthouse_name" = "<courthouse>"
@@ -77,7 +77,7 @@ Feature: Add Courtlog SOAP
       | courthouse         | courtroom    | caseNumber  | defendants                        | judges     | prosecutors     | defenders     |
       | HARROW CROWN COURT | ROOM {{seq}} | T{{seq}}134 | test defendent11~test defendent22 | test judge | test prosecutor | test defender |
 
-  @regression
+  @regression @sequential
   Scenario: addLogEntry successful baseline
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addLogEntry" and body:
@@ -95,7 +95,7 @@ Feature: Add Courtlog SOAP
       """
     Then the API status code is 200
 
-  @regression
+  @regression @sequential
   Scenario: addLogEntry with invalid court fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap action "addLogEntry" and body:
@@ -115,7 +115,7 @@ Feature: Add Courtlog SOAP
     Then the API status code is 500
     And the SOAP fault response includes "Courthouse Not Found"
 
-  @regression
+  @regression @sequential
   Scenario: addLogEntry with authenticating from XHIBIT fails
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addLogEntry" and body:

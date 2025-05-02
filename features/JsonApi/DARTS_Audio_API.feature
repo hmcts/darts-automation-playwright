@@ -1,6 +1,6 @@
 Feature: Audio Endpoint
 
-  @DMP-777
+  @DMP-777 @sequential
   Scenario: GET Audio Endpoint
     Given I authenticate as an "EXTERNAL" user
     When I call GET "/audio/hearings/142/audios" API
@@ -14,13 +14,13 @@ Feature: Audio Endpoint
       }
       """
 
-  @DMP-1169-AC1
+  @DMP-1169-AC1 @sequential
   Scenario: GET Media - authorized user
     Given I authenticate as an "EXTERNAL" user
     When I call GET "/audio/preview/3833" API
     Then the API status code is 200
 
-  @DMP-1169-AC2
+  @DMP-1169-AC2 @sequential
   Scenario: GET Media - unauthorized user
     Given I authenticate as a REQUESTER user
     When I call GET "/audio/preview/3833" API
@@ -34,7 +34,7 @@ Feature: Audio Endpoint
       }
       """
 
-  @DMP-1169-AC3
+  @DMP-1169-AC3 @sequential
   Scenario: GET Media - authorized user - No media
     Given I authenticate as an "EXTERNAL" user
     When I call GET "/audio/preview/1123" API
@@ -48,7 +48,7 @@ Feature: Audio Endpoint
       }
       """
 
-  @DMP-1169-AC4
+  @DMP-1169-AC4 @sequential
   Scenario: GET Media - authorized user - Bad Request
     Given I authenticate as an "EXTERNAL" user
     When I call GET "/audio/preview/1123" API

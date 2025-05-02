@@ -1,7 +1,7 @@
 @SOAP_API @NEWCASE @UPDCASE @regression
 Feature: NEWCASE and UPDCASE using SOAP
 
-  @DMP-4753
+  @DMP-4753 @sequential
   Scenario: NEWCASE creates case and sets defendant successfully from XHIBIT
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addDocument" and body:
@@ -141,7 +141,7 @@ Feature: NEWCASE and UPDCASE using SOAP
     And I see table "COURTCASE" column "case_number" is "T{{seq}}610" where "cas.cas_id" = "{{cas.cas_id}}"
     And I see table "darts.defendant" column "defendant_name" is "Penelope Iris Howard" where "cas_id" = "{{cas.cas_id}}"
 
-  @DMP-4752
+  @DMP-4752 @sequential
   Scenario: UPDCASE creates case and sets defendant successfully from XHIBIT
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap action "addDocument" and body:

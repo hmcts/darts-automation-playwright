@@ -1,6 +1,6 @@
 Feature: Restricted Page Access
 
-  @DMP-1486 @DMP-3035 @regression @demo
+  @DMP-1486 @DMP-3035 @regression @demo @sequential
   Scenario: Error for Restricted Page Access
     Given I am logged on to DARTS as a "REQUESTER" user
     And I navigate to the url "/work"
@@ -8,7 +8,7 @@ Feature: Restricted Page Access
     And I see "If you believe you should have permission, contact DTS-IT Service Desk." on the page
     And I click on the "contact DTS-IT Service Desk." link
 
-  @DMP-1479 @regression @demo
+  @DMP-1479 @regression @demo @sequential
   Scenario: Error - 404 - Page not found
     Given I am logged on to DARTS as a "external" user
     And I navigate to the url "/case/002"

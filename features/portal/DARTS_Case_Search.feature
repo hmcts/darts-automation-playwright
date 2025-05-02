@@ -1,7 +1,7 @@
 @portal @portal_case_search
 Feature: Case Search
 
-  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @DMP-963 @DMP-997 @DMP-2769 @DMP-4545 @regression @demo
+  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @DMP-963 @DMP-997 @DMP-2769 @DMP-4545 @regression @demo @sequential
   Scenario: Case Search data creation
     Given I create a case
       | courthouse         | courtroom   | case_number | defendants      | judges           | prosecutors         | defenders         |
@@ -21,7 +21,7 @@ Feature: Case Search
       | {{seq}}005 | 1100  |          | {{seq}}005 | HARROW CROWN COURT | A{{seq}}-11 | A{{seq}}004  | A{{seq}}ABC-11 | {{timestamp-10:00:00}} |                             |                     |
       | {{seq}}006 | 21200 | 11008    | {{seq}}006 | HARROW CROWN COURT | A{{seq}}-2  | A{{seq}}005  | A{{seq}}ABC-21 | {{timestamp-10:00:00}} |                             |                     |
 
-  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @DMP-4318 @DMP-4545 @regression @demo
+  @DMP-509 @DMP-507 @DMP-508 @DMP-517 @DMP-515 @DMP-860 @DMP-702 @DMP-561 @DMP-4318 @DMP-4545 @regression @demo @sequential
   Scenario: Simple and Advanced Case Search
 
     #Simple search
@@ -163,7 +163,7 @@ Feature: Case Search
     And I see "adding more information to your search" on the page
     And I see "using filters to restrict the number of results" on the page
 
-  @DMP-509 @DMP-507 @DMP-860 @regression @demo @MissingData
+  @DMP-509 @DMP-507 @DMP-860 @regression @demo @MissingData @sequential
   Scenario: Case details and Hearing details
 
     #Case Details
@@ -197,7 +197,7 @@ Feature: Case Search
     And I see "Hearing started" on the page
     And I see "A{{seq}}ABC-1" on the page
 
-  @DMP-509 @DMP-1135 @DMP-508 @DMP-515 @DMP-691 @regression @demo @retry
+  @DMP-509 @DMP-1135 @DMP-508 @DMP-515 @DMP-691 @regression @demo @retry @sequential
   Scenario: Case Search error message verification
     Given I am logged on to DARTS as an "APPROVER" user
     When I click on the "Search" link
@@ -276,7 +276,7 @@ Feature: Case Search
     Then I see an error message "You have not selected a start date. Select a start date to define your search"
     Then I see an error message "You have not entered a recognised date in the correct format (for example 31/01/2023)"
 
-  @DMP-963 @regression @demo
+  @DMP-963 @regression @demo @sequential
   Scenario: Last Search results are retrievable on clicking Search in the breadcrumb trail
     Given I am logged on to DARTS as an "APPROVER" user
     And I click on the "Search" link
@@ -307,7 +307,7 @@ Feature: Case Search
       | A{{seq}}005                              | Harrow Crown Court | A{{seq}}-2  | JUDGE {{seq}}-2  | Def A{{seq}}-11 |
       | There are restrictions against this case | *IGNORE*           | *IGNORE*    | *IGNORE*         | *IGNORE*        |
 
-  @DMP-997 @regression @demo
+  @DMP-997 @regression @demo @sequential
   Scenario: Case file breadcrumbs
     Given I am logged on to DARTS as an "APPROVER" user
     And I click on the "Search" link
@@ -328,7 +328,7 @@ Feature: Case Search
     And I see "testdefendertwo" on the page
 
   # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
-  @DMP-1397-AC1
+  @DMP-1397-AC1 @sequential
   Scenario: Hide automatic transcript request - Case file screen
     Given I am logged on to DARTS as an APPROVER user
     When I click on the "Search" link
@@ -352,7 +352,7 @@ Feature: Case Search
       | 05 Jan 2024  | *IGNORE* | *IGNORE*     | *IGNORE*     | *IGNORE* |
 
   # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
-  @DMP-1397-AC2
+  @DMP-1397-AC2 @sequential
   Scenario: Hide automatic transcript request - Heating details screen
     Given I am logged on to DARTS as an APPROVER user
     When I click on the "Search" link
@@ -364,7 +364,7 @@ Feature: Case Search
     And I click on the "Transcripts" link
     Then I see "There are no transcripts for this hearing." on the page
 
-  @DMP-1798-AC1-AC3 @regression @demo
+  @DMP-1798-AC1-AC3 @regression @demo @sequential
   Scenario: Restrictions banner on hearing details screen - All restriction events received during hearing displayed on hearing details screen - Open restriction list
     Given I am logged on to DARTS as an "APPROVER" user
     When I click on the "Search" link
@@ -380,7 +380,7 @@ Feature: Case Search
     And I see "Restriction applied: An order made under s46 of the Youth Justice and Criminal Evidence Act 1999" on the page
     And I see "For full details, check the hearing events." on the page
 
-  @DMP-1798-AC2 @regression @demo
+  @DMP-1798-AC2 @regression @demo @sequential
   Scenario: Restrictions banner on hearing details screen - Closed by default
     Given I am logged on to DARTS as an "APPROVER" user
     When I click on the "Search" link
@@ -392,7 +392,7 @@ Feature: Case Search
     #Then I click on the "Show restrictions" link
     Then I do not see "Restriction applied: An order made under s46 of the Youth Justice and Criminal Evidence Act 1999" on the page
 
-  @DMP-1798-AC4 @regression
+  @DMP-1798-AC4 @regression @sequential
   Scenario: Restrictions banner on hearing details screen - collapse restriction list
     Given I am logged on to DARTS as an "APPROVER" user
     When I click on the "Search" link
@@ -412,7 +412,7 @@ Feature: Case Search
     And I do not see "For full details, check the hearing events." on the page
 
   # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
-  @DMP-1798-AC5
+  @DMP-1798-AC5 @sequential
   Scenario: Restrictions banner on hearing details screen - no restrictions during hearing but others on case
     Given I am logged on to DARTS as an APPROVER user
     When I click on the "Search" link
@@ -427,7 +427,7 @@ Feature: Case Search
     And I do not see "Show restrictions" on the page
 
   # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
-  @DMP-1798-AC6
+  @DMP-1798-AC6 @sequential
   Scenario: Restrictions banner on hearing details screen - No restrictions
     Given I am logged on to DARTS as an APPROVER user
     When I click on the "Search" link
@@ -445,7 +445,7 @@ Feature: Case Search
     And I click on the "11 Aug 2023" link
     Then I do not see "There are restrictions against this case" on the page
 
-  @DMP-772 @regression @demo
+  @DMP-772 @regression @demo @sequential
   Scenario: Search Results Pagination
     Given I am logged on to DARTS as an "APPROVER" user
     When I click on the "Search" link
@@ -470,7 +470,7 @@ Feature: Case Search
     Then I do not see link with text "Next"
     And I see link with text "Previous"
 
-  @DMP-2769 @regression
+  @DMP-2769 @regression @sequential
   Scenario: Advanced Search Restrictions
     Given I am logged on to DARTS as an "APPROVER" user
     And I click on the "Search" link
@@ -532,7 +532,7 @@ Feature: Case Search
   #      | A{{seq}}002                                              | Harrow Crown Court | A{{seq}}-11 | JUDGE {{seq}}-11 | Def A{{seq}}-11 |
   #      | A{{seq}}001                                              | Harrow Crown Court | A{{seq}}-1  | JUDGE {{seq}}-1  | Def A{{seq}}-1  |
 
-  @DMP-2963 @regression
+  @DMP-2963 @regression @sequential
   Scenario: Add a CourtLog into Case file screen
     Given I am logged on to DARTS as a "TRANSCRIBER" user
     And I click on the "Search" link
@@ -561,7 +561,7 @@ Feature: Case Search
     And "Event" has sort "ascending" icon
 
 
-  @DMP-4129 @DMP-4318 @regression
+  @DMP-4129 @DMP-4318 @regression @sequential
   Scenario: Column sorting for User and Admin Portal
     Given I am logged on to DARTS as a "REQUESTER" user
 

@@ -3,7 +3,7 @@ Feature: Language Shop User
   Background:
     Given I am logged on to DARTS as an "LANGUAGESHOP" user
 
-  @DMP-770 @review
+  @DMP-770 @review @sequential
   Scenario Outline: Verify download playback file
     When I click on the "Your audio" link
     When I click on "View" in the same row as "<CaseID>"
@@ -22,7 +22,7 @@ Feature: Language Shop User
       | CaseID        | Courthouse    | Defendants | HearingDate | StartTime | EndTime  |
       | Case1_DMP1398 | LEEDS_DMP1398 |            | 2 Nov 2023  | 15:20:23  | 15:21:23 |
 
-  @DMP-2137-AC1 @regression @review
+  @DMP-2137-AC1 @regression @review @sequential
   Scenario: Translation QA User Permissions
 
     #Global Access = True Interpreter = True
@@ -194,7 +194,7 @@ Feature: Language Shop User
     And I see "Current" on the page
     And I see "Expired" on the page
 
-  @DMP-2137-AC2
+  @DMP-2137-AC2 @sequential
   Scenario: Translation QA User Permissions
 
     #Global Access = False Interpreter = True
@@ -358,7 +358,7 @@ Feature: Language Shop User
     And I see "Current" on the page
     And I see "Expired" on the page
 
-  @DMP-2137-AC3
+  @DMP-2137-AC3 @sequential
   Scenario: Translation QA User Permissions
 
     #Global Access = True Interpreter = False
@@ -522,7 +522,7 @@ Feature: Language Shop User
     And I see "Current" on the page
     And I see "Expired" on the page
 
-  @DMP-2137-AC4 @regression
+  @DMP-2137-AC4 @regression @sequential
   Scenario: Translation QA User Permissions
 
     #Global Access = False Interpreter = False

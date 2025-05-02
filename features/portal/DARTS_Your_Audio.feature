@@ -3,7 +3,7 @@ Feature: Your Audio Screen
   Background:
     Given I am logged on to DARTS as an "external" user
 
-  @DMP-697  @DMP-836 @DMP-837 @DMP-859
+  @DMP-697  @DMP-836 @DMP-837 @DMP-859 @sequential
   Scenario: Verify Your Audio Screen - Current Tab "in Progress" or "Ready"
     #Then I see the notification-count is "1"
     When I click on the "Your Audio" link
@@ -23,7 +23,7 @@ Feature: Your Audio Screen
       | *NO-CHECK* |  | Case ID  | Court   | Hearing date | Start time | End time | Request ID | Expiry date | Status |
       | *NO-CHECK* |  | CASE1009 | Swansea | 15 Aug 2023  | 13:07:33   | 13:07:33 | 3861       |             | READY  |
       | *NO-CHECK* |  | CASE1009 | Swansea | 15 Aug 2023  | 14:07:33   | 14:07:33 | 2541       |             | READY  |
-
+ @sequential
   Scenario: Verify the sorting of the "Your Audio" table
     When I click on the "Your Audio" link
     And I see "Your Audio" on the page
@@ -39,7 +39,7 @@ Feature: Your Audio Screen
       | CASE1009 | Swansea | 15 Aug 2023  | 14:07:33   | 14:07:33 | 2661       |             | *IGNORE*   |
       | CASE1009 | Swansea | 15 Aug 2023  | 13:07:33   | 13:07:33 | 2342       |             | PROCESSING |
       | CASE1009 | Swansea | 15 Aug 2023  | 14:07:33   | 14:07:33 | 2221       |             | PROCESSING |
-
+ @sequential
   Scenario Outline: Verify Clear link for the In Progress Audios
     When I click on the "Your Audio" link
     When I click on "Clear" in the same row as "<Request ID>"
@@ -52,7 +52,7 @@ Feature: Your Audio Screen
     Examples:
       | Request ID |
       | 2901       |
-
+ @sequential
   Scenario Outline: Verify View link for the Ready Audios
     # TODO: And I see a new audio blob - Need visibility of icon to check ID and implement
     When I click on the "Your Audio" link
@@ -71,7 +71,7 @@ Feature: Your Audio Screen
       | CaseID   | Courthouse | Defendants | HearingDate | StartTime | EndTime  | Restriction                                           |
       | CASE1009 | Swansea    | Jow Bloggs | 15 Aug 2023 | 13:07:33  | 13:07:33 | Restriction: Judge directed on reporting restrictions |
 
-  #Verify audio player for playback?
+  #Verify audio player for playback? @sequential
   Scenario Outline: Verify breadcrumbs link for Your Audio
     When I click on the "Your Audio" link
     When I click on "View" in the same row as "<CaseID>"
@@ -91,7 +91,7 @@ Feature: Your Audio Screen
       | CaseID   | Courthouse | Defendants | HearingDate | StartTime | EndTime  | Restriction                                           |
       | CASE1009 | Swansea    | Jow Bloggs | 15 Aug 2023 | 13:07:33  | 13:07:33 | Restriction: Judge directed on reporting restrictions |
 
-  @DMP-839-AC1
+  @DMP-839-AC1 @sequential
   Scenario: Verify Delete audio link in View Audio page -Confirm Delete
     When I click on the "Your Audio" link
     When I click on "View" in the same row as "<CaseID>"
@@ -112,7 +112,7 @@ Feature: Your Audio Screen
   #Examples:
   #  | CaseID   | Courthouse | Defendants | HearingDate | StartTime | EndTime  | Restriction                                           |
   #  | CASE1009 | Swansea | Jow Bloggs   | 15 Aug 2023 | 13:07:33 | 13:07:33   | Restriction: Judge directed on reporting restrictions |
-  @DMP-839-AC2
+  @DMP-839-AC2 @sequential
   Scenario Outline: Verify Delete audio link in View Audio page - Cancel Delete
     When I click on the "Your Audio" link
     When I click on "View" in the same row as "<CaseID>"
@@ -135,7 +135,7 @@ Feature: Your Audio Screen
       | CASE1009 | Swansea    | Jow Bloggs | 15 Aug 2023 | 13:07:33  | 13:07:33 | Restriction: Judge directed on reporting restrictions |
 
   @DMP-836
-  #Now delete the requested audio
+  #Now delete the requested audio @sequential
   Scenario: Delete Audio - Cancel Link
     When I click on the "Your Audio" link
     When I check the checkbox in the same row as "Swansea" "3861"
@@ -144,7 +144,7 @@ Feature: Your Audio Screen
     And I click on the "Cancel" link
     And I see "Your Audio" on the page
 
-  @DMP-836
+  @DMP-836 @sequential
   Scenario: Delete Audio -Confirm
     When I click on the "Your Audio" link
     When I check the checkbox in the same row as "Swansea" "3861"
@@ -156,7 +156,7 @@ Feature: Your Audio Screen
   #      | CaseID   |
   #      | CASE1009 |
 
-  @DMP-730
+  @DMP-730 @sequential
   Scenario: Verify Your Audio Screen - Expired Tab
     When I click on the "Your Audio" link
     And I click on the "Expired" link
@@ -164,7 +164,7 @@ Feature: Your Audio Screen
       | *NO-CHECK* | Case ID  | Court   | Hearing date | Start time | End time | Request ID | Expiry date | Status  |
       | *NO-CHECK* | CASE1009 | Swansea | 15 Aug 2023  | 14:07:33   | 14:07:33 | 2601       |             | EXPIRED |
 
-  @DMP-837
+  @DMP-837 @sequential
   Scenario: Verify Your Audio Screen - Expired Tab Delete
     When I click on the "Your Audio" link
     And I click on the "Expired" link
@@ -174,7 +174,7 @@ Feature: Your Audio Screen
     And I click on the "Cancel" link
     And I see "Your Audio" on the page
 
-  @DMP-840
+  @DMP-840 @sequential
   Scenario Outline: Verify download playback file
     When I click on the "Your audio" link
     When I click on "View" in the same row as "<CaseID>"

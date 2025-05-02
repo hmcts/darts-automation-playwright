@@ -1,6 +1,6 @@
 Feature: Admin portal
 
-  @DMP-4442
+  @DMP-4442 @sequential
   Scenario: Data creation for Audio file deletion
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors               | defenders               |
@@ -16,7 +16,7 @@ Feature: Admin portal
       | courthouse         | courtroom  | case_numbers | date       | startTime | endTime  | audioFile   |
       | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{date+0}} | 10:30:00  | 10:31:00 | sample1.mp2 |
 
-  @DMP-2959 @review
+  @DMP-2959 @review @sequential
   Scenario: Add error messaging to Search Transcripts screen
     Given I am logged on to the admin portal as an "ADMIN" user
     When I click on the "System configuration" link
@@ -60,7 +60,7 @@ Feature: Admin portal
     And I click on the "Create" link
     Then I see "Retention policy version created" on the page
 
-  @DMP-1662 @review
+  @DMP-1662 @review @sequential
   Scenario: Deletion Reasons
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link
@@ -100,7 +100,7 @@ Feature: Admin portal
     And I see "Important" on the page
     And I see "This file is hidden in DARTS" on the page
 
-  @DMP-3247 @DMP-3382 @review
+  @DMP-3247 @DMP-3382 @review @sequential
   Scenario: Transcription File Details Page
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link
@@ -190,7 +190,7 @@ Feature: Admin portal
     And I see "No" in the same row as "Transcription hidden?"
     And I see " Hide or delete " on the page
 
-  @DMP-2562 @regression
+  @DMP-2562 @regression @sequential
   Scenario: Request download audio for Admin user
     When I am logged on to DARTS as an "Admin" user
     And I click on the "Search" link
@@ -250,7 +250,7 @@ Feature: Admin portal
     And I press the "Confirm" button
     Then I see "Your order is complete" on the page
 
-  @DMP-4035 @regression
+  @DMP-4035 @regression @sequential
   Scenario Outline: Admin user can hide audio
     Given I am logged on to the admin portal as an "Admin" user
     And I select column "hea_id" from table "CASE_HEARING" where "courthouse_name" = "{{upper-case-<courthouse>}}" and "courtroom_name" = "<courtroom>" and "case_number" = "<caseId>"
@@ -360,7 +360,7 @@ Feature: Admin portal
       | courthouse         | courtroom  | caseId      | startTime | endTime  |
       | Harrow Crown Court | B{{seq}}-6 | B{{seq}}006 | 10:01:00  | 10:02:00 |
 
-  @DMP-4035 @regression @review
+  @DMP-4035 @regression @review @sequential
   Scenario Outline: Admin user can delete audio
     Given I am logged on to the admin portal as an "Admin" user
     And I select column "med_id" from table "CASE_AUDIO" where "cas.case_number" = "<caseId>" and "courthouse_name" = "<courthouse>"
@@ -463,7 +463,7 @@ Feature: Admin portal
       | HARROW CROWN COURT | B{{seq}}-8 | B{{seq}}008 | 10:01:00  | 10:02:00 | Classified above official | T{{seq}}008 | B{{seq}}ABC-8 |
       | HARROW CROWN COURT | B{{seq}}-9 | B{{seq}}009 | 10:01:00  | 10:02:00 | Other reason to delete    | T{{seq}}009 | B{{seq}}ABC-9 |
 
-  @DMP-3234
+  @DMP-3234 @sequential
   Scenario: Add a link to "user portal" link to each admin portal screen
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "User portal" link
@@ -489,7 +489,7 @@ Feature: Admin portal
     And I click on the "System configuration" link
     Then I click on the "User portal" link
 
-  @DMP-3235
+  @DMP-3235 @sequential
   Scenario: Add a link to "Admin portal" to each DARTS portal screen
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "User portal" link
@@ -502,7 +502,7 @@ Feature: Admin portal
     Then I click on the "Admin portal" link
 
   # TODO (DT): This does not seem to be named correctly?
-  @DMP-4442
+  @DMP-4442 @sequential
   Scenario: Data creation for Audio file deletion
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors               | defenders               |
@@ -518,7 +518,7 @@ Feature: Admin portal
       | courthouse         | courtroom  | case_numbers | date        | startTime | endTime  | audioFile   |
       | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{date+0/}} | 10:30:00  | 10:31:00 | sample1.mp2 |
 
-  @DMP-4442 @DMP-4573
+  @DMP-4442 @DMP-4573 @sequential
   Scenario: Admin user can delete audio
     Given I am logged on to the admin portal as an "ADMIN" user
     And I set "Case ID" to "I{{seq}}001"

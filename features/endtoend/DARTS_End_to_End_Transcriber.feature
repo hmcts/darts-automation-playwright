@@ -1,7 +1,7 @@
 @end2end @end2end4 @end2end-transcriber
 Feature: Transcriber
 
-  @DMP-2055
+  @DMP-2055 @sequential
   Scenario Outline: Transcriber - TranscriptionType - Sentencing Remarks - Audio requestType -Download
     Given I create a case
       | courthouse   | courtroom   | case_number   | defendants   | judges   | prosecutors   | defenders   |
@@ -105,7 +105,7 @@ Feature: Transcriber
       | courthouse         | courtroom   | case_number   | judges            | defendants            | prosecutors         | defenders         | HearingDate     | transcription-type | urgency   | message_id | eventId    | caseRetention | totalSentence | dateTime              | audioFile   | startTime | endTime  | filename            |
       | Harrow Crown Court | C{{seq}}-84 | S{{seq}}084-B | S{{seq}} judge-84 | S{{seq}} defendant-84 | S{{seq}} prosecutor | S{{seq}} defender | {{displaydate}} | Sentencing remarks | Overnight | {{seq}}031 | {{seq}}031 |               |               | {{yyyymmdd hh:mm:ss}} | sample1.mp2 | 08:04:00  | 08:05:00 | file-sample_1MB.doc |
 
-  @DMP-2055
+  @DMP-2055 @sequential
   Scenario Outline: Transcriber TranscriptionType - Court Logs - Audio requestType -Playback
     Given I create a case
       | courthouse   | courtroom   | case_number   | defendants   | judges   | prosecutors   | defenders   |

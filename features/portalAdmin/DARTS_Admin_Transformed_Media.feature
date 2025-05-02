@@ -1,7 +1,7 @@
 @admin @admin_transformed_media
 Feature: Admin-Transformed Media
 
-  @DMP-2678 @regression
+  @DMP-2678 @regression @sequential
   Scenario: Transformed media search
 
     Given I am logged on to the admin portal as an "ADMIN" user
@@ -34,7 +34,7 @@ Feature: Admin-Transformed Media
     And I see "Requestor" in summary row for "Requested by"
     And I see "15845" in summary row for "Request ID"
 
-  @DMP-2695 @DMP-2679 @DMP-3475
+  @DMP-2695 @DMP-2679 @DMP-3475 @sequential
   Scenario: Transformed media-Change owner
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transformed media" link
@@ -94,7 +94,7 @@ Feature: Admin-Transformed Media
       | Audio ID | Case ID   | Hearing date | Courthouse         | Start time | End time | Courtroom    | Channel number |
       | 3833     | T20230001 | 07 Dec 2023  | Harrow Crown Court | 2:00PM     | 2:01PM   | Rayners room | 1              |
 
-  @DMP-4178 @regression
+  @DMP-4178 @regression @sequential
   Scenario: Delete single and multiple transformed media, with cancel link
 
     # Using the transformed media from the

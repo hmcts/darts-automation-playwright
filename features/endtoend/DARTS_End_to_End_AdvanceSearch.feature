@@ -1,7 +1,7 @@
 @end2end @end2end6 @end2end_advanced_search @retry
 Feature: End-to-end Advance Search
 
-  @DMP-1927 @demo
+  @DMP-1927 @demo @sequential
   Scenario Outline: Advance Search for a case details created using Case and Courtlogs
     Given I create a case
       | courthouse   | courtroom   | case_number   | defendants   | judges   | prosecutors   | defenders   |
@@ -373,7 +373,7 @@ Feature: End-to-end Advance Search
       | JUDGE       | Harrow Crown Court | S{{seq}}082-B | S{{seq}} DEFENDANT-B082 | S{{seq}} JUDGE-B082 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}82 | SIT LOG-82-{{seq}}-B | {{timestamp}} | {{date+0/}} |
       | TRANSCRIBER | Harrow Crown Court | S{{seq}}083-B | S{{seq}} DEFENDANT-B083 | S{{seq}} JUDGE-B083 | S{{seq}} PROSECUTOR-B | S{{seq}} DEFENDER-B | C{{seq}}83 | SIT LOG-83-{{seq}}-B | {{timestamp}} | {{date+0/}} |
 
-  @DMP-1927 @demo
+  @DMP-1927 @demo @sequential
   Scenario Outline: Advance Search for a case details created using events
     Given I create a case
       | courthouse   | courtroom   | case_number   | defendants   | judges   | prosecutors   | defenders   |

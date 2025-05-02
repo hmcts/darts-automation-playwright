@@ -1,4 +1,4 @@
-const config = {
+const common = {
   import: ['src/**/*.ts'],
   format: [
     'json:functional-output/functional/cucumber-report.json',
@@ -15,8 +15,19 @@ const config = {
 };
 
 if (process.env.USE_ALLURE) {
-  config.format.push('./src/support/reporters/allure-reporter.ts');
+  common.format.push('./src/support/reporters/allure-reporter.ts');
 } else {
-  config.format.push('@cucumber/pretty-formatter');
+  common.format.push('@cucumber/pretty-formatter');
 }
-export default config;
+
+export default function() {
+  return {
+    default: {
+      ...common,
+      parallel: 5,
+    },
+    sequential: {
+      ...common,
+    },
+  }
+}

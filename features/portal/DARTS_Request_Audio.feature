@@ -2,7 +2,7 @@
 @portal @portal_request_audio
 Feature: Request Audio
 
-  @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-694 @DMP-1048 @DMP-2121 @DMP-2562 @DMP-4035 @regression
+  @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-694 @DMP-1048 @DMP-2121 @DMP-2562 @DMP-4035 @regression @sequential
   Scenario: Request Audio data creation
 
     Given I create a case
@@ -27,7 +27,7 @@ Feature: Request Audio
       | HARROW CROWN COURT | B{{seq}}-8 | B{{seq}}008  | {{date+0}} | 10:01:00  | 10:02:00 | sample1.mp2 |
       | HARROW CROWN COURT | B{{seq}}-9 | B{{seq}}009  | {{date+0}} | 10:01:00  | 10:02:00 | sample1.mp2 |
 
-  @DMP-2300 @regression
+  @DMP-2300 @regression @sequential
   Scenario: Audio is not available to preview message.
 
     #NOTE: DMP-2300 NEEDS TO RUN STRAIGHT AFTER THE DATA CREATION TO GET THE PREVIEW MESSAGE
@@ -45,7 +45,7 @@ Feature: Request Audio
     And I check the checkbox in the same row as "10:01:00 - 10:02:00" "Audio recording"
     Then I see "This audio is not currently available in DARTS, please try again later." on the page
 
-  @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-1048 @regression
+  @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-1048 @regression @sequential
   Scenario: Request Audio with Request Type Playback Only
 
     Given I am logged on to DARTS as a "transcriber" user
@@ -99,7 +99,7 @@ Feature: Request Audio
     And I see "We are preparing your audio." on the page
     And I see "When it is ready we will send an email to Transcriber and notify you in the DARTS application." on the page
 
-  @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-1048 @regression
+  @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-1048 @regression @sequential
   Scenario: Request Audio with Request Type Download
 
     Given I am logged on to DARTS as a "transcriber" user
@@ -154,7 +154,7 @@ Feature: Request Audio
     And I see "We are preparing your audio." on the page
     And I see "When it is ready we will send an email to Transcriber and notify you in the DARTS application." on the page
 
-  @DMP-685 @regression
+  @DMP-685 @regression @sequential
   Scenario: Request Audio Confirm your Order Cancel link
     Given I am logged on to DARTS as a "transcriber" user
     When I click on the "Search" link
@@ -175,7 +175,7 @@ Feature: Request Audio
     And I click on the "Cancel" link
     Then I see "B{{seq}}ABC-6" on the page
 
-  @DMP-685 @regression
+  @DMP-685 @regression @sequential
   Scenario: Request Audio Confirm Order Back link
     Given I am logged on to DARTS as a "transcriber" user
     When I click on the "Search" link
@@ -196,7 +196,7 @@ Feature: Request Audio
     And I click on the "Back" link
     Then I see "B{{seq}}ABC-6" on the page
 
-  @DMP-694 @regression
+  @DMP-694 @regression @sequential
   Scenario: Request Audio Error Messages
     Given I am logged on to DARTS as a "transcriber" user
     When I click on the "Search" link
@@ -214,7 +214,7 @@ Feature: Request Audio
     And I see "You must include an end time for your audio recording" on the page
     And I see "You must select a request type" on the page
 
-  @DMP-694 @regression
+  @DMP-694 @regression @sequential
   Scenario: Request Audio request type error message
     Given I am logged on to DARTS as a "transcriber" user
     When I click on the "Search" link
@@ -232,7 +232,7 @@ Feature: Request Audio
     And I press the "Get Audio" button
     Then I see "You must select a request type" on the page
 
-  @DMP-686 @regression
+  @DMP-686 @regression @sequential
   Scenario: Order Confirmation - Return to hearing date link
     Given I am logged on to DARTS as a "transcriber" user
     When I click on the "Search" link
@@ -256,7 +256,7 @@ Feature: Request Audio
     And I click on the "Return to hearing date" link
     And I see "B{{seq}}ABC-8" on the page
 
-  @DMP-686 @regression
+  @DMP-686 @regression @sequential
   Scenario: Order Confirmation - Back to search results link
     Given I am logged on to DARTS as a "transcriber" user
     When I click on the "Search" link
@@ -280,7 +280,7 @@ Feature: Request Audio
     And I click on the "Back to search results" link
     Then I see "Search for a case" on the page
 
-  @DMP-695 @regression
+  @DMP-695 @regression @sequential
   Scenario: Request Audio by setting Start Time and End Time
 
     #Manually enter in Start Time and End Time
@@ -327,7 +327,7 @@ Feature: Request Audio
     And I see "We are preparing your audio." on the page
     And I see "When it is ready we will send an email to Transcriber and notify you in the DARTS application." on the page
 
-  @DMP-658 @regression
+  @DMP-658 @regression @sequential
   Scenario Outline: Request Audio Events only available for hearing
     Given I am logged on to DARTS as an "external" user
     And I click on the "Search" link
@@ -384,7 +384,7 @@ Feature: Request Audio
       | CaseID   | Courthouse | Defendants | HearingDate | StartTime | EndTime  |
       | CASE1010 | Swansea    | Jow Bloggs | 16 Aug 2023 | 11:44:01  | 11:45:01 |
 
-  @DMP-692 @regression
+  @DMP-692 @regression @sequential
   Scenario Outline: Preview Audio Player Loading
     Given I am logged on to DARTS as an "external" user
     And I click on the "Search" link
@@ -413,7 +413,7 @@ Feature: Request Audio
       #    | 11:00:00  | 12:14:05 | Loading preview |
       | 15:00:00  | 15:01:00 | Loading preview |
 
-  @DMP-966 @regression
+  @DMP-966 @regression @sequential
   Scenario: Hearing table sorted with time
     Given I am logged on to DARTS as an "external" user
     And I click on the "Search" link
@@ -451,7 +451,7 @@ Feature: Request Audio
       | *NO-CHECK* | 11:33:23 - 11:33:23 | Audio recording      | No audio found. Preview not available. |
       | *NO-CHECK* | 11:00:00 - 12:14:05 | Audio recording      | Play preview                           |
 
-  @DMP-2121
+  @DMP-2121 @sequential
   Scenario: Update preview button on hearing screen
     Given I am logged on to DARTS as a "requester" user
     When I click on the "Search" link

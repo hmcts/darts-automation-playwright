@@ -1,7 +1,7 @@
 # TODO (DT): this feature isn't running due to the presence of the @review tag
 @DMP-4034 @DMP-4036 @regression @review
 Feature: Event Versioning
-
+ @sequential
   Scenario Outline: Event Versioning - 3 identical events
     Identical messages may be sent by XHIBIT / CPP if a successful response is not received.
     They should all be loaded into DARTS but only the latest should be displayed in the event details screens
@@ -34,7 +34,7 @@ Feature: Event Versioning
       | source | messageId | type | subType | eventId   | courthouse         | courtroom   | caseNumber  | eventText      | time     | event           |
       | XHIBIT | {{seq}}10 | 1100 |         | {{seq}}10 | HARROW CROWN COURT | B{{seq}}-21 | B{{seq}}021 | B{{seq}}ABC-21 | 10:11:00 | Hearing started |
       | CPP    | {{seq}}10 | 1100 |         | {{seq}}10 | HARROW CROWN COURT | B{{seq}}-31 | B{{seq}}031 | B{{seq}}ABC-31 | 10:21:00 | Hearing started |
-
+ @sequential
   Scenario Outline: Event Versioning - identical event id on 2 events
     Versioned event messages may be received from XHIBIT / CPP with the same event_id.
     They should all be loaded into DARTS but only the latest should be displayed in the event details screens
@@ -66,7 +66,7 @@ Feature: Event Versioning
       | source | messageId | type | subType | eventId   | courthouse         | courtroom   | caseNumber  | eventText      | time     | event           |
       | XHIBIT | {{seq}}2  | 1100 |         | {{seq}}21 | HARROW CROWN COURT | B{{seq}}-22 | B{{seq}}022 | B{{seq}}ABC-22 | 10:12:00 | Hearing started |
       | CPP    | {{seq}}2  | 1100 |         | {{seq}}21 | HARROW CROWN COURT | B{{seq}}-32 | B{{seq}}032 | B{{seq}}ABC-32 | 10:22:00 | Hearing started |
-
+ @sequential
   Scenario Outline: Event NON-Versioning - identical MESSAGE id on 2 events
     Multiple event messages with the same message_id but different event_id will all be loaded and treated as different events
 

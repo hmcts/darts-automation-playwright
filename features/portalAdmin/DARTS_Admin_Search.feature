@@ -1,7 +1,7 @@
 @admin @admin_search @retry
 Feature: Admin Search
 
-  @DMP-3129 @DMP-4532 @regression
+  @DMP-3129 @DMP-4532 @regression @sequential
   Scenario: Search Results - Cases
     When I am logged on to the admin portal as an "ADMIN" user
     #Filter by courthouse
@@ -136,7 +136,7 @@ Feature: Admin Search
       | T99662621 | Harrow Crown Court | GET99662  | test judge | test defendent1 |
       | T99662622 | Harrow Crown Court | GET99662  | test judge | test defendent2 |
 
-  @DMP-2728 @DMP-4257 @DMP-4573 @regression
+  @DMP-2728 @DMP-4257 @DMP-4573 @regression @sequential
   Scenario: Associated Audio files for deletion/hidden and unhidden
     When I am logged on to the admin portal as an "ADMIN" user
     And I set "Case ID" to "CASE1009"
@@ -236,7 +236,7 @@ Feature: Admin Search
     And I press the "Continue" button
     Then I see "Audio file(s) unhidden / unmarked for deletion" on the page
 
-  @DMP-3315 @DMP-4532 @regression
+  @DMP-3315 @DMP-4532 @regression @sequential
   Scenario: Hearings search results
     When I am logged on to the admin portal as an "ADMIN" user
     Then I see "Search" on the page
@@ -267,7 +267,7 @@ Feature: Admin Search
     And I click on "Courthouse" in the table header
     Then "Courthouse" has sort "ascending" icon
 
-  @DMP-2709 @DMP-3384
+  @DMP-2709 @DMP-3384 @sequential
   Scenario: Super Admin Audio file-Details page
     When I am logged on to the admin portal as a "SUPERUSER" user
     And I see "Search" on the page
@@ -286,7 +286,7 @@ Feature: Admin Search
     And I see "52849" on the page
     And I do not see " Hide or delete " on the page
 
-  @DMP-2709 @DMP-3384 @DMP-4263
+  @DMP-2709 @DMP-3384 @DMP-4263 @sequential
   Scenario: Admin Audio file-Details page
     When I am logged on to the admin portal as an "SUPERUSER" user
     And I see "Search" on the page
@@ -424,7 +424,7 @@ Feature: Admin Search
     Then I see "Audio hidden?" in the same row as "No"
     And I see " Hide or delete " on the page
 
-  @DMP-3317 @DMP-4532 @regression
+  @DMP-3317 @DMP-4532 @regression @sequential
   Scenario: Audio and events search results
     Given I am logged on to the admin portal as an "ADMIN" user
     Then I see "Search" on the page
@@ -478,7 +478,7 @@ Feature: Admin Search
     When I click on "Text" in the table header
     Then "Text" has sort "ascending" icon
 
-  @DMP-3309
+  @DMP-3309 @sequential
   Scenario: Event_ID Screen
     When I am logged on to the admin portal as an "ADMIN" user
     And I see "Search" on the page
@@ -525,7 +525,7 @@ Feature: Admin Search
     And I see "Date last modified" in the same row as "07 Nov 2024 at 10:23:48"
     And I see "Last modified by" in the same row as "System"
 
-  @DMP-3311 @DMP-4818 @regression
+  @DMP-3311 @DMP-4818 @regression @sequential
   Scenario: Event version screen - all versions of an event are correctly displayed
     Given I am logged on to the admin portal as an "ADMIN" user
     When I set "Filter by courthouse" to "Harrow Crown Court"
@@ -553,7 +553,7 @@ Feature: Admin Search
     Then I see "DarStartHandler" on the page
     And I see "Show versions" on the page
 
-  @DMP-4180 @DMP-3642 @DMP-3214 @DMP-3307 @DMP-3226 @regression
+  @DMP-4180 @DMP-3642 @DMP-3214 @DMP-3307 @DMP-3226 @regression @sequential
   Scenario: Basic case file screen, including case details, hearings, restrictions and additional case details
 
     Given I am logged on to the admin portal as an "ADMIN" user

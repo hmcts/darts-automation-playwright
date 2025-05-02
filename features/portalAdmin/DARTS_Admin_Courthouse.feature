@@ -1,7 +1,7 @@
 @admin @admin_courthouse
 Feature: Admin Courthouse
 
-  @DMP-2263 @DMP-635 @regression
+  @DMP-2263 @DMP-635 @regression @sequential
   Scenario: Create a Courthouse Page - Check Details
     Given I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Courthouses" link
@@ -49,7 +49,7 @@ Feature: Admin Courthouse
     Then I see "Created Test Display Name {{seq}}" on the page
     And I see "© Crown copyright" on the page
 
-  @DMP-1192 @regression @DMP-4209
+  @DMP-1192 @regression @DMP-4209 @sequential
   Scenario: View Courthouse - Details Tab
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Courthouses" link
@@ -91,7 +91,7 @@ Feature: Admin Courthouse
     And I see "© Crown copyright" on the page
 
   #TODO update to edit a different courthouse & save
-  @DMP-2263 @regression
+  @DMP-2263 @regression @sequential
   Scenario: Editing a courthouse - Check details
     When I am logged on to the admin portal as an "ADMIN" user
     #AC1- Review courthouse details
@@ -120,7 +120,7 @@ Feature: Admin Courthouse
     And I press the "Continue" button
     Then I see "Update courthouse" on the page
 
-  @DMP-725 @DMP-2269 @regression
+  @DMP-725 @DMP-2269 @regression @sequential
   Scenario: Search Courthouse
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Courthouses" link
@@ -198,7 +198,7 @@ Feature: Admin Courthouse
     Then I see "No search results" on the page
     And I see "No courthouses can be found with the search details provided. Review your search criteria and try again." on the page
 
-  @DMP-2931 @regression
+  @DMP-2931 @regression @sequential
   Scenario: Remove user role from courthouse, single and multiple, test cancel link
     Given I am logged on to the admin portal as an "ADMIN" user
     #Add users roles for test

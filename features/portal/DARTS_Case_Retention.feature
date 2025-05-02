@@ -2,7 +2,7 @@
 Feature: Case Retention
 
   @DMP-1369 @DMP-1406 @DMP-1413 @DMP-1899
-  @data-creation
+  @data-creation @sequential
   Scenario: Case retention data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants     | judges           | prosecutors               | defenders               |
@@ -21,7 +21,7 @@ Feature: Case Retention
       | {{seq}}001 | 1100 |          | {{seq}}172 | HARROW CROWN COURT | {{seq}}-33 | R{{seq}}KL1  | {{seq}}ABC-33 | {{timestamp-10:05:00}} |
       | {{seq}}001 | 1100 |          | {{seq}}173 | HARROW CROWN COURT | {{seq}}-34 | R{{seq}}MN1  | {{seq}}ABC-34 | {{timestamp-10:06:00}} |
 
-  @DMP-1406 @DMP-1899 @DMP-1369 @DMP-2161 @DMP-1437 @DMP-1439
+  @DMP-1406 @DMP-1899 @DMP-1369 @DMP-2161 @DMP-1437 @DMP-1439 @sequential
   Scenario Outline: Case Retention Date - Case Details, Current retention details, audit history
     #Case is open
     Given I am logged on to DARTS as a "JUDGE" user
@@ -188,7 +188,7 @@ Feature: Case Retention
       | R{{seq}}IJ1 | 3             | 3Y0M0D        | Custodial             | {{displayDate0-{{date+7 years}}}} | {{seq}}-32 | 32  |
       | R{{seq}}KL1 | 3             | 8Y0M0D        | Custodial             | {{displayDate0-{{date+8 years}}}} | {{seq}}-33 | 33  |
 
-  @DMP-1406 @DMP-1899 @DMP-1369 @DMP-2161 @DMP-1437 @DMP-1439
+  @DMP-1406 @DMP-1899 @DMP-1369 @DMP-2161 @DMP-1437 @DMP-1439 @sequential
   Scenario Outline: Case Retention Date - Case Details, Current retention details, audit history LIFE SENTENCE
     #Case is open
     Given I am logged on to DARTS as a "JUDGE" user
@@ -307,7 +307,7 @@ Feature: Case Retention
       | case_number | caseRetention | totalSentence | retention_displayname | display_retentiondate              | courtroom  | ref |
       | R{{seq}}MN1 | 4             | 99Y0M0D       | Life                  | {{displayDate0-{{date+99 years}}}} | {{seq}}-34 | 34  |
 
-  @DMP-1413
+  @DMP-1413 @sequential
   Scenario: Change Retention Date by increasing it with specific date
     Given I create a case
       | courthouse         | courtroom  | case_number  | defendants     | judges           | prosecutors               | defenders               |

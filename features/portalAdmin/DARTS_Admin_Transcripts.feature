@@ -1,7 +1,7 @@
 @admin @admin_transcripts
 Feature: Admin portal transcripts
 
-  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression
+  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression @sequential
   Scenario: Admin change transcription status data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors               | defenders               |
@@ -37,7 +37,7 @@ Feature: Admin portal transcripts
       | HARROW CROWN COURT | {{seq}}-44 | G{{seq}}005  | {{date+0}} | 12:30:00  | 12:31:00 | sample1.mp2 |
       | HARROW CROWN COURT | {{seq}}-45 | G{{seq}}006  | {{date+0}} | 13:00:00  | 13:01:00 | sample1.mp2 |
 
-  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression
+  @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression @sequential
   Scenario: Change manual transcription status
 
     Given I am logged on to DARTS as a "REQUESTER" user
@@ -613,7 +613,7 @@ Feature: Admin portal transcripts
 
   #Case 5: With transcriber -> Closed
 
-  @DMP-4239 @DMP-4243 @regression
+  @DMP-4239 @DMP-4243 @regression @sequential
   Scenario: Delete transcript functionality for admin users
 
     #AG: Piggybacks from previous scenario, if test flakes, might need to set up the transcript as part of this scenario instead
@@ -709,7 +709,7 @@ Feature: Admin portal transcripts
     Then I see "Transcript file deleted" on the page
     And I do not see "{{seq}}-43" on the page
 
-  @DMP-3139 @DMP-3469 @DMP-3406 @DMP-3564 @DMP-3565
+  @DMP-3139 @DMP-3469 @DMP-3406 @DMP-3564 @DMP-3565 @sequential
   Scenario: Transcript advanced search
     When I am logged on to the admin portal as an "ADMIN" user
     And I click on the "Transcripts" link

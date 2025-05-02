@@ -1,6 +1,6 @@
 Feature: Annotation
 
-  @DMP-1614 @DMP-1616 @DMP-1612 @DMP-1508 @DMP-1508-AC7-AC8 @DMP-1508-AC8-Approver @DMP-1623 @DMP-1552-AC1-AC4-AC7 @DMP-1552-AC9 @DMP-2246 @DMP-2639-AC1 @regression
+  @DMP-1614 @DMP-1616 @DMP-1612 @DMP-1508 @DMP-1508-AC7-AC8 @DMP-1508-AC8-Approver @DMP-1623 @DMP-1552-AC1-AC4-AC7 @DMP-1552-AC9 @DMP-2246 @DMP-2639-AC1 @regression @sequential
   Scenario: Annotation data creation
     Given I create a case
       | courthouse         | case_number | defendants     | judges           | prosecutors            | defenders            |
@@ -31,7 +31,7 @@ Feature: Annotation
       | {{seq}}001 | 1100 |          | {{seq}}167 | HARROW CROWN COURT | {{seq}}-38 | K{{seq}}011  | {{seq}}KH1 | {{timestamp-10:00:00}} |                             |                     |
       | {{seq}}001 | 1100 |          | {{seq}}167 | HARROW CROWN COURT | {{seq}}-39 | K{{seq}}012  | {{seq}}KH1 | {{timestamp-10:00:00}} |                             |                     |
 
-  @DMP-1614 @regression
+  @DMP-1614 @regression @sequential
   Scenario: Annotation template
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -44,7 +44,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     And I press the "Download annotation template" button
 
-  @DMP-1616 @regression
+  @DMP-1616 @regression @sequential
   Scenario: Add annotation screen
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -65,7 +65,7 @@ Feature: Annotation
   #And I set "Comments" to "AC3"
   #Then I see "You have 197 characters remaining" on the page
 
-  @DMP-1612 @regression
+  @DMP-1612 @regression @sequential
   Scenario: Delete annotation screen
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -95,7 +95,7 @@ Feature: Annotation
     And I see "Are you sure you want to delete this item?" on the page
     Then I press the "Yes - delete" button
 
-  @DMP-1508 @regression
+  @DMP-1508 @regression @sequential
   Scenario: Add All Annotations to Case File screen
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -126,7 +126,7 @@ Feature: Annotation
     And I click on the "{{displaydate}}" link
     Then I see "Upload annotation" on the page
 
-  @DMP-1508-AC7-AC8 @regression
+  @DMP-1508-AC7-AC8 @regression @sequential
   Scenario: 1508 No annotations for a case (or visible for a particular judge user)
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -138,7 +138,7 @@ Feature: Annotation
     And I click on the "All annotations" link
     Then I see "There are no annotations for this case. Annotations added to hearings will be listed here." on the page
 
-  @DMP-1508-AC8-Approver @regression
+  @DMP-1508-AC8-Approver @regression @sequential
   Scenario: All other users cannot see annotations
 
     Given I am logged on to DARTS as an "Approver" user
@@ -149,7 +149,7 @@ Feature: Annotation
     And I click on the "K{{seq}}007" link
     Then I do not see "All annotations" on the page
 
-  @DMP-1623 @regression
+  @DMP-1623 @regression @sequential
   Scenario: Add annotation confirmation screen
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -166,7 +166,7 @@ Feature: Annotation
     And I press the "Upload" button with exact name
     Then I see "You have added an annotation" on the page
 
-  @DMP-1552-AC1-AC4-AC7 @regression
+  @DMP-1552-AC1-AC4-AC7 @regression @sequential
   Scenario: Add Annotations to Hearing details screen
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -195,7 +195,7 @@ Feature: Annotation
     #AC7 Judge/Admin can download individual document
     Then I click on the "Download" link
 
-  @DMP-1552-AC9 @regression
+  @DMP-1552-AC9 @regression @sequential
   Scenario:  No annotations for a case (or visible for a particular judge user)
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -209,7 +209,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     Then I see "There are no annotations for this hearing." on the page
 
-  @DMP-2246 @regression
+  @DMP-2246 @regression @sequential
   Scenario: Download Annotation Document
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -229,7 +229,7 @@ Feature: Annotation
     And I click on the "Annotations" link
     Then I click on the "Download" link
 
-  @DMP-2456 @regression
+  @DMP-2456 @regression @sequential
   Scenario: Delete annotation from case screen
 
     Given I am logged on to DARTS as a "JUDGE" user
@@ -260,7 +260,7 @@ Feature: Annotation
     And I see "Are you sure you want to delete this item?" on the page
     Then I press the "Yes - delete" button
 
-  @DMP-2639 @regression
+  @DMP-2639 @regression @sequential
   Scenario: Fetch annotations for super admin
 
     Given I am logged on to DARTS as a "ADMIN" user
