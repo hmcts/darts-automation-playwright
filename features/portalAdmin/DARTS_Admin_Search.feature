@@ -638,7 +638,7 @@ Feature: Admin Search
     And I set "Case ID" to "C161466005"
     And I select the "Hearings" radio button
     And I press the "Search" button
-    And I click on the "C161466005" link
+    And I click on the "13/03/2025" link
     Then I see "Hearing details" on the page
     And I see "C161466005" in summary row for "Case ID"
     And I see "Harrow Crown Court" in summary row for "Courthouse"
