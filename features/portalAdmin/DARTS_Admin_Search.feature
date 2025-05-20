@@ -27,19 +27,18 @@ Feature: Admin Search
       | CASE1009 | Swansea    | Multiple  | Mr Judge | Jow Bloggs   |
 
     When I click on the "Hearings" link
-    And I click on "Courtroom" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Hearing date | Courthouse                  | Courtroom       |
-      | CASE1009 | 01/01/2023   | Swansea                     | CR1             |
-      | CASE1009 | 07/12/2023   | Swansea                     | ROOM_A          |
-      | CASE1009 | 05/12/2023   | Swansea                     | ROOM_A          |
-      | CASE1009 | 19/09/2023   | Swansea                     | ROOM_A          |
-      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A          |
       | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A          |
+      | CASE1009 | 01/01/2023   | Swansea                     | CR1             |
+      | CASE1009 | 05/12/2023   | Swansea                     | ROOMA           |
+      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A          |
+      | CASE1009 | 19/09/2023   | Swansea                     | ROOM_A          |
+      | CASE1009 | 05/12/2023   | Swansea                     | ROOM_A          |
+      | CASE1009 | 07/12/2023   | Swansea                     | ROOM_A          |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434     |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_XYZ        |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_XYZHHIHIHI |
-      | CASE1009 | 05/12/2023   | Swansea                     | ROOMA           |
 
     When I click on the "Cases" link
     And I click on "Courthouse" in the table header
@@ -70,13 +69,12 @@ Feature: Admin Search
       | CASE1009 | Swansea            | Multiple  | Mr Judge | Jow Bloggs   |
 
     When I click on the "Hearings" link
-    And I click on "Courthouse" in the table header
     Then I verify the HTML table contains the following values
       | Case ID  | Hearing date | Courthouse                  | Courtroom   |
       | CASE1009 | 15/08/2023   | Leeds Combined Court Centre | ROOM_A      |
-      | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
-      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
       | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A      |
+      | CASE1009 | 15/08/2023   | Swansea                     | ROOM_A12434 |
+      | 141      | 15/08/2023   | Liverpool                   | ROOM_A      |
 
     When I click on the "Cases" link
     And I click on "Courthouse" in the table header
