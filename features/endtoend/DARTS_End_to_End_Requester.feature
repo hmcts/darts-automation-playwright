@@ -47,6 +47,7 @@ Feature: End-to-end Requester
     And I use the Audio Request ID
     #Duplicate audio request
     When I click on the "Return to hearing date" link
+    And I check the checkbox in the same row as "<startTime> - <endTime>" "Audio recording"
     And  I press the "Get Audio" button
     Then I see "Confirm your Order" on the page
     When I press the "Confirm" button

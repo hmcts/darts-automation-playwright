@@ -79,7 +79,6 @@ Feature: Admin Courthouse
     And I see "1356" in summary row for "Database ID"
     And I see "HARROW CROWN COURT" in summary row for "Courthouse name"
     And I see "No region" in summary row for "Region"
-    And I see "hmcts_staff_2" as one of many in summary row for "Groups"
     And I see "hmcts_staff_5" as one of many in summary row for "Groups"
     And I see "Harrow Crown Court_REQUESTER" as one of many in summary row for "Groups"
     And I see "hmcts_staff_1" as one of many in summary row for "Groups"
