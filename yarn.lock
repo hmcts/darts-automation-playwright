@@ -468,7 +468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cucumber/messages@npm:>=19.1.4 <=26, @cucumber/messages@npm:^26.0.1":
+"@cucumber/messages@npm:>=19.1.4 <=26":
   version: 26.0.1
   resolution: "@cucumber/messages@npm:26.0.1"
   dependencies:
@@ -489,6 +489,18 @@ __metadata:
     reflect-metadata: 0.1.13
     uuid: 9.0.0
   checksum: 54981faf2a742bbd3a556e005b31bca1b05477414028360574d85b5ffb31d6dc5af9d8854126210271820a0edac6beea3258eb5dfce0fad0dc97c3517d31c890
+  languageName: node
+  linkType: hard
+
+"@cucumber/messages@npm:^27.0.0":
+  version: 27.2.0
+  resolution: "@cucumber/messages@npm:27.2.0"
+  dependencies:
+    "@types/uuid": 10.0.0
+    class-transformer: 0.5.1
+    reflect-metadata: 0.2.2
+    uuid: 11.0.5
+  checksum: 7aab8fae381729cded601ee5fae2400dbb36b1ddf9b2605735d9c2f70e1acb51ce26a3d1c2347c87912f8343e2d1f8d7177157bd15d6612895abad3caceb024f
   languageName: node
   linkType: hard
 
@@ -1873,7 +1885,7 @@ __metadata:
     "@azure/storage-blob": ^12.26.0
     "@cucumber/cucumber": 11.3.0
     "@cucumber/html-formatter": 21.10.1
-    "@cucumber/messages": ^26.0.1
+    "@cucumber/messages": ^27.0.0
     "@cucumber/pretty-formatter": 1.0.1
     "@eslint/eslintrc": ^3.2.0
     "@eslint/js": ^9.17.0
