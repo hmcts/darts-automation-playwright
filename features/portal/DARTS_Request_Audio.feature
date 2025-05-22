@@ -97,7 +97,7 @@ Feature: Request Audio
     And I see "10:01:00" on the page
     And I see "10:02:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Transcriber and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.transcriber@hmcts.net and notify you in the DARTS application." on the page
 
   @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-1048 @regression @sequential
   Scenario: Request Audio with Request Type Download
@@ -152,7 +152,7 @@ Feature: Request Audio
     And I see "10:01:00" on the page
     And I see "10:02:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Transcriber and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.transcriber@hmcts.net and notify you in the DARTS application." on the page
 
   @DMP-685 @regression @sequential
   Scenario: Request Audio Confirm your Order Cancel link
@@ -325,7 +325,7 @@ Feature: Request Audio
     And I see "10:01:00" on the page
     And I see "10:02:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Transcriber and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.transcriber@hmcts.net and notify you in the DARTS application." on the page
 
   @DMP-658 @regression @sequential
   Scenario Outline: Request Audio Events only available for hearing

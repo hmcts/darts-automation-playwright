@@ -274,7 +274,7 @@ Feature: Super User Permission
     And I see "10:30:00" on the page
     And I see "10:31:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to DartsSuperUser and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.superuser@hmcts.net and notify you in the DARTS application." on the page
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
@@ -488,7 +488,7 @@ Feature: Super User Permission
     And I see "10:30:00" on the page
     And I see "10:31:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Darts Admin and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.admin@hmcts.net and notify you in the DARTS application." on the page
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
@@ -518,7 +518,7 @@ Feature: Super User Permission
     And I see "10:30:00" on the page
     And I see "10:31:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Darts Admin and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.admin@hmcts.net and notify you in the DARTS application." on the page
 
   @DMP-3810 @sequential
   Scenario: Can search for cases / audio / events / hearings
@@ -555,7 +555,7 @@ Feature: Super User Permission
     Then I select the "Audio" radio button
     And I press the "Search" button
     And I see "A{{seq}}-1" in the same row as "Harrow Crown Court"
- @sequential
+  @sequential
   Scenario Outline: Users
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link
@@ -594,7 +594,7 @@ Feature: Super User Permission
     Examples:
       | user_name | user_email_address |
       | DMP 3810  | DMP3810@hmcts.net  |
- @sequential
+  @sequential
   Scenario: Courthouses
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link
@@ -637,7 +637,7 @@ Feature: Super User Permission
     And I see "Transformed media" on the page
     And I see "Owner" in the same row as "DartsSuperUser (darts.superuser@hmcts.net)"
     And I do not see link with text "Change"
- @sequential
+  @sequential
   Scenario: Audio (accessed via search audio)
     Given I am logged on to DARTS as a "SUPERUSER" user
     And I click on the "Admin portal" link
