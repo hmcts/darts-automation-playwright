@@ -1,7 +1,7 @@
-import { ICustomWorld } from '../../support/custom-world';
-import { Given, When, Then } from '@cucumber/cucumber';
-import { LoginPage } from '../../page-objects/login';
+import { Given, Then, When } from '@cucumber/cucumber';
 import { BasePage, ExternalLoginPage } from '../../page-objects';
+import { LoginPage } from '../../page-objects/login';
+import { ICustomWorld } from '../../support/custom-world';
 import { DataTable } from '../../support/data-table';
 import { substituteValue } from '../../support/substitution';
 import wait from '../../support/wait';
@@ -626,4 +626,9 @@ Given('I reactivate user {string}', async function (this: ICustomWorld, username
     await basePage.clickButton('Reactivate user');
     await basePage.containsText('User record activated');
   }
+});
+
+Given('I click on the first link in the results table', async function (this: ICustomWorld) {
+  const basePage = new BasePage(this.page!);
+  await basePage.clickFirstTableLink();
 });

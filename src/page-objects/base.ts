@@ -2,8 +2,8 @@ import { expect, type Page } from '@playwright/test';
 import cache from 'memory-cache';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { substituteValue } from '../support/substitution';
 import { config } from '../support/config';
+import { substituteValue } from '../support/substitution';
 import wait from '../support/wait';
 
 export class BasePage {
@@ -434,5 +434,11 @@ export class BasePage {
     const content = await this.page!.locator('#search-results .govuk-table__caption').textContent();
     const resultCount = parseInt(content?.trim().split(' ')[0] as string, 10);
     expect(resultCount).toBeGreaterThanOrEqual(count);
+  }
+
+  async clickFirstTableLink() {
+    const firstLink = this.page.locator('table.govuk-table tbody tr td a.govuk-link').first();
+    await expect(firstLink).toBeVisible({ timeout: 5000 });
+    await firstLink.click();
   }
 }
