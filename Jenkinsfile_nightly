@@ -105,8 +105,6 @@ withNightlyPipeline(type, product, component) {
   }
 
   before('fullFunctionalTest') {
-    // Using manual uploads until https://tools.hmcts.net/jira/browse/DMP-4992 is fixed
-    env.AUDIO_MANUAL_UPLOAD = true
     // only run tags where the @smoketest, @regression or @end2end tag also exists
     // this prevents running tests which are not defined
     env.INCLUDE_TAGS = '(@smoketest or @regression or @end2end)';
