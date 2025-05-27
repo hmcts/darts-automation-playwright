@@ -6,6 +6,22 @@ properties([
       name: 'INCLUDE_TAGS',
       defaultValue: '@smoketest',
       description: 'The cucumber tags to run, defaults to @smoketest. Uses cucumber tag expressions, see https://cucumber.io/docs/cucumber/api/#tag-expressions'
+    ),
+    string(
+      name: 'DARTS_PORTAL_URL',
+      defaultValue: 'https://darts.staging.apps.hmcts.net',
+    ),
+    string(
+      name: 'DARTS_API_URL',
+      defaultValue: 'https://darts-api.staging.platform.hmcts.net',
+    ),
+    string(
+      name: 'DARTS_TEST_HARNESS_URL',
+      defaultValue: 'http://darts-external-component-test-harness.staging.platform.hmcts.net',
+    ),
+    string(
+      name: 'DARTS_GATEWAY_URL',
+      defaultValue: 'http://darts-gateway.staging.platform.hmcts.net',
     )
   ])
 ])
@@ -95,6 +111,12 @@ def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 // we are only using the "withNightlyPipeline" function here as it better suits the steps we require e.g. check, build and functional tests
 // but rest assured this will not run nightly, that is defined by the "Jenkinsfile_nightly"
 withNightlyPipeline(type, product, component) {
+  env.DARTS_PORTAL = params.DARTS_PORTAL_URL
+  env.DARTS_GATEWAY = params.DARTS_GATEWAY_URL
+  env.DARTS_API = params.DARTS_API_URL
+  env.DARTS_TEST_HARNESS = params.DARTS_TEST_HARNESS_URL
+
+
   loadVaultSecrets(secrets)
   enableFullFunctionalTest(90)
   enableSlackNotifications('#darts-builds')
