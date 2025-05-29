@@ -3822,9 +3822,9 @@ __metadata:
   linkType: hard
 
 "postgres@npm:^3.4.5":
-  version: 3.4.5
-  resolution: "postgres@npm:3.4.5"
-  checksum: 9dd2b2c612cb4a82e750f9773b6bf1411f540bc3c07b17d8943fea0dc4d95e59ee4ffb664f50c4b75a73815740cf4b1cf7dab7593612c7e769d1bf5c3adf5532
+  version: 3.4.7
+  resolution: "postgres@npm:3.4.7"
+  checksum: 27c0d9812231007af174c0ddf5e2c96d2ee28230d044ede1b4c52f40918b7089b014591e6e6087d2cf3ff74bc80fece95461a56221d61938a2b4c200fe7dd163
   languageName: node
   linkType: hard
 
