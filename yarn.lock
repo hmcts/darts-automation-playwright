@@ -421,6 +421,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cucumber/html-formatter@npm:21.11.0":
+  version: 21.11.0
+  resolution: "@cucumber/html-formatter@npm:21.11.0"
+  peerDependencies:
+    "@cucumber/messages": ">=18"
+  checksum: aecbdbc096d5aff4851f7a8c980f5df9b3dce1350e86bbe6d26f8d4a6953d92ba1659c829f6d679d8325d2c11c158b3a7ee67aeccdcc7e5a95b2a501ff448d6f
+  languageName: node
+  linkType: hard
+
 "@cucumber/junit-xml-formatter@npm:0.7.1":
   version: 0.7.1
   resolution: "@cucumber/junit-xml-formatter@npm:0.7.1"
@@ -1872,7 +1881,7 @@ __metadata:
   dependencies:
     "@azure/storage-blob": ^12.26.0
     "@cucumber/cucumber": 11.3.0
-    "@cucumber/html-formatter": 21.10.1
+    "@cucumber/html-formatter": 21.11.0
     "@cucumber/messages": ^26.0.1
     "@cucumber/pretty-formatter": 1.0.1
     "@eslint/eslintrc": ^3.2.0
