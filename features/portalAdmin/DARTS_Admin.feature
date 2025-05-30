@@ -1,6 +1,6 @@
 Feature: Admin portal
 
-  @DMP-4442 @sequential
+  @DMP-4442 @DMP-4238 @sequential @regression
   Scenario: Data creation for Audio file deletion
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors               | defenders               |
@@ -360,180 +360,29 @@ Feature: Admin portal
       | courthouse         | courtroom  | caseId      | startTime | endTime  |
       | Harrow Crown Court | B{{seq}}-6 | B{{seq}}006 | 10:01:00  | 10:02:00 |
 
-  @DMP-4035 @regression @review @sequential
-  Scenario Outline: Admin user can delete audio
-    Given I am logged on to the admin portal as an "Admin" user
-    And I select column "med_id" from table "CASE_AUDIO" where "cas.case_number" = "<caseId>" and "courthouse_name" = "<courthouse>"
-    And I click on the "Search" link
-    And I see "You can search for cases, hearings, events and audio." on the page
-    And I set "Case ID" to "<caseId>"
-    And I press the "Search" button
-    And I click on the "Audio" link
-    Then I verify the HTML table contains the following values
-      | Audio ID   | Courthouse   | Courtroom   | Start Time                      | End Time                      | Channel | Hidden |
-      | {{med_id}} | <courthouse> | <courtroom> | {{displaydate0}} at <startTime> | {{displaydate0}} at <endTime> | 1       | No     |
-
-    When I click on the "{{med_id}}" link
-    And I press the "Hide or delete" button
-    And I press the "Hide or delete" button
-    Then I see "Select a reason for hiding and/or deleting the file" on the page
-
-    When I select the "<reason>" radio button
-    And I press the "Hide or delete" button
-    Then I see "Enter a ticket reference" on the page
-
-    When I set "Enter ticket reference" to "<ticketNo>"
-    And I press the "Hide or delete" button
-    Then I see "Provide details relating to this action" on the page
-
-    When I set "Comments" to "DMP-4035"
-    Then I see "You have 248 characters remaining" on the page
-    When I press the "Hide or delete" button
-    Then I see "Files successfully hidden or marked for deletion" on the page
-    And I see "Check for associated files" on the page
-    And I see "There may be other associated audio or transcript files that also need hiding or deleting." on the page
-    When I press the "Continue" button
-    Then I see "Important" on the page
-    And I see "This file is hidden in DARTS and is marked for manual deletion" on the page
-    And I see "DARTS user cannot view this file. You can unmark for deletion and it will no longer be hidden." on the page
-    And I see "Marked for manual deletion by - Darts Admin" on the page
-    And I see "Reason - <reason>" on the page
-    And I see "<ticketNo> - DMP-4035" on the page
-
-    When I click on the "Back" link
-    And I press the "Search" button
-    Then I verify the HTML table contains the following values
-      | Audio ID   | Courthouse   | Courtroom   | Start Time                      | End Time                      | Channel | Hidden |
-      | {{med_id}} | <courthouse> | <courtroom> | {{displaydate0}} at <startTime> | {{displaydate0}} at <endTime> | 1       | Yes    |
-
-    When I Sign out
-    Then I see "Sign in to the DARTS Portal" on the page
-
-    When I am logged on to DARTS as a "requester" user
-    And I set "Case ID" to "<caseId>"
-    And I press the "Search" button
-    And I click on the "<caseId>" link
-    And I click on the "{{displaydate}}" link
-    Then I see "Events and audio recordings" on the page
-    Then I see "There is no audio for this hearing date" on the page
-
-    When I Sign out
-    Then I see "Sign in to the DARTS Portal" on the page
-
-    When I am logged on to the admin portal as an "Admin" user
-    And I select column "med_id" from table "CASE_AUDIO" where "cas.case_number" = "<caseId>" and "courthouse_name" = "<courthouse>"
-    And I click on the "Search" link
-    And I see "You can search for cases, hearings, events and audio." on the page
-    And I set "Case ID" to "<caseId>"
-    And I press the "Search" button
-    And I click on the "Audio" link
-    Then I verify the HTML table contains the following values
-      | Audio ID   | Courthouse   | Courtroom   | Start Time                      | End Time                      | Channel | Hidden |
-      | {{med_id}} | <courthouse> | <courtroom> | {{displaydate0}} at <startTime> | {{displaydate0}} at <endTime> | 1       | Yes    |
-
-    When I select column "hea_id" from table "CASE_HEARING" where "courthouse_name" = "<courthouse>" and "courtroom_name" = "<courtroom>" and "case_number" = "<caseId>"
-    And I get audios for hearing "{{hea_id}}"
-    #		Then I see "" in the json response is ""
-
-    When I click on the "{{med_id}}" link
-    And I press the "Unmark for deletion and unhide" button
-    And I click on the "Back" link
-    And I press the "Search" button
-    Then I verify the HTML table contains the following values
-      | Audio ID   | Courthouse   | Courtroom   | Start Time                      | End Time                      | Channel | Hidden |
-      | {{med_id}} | <courthouse> | <courtroom> | {{displaydate0}} at <startTime> | {{displaydate0}} at <endTime> | 1       | No     |
-
-    When I Sign out
-    Then I see "Sign in to the DARTS Portal" on the page
-
-    When I am logged on to DARTS as a "requester" user
-    And I set "Case ID" to "<caseId>"
-    And I press the "Search" button
-    And I click on the "<caseId>" link
-    And I click on the "{{displaydate}}" link
-    Then I see "Events and audio recordings" on the page
-    Then I verify the HTML table contains the following values
-      | *NO-CHECK* | Time                    | Event           | Text       |
-      | *NO-CHECK* | 10:00:00                | Hearing started | <text>     |
-      | *NO-CHECK* | <startTime> - <endTime> | *NO-CHECK*      | *NO-CHECK* |
-
-    Examples:
-      | courthouse         | courtroom  | caseId      | startTime | endTime  | reason                    | ticketNo    | text          |
-      | HARROW CROWN COURT | B{{seq}}-7 | B{{seq}}007 | 10:01:00  | 10:02:00 | Public interest immunity  | T{{seq}}007 | B{{seq}}ABC-7 |
-      | HARROW CROWN COURT | B{{seq}}-8 | B{{seq}}008 | 10:01:00  | 10:02:00 | Classified above official | T{{seq}}008 | B{{seq}}ABC-8 |
-      | HARROW CROWN COURT | B{{seq}}-9 | B{{seq}}009 | 10:01:00  | 10:02:00 | Other reason to delete    | T{{seq}}009 | B{{seq}}ABC-9 |
-
-  @DMP-3234 @sequential
-  Scenario: Add a link to "user portal" link to each admin portal screen
-    When I am logged on to the admin portal as an "ADMIN" user
-    Then I click on the "User portal" link
-    And I press the "back" button on my browser
-    And I click on the "Users" link
-    Then I click on the "User portal" link
-    And I press the "back" button on my browser
-    And I click on the "Groups" link
-    Then I click on the "User portal" link
-    And I press the "back" button on my browser
-    And I click on the "Courthouses" link
-    Then I click on the "User portal" link
-    And I press the "back" button on my browser
-    And I click on the "Transformed media" link
-    Then I click on the "User portal" link
-    And I press the "back" button on my browser
-    And I click on the "Transcripts" link
-    Then I click on the "User portal" link
-    And I press the "back" button on my browser
-    And I click on the "File deletion" link
-    Then I click on the "User portal" link
-    And I press the "back" button on my browser
-    And I click on the "System configuration" link
-    Then I click on the "User portal" link
-
-  @DMP-3235 @sequential
-  Scenario: Add a link to "Admin portal" to each DARTS portal screen
-    When I am logged on to the admin portal as an "ADMIN" user
-    Then I click on the "User portal" link
-    Then I click on the "Admin portal" link
-    Then I click on the "User portal" link
-    Then I click on the "Your audio" link
-    Then I click on the "Admin portal" link
-    Then I click on the "User portal" link
-    Then I click on the "Your transcripts" link
-    Then I click on the "Admin portal" link
-
-  # TODO (DT): This does not seem to be named correctly?
-  @DMP-4442 @sequential
-  Scenario: Data creation for Audio file deletion
-    Given I create a case
-      | courthouse         | courtroom  | case_number | defendants      | judges            | prosecutors               | defenders               |
-      | Harrow Crown Court | {{seq}}-47 | I{{seq}}001 | DefI {{seq}}-47 | JudgeI {{seq}}-47 | testprosecutorfourtyseven | testdefenderfourtyseven |
-
-    Given I authenticate from the "CPP" source system
-    Given I create an event
-      | message_id | type | sub_type | event_id   | courthouse         | courtroom  | case_numbers | event_text    | date_time              | case_retention_fixed_policy | case_total_sentence |
-      | {{seq}}001 | 1100 |          | {{seq}}075 | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{seq}}ABC-47 | {{timestamp-10:30:00}} |                             |                     |
-      | {{seq}}001 | 1200 |          | {{seq}}076 | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{seq}}GHI-47 | {{timestamp-10:31:00}} |                             |                     |
-
-    When I load an audio file
-      | courthouse         | courtroom  | case_numbers | date        | startTime | endTime  | audioFile   |
-      | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{date+0/}} | 10:30:00  | 10:31:00 | sample1.mp2 |
-
-  @DMP-4442 @DMP-4573 @sequential
+  @DMP-4442 @DMP-4573 @DMP-4238 @regression @sequential
   Scenario: Admin user can delete audio
     Given I am logged on to the admin portal as an "ADMIN" user
+    And I select column "med_id" from table "CASE_AUDIO" where "cas.case_number" = "I{{seq}}001" and "courthouse_name" = "HARROW CROWN COURT"
     And I set "Case ID" to "I{{seq}}001"
     And I select the "Audio" radio button
     And I press the "Search" button
-    And I click on "1" in the same row as "Harrow Crown Court"
+    And I click on "{{med_id}}" in the same row as "Harrow Crown Court"
     And I press the "Hide or delete" button
+    And I see "Hide or delete file" on the page
+    # checking for the hide/delete reasons
+    And I see "Public interest immunity" on the page
+    And I see "Classified above official" on the page
+    And I see "Other reason to delete" on the page
+    And I see "Other reason to hide only" on the page
+    # select PII as reason
     And I select the "Public interest immunity" radio button
     And I set "Enter ticket reference" to "A{{seq}}"
-    And I set "Comments" to "Rejecting audio deletion request" and click away
+    And I set "Comments" to "Rejecting audio deletion request"
     And I press the "Hide or delete" button
     Then I see "Files successfully hidden or marked for deletion" on the page
     And I see "Check for associated files" on the page
     And I see "There may be other associated audio or transcript files that also need hiding or deleting." on the page
-
     And I press the "Continue" button
     Then I see "This file is hidden in DARTS and is marked for manual deletion" on the page
     And I see "Marked for manual deletion by - Darts Admin" on the page
@@ -552,18 +401,17 @@ Feature: Admin portal
     And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-47"
     And I see "Delete audio file" on the page
     And I see "Audio file deletion details" on the page
-    And I see "Harrow Crown Court" in the same row as "Courthouse"
-    And I see "{{seq}}-47" in the same row as "Courtroom"
-    And I see "{{displaydate}} 10:30:00" in the same row as "Start time"
-    And I see "{{displaydate}} 10:31:00" in the same row as "End time"
-    And I see "Darts Admin" in the same row as "Marked by"
-    And I see "Public interest immunity" in the same row as "Deletion reason"
-    And I see "A{{seq}}" in the same row as "Ticket reference"
-    And I see "Rejecting audio deletion request" in the same row as "Comments"
-
+    And I see "Harrow Crown Court" in summary row for "Courthouse"
+    And I see "{{seq}}-47" in summary row for "Courtroom"
+    And I see "{{displaydate}} 10:30:00" in summary row for "Start time"
+    And I see "{{displaydate}} 10:31:00" in summary row for "End time"
+    And I see "Darts Admin" in summary row for "Marked by"
+    And I see "Public interest immunity" in summary row for "Deletion reason"
+    And I see "A{{seq}}" in summary row for "Ticket reference"
+    And I see "Rejecting audio deletion request" in summary row for "Comments"
     Then I verify the HTML table contains the following values
       | Audio ID   | Channel | Max channel | Is current? | No. of versions |
-      | *NO-CHECK* | 1       | 1           | Yes         | 1               |
+      | {{med_id}} | 1       | 1           | Yes         | 1               |
 
     And I see "By checking this box, you are confirming that you have reviewed all versions of the above audio" on the page
     And I see "file(s) marked to be deleted and understand that by deleting the audio file(s), all versions of the" on the page
@@ -581,12 +429,11 @@ Feature: Admin portal
     And I select the "Reject and unhide" radio button
     And I press the "Confirm" button
 
-    Then I see "There are other audio files associated with the file" on the page
-    And I see "you are unhiding/unmarking for deletion" on the page
+    Then I see "There are other audio files associated with the file you are unhiding/unmarking for deletion" on the page
     And I see "The files you are unhiding and/or unmarking for deletion" on the page
     Then I verify the HTML table contains the following values
       | *NO-CHECK* | Audio ID   | Courthouse         | Courtroom  | Start time               | End time                 | Channel number | Is current? |
-      | *NO-CHECK* | *NO-CHECK* | Harrow Crown Court | {{seq}}-47 | {{displaydate}} 10:30:00 | {{displaydate}} 10:31:00 | 1              | Yes         |
+      | *NO-CHECK* | {{med_id}} | Harrow Crown Court | {{seq}}-47 | {{displaydate}} 10:30:00 | {{displaydate}} 10:31:00 | 1              | Yes         |
 
     And I press the "Continue" button
     Then I see "Audio file(s) unhidden / unmarked for deletion" on the page
@@ -595,7 +442,7 @@ Feature: Admin portal
     And I press the "Hide or delete" button
     And I select the "Public interest immunity" radio button
     And I set "Enter ticket reference" to "A{{seq}}"
-    And I set "Comments" to "Approving audio deletion request" and click away
+    And I set "Comments" to "Approving audio deletion request"
     And I press the "Hide or delete" button
     Then I see "Files successfully hidden or marked for deletion" on the page
     And I see "Check for associated files" on the page
@@ -609,12 +456,11 @@ Feature: Admin portal
     And I Sign out
 
     #Sign in as an Admin to approve audio deletion request
-    And I am logged on to the admin portal as an ADMIN user
+    And I am logged on to the admin portal as an "ADMIN" user
     And I click on the "File deletion" link
     And I press the "Delete" button in the same row as "Harrow Crown Court" "{{seq}}-47"
     And I check the "By checking this box, you are confirming that you have reviewed all versions of the above audio" checkbox
     And I select the "Approve" radio button
     And I press the "Confirm" button
-
-    Then I see "Audio file deleted" on the page
+    Then I see "All versions of the audio file have been deleted" on the page
     And I do not see "{{seq}}-47" on the page
