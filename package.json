@@ -18,7 +18,7 @@
     "test:smoke": "npm run cucumber -- --tags @smoketest",
     "test:all": "npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
     "test:fullfunctional": "npm run cucumber",
-    "test:sequential": "npm run cucumber -p sequential",
+    "test:sequential": "npm run cucumber -- -p sequential",
     "test:sequential:smoke": "npm run cucumber -- --tags @smoketest -p sequential"
   },
   "engines": {
