@@ -23,11 +23,11 @@ export default class DartsTestHarness {
           startDate: DateTime.fromFormat(
             `${addAudioDetails.date} ${addAudioDetails.startTime}`,
             'y-MM-dd HH:mm:ss',
-          ).toISO(),
+          ).toFormat(`y-MM-dd'T'HH:mm:ss.SSS`),
           endDate: DateTime.fromFormat(
             `${addAudioDetails.date} ${addAudioDetails.endTime}`,
             'y-MM-dd HH:mm:ss',
-          ).toISO(),
+          ).toFormat(`y-MM-dd'T'HH:mm:ss.SSS`),
           channel: '1',
           maxChannels: '1',
           courthouse: addAudioDetails.courthouse,
