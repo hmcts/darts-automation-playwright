@@ -24,7 +24,7 @@ export default function() {
   return {
     default: {
       ...common,
-      parallel: 5,
+      parallel: 0, // Set to 0 as had problems with parallel execution
     },
     sequential: {
       ...common,
