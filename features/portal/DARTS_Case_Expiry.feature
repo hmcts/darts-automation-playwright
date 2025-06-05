@@ -7,7 +7,7 @@ Feature: Case Expiry
   Scenario: Case Expiry data creation
     Given I create a case
       | courthouse         | courtroom  | case_number | defendants     | judges          | prosecutors    | defenders    |
-      | HARROW CROWN COURT | A{{seq}}-1 | A{{seq}}001 | Def A{{seq}}-1 | JUDGE {{seq}}-1 | testprosecutor | testdefender |
+      | HARROW CROWN COURT | J{{seq}}-1 | J{{seq}}001 | Def J{{seq}}-1 | JUDGE {{seq}}-1 | testprosecutor | testdefender |
     Given I create an event
       | message_id | type | sub_type | event_id   | courthouse         | courtroom  | case_numbers | event_text    | date_time              | case_retention_fixed_policy | case_total_sentence |
       | {{seq}}001 | 1100 |          | {{seq}}800 | HARROW CROWN COURT | A{{seq}}-1 | A{{seq}}001  | A{{seq}}ABC-1 | {{timestamp-10:00:00}} |                             |                     |
