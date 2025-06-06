@@ -186,7 +186,7 @@ Feature: Language Shop User
     And I see "16:00:00" on the page
     And I see "16:02:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Language Shop and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.languageshop@hmcts.net and notify you in the DARTS application." on the page
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
@@ -350,7 +350,7 @@ Feature: Language Shop User
     And I see "12:30:17" on the page
     And I see "12:35:30" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Language Shop and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.languageshop@hmcts.net and notify you in the DARTS application." on the page
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
@@ -514,7 +514,7 @@ Feature: Language Shop User
     And I see "12:30:17" on the page
     And I see "12:35:30" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Language Shop and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.languageshop@hmcts.net and notify you in the DARTS application." on the page
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
