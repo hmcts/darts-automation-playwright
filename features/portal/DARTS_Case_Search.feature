@@ -208,6 +208,11 @@ Feature: Case Search
     Then I see an error message "You must also enter a courthouse"
 
     When I click on the "Clear search" link
+    And I set "Case ID" to "D710458002D710458002D710458002D710458002"
+    And I press the "Search" button
+    Then I see an error message "Case ID must be less than or equal to 32 characters"
+
+    When I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I select the "Specific date" radio button
     And I set "Enter a specific date" to "{{date+3/}}"

@@ -1,6 +1,18 @@
 @admin @admin_search @retry
 Feature: Admin Search
 
+@regression @sequential
+  Scenario: Search validation
+    When I am logged on to the admin portal as an "ADMIN" user
+    #Input validation
+    Then I see "Search" on the page
+    When I set "Case ID" to "123456789112345678911234567891111"
+    And I press the "Search" button
+    Then I see an error message "Case ID must be less than or equal to 32 characters"
+    When I set "Courtroom" to "123456789112345678911234567891111123456789112345678911234567891111"
+    And I press the "Search" button
+    Then I see an error message "Courtroom name must be less than or equal to 64 characters"
+
   @DMP-3129 @DMP-4532 @regression @sequential
   Scenario: Search Results - Cases
     When I am logged on to the admin portal as an "ADMIN" user
