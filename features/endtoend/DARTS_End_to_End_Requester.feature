@@ -97,6 +97,7 @@ Feature: End-to-end Requester
     When I am logged on to DARTS as a "APPROVER" user
     Then I see "Search for a case" on the page
     Then I click on the "Your transcripts" link
+    Then I click on the "Transcript requests to authorise" link
     Then I see "Requests to approve or reject" on the page
     Then I click on "View" in the same row as "<case_number>"
     And I see "Do you approve this request?" on the page
