@@ -245,7 +245,7 @@ Feature: Admin portal transcripts
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
-    #And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "View" in the same row as "G{{seq}}003"
     And I see "This transcript request is for approved to closed scenario" in summary row for "Instructions"
     And I select the "Yes" radio button

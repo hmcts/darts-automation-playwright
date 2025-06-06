@@ -651,6 +651,7 @@ Feature: Case Search
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "Case ID" in the table header
     And "Case ID" has sort "ascending" icon
     And I click on "Courthouse" in the table header
