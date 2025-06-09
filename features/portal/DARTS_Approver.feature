@@ -69,6 +69,7 @@ Feature: User as a Approver
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
+    Then I click on the "Transcript requests to authorise" link
     And I click on "View" in the same table row as "D{{seq}}001"
     Then I see "Approve transcript request" on the page
     And I see "D{{seq}}001" in summary row for "Case ID"

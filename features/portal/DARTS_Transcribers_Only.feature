@@ -70,7 +70,7 @@ Feature: Request Audio for transcribers
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
-    #    And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "View" in the same row as "F{{seq}}001"
     Then I see "Approve transcript request" on the page
     And I see "F{{seq}}001" in summary row for "Case ID"

@@ -28,7 +28,7 @@ export const config = {
   browser: process.env.BROWSER ?? 'chromium',
   browserOptions,
   DARTS_PORTAL: process.env.DARTS_PORTAL ?? 'https://darts.staging.apps.hmcts.net',
-  DARTS_API: process.env.DARTS_GATEWAY ?? 'https://darts-api.staging.platform.hmcts.net',
+  DARTS_API: process.env.DARTS_API ?? 'https://darts-api.staging.platform.hmcts.net',
   DARTS_TEST_HARNESS:
     process.env.DARTS_TEST_HARNESS ??
     'http://darts-external-component-test-harness.staging.platform.hmcts.net',

@@ -106,9 +106,9 @@ Feature: Request Transcript
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as a "APPROVER" user
+    And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
-    #    And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "View" in the same row as "C{{seq}}002"
     Then I see "Approve transcript request" on the page
     And I see "C{{seq}}002" in summary row for "Case ID"
@@ -379,9 +379,9 @@ Feature: Request Transcript
 
     When I Sign out
     And I see "Sign in to the DARTS Portal" on the page
-    And I am logged on to DARTS as a "APPROVER" user
+    And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
-    #    And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "View" in the same row as "C{{seq}}003"
     Then I see "Approve transcript request" on the page
     And I see "C{{seq}}003" in summary row for "Case ID"
@@ -754,7 +754,7 @@ Feature: Request Transcript
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
-    #    And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "View" in the same row as "C{{seq}}006"
     Then I see "Approve transcript request" on the page
     And I see "Requesting transcript Court Log for one minute of audio, attach transcript directly." in summary row for "Instructions"
@@ -902,7 +902,7 @@ Feature: Request Transcript
     And I see "Sign in to the DARTS Portal" on the page
     And I am logged on to DARTS as an "APPROVER" user
     And I click on the "Your transcripts" link
-    #    And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     And I click on "View" in the same row as "C{{seq}}005"
     Then I see "Approve transcript request" on the page
     And I see "C{{seq}}005" in summary row for "Case ID"
@@ -923,7 +923,7 @@ Feature: Request Transcript
     #And I see "You have 1956 characters remaining" on the page
     And I press the "Submit" button
     #    And I see "Select to apply actions" on the page
-    #    And I click on the "Transcript requests to review" link
+    And I click on the "Transcript requests to authorise" link
     Then I see "Requests to approve or reject" on the page
     And I do not see "C{{seq}}005" on the page
 
