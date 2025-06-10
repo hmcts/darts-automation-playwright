@@ -1,7 +1,8 @@
 #!groovy
 
 properties([
-  pipelineTriggers([cron('15 07 * * 1-5')]),
+  // trigger at 6PM (Jenkins is in UTC)
+  pipelineTriggers([cron('0 19 * * 1-5')]),
   parameters([
     string(
       name: 'INCLUDE_TAGS',
