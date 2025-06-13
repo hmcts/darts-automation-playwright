@@ -226,7 +226,7 @@ Feature: Admin portal
     And I see "10:01:00" on the page
     And I see "10:02:00" on the page
     And I see "We are preparing your audio." on the page
-    And I see "When it is ready we will send an email to Darts Admin and notify you in the DARTS application." on the page
+    And I see "When it is ready we will send an email to darts.admin@hmcts.net and notify you in the DARTS application." on the page
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     Then I click on the "Back to search results" link
