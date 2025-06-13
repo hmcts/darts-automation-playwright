@@ -1,6 +1,6 @@
 @SOAP_API @GET_CASES @regression
 Feature: GetCases using SOAP
- @sequential
+  @sequential
   Scenario Outline: SOAP getCases
     * I call SOAP getCases
       | courthouse   | courtroom   | date   |
@@ -24,7 +24,7 @@ Feature: GetCases using SOAP
       </com:getCases>
       """
     Then the API status code is 200
- @sequential
+  @sequential
   Scenario: getCases invalid court name fails
     Given I authenticate from the "VIQ" source system
     When I call POST SOAP API using soap body:
@@ -35,10 +35,9 @@ Feature: GetCases using SOAP
       <date>{{yyyymmdd}}</date>
       </com:getCases>
       """
-    # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
-    Then the API status code is 500
+    Then the API status code is 404
     And the SOAP fault response includes "Courthouse Not Found"
- @sequential
+  @sequential
   Scenario: getCases authentication from XHIBIT fails
     Given I authenticate from the "XHIBIT" source system
     When I call POST SOAP API using soap body:
@@ -50,7 +49,7 @@ Feature: GetCases using SOAP
       </com:getCases>
       """
     Then the API status code is 500
- @sequential
+  @sequential
   Scenario Outline: SOAP getCases verifying result
     Given I use "caseNumber" "<caseNumber>"
     Given I see table "COURTCASE" column "count(cas_id)" is "0" where "courthouse_name" = "<courthouse>" and "case_number" = "<caseNumber>1"
