@@ -388,6 +388,30 @@ Feature: Admin portal
     And I see "Marked for manual deletion by - Darts Admin" on the page
     And I see "Reason - Public interest immunity" on the page
     And I see "A{{seq}} - Rejecting audio deletion request" on the page
+
+    # click "unmark for deletion" link and re-hide
+    # step says button as the link is defined as a button
+    And I press the "unmark for deletion" button with exact name
+    And I press the "Hide or delete" button
+    And I see "Hide or delete file" on the page
+    # checking for the hide/delete reasons
+    And I see "Public interest immunity" on the page
+    And I see "Classified above official" on the page
+    And I see "Other reason to delete" on the page
+    And I see "Other reason to hide only" on the page
+    # select PII as reason
+    And I select the "Public interest immunity" radio button
+    And I set "Enter ticket reference" to "A{{seq}}"
+    And I set "Comments" to "Rejecting audio deletion request"
+    And I press the "Hide or delete" button
+    Then I see "Files successfully hidden or marked for deletion" on the page
+    And I see "Check for associated files" on the page
+    And I see "There may be other associated audio or transcript files that also need hiding or deleting." on the page
+    And I press the "Continue" button
+    Then I see "This file is hidden in DARTS and is marked for manual deletion" on the page
+    And I see "Marked for manual deletion by - Darts Admin" on the page
+    And I see "Reason - Public interest immunity" on the page
+    And I see "A{{seq}} - Rejecting audio deletion request" on the page
     And I Sign out
 
     #Sign in as as Admin 2 to reject audio deletion request and DMP-4573 Cancel link
