@@ -272,7 +272,7 @@ Feature: Add Daily List using SOAP
       </cs:DailyList>]]>
       </document>
       """
-    Then the API status code is 404
+    Then the API status code is 400
     And the SOAP fault response includes "Invalid XML Document"
 
   @DMP-2968 @regression

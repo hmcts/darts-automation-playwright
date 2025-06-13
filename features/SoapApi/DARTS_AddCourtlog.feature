@@ -130,4 +130,4 @@ Feature: Add Courtlog SOAP
       </log_entry>]]>
       </document>
       """
-    Then the API status code is 404
+    Then the API status code is 500
