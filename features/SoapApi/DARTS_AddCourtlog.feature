@@ -111,8 +111,7 @@ Feature: Add Courtlog SOAP
       </log_entry>]]>
       </document>
       """
-    # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
-    Then the API status code is 500
+    Then the API status code is 404
     And the SOAP fault response includes "Courthouse Not Found"
 
   @regression @sequential
@@ -131,5 +130,4 @@ Feature: Add Courtlog SOAP
       </log_entry>]]>
       </document>
       """
-    # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
-    Then the API status code is 500
+    Then the API status code is 404

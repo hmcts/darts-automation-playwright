@@ -272,8 +272,7 @@ Feature: Add Daily List using SOAP
       </cs:DailyList>]]>
       </document>
       """
-    # TODO (DT): updated due to https://tools.hmcts.net/jira/browse/DMP-4688
-    Then the API status code is 500
+    Then the API status code is 404
     And the SOAP fault response includes "Invalid XML Document"
 
   @DMP-2968 @regression
