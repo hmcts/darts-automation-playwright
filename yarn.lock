@@ -1922,7 +1922,7 @@ __metadata:
     prettier: 3.5.3
     supertest: ^7.0.0
     ts-node: 10.9.2
-    tsx: 4.20.1
+    tsx: 4.20.3
     typescript: 5.8.3
     typescript-eslint: ^8.7.0
     uuid: ^11.0.4
@@ -4539,9 +4539,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:4.20.1":
-  version: 4.20.1
-  resolution: "tsx@npm:4.20.1"
+"tsx@npm:4.20.3":
+  version: 4.20.3
+  resolution: "tsx@npm:4.20.3"
   dependencies:
     esbuild: ~0.25.0
     fsevents: ~2.3.3
@@ -4551,7 +4551,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: b3958f8eda923a80d99a0e03feb84ac0ec5dd168f209778fa4726c3aa70d5d23dec77c7e95626e354a476e77aab63bf19c6d3f557488fc1ed5956a6c1984493d
+  checksum: 1d13d3168d9ea44b0d02a7df16cc39be8bf4c6c309768009f392ce54e8767402d1f2d13e8dd79d0d77ef4e8a61d96ea7bad12ab1d46f1a4dadf74c4b849d798e
   languageName: node
   linkType: hard
 
