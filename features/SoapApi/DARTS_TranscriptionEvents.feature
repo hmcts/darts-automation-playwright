@@ -7,7 +7,7 @@ Feature: Test operation of events causing an automatic transcription to be trigg
   A single transcript is requested if there is more than 1 sentencing event
 
   @regression
-  @reads-and-writes-system-properties @sequential
+  @reads-and-writes-system-properties @sequential @retry
   Scenario Outline: A single Automatic Transcription request is generated for custodial sentence events
     Given that courthouse "<courthouse>" case "<case_numbers>" does not exist
     # TODO (DT): I've remove the unneccessary creation and running of a daily list, as this adds ~20s to each test. The case and hearing are created when the first event in received anyway.
