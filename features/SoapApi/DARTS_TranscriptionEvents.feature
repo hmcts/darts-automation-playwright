@@ -194,7 +194,7 @@ Feature: Test operation of events causing an automatic transcription to be trigg
       | <courthouse> | <courtroom> | <case_numbers> | {{timestamp-10:08:00}} | {{seq}}025 | {{seq}}025 | 1000  | 1058     | text {{seq}} |                             |                     | Jury discharged                         |       |
     And I see table "CASE_TRANSCRIPTION" column "COUNT(tra_id)" is "0" where "cas.case_number" = "<case_numbers>" and "courthouse_name" = "<courthouse>"
     #      Any non-sentencing event does not create a transcript event
-    When  I create an event
+    When I create an event
       | courthouse   | courtroom   | case_numbers   | date_time              | message_id | event_id   | type   | sub_type | event_text                 | case_retention_fixed_policy | case_total_sentence | text                                                                                                                                   | notes                  |
       | <courthouse> | <courtroom> | <case_numbers> | {{timestamp-10:00:00}} | {{seq}}001 | {{seq}}001 | 1000   | 1001     | text {{seq}}               |                             |                     | Offences put to defendant                                                                                                              |                        |
       | <courthouse> | <courtroom> | <case_numbers> | {{timestamp-10:00:20}} | {{seq}}002 | {{seq}}002 | 1000   | 1002     | text {{seq}}               |                             |                     | Proceedings in chambers                                                                                                                |                        |

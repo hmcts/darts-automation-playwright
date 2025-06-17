@@ -10,7 +10,7 @@ When('I create a case using json', async function (this: ICustomWorld, dataTable
   const addCaseData = dataTableToObjectArray<AddCaseDataTable>(dataTable);
 
   await Promise.all(
-    addCaseData.map(async (addCase, index) => {
+    addCaseData.map(async (addCase) => {
       const body = {
         courthouse: addCase.courthouse,
         case_number: addCase.case_number,
@@ -19,8 +19,6 @@ When('I create a case using json', async function (this: ICustomWorld, dataTable
         prosecutors: [addCase.prosecutors],
         defenders: [addCase.defenders],
       };
-
-      await new Promise((r) => setTimeout(r, 200 * index));
       await DartsApiService.sendApiPostRequest('/cases/addCase', body, {}, 201);
     }),
   );
