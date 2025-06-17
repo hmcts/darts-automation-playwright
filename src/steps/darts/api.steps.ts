@@ -38,15 +38,13 @@ When('I load an audio file', async function (this: ICustomWorld, dataTable: Data
 
   if (!config.features.manualAudioUpload) {
     await Promise.all(
-      addAudioData.map(async (addAudio, index) => {
-        await new Promise((r) => setTimeout(r, 200 * index));
+      addAudioData.map(async (addAudio) => {
         await DartsTestHarness.addAudio(addAudio);
       }),
     );
   } else {
     await Promise.all(
-      addAudioData.map(async (addAudio, index) => {
-        await new Promise((r) => setTimeout(r, 200 * index));
+      addAudioData.map(async (addAudio) => {
         await DartsApiService.sendAddAudioRequest(addAudio);
       }),
     );

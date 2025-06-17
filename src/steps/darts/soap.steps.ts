@@ -88,7 +88,7 @@ When('I create a case', async function (this: ICustomWorld, dataTable: DataTable
   const addCaseData = dataTableToObjectArray<AddCaseDataTable>(dataTable);
 
   await Promise.all(
-    addCaseData.map(async (addCase, index) => {
+    addCaseData.map(async (addCase) => {
       const addCaseObj: AddCaseObject = {
         case: {
           $type: '',
@@ -110,8 +110,6 @@ When('I create a case', async function (this: ICustomWorld, dataTable: DataTable
               : [],
         },
       };
-
-      await new Promise((r) => setTimeout(r, 200 * index));
       await DartsSoapService.addCase(xmlescape(builder.build(addCaseObj) as string), {
         useGateway: true,
       });
@@ -218,7 +216,7 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
   const courtLogData = dataTableToObjectArray<AddCourtLogDataTable>(dataTable);
 
   await Promise.all(
-    courtLogData.map(async (courtLog, index) => {
+    courtLogData.map(async (courtLog) => {
       const dateObj = courtLog.date
         ? DateTime.fromFormat(courtLog.date, 'y-MM-dd')
         : DateTime.fromISO(courtLog.dateTime as string);
@@ -242,8 +240,6 @@ When('I add courtlogs', async function (this: ICustomWorld, dataTable: DataTable
           text: courtLog.text,
         },
       };
-
-      await new Promise((r) => setTimeout(r, 200 * index));
       await DartsSoapService.addLogEntry(xmlescape(builder.build(addLogEntry) as string), {
         useGateway: true,
       });
@@ -261,7 +257,7 @@ When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: Da
   const eventData = dataTableToObjectArray<EventDataTable>(dataTable);
 
   await Promise.all(
-    eventData.map(async (event, index) => {
+    eventData.map(async (event) => {
       const dateTimeObj = DateTime.fromFormat(event.date_time, 'y-MM-dd HH:mm:ss');
       const dartsEvent: EventObject = {
         'be:DartsEvent': {
@@ -291,11 +287,6 @@ When('I create (an )event(s)', async function (this: ICustomWorld, dataTable: Da
           'be:CaseTotalSentence': event.case_total_sentence,
         };
       }
-      // TODO: we shouldn't need to stagger the requests slightly, but this was causing an issue creating courtrooms if they didn't exist
-      // The error was as follows
-      //   ERROR: duplicate key value violates unique constraint "ctr_chr_crn_unq"
-      //   Detail: Key (cth_id, courtroom_name)=(1356, ROOM 437390Z) already exists.
-      await new Promise((r) => setTimeout(r, 200 * index));
       await DartsSoapService.addDocument(
         event.message_id,
         event.type,
