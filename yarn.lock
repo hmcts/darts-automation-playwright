@@ -1916,7 +1916,7 @@ __metadata:
     luxon: ^3.5.0
     md5-file: ^5.0.0
     memory-cache: ^0.2.0
-    multiple-cucumber-html-reporter: 3.9.2
+    multiple-cucumber-html-reporter: 3.9.3
     open: 10.1.2
     postgres: ^3.4.5
     prettier: 3.5.3
@@ -3268,7 +3268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:3.6.1, luxon@npm:^3.5.0":
+"luxon@npm:3.6.1, luxon@npm:^3.5.0, luxon@npm:^3.6.1":
   version: 3.6.1
   resolution: "luxon@npm:3.6.1"
   checksum: bc6c24dde90f4263f548cc5a4ea3328e9c9511bee0b2255bd319639712862f1eb14a39c1b2dcbff8a8bf6686996d28f45b8fc902994a72dd05a29cef1269a6a4
@@ -3521,18 +3521,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multiple-cucumber-html-reporter@npm:3.9.2":
-  version: 3.9.2
-  resolution: "multiple-cucumber-html-reporter@npm:3.9.2"
+"multiple-cucumber-html-reporter@npm:3.9.3":
+  version: 3.9.3
+  resolution: "multiple-cucumber-html-reporter@npm:3.9.3"
   dependencies:
     find: ^0.3.0
     fs-extra: ^11.3.0
     jsonfile: ^6.1.0
     lodash: ^4.17.21
-    luxon: ^3.5.0
+    luxon: ^3.6.1
     open: ^8.4.2
-    uuid: ^11.0.5
-  checksum: e5e2cc7538144f11770d96bcf88183ec0405dfe99c8a2ad05bce28ff8bd533cc0674938fca3fe879495b025c3173a1b43cd8cdca458c4d815e4999f1bbf8634e
+    uuid: ^11.1.0
+  checksum: e691aceb9943ba8d66446ebdaedc37d0fcfb4c89ada0bb6bb1496084f99800284aa8b2aceeb7b288692a3c999550bf10d9f0a62607db1ff3191124adef2f4ac6
   languageName: node
   linkType: hard
 
@@ -4724,7 +4724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^11.0.4, uuid@npm:^11.0.5":
+"uuid@npm:^11.0.4, uuid@npm:^11.1.0":
   version: 11.1.0
   resolution: "uuid@npm:11.1.0"
   bin:
