@@ -1443,29 +1443,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"allure-cucumberjs@npm:3.2.2":
-  version: 3.2.2
-  resolution: "allure-cucumberjs@npm:3.2.2"
+"allure-cucumberjs@npm:3.3.0":
+  version: 3.3.0
+  resolution: "allure-cucumberjs@npm:3.3.0"
   dependencies:
-    allure-js-commons: 3.2.2
+    allure-js-commons: 3.3.0
   peerDependencies:
     "@cucumber/cucumber": ">=10.8.0"
     "@cucumber/messages": ">=24.1.0"
-  checksum: 6d85f9424520b1975952ad85a6a5c4ccf154002929295465a301cd571d4646b475d898d194f90d74a412310e71161e147062247bada9cc0d16517548398deca5
+  checksum: dc9bc9f02541acacc1312241b6688e4e67244a1026309c9e72429bff1c0eb2d4852b138198b69dadc4ca582fbe0247ae7a43a8455abee4309753c1baf7ddb9de
   languageName: node
   linkType: hard
 
-"allure-js-commons@npm:3.2.2":
-  version: 3.2.2
-  resolution: "allure-js-commons@npm:3.2.2"
+"allure-js-commons@npm:3.3.0":
+  version: 3.3.0
+  resolution: "allure-js-commons@npm:3.3.0"
   dependencies:
     md5: ^2.3.0
   peerDependencies:
-    allure-playwright: 3.2.2
+    allure-playwright: 3.3.0
   peerDependenciesMeta:
     allure-playwright:
       optional: true
-  checksum: 3d07800a615eb7f45bf9a34e73ac50f5d0603137d11e49c95d5732acb75de9c4a93cfafa48e3e3f67cfe6749d3503e36196cd778cca3a88a9cb1d94943be9d31
+  checksum: 45539dd5869bdfc0f8172fae5e56e9305c93a9284b4b06551678bc05005944805f05b7a675f29c7920a923e0843cb58c52543e6d755812e41df450be26aeb6ca
   languageName: node
   linkType: hard
 
@@ -1905,7 +1905,7 @@ __metadata:
     "@types/xml-escape": ^1.1.3
     "@typescript-eslint/eslint-plugin": 8.35.0
     "@typescript-eslint/parser": 8.35.0
-    allure-cucumberjs: 3.2.2
+    allure-cucumberjs: 3.3.0
     cucumber-html-reporter: 7.2.0
     eslint: 9.28.0
     eslint-config-prettier: 10.1.5
