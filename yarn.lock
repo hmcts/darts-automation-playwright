@@ -1910,7 +1910,7 @@ __metadata:
     eslint: 9.28.0
     eslint-config-prettier: 10.1.5
     eslint-plugin-playwright: 1.8.3
-    eslint-plugin-prettier: 5.4.1
+    eslint-plugin-prettier: 5.5.1
     fast-xml-parser: ^4.5.1
     fs-extra: 11.3.0
     luxon: ^3.5.0
@@ -2217,9 +2217,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:5.4.1":
-  version: 5.4.1
-  resolution: "eslint-plugin-prettier@npm:5.4.1"
+"eslint-plugin-prettier@npm:5.5.1":
+  version: 5.5.1
+  resolution: "eslint-plugin-prettier@npm:5.5.1"
   dependencies:
     prettier-linter-helpers: ^1.0.0
     synckit: ^0.11.7
@@ -2233,7 +2233,7 @@ __metadata:
       optional: true
     eslint-config-prettier:
       optional: true
-  checksum: ddbfc60e478dd78602b1f1594db539bfc686161eba4531e4c59580c9cf5746919878beabfe31b559d783ad3ed753af158bfa16bd35bd05382c7d2d86c894c81b
+  checksum: 913ecebfeab932ed510d8608875594d2529dc28957eed0d56a896e9862257031038a9f0921dcf198d61475ef0f5904332a7f1839be387d0a314c91f3cfbf3817
   languageName: node
   linkType: hard
 
