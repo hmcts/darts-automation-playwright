@@ -1,5 +1,4 @@
 Feature: Admin portal
- # TO DO: This test is dependant on data set-up from DARTS_Request_Audio.feature
 
   @DMP-4442 @DMP-4238 @sequential @regression
   Scenario: Data creation for Audio file deletion
