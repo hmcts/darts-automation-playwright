@@ -405,7 +405,9 @@ export class BasePage {
 
   async verifySelectOptions(select: string, options: string[]) {
     for (const option of options) {
-      await this.selectOption(option, select);
+      if (option !== 'Please select') {
+        await this.selectOption(option, select);
+      }
     }
   }
 
