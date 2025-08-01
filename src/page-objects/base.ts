@@ -297,6 +297,14 @@ export class BasePage {
       .click();
   }
 
+  async clickSummaryListActionLink(summaryRowHeading: string, linkText: string) {
+    const row = this.page.locator('.govuk-summary-list__row', {
+      has: this.page.locator('.govuk-summary-list__key', { hasText: summaryRowHeading }),
+    });
+
+    await row.locator('a.govuk-link', { hasText: linkText }).click();
+  }
+
   async clickTextInSummaryRow(rowHeading: string, textToClick: string) {
     if (textToClick === 'Change') {
       textToClick = `${textToClick} ${rowHeading}`;
