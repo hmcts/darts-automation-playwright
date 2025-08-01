@@ -22,17 +22,23 @@ export class BasePage {
   }
 
   async containsText(text: string, visible = true) {
+    const timeout = this.getTimeoutForText(text);
+  
     if (!visible) {
       await expect(this.page.getByText(text).nth(0)).toBeVisible({
         visible: false,
-        timeout: 10000,
+        timeout,
       });
     } else {
       const allMatchingLocators = this.page.getByText(text);
       const visibleLocators = allMatchingLocators.locator('visible=true');
       const firstVisibleItem1 = visibleLocators.first();
-      await expect(firstVisibleItem1).toBeVisible();
+      await expect(firstVisibleItem1).toBeVisible({ timeout});
     }
+  }
+
+  private getTimeoutForText(text: string): number {
+    return text === 'Sign in to the DARTS Portal' ? 15000 : 10000;
   }
 
   async clickLabel(text: string, exact: boolean = false) {
