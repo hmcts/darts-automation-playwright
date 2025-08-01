@@ -2,7 +2,7 @@
 Feature: Admin System configuration
 
   @DMP-2669 @DMP-2668 @sequential
-  Scenario: Automated tasks- primary & details page
+  Scenario: Automated tasks - primary & details page
     #DMP-2668-AC1-AC2
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "System configuration" link
@@ -48,6 +48,63 @@ Feature: Admin System configuration
     And I click on the "System configuration" link
     And I click on the "Automated tasks" link
     And I see "Active" in the same row as "ProcessDailyList" "1"
+
+  @DMP-4242 @regression @sequential
+  Scenario: Automated tasks - Change batch size
+    Given I am logged on to the admin portal as an "ADMIN" user
+
+    # AC1 - View change link
+    When I click on the "System configuration" link
+    And I click on the "Automated tasks" link
+    And I click on the "15" link
+
+    # AC2 - Navigate to update batch size screen
+    Then I click "Change" link in summary row for "Batch size"
+    Then I see "Batch size" on the page
+    And I see "Confirm" on the page
+    And I see "Cancel" on the page
+
+    # # AC3 - Enter new batch size
+    When I set "Batch size" to "50557"
+
+    # AC4 - Confirm update
+    And I press the "Confirm" button
+    Then I see "Task ID" on the page
+    And I see "Batch size successfully updated" on the page
+    And I see "50557" in summary row for "Batch size"
+
+    # AC5 - Cancel does not apply changes
+    Then I click "Change" link in summary row for "Batch size"
+    And I set "Batch size" to "456"
+    And I click on the "Cancel" link
+    Then I see "Task ID" on the page
+    And I do not see "Batch size successfully updated" on the page
+    And I see "50557" in summary row for "Batch size"
+
+    # AC6 - Validation: zero is not valid
+    Then I click "Change" link in summary row for "Batch size"
+    And I set "Batch size" to "0"
+    And I press the "Confirm" button
+    Then I see "There is a problem" on the page
+    And I see an error message "Batch size must be greater than 0"
+
+    # AC7 - Validation: blank input
+    When I set "Batch size" to ""
+    And I press the "Confirm" button
+    Then I see "There is a problem" on the page
+    And I see an error message "Batch size must be set"
+
+    # AC8 - Validation: non-integer input
+    When I set "Batch size" to "abc"
+    And I press the "Confirm" button
+    Then I see "There is a problem" on the page
+    And I see an error message "Batch size must be an integer"
+
+    # AC9 - Validation: above max value
+    When I set "Batch size" to "2147483648"
+    And I press the "Confirm" button
+    Then I see "There is a problem" on the page
+    And I see an error message "Batch size must be less than 2147483647"
 
   @DMP-2746 @DMP-2674 @regression @sequential
   Scenario: Add event mapping

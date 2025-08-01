@@ -371,6 +371,14 @@ Then(
 );
 
 Then(
+  'I click {string} link in summary row for {string}',
+  async function (this: ICustomWorld, linkText: string, summaryRowHeading: string) {
+    const basePage = new BasePage(this.page!);
+    await basePage.clickSummaryListActionLink(summaryRowHeading, substituteValue(linkText) as string);
+  },
+);
+
+Then(
   'I see {string} as one of many in summary row for {string}',
   async function (this: ICustomWorld, expectedText: string, summaryRowHeading: string) {
     const basePage = new BasePage(this.page!);
@@ -399,17 +407,6 @@ When(
   async function (this: ICustomWorld, textToClick: string, tableRowText: string) {
     const basePage = new BasePage(this.page!);
     await basePage.clickTextInTableRow(
-      substituteValue(tableRowText) as string,
-      substituteValue(textToClick) as string,
-    );
-  },
-);
-
-When(
-  'I click on {string} in summary row for {string}',
-  async function (this: ICustomWorld, textToClick: string, tableRowText: string) {
-    const basePage = new BasePage(this.page!);
-    await basePage.clickTextInSummaryRow(
       substituteValue(tableRowText) as string,
       substituteValue(textToClick) as string,
     );

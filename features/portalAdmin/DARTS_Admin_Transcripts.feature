@@ -710,7 +710,7 @@ Feature: Admin portal transcripts
     And I do not see "{{seq}}-43" on the page
 
 
-  @sequential
+  @regression @sequential
   Scenario: Transcript search validation  
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Transcripts" link
