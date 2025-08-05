@@ -1,4 +1,5 @@
 @admin @admin_transformed_media
+# This test depends on DARTS_Request_Audio.feature running first to create the transformed media. To pass locally you need to tag both and run them together.
 Feature: Admin-Transformed Media
 
   @DMP-2678 @regression @sequential
