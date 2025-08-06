@@ -709,6 +709,54 @@ Feature: Admin portal transcripts
     Then I see "Transcript file deleted" on the page
     And I do not see "{{seq}}-43" on the page
 
+
+  @regression @sequential
+  Scenario: Transcript search validation  
+    When I am logged on to the admin portal as an "ADMIN" user
+    Then I click on the "Transcripts" link
+    And I click on the "Advanced search" link
+    Then I set "Hearing date" to "{{date+7/}}"
+    And I set "Courthouse" to "Test"
+    Then I see "You have selected a date in the future. Hearing date must be in the past" on the page
+    Then I click on the "Specific date" link
+    Then I set "Enter a date" to "{{date+7/}}"
+    And I set "Courthouse" to "Placeholder"
+    Then I see "You have selected a date in the future. Requested date must be in the past" on the page
+    Then I click on the "Date range" link
+    Then I set "Date from" to "{{date+7/}}"
+    And I set "Date to" to "{{date+7/}}"
+    And I set "Courthouse" to "Test"
+    Then I see "You have selected a date in the future. Requested start date must be in the past" on the page
+    And I see "You have selected a date in the future. Requested end date must be in the past" on the page
+    Then I set "Hearing date" to "ddd"
+    And I set "Courthouse" to "Placeholder"
+    Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
+    Then I click on the "Specific date" link
+    Then I set "Enter a date" to "ddd"
+    And I set "Hearing date" to ""
+    Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
+    Then I click on the "Date range" link
+    Then I set "Date from" to "ddd"
+    Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
+    Then I set "Date to" to "ddd"
+    Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
+    Then I set "Hearing date" to "30/02/2024"
+    And I set "Courthouse" to "Test"
+    Then I see "Enter a real date" on the page
+    Then I click on the "Specific date" link
+    Then I set "Enter a date" to "30/02/2024"
+    And I set "Hearing date" to ""
+    Then I see "Enter a real date" on the page
+    Then I click on the "Date range" link
+    Then I set "Date from" to "30/02/2024"
+    Then I see "Enter a real date" on the page
+    Then I set "Date to" to "30/02/2024"
+    Then I see "Enter a real date" on the page
+    Then I set "Date from" to "30/03/2029"
+    And I set "Date to" to "30/01/2029"
+    Then I see "The start date must be before the end date" on the page
+    And I see "The end date must be after the start date" on the page
+
   @DMP-3139 @DMP-3469 @DMP-3406 @DMP-3564 @DMP-3565 @sequential
   Scenario: Transcript advanced search
     When I am logged on to the admin portal as an "ADMIN" user
