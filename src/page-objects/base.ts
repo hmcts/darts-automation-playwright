@@ -171,11 +171,13 @@ export class BasePage {
   }
 
   async hasHeader(text: string, visible = true) {
-    await expect(this.page.getByRole('heading', { name: text })).toBeVisible({ visible });
+    const timeout = this.getTimeoutForText(text);
+    await expect(this.page.getByRole('heading', { name: text })).toBeVisible({ visible, timeout: timeout });
   }
 
   async hasLink(text: string, visible = true) {
-    await expect(this.page.getByRole('link', { name: text })).toBeVisible({ visible });
+    const timeout = this.getTimeoutForText(text);
+    await expect(this.page.getByRole('link', { name: text })).toBeVisible({ visible, timeout: timeout });
   }
 
   async hasNavigationLink(text: string, visible: boolean) {
