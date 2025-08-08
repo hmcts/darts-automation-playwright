@@ -404,10 +404,10 @@ Feature: Case Retention
     And I see "Def {{seq}}-11" in summary row for "Defendant(s)"
     And I see "Reason for reducing retention date by one year" in summary row for "Reason for change"
 
-    Then I click on "Change" in summary row for "Retain case until"
+    Then I click "Change" link in summary row for "Retain case until"
     And I press the "Continue" button
 
-    Then I click on "Change" in summary row for "Reason for change"
+    Then I click "Change" link in summary row for "Reason for change"
     And I press the "Continue" button
 
     When I press the "Confirm retention date change" button

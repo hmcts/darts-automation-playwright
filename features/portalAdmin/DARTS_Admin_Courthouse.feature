@@ -103,13 +103,13 @@ Feature: Admin Courthouse
     Then I see "Check details" on the page
     Then I see "Check the courthouse name carefully, as it must exactly match the name on XHIBIT or CPP." on the page
     #AC2- Change courthouse details
-    And I click on "Change" in summary row for "Display name"
+    And I click "Change" link in summary row for "Display name"
     And I see "Courthouse details" on the page
     And I press the "Continue" button
-    And I click on "Change" in summary row for "Region"
+    And I click "Change" link in summary row for "Region"
     And I see "Courthouse details" on the page
     And I press the "Continue" button
-    And I click on "Change" in summary row for "Transcription companies"
+    And I click "Change" link in summary row for "Transcription companies"
     And I see "Courthouse details" on the page
     And I press the "Continue" button
     #AC3- Cancel courthouse edit
