@@ -30,7 +30,7 @@
     "@cucumber/messages": "^26.0.1",
     "@cucumber/pretty-formatter": "1.0.1",
     "@playwright/test": "1.54.2",
-    "@stylistic/eslint-plugin": "^2.8.0",
+    "@stylistic/eslint-plugin": "^5.0.0",
     "@types/fs-extra": "11.0.4",
     "@types/node": "^22.10.5",
     "@typescript-eslint/eslint-plugin": "8.38.0",
