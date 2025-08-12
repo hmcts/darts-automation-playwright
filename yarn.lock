@@ -555,7 +555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cucumber/messages@npm:>=19.1.4 <=26, @cucumber/messages@npm:^26.0.1":
+"@cucumber/messages@npm:>=19.1.4 <=26":
   version: 26.0.1
   resolution: "@cucumber/messages@npm:26.0.1"
   dependencies:
@@ -576,6 +576,18 @@ __metadata:
     reflect-metadata: 0.1.13
     uuid: 9.0.0
   checksum: 54981faf2a742bbd3a556e005b31bca1b05477414028360574d85b5ffb31d6dc5af9d8854126210271820a0edac6beea3258eb5dfce0fad0dc97c3517d31c890
+  languageName: node
+  linkType: hard
+
+"@cucumber/messages@npm:^28.0.0":
+  version: 28.1.0
+  resolution: "@cucumber/messages@npm:28.1.0"
+  dependencies:
+    "@types/uuid": 10.0.0
+    class-transformer: 0.5.1
+    reflect-metadata: 0.2.2
+    uuid: 11.1.0
+  checksum: 855de95b3a897d31030cc4bc66e9eef51457ec2f7b3e570aeb870b73fc0bff27d4070898cf7c63783aaed44231bf60399d93b376b972cd289e73a9e6a3fa98e5
   languageName: node
   linkType: hard
 
@@ -1926,7 +1938,7 @@ __metadata:
     "@azure/storage-blob": ^12.26.0
     "@cucumber/cucumber": 11.3.0
     "@cucumber/html-formatter": 21.13.0
-    "@cucumber/messages": ^26.0.1
+    "@cucumber/messages": ^28.0.0
     "@cucumber/pretty-formatter": 1.0.1
     "@eslint/eslintrc": ^3.2.0
     "@eslint/js": ^9.17.0
@@ -4815,21 +4827,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:11.1.0, uuid@npm:^11.0.4, uuid@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "uuid@npm:11.1.0"
+  bin:
+    uuid: dist/esm/bin/uuid
+  checksum: 840f19758543c4631e58a29439e51b5b669d5f34b4dd2700b6a1d15c5708c7a6e0c3e2c8c4a2eae761a3a7caa7e9884d00c86c02622ba91137bd3deade6b4b4a
+  languageName: node
+  linkType: hard
+
 "uuid@npm:9.0.0":
   version: 9.0.0
   resolution: "uuid@npm:9.0.0"
   bin:
     uuid: dist/bin/uuid
   checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^11.0.4, uuid@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "uuid@npm:11.1.0"
-  bin:
-    uuid: dist/esm/bin/uuid
-  checksum: 840f19758543c4631e58a29439e51b5b669d5f34b4dd2700b6a1d15c5708c7a6e0c3e2c8c4a2eae761a3a7caa7e9884d00c86c02622ba91137bd3deade6b4b4a
   languageName: node
   linkType: hard
 
