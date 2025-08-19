@@ -711,49 +711,51 @@ Feature: Admin portal transcripts
 
 
   @regression @sequential
-  Scenario: Transcript search validation  
+  Scenario: Transcript search validation
     When I am logged on to the admin portal as an "ADMIN" user
     Then I click on the "Transcripts" link
     And I click on the "Advanced search" link
     Then I set "Hearing date" to "{{date+7/}}"
     And I set "Courthouse" to "Test"
+    And I set "Requested by" to "Test"
     Then I see "You have selected a date in the future. Hearing date must be in the past" on the page
-    Then I click on the "Specific date" link
-    Then I set "Enter a date" to "{{date+7/}}"
-    And I set "Courthouse" to "Placeholder"
+    Then I select the "Specific date" radio button
+    Then I set "Enter a specific date" to "{{date+7/}}"
+    And I set "Requested by" to "Test"
     Then I see "You have selected a date in the future. Requested date must be in the past" on the page
-    Then I click on the "Date range" link
-    Then I set "Date from" to "{{date+7/}}"
+    Then I select the "Date range" radio button
+    Then I set "Enter a date from" to "{{date+7/}}"
     And I set "Date to" to "{{date+7/}}"
     And I set "Courthouse" to "Test"
     Then I see "You have selected a date in the future. Requested start date must be in the past" on the page
     And I see "You have selected a date in the future. Requested end date must be in the past" on the page
     Then I set "Hearing date" to "ddd"
-    And I set "Courthouse" to "Placeholder"
+    And I set "Requested by" to "Test"
     Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
-    Then I click on the "Specific date" link
-    Then I set "Enter a date" to "ddd"
+    Then I select the "Specific date" radio button
+    Then I set "Enter a specific date" to "ddd"
     And I set "Hearing date" to ""
+    And I set "Courthouse" to "Test"
     Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
-    Then I click on the "Date range" link
-    Then I set "Date from" to "ddd"
+    Then I select the "Date range" radio button
+    Then I set "Enter a date from" to "ddd"
     Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
-    Then I set "Date to" to "ddd"
+    Then I set "Enter a date to" to "ddd"
     Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
     Then I set "Hearing date" to "30/02/2024"
-    And I set "Courthouse" to "Test"
+    And I set "Requested by" to "Test"
     Then I see "Enter a real date" on the page
-    Then I click on the "Specific date" link
-    Then I set "Enter a date" to "30/02/2024"
+    Then I select the "Specific date" radio button
+    Then I set "Enter a specific date" to "30/02/2024"
     And I set "Hearing date" to ""
     Then I see "Enter a real date" on the page
-    Then I click on the "Date range" link
-    Then I set "Date from" to "30/02/2024"
+    Then I select the "Date range" radio button
+    Then I set "Enter a date from" to "30/02/2024"
     Then I see "Enter a real date" on the page
-    Then I set "Date to" to "30/02/2024"
+    Then I set "Enter a date to" to "30/02/2024"
     Then I see "Enter a real date" on the page
-    Then I set "Date from" to "30/03/2029"
-    And I set "Date to" to "30/01/2029"
+    Then I set "Enter a date from" to "30/03/2029"
+    And I set "Enter a date to" to "30/01/2029"
     Then I see "The start date must be before the end date" on the page
     And I see "The end date must be after the start date" on the page
 
