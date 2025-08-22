@@ -49,10 +49,10 @@ export const config = {
       scope: `https://hmctsstgextid.onmicrosoft.com/${process.env.AAD_B2C_ROPC_CLIENT_ID}/Functional.Test`,
     },
     internal: {
-      endpoint: `https://login.microsoftonline.com/${process.env.AAD_TENANT_ID}`,
-      clientId: process.env.AAD_CLIENT_ID,
-      clientSecret: process.env.AAD_CLIENT_SECRET,
-      scope: `api://${process.env.AAD_CLIENT_ID}/Functional.Test`,
+      endpoint: `https://login.microsoftonline.com/${process.env.AAD_TENANT_ID_JUSTICE}`,
+      clientId: process.env.AAD_CLIENT_ID_JUSTICE,
+      clientSecret: process.env.AAD_CLIENT_SECRET_JUSTICE,
+      scope: `api://${process.env.AAD_CLIENT_ID_JUSTICE}/Functional.Test`,
     },
   },
   usernames: {

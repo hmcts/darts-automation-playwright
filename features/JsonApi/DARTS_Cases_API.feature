@@ -86,8 +86,8 @@ Feature: Cases Endpoints
 
   @regression @sequential
   Scenario: test GET cases
+  Given I authenticate as a "Requester" user
     When I select column "cas.cas_id" from table "COURTCASE" where "case_number" = "T20220001" and "courthouse_name" = "SWANSEA"
-    And  I authenticate as a "requester" user
     And  I call GET "/cases/{{cas.cas_id}}/hearings" API
     Then the DARTS API status code is 200
     And the API response contains:
