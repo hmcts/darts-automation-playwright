@@ -73,19 +73,19 @@ Feature: Admin Groups
     And I set "Filter by name" to "swansea"
     And I click on the "Swansea_ADMIN" link
     And I click on the "Group users" link
-    Then I do not see "darts.admin@hmcts.net" on the page
+    Then I do not see "darts.admin2@hmcts.net" on the page
 
     #AC1 - Remove users
-    When I set "Search for a user" to "Darts Admin (darts.admin@hmcts.net)"
+    When I set "Search for a user" to "Darts Admin2 (darts.admin2@hmcts.net)"
     And I press the "Add user" button
-    And I see "Darts Admin" in the same row as "darts.admin@hmcts.net"
-    And I check the checkbox in the same row as "Darts Admin" "darts.admin@hmcts.net"
+    And I see "Darts Admin2" in the same row as "darts.admin2@hmcts.net"
+    And I check the checkbox in the same row as "Darts Admin2" "darts.admin2@hmcts.net"
     And I press the "Remove users" button
     Then I see "Are you sure you want to remove 1 user from this group?" on the page
 
     When I press the "Yes - continue" button
     Then I see "1 user removed" on the page
-    And I do not see "darts.admin@hmcts.net" on the page
+    And I do not see "darts.admin2@hmcts.net" on the page
 
   @DMP-2581 @regression @TODO @sequential
   Scenario: Viewing groups - Adding a user
