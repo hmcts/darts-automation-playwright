@@ -5,17 +5,17 @@ Feature: Admin portal
     Given I create a case
       | courthouse         | courtroom  | case_number  | defendants      | judges            | prosecutors               | defenders               |
       | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | DefI {{seq}}-47 | JudgeI {{seq}}-47 | testprosecutorfourtyseven | testdefenderfourtyseven |
-      | HARROW CROWN COURT | B{{seq}}-6 | B{{seq}}0066 | Def B{{seq}}-6  | Judge B{{seq}}-6  | testprosecutorsix         | testdefendersix         |
+      | HARROW CROWN COURT | B{{seq}}-10 | B{{seq}}0010 | Def B{{seq}}-10  | Judge B{{seq}}-10  | testprosecutorsix         | testdefendersix         |
     Given I authenticate from the "CPP" source system
     Given I create an event
       | message_id | type | sub_type | event_id   | courthouse         | courtroom  | case_numbers | event_text    | date_time              | case_retention_fixed_policy | case_total_sentence |
       | {{seq}}001 | 1100 |          | {{seq}}075 | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{seq}}ABC-47 | {{timestamp-10:30:00}} |                             |                     |
       | {{seq}}001 | 1200 |          | {{seq}}076 | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{seq}}GHI-47 | {{timestamp-10:31:00}} |                             |                     |
-      | {{seq}}006 | 1100 |          | {{seq}}006 | HARROW CROWN COURT | B{{seq}}-6 | B{{seq}}0066 | B{{seq}}ABC-6 | {{timestamp-10:00:00}} |                             |                     |
+      | {{seq}}010 | 1100 |          | {{seq}}010 | HARROW CROWN COURT | B{{seq}}-10 | B{{seq}}0010 | B{{seq}}ABC-10 | {{timestamp-10:00:00}} |                             |                     |
     When I load an audio file
       | courthouse         | courtroom  | case_numbers | date       | startTime | endTime  | audioFile   |
       | Harrow Crown Court | {{seq}}-47 | I{{seq}}001  | {{date+0}} |  10:30:00 | 10:31:00 | sample1.mp2 |
-      | HARROW CROWN COURT | B{{seq}}-6 | B{{seq}}0066 | {{date+0}} |  10:01:00 | 10:02:00 | sample1.mp2 |
+      | HARROW CROWN COURT | B{{seq}}-10 | B{{seq}}0010 | {{date+0}} |  10:01:00 | 10:02:00 | sample1.mp2 |
 
   @DMP-2959 @review @sequential
   Scenario: Add error messaging to Search Transcripts screen
@@ -186,13 +186,13 @@ Feature: Admin portal
     When I am logged on to DARTS as an "Admin" user
     And I click on the "Search" link
     And I see "Search for a case" on the page
-    And I set "Case ID" to "B{{seq}}0066"
+    And I set "Case ID" to "B{{seq}}0010"
     And I press the "Search" button
     Then I verify the HTML table contains the following values
       | Case ID     | Courthouse         | Courtroom  | Judge(s)                        | Defendant(s)   |
-      | B{{seq}}006 | Harrow Crown Court | B{{seq}}-6 | {{upper-case-Judge B{{seq}}-6}} | Def B{{seq}}-6 |
-    When I click on "B{{seq}}0066" in the same row as "Harrow Crown Court"
-    And I click on "{{displaydate}}" in the same row as "B{{seq}}-6"
+      | B{{seq}}0010 | Harrow Crown Court | B{{seq}}-10 | {{upper-case-Judge B{{seq}}-10}} | Def B{{seq}}-10 |
+    When I click on "B{{seq}}0010" in the same row as "Harrow Crown Court"
+    And I click on "{{displaydate}}" in the same row as "B{{seq}}-10"
     Then I see "Events and audio recordings" on the page
     And I set the time fields of "Start Time" to "10:01:00"
     And I set the time fields of "End Time" to "10:02:00"
@@ -200,16 +200,16 @@ Feature: Admin portal
     And I press the "Get Audio" button
     Then I see "Confirm your Order" on the page
     And I see "Case details" on the page
-    And I see "B{{seq}}0066" on the page
+    And I see "B{{seq}}0010" on the page
     And I see "Harrow Crown Court" on the page
-    And I see "Def B{{seq}}-6" on the page
+    And I see "Def B{{seq}}-10" on the page
     And I see "Audio details" on the page
     And I see "{{displaydate}}" on the page
     And I see "10:01:00" on the page
     And I see "10:02:00" on the page
     When I press the "Confirm" button
     Then I see "Your order is complete" on the page
-    And I see "B{{seq}}0066" on the page
+    And I see "B{{seq}}0010" on the page
     And I see "Harrow Crown Court" on the page
     And I see "{{displaydate}}" on the page
     And I see "10:01:00" on the page
@@ -219,8 +219,8 @@ Feature: Admin portal
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     Then I click on the "Back to search results" link
-    When I click on "B{{seq}}0066" in the same row as "Harrow Crown Court"
-    And I click on "{{displaydate}}" in the same row as "B{{seq}}-6"
+    When I click on "B{{seq}}0010" in the same row as "Harrow Crown Court"
+    And I click on "{{displaydate}}" in the same row as "B{{seq}}-10"
     And I see "Events and audio recordings" on the page
     And I set the time fields of "Start Time" to "10:01:00"
     And I set the time fields of "End Time" to "10:02:00"
@@ -228,9 +228,9 @@ Feature: Admin portal
     And I press the "Get Audio" button
     And I see "Confirm your Order" on the page
     And I see "Case details" on the page
-    And I see "B{{seq}}0066" on the page
+    And I see "B{{seq}}0010" on the page
     And I see "Harrow Crown Court" on the page
-    And I see "Def B{{seq}}-6" on the page
+    And I see "Def B{{seq}}-10" on the page
     And I see "Audio details" on the page
     And I see "{{displaydate}}" on the page
     And I see "10:01:00" on the page
@@ -328,12 +328,12 @@ Feature: Admin portal
     Then I see "Events and audio recordings" on the page
     Then I verify the HTML table contains the following values
       | *NO-CHECK* | Time                    | Event           | Text          |
-      | *NO-CHECK* |                10:00:00 | Hearing started | B{{seq}}ABC-6 |
+      | *NO-CHECK* |                10:00:00 | Hearing started | B{{seq}}ABC-10 |
       | *NO-CHECK* | <startTime> - <endTime> | *NO-CHECK*      | *NO-CHECK*    |
 
     Examples:
       | courthouse         | courtroom  | caseId       | startTime | endTime  |
-      | Harrow Crown Court | B{{seq}}-6 | B{{seq}}0066 |  10:01:00 | 10:02:00 |
+      | Harrow Crown Court | B{{seq}}-10 | B{{seq}}0010 |  10:01:00 | 10:02:00 |
 
   @DMP-4442 @DMP-4573 @DMP-4238 @regression @sequential
   Scenario: Admin user can delete audio
