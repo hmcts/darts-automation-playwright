@@ -35,7 +35,7 @@
     "@types/node": "^22.10.5",
     "@typescript-eslint/eslint-plugin": "8.43.0",
     "@typescript-eslint/parser": "8.43.0",
-    "allure-cucumberjs": "3.4.0",
+    "allure-cucumberjs": "3.4.1",
     "cucumber-html-reporter": "7.2.0",
     "eslint": "9.35.0",
     "eslint-config-prettier": "10.1.8",
