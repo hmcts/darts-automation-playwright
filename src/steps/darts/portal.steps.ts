@@ -374,7 +374,10 @@ Then(
   'I click {string} link in summary row for {string}',
   async function (this: ICustomWorld, linkText: string, summaryRowHeading: string) {
     const basePage = new BasePage(this.page!);
-    await basePage.clickSummaryListActionLink(summaryRowHeading, substituteValue(linkText) as string);
+    await basePage.clickSummaryListActionLink(
+      summaryRowHeading,
+      substituteValue(linkText) as string,
+    );
   },
 );
 
@@ -547,7 +550,7 @@ Then(
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
           console.log('Not found, reloading page');
-          basePage.refreshPage();
+          await basePage.refreshPage();
           return false;
         }
       },
@@ -556,6 +559,11 @@ Then(
     );
   },
 );
+
+Given('I refresh the page', async function (this: ICustomWorld) {
+  const basePage = new BasePage(this.page!);
+  await basePage.refreshPage();
+});
 
 Given(
   'I add user {string} to group {string}',
