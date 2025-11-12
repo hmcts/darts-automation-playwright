@@ -57,7 +57,7 @@ Feature: Cases Endpoints
       {
         "title": "Bad Request",
         "status": 400,
-        "detail": "JSON parse error: Unrecognized field \"case_id\" (class uk.gov.hmcts.darts.cases.model.AddCaseRequest), not marked as ignorable"
+        "detail": "JSON parse error"
       }
       """
 
