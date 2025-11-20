@@ -260,6 +260,9 @@ Feature: Admin Search
     And I click on the pagination link "Previous"
     And I click on the pagination link "Next"
 
+    #TODO: Remove the refresh step when radio button selection issue is resolved
+    #Refresh page to avoid radio button selection issue (DMP-5308)
+    Given I refresh the page
     When I set "Case ID" to "A400471"
     And I select the "Cases" radio button
     And I press the "Search" button
@@ -644,6 +647,9 @@ Feature: Admin Search
 
     #Navigate to hearing details screen via search screen
 
+    #TODO: Remove the refresh step when radio button selection issue is resolved
+    #Refresh page to avoid radio button selection issue (DMP-5308)
+    Given I refresh the page
     When I click on the "Search" link
     And I set "Case ID" to "C161466005"
     And I select the "Hearings" radio button
