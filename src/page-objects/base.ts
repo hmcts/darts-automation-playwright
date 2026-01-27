@@ -18,7 +18,7 @@ export class BasePage {
   }
 
   async refreshPage() {
-    await this.page.reload();
+    await this.page.reload({ waitUntil: 'domcontentloaded' });
   }
 
   async containsText(text: string, visible = true) {
