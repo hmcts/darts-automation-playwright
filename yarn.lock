@@ -1967,7 +1967,7 @@ __metadata:
     eslint-config-prettier: 10.1.8
     eslint-plugin-playwright: 1.8.3
     eslint-plugin-prettier: 5.5.4
-    fast-xml-parser: ^5.0.0
+    fast-xml-parser: ^5.3.4
     fs-extra: 11.3.2
     luxon: ^3.5.0
     md5-file: ^5.0.0
@@ -2521,7 +2521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^5.0.0, fast-xml-parser@npm:^5.0.7":
+"fast-xml-parser@npm:^5.0.7":
   version: 5.2.5
   resolution: "fast-xml-parser@npm:5.2.5"
   dependencies:
@@ -2529,6 +2529,17 @@ __metadata:
   bin:
     fxparser: src/cli/cli.js
   checksum: b12daa933bc226bd7df1e1ecbd305e561c83fd6e4a234b5e2728901deca25a9b9522b9d3ebafde41b1f4d87ab814e3efe18c636638580795fdbe4670a556be88
+  languageName: node
+  linkType: hard
+
+"fast-xml-parser@npm:^5.3.4":
+  version: 5.3.4
+  resolution: "fast-xml-parser@npm:5.3.4"
+  dependencies:
+    strnum: ^2.1.0
+  bin:
+    fxparser: src/cli/cli.js
+  checksum: c4ec187c7ce4897d0baa69294ffec2b8628567bab913801a18ac8e42f8f97b6cd84f6d32844e0db9bedc952b09444e97b221a0929f0494a1eb7cbece0150033c
   languageName: node
   linkType: hard
 
