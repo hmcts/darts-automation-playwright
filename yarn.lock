@@ -1977,7 +1977,7 @@ __metadata:
     cucumber-html-reporter: 7.2.0
     eslint: 9.35.0
     eslint-config-prettier: 10.1.8
-    eslint-plugin-playwright: 1.8.3
+    eslint-plugin-playwright: 2.9.0
     eslint-plugin-prettier: 5.5.5
     fast-xml-parser: ^5.3.4
     fs-extra: 11.3.4
@@ -2294,18 +2294,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-playwright@npm:1.8.3":
-  version: 1.8.3
-  resolution: "eslint-plugin-playwright@npm:1.8.3"
+"eslint-plugin-playwright@npm:2.9.0":
+  version: 2.9.0
+  resolution: "eslint-plugin-playwright@npm:2.9.0"
   dependencies:
-    globals: ^13.23.0
+    globals: ^17.3.0
   peerDependencies:
     eslint: ">=8.40.0"
-    eslint-plugin-jest: ">=25"
-  peerDependenciesMeta:
-    eslint-plugin-jest:
-      optional: true
-  checksum: a169eed9ecde2ca2d4fe9f61c081b80b937bf67097ccc58e2fdcc319cd702b29bf7306935cafdedc2708431a70cbd592fee4a6f4f184a588515b39ff9c5c0408
+  checksum: 0f8f937225687f00d129658cd57e16f148543d252913de59bbccdc6143ef4ef7066b83db3185a91a8e94722ec09495edf074ac8030a6ea5773aae1e1d103107e
   languageName: node
   linkType: hard
 
@@ -2852,19 +2848,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^13.23.0":
-  version: 13.24.0
-  resolution: "globals@npm:13.24.0"
-  dependencies:
-    type-fest: ^0.20.2
-  checksum: 56066ef058f6867c04ff203b8a44c15b038346a62efbc3060052a1016be9f56f4cf0b2cd45b74b22b81e521a889fc7786c73691b0549c2f3a6e825b3d394f43c
-  languageName: node
-  linkType: hard
-
 "globals@npm:^14.0.0":
   version: 14.0.0
   resolution: "globals@npm:14.0.0"
   checksum: 534b8216736a5425737f59f6e6a5c7f386254560c9f41d24a9227d60ee3ad4a9e82c5b85def0e212e9d92162f83a92544be4c7fd4c902cb913736c10e08237ac
+  languageName: node
+  linkType: hard
+
+"globals@npm:^17.3.0":
+  version: 17.4.0
+  resolution: "globals@npm:17.4.0"
+  checksum: 456f0d844ef7d502c41ae7ae07e602491fb7ac5e8b37c7c2fcf1419974321e27a35b94249168a7e521fcf09105b32b8f85cedc63b6b90cc8a594d1c281c2f5cd
   languageName: node
   linkType: hard
 
@@ -4708,13 +4702,6 @@ __metadata:
   dependencies:
     prelude-ls: ^1.2.1
   checksum: ec688ebfc9c45d0c30412e41ca9c0cdbd704580eb3a9ccf07b9b576094d7b86a012baebc95681999dd38f4f444afd28504cb3a89f2ef16b31d4ab61a0739025a
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^0.20.2":
-  version: 0.20.2
-  resolution: "type-fest@npm:0.20.2"
-  checksum: 4fb3272df21ad1c552486f8a2f8e115c09a521ad7a8db3d56d53718d0c907b62c6e9141ba5f584af3f6830d0872c521357e512381f24f7c44acae583ad517d73
   languageName: node
   linkType: hard
 

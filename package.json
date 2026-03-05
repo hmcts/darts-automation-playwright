@@ -39,7 +39,7 @@
     "cucumber-html-reporter": "7.2.0",
     "eslint": "9.35.0",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-playwright": "1.8.3",
+    "eslint-plugin-playwright": "2.9.0",
     "eslint-plugin-prettier": "5.5.5",
     "fs-extra": "11.3.4",
     "multiple-cucumber-html-reporter": "3.9.3",
