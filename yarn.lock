@@ -1980,7 +1980,7 @@ __metadata:
     eslint-plugin-playwright: 1.8.3
     eslint-plugin-prettier: 5.5.5
     fast-xml-parser: ^5.3.4
-    fs-extra: 11.3.2
+    fs-extra: 11.3.4
     luxon: ^3.5.0
     md5-file: ^5.0.0
     memory-cache: ^0.2.0
@@ -2665,14 +2665,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:11.3.2":
-  version: 11.3.2
-  resolution: "fs-extra@npm:11.3.2"
+"fs-extra@npm:11.3.4":
+  version: 11.3.4
+  resolution: "fs-extra@npm:11.3.4"
   dependencies:
     graceful-fs: ^4.2.0
     jsonfile: ^6.0.1
     universalify: ^2.0.0
-  checksum: 24a7a6e09668add7f74bf6884086b860ce39c7883d94f564623d4ca5c904ff9e5e33fa6333bd3efbf3528333cdedf974e49fa0723e9debf952f0882e6553d81e
+  checksum: 3d1453db564b20ad58adf7c9583d0821546bd05e158865407fa2767af774ad8353418118655005f48c5bd0dbda19ea4bd053f8a5dcef2ce2e97580f7a039a221
   languageName: node
   linkType: hard
 
