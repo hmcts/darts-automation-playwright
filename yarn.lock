@@ -187,8 +187,8 @@ __metadata:
   linkType: hard
 
 "@azure/storage-blob@npm:^12.26.0":
-  version: 12.28.0
-  resolution: "@azure/storage-blob@npm:12.28.0"
+  version: 12.31.0
+  resolution: "@azure/storage-blob@npm:12.31.0"
   dependencies:
     "@azure/abort-controller": ^2.1.2
     "@azure/core-auth": ^1.9.0
@@ -201,16 +201,16 @@ __metadata:
     "@azure/core-util": ^1.11.0
     "@azure/core-xml": ^1.4.5
     "@azure/logger": ^1.1.4
-    "@azure/storage-common": ^12.0.0-beta.2
+    "@azure/storage-common": ^12.3.0
     events: ^3.0.0
     tslib: ^2.8.1
-  checksum: 63d2fc547ad92ee1084414547808747b14f634e3ea0323ce90152abd9133dbc2cd23650cf987cfe3c1d9423f48beedb63121ba8b0379002426bba81274cd364b
+  checksum: b60327476b9a97cf3789c085869a1f3ad992277af6a80fb6870e94958559cf31cf7375be9b35025ec280e0d91b50490fa8c5825bf1c4ec869e3a5ba2f20eeca4
   languageName: node
   linkType: hard
 
-"@azure/storage-common@npm:^12.0.0-beta.2":
-  version: 12.0.0
-  resolution: "@azure/storage-common@npm:12.0.0"
+"@azure/storage-common@npm:^12.3.0":
+  version: 12.3.0
+  resolution: "@azure/storage-common@npm:12.3.0"
   dependencies:
     "@azure/abort-controller": ^2.1.2
     "@azure/core-auth": ^1.9.0
@@ -221,7 +221,7 @@ __metadata:
     "@azure/logger": ^1.1.4
     events: ^3.3.0
     tslib: ^2.8.1
-  checksum: 27d980ed8649e22642feb6dbfb58f190a1a4241a285a59192a30cd93025d9aaf62f418b1b7d23b410a1c955233c86cbc338a735c0a9df3ad45bdcc012cc2a884
+  checksum: 0d10bf28a167618a7ea5d2965242291ee161b16e8e8f57f16c40413d7d497b0d7ac6e7ab8b2518487be34c7a1b2f07a7d2d869b3be594e9941241202a383a74f
   languageName: node
   linkType: hard
 
