@@ -23,7 +23,7 @@ export class BasePage {
 
   async containsText(text: string, visible = true) {
     const timeout = this.getTimeoutForText(text);
-  
+
     if (!visible) {
       await expect(this.page.getByText(text).nth(0)).toBeVisible({
         visible: false,
@@ -33,7 +33,7 @@ export class BasePage {
       const allMatchingLocators = this.page.getByText(text);
       const visibleLocators = allMatchingLocators.locator('visible=true');
       const firstVisibleItem1 = visibleLocators.first();
-      await expect(firstVisibleItem1).toBeVisible({ timeout});
+      await expect(firstVisibleItem1).toBeVisible({ timeout });
     }
   }
 
@@ -172,12 +172,18 @@ export class BasePage {
 
   async hasHeader(text: string, visible = true) {
     const timeout = this.getTimeoutForText(text);
-    await expect(this.page.getByRole('heading', { name: text })).toBeVisible({ visible, timeout: timeout });
+    await expect(this.page.getByRole('heading', { name: text })).toBeVisible({
+      visible,
+      timeout: timeout,
+    });
   }
 
   async hasLink(text: string, visible = true) {
     const timeout = this.getTimeoutForText(text);
-    await expect(this.page.getByRole('link', { name: text })).toBeVisible({ visible, timeout: timeout });
+    await expect(this.page.getByRole('link', { name: text })).toBeVisible({
+      visible,
+      timeout: timeout,
+    });
   }
 
   async hasNavigationLink(text: string, visible: boolean) {
