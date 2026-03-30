@@ -1,5 +1,5 @@
 # TODO (DT): the tests in here could be combined to reduce the time significantly, avoiding authentication which is costly in time.
-@portal @portal_request_audio
+@portal @portal_request_audio @retry
 Feature: Request Audio
 
   @DMP-685 @DMP-651 @DMP-658 @DMP-696 @DMP-695 @DMP-686 @DMP-694 @DMP-1048 @DMP-2121 @DMP-2562 @DMP-4035 @regression @sequential

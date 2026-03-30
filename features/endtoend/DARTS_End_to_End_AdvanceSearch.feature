@@ -1,5 +1,4 @@
-# disabled due to issues running tests in pipeline dmp-5360
-@end2end @end2end6 @end2end_advanced_search @retry @disabled
+@end2end @end2end6 @end2end_advanced_search @retry
 Feature: End-to-end Advance Search
 
   @DMP-1927 @demo @sequential
@@ -26,6 +25,8 @@ Feature: End-to-end Advance Search
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
     When I set "Courthouse" to "<courthouse>"
+    Then I wait for 500 milliseconds
+    And I set "Defendant's name" to ""
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
     Then I see "Refine your search by adding more information and try again." on the page
@@ -400,6 +401,7 @@ Feature: End-to-end Advance Search
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
     When I set "Courthouse" to "<courthouse>"
+    And I set "Defendant's name" to ""
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
     Then I see "Refine your search by adding more information and try again." on the page

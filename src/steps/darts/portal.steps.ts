@@ -640,3 +640,7 @@ Given('I click on the first link in the results table', async function (this: IC
   const basePage = new BasePage(this.page!);
   await basePage.clickFirstTableLink();
 });
+
+Then('I wait for {int} milliseconds', async function (this: ICustomWorld, ms: number) {
+  await this.page!.waitForTimeout(ms);
+});
