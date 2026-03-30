@@ -459,8 +459,8 @@ Feature: Case Search
     And I select the "Date range" radio button
     And I set "Enter a date from" to "{{date-7/}}"
     And I set "Enter a date to" to "{{date-0/}}"
-    And I set "Judge's name" to "JUDGE NAME"
     And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Judge's name" to "JUDGE NAME"
     And I press the "Search" button
     Then I do not see link with text "Previous"
     And I see link with text "Next"
