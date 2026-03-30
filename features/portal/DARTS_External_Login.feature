@@ -78,7 +78,7 @@ Feature: External Login Portal
       | email                  |
       | preksha.jain@hmcts.net |
 
-  @DMP-493 @DMP-681 @demo @regression @sequential
+  @DMP-493 @DMP-681 @demo @regression @sequential @retry
   Scenario Outline: Forgotten Password
     Given I am on the landing page
     When I see "Sign in to the DARTS Portal" on the page
@@ -124,7 +124,7 @@ Feature: External Login Portal
     And I set "Email address" to "test"
     Then I see "Enter an email address in the correct format, like name@example.com" on the page
 
-  @DMP-1245 @demo @regression @sequential
+  @DMP-1245 @demo @regression @sequential @retry
   Scenario: Forgotten Password - No email address error
     Given I am on the portal page
     When I see "Sign in to the DARTS Portal" on the page

@@ -9,8 +9,8 @@ const common = {
   ],
   formatOptions: { snippetInterface: 'async-await' },
   tags: `(not @broken and not @obsolete and not @TODO and not @review and not @disabled) and ${process.env.INCLUDE_TAGS ? `(${process.env.INCLUDE_TAGS})` : '(@smoketest or @regression or @end2end)'}`,
-  // retry features with @retry tag up to 2 times
-  retry: 2,
+  // retry features with @retry tag once
+  retry: 1,
   retryTagFilter: '@retry',
 };
 
@@ -20,7 +20,7 @@ if (process.env.USE_ALLURE) {
   common.format.push('@cucumber/pretty-formatter');
 }
 
-export default function() {
+export default function () {
   return {
     default: {
       ...common,
@@ -29,5 +29,5 @@ export default function() {
     sequential: {
       ...common,
     },
-  }
+  };
 }

@@ -1,4 +1,5 @@
-@end2end @end2end6 @end2end_advanced_search @retry
+# disabled due to issues running tests in pipeline dmp-5360
+@end2end @end2end6 @end2end_advanced_search @retry @disabled
 Feature: End-to-end Advance Search
 
   @DMP-1927 @demo @sequential
