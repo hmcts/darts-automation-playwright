@@ -238,7 +238,7 @@ Then(
     const data = dataTable.rawTable;
     const headings = data[0];
     const tableData = data.slice(1, data.length);
-    
+
     console.log('📋 Raw DataTable from feature file:');
     console.table(data);
 
