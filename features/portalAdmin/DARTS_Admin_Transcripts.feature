@@ -1,4 +1,4 @@
-@admin @admin_transcripts
+@admin @admin_transcripts @retry
 Feature: Admin portal transcripts
 
   @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression @sequential

@@ -24,8 +24,7 @@ Feature: End-to-end Advance Search
     #Courthouse
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    When I set "Courthouse" to "<courthouse>"
-    Then I wait for 500 milliseconds
+    When I set "Courthouse" to "<courthouse>" in courthouse search
     And I set "Defendant's name" to ""
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -79,7 +78,7 @@ Feature: End-to-end Advance Search
     And I click on the "Advanced search" link
     Then "Courthouse" is ""
     Then "Case ID" is ""
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Courtroom" to "<courtroom>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -92,7 +91,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Courtroom
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -107,7 +106,7 @@ Feature: End-to-end Advance Search
     And I click on the "Advanced search" link
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Courtroom" to "<courtroom>"
     Then I press the "Search" button
     Then I see "1 result" on the page
@@ -121,7 +120,7 @@ Feature: End-to-end Advance Search
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
     Then I set "Enter a date to" to "<todaysDate>"
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Courtroom" to "<courtroom>"
     Then I press the "Search" button
     Then I see "1 result" on the page
@@ -132,7 +131,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Keyword + Courtroom
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -209,7 +208,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Defendant
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Judge's name" to "<judges>"
     Then I press the "Search" button
@@ -220,7 +219,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Specific Date
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Judge's name" to "<judges>"
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
@@ -232,7 +231,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Date Range
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Judge's name" to "<judges>"
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
@@ -245,7 +244,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Keyword
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Judge's name" to "<judges>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
@@ -256,7 +255,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Specific Date
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
@@ -268,7 +267,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Date Range
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
@@ -281,7 +280,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Keywords + Specific Date
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Keywords" to "<keywords>"
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
@@ -293,7 +292,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Keywords + Date Range
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Keywords" to "<keywords>"
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
@@ -306,7 +305,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Keyword
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
@@ -324,7 +323,7 @@ Feature: End-to-end Advance Search
     Then I press the "Search" button
     Then I see "You must also enter a courthouse" on the page
 
-    When I set "Courthouse" to "<courthouse>"
+    When I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Case ID" to "<case_number>"
     Then I press the "Search" button
     Then I see "1 result" on the page
@@ -400,7 +399,7 @@ Feature: End-to-end Advance Search
     #Courthouse
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    When I set "Courthouse" to "<courthouse>"
+    When I set "Courthouse" to "<courthouse>" in courthouse search
     And I set "Defendant's name" to ""
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -454,7 +453,7 @@ Feature: End-to-end Advance Search
     And I click on the "Advanced search" link
     Then "Courthouse" is ""
     Then "Case ID" is ""
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Courtroom" to "<courtroom>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -467,7 +466,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Courtroom
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -482,7 +481,7 @@ Feature: End-to-end Advance Search
     And I click on the "Advanced search" link
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Courtroom" to "<courtroom>"
     Then I press the "Search" button
     Then I see "1 result" on the page
@@ -497,7 +496,7 @@ Feature: End-to-end Advance Search
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
     Then I set "Enter a date to" to "<todaysDate>"
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Courtroom" to "<courtroom>"
     Then I press the "Search" button
     Then I see "1 result" on the page
@@ -509,7 +508,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Keyword + Courtroom
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -587,7 +586,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Defendant
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Judge's name" to "<judges>"
     Then I press the "Search" button
@@ -599,7 +598,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Specific Date
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Judge's name" to "<judges>"
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
@@ -612,7 +611,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Date Range
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Judge's name" to "<judges>"
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
@@ -626,7 +625,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Judge + Keyword
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Judge's name" to "<judges>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
@@ -638,7 +637,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Specific Date
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
@@ -651,7 +650,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Date Range
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
@@ -665,7 +664,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Keywords + Specific Date
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Keywords" to "<keywords>"
     Then I select the "Specific date" radio button
     Then I set "Enter a specific date" to "<todaysDate>"
@@ -678,7 +677,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Keywords + Date Range
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Keywords" to "<keywords>"
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "<todaysDate>"
@@ -692,7 +691,7 @@ Feature: End-to-end Advance Search
     #Courthouse + Defendant + Keyword
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    Then I set "Courthouse" to "<courthouse>"
+    Then I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Defendant's name" to "<defendants>"
     Then I set "Keywords" to "<keywords>"
     Then I press the "Search" button
@@ -711,7 +710,7 @@ Feature: End-to-end Advance Search
     Then I press the "Search" button
     Then I see "You must also enter a courthouse" on the page
 
-    When I set "Courthouse" to "<courthouse>"
+    When I set "Courthouse" to "<courthouse>" in courthouse search
     Then I set "Case ID" to "<case_number>"
     Then I press the "Search" button
     Then I see "1 result" on the page
