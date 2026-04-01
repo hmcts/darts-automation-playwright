@@ -1,4 +1,4 @@
-@request_transcript
+@request_transcript @retry
 Feature: Request Transcript
 
   @DMP-696 @DMP-862 @DMP-868 @DMP-872 @DMP-892 @DMP-917 @DMP-925 @DMP-934 @DMP-1009 @DMP-1011 @DMP-1012 @DMP-1025 @DMP-1028 @DMP-1033 @DMP-1053 @DMP-1054 @DMP-1138 @DMP-1198 @DMP-1203 @DMP-1234 @DMP-1243 @DMP-1326 @DMP-2123 @DMP-2124 @DMP-2740 @DMP-4129 @DMP-4318 @regression @sequential

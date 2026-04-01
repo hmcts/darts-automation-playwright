@@ -38,7 +38,7 @@ Feature: Super User Permission
     When I click on the "Clear search" link
     And I set "Case ID" to "A{{seq}}001"
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Courtroom" to "A{{seq}}-1"
     And I press the "Search" button
     Then I verify the HTML table contains the following values
@@ -48,7 +48,7 @@ Feature: Super User Permission
 
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Courtroom" to "A{{seq}}-1"
     And I set "Defendant's name" to "Def A{{seq}}-1"
     And I press the "Search" button
@@ -56,7 +56,7 @@ Feature: Super User Permission
 
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Courtroom" to "A{{seq}}-1"
     And I set "Keywords" to "A{{seq}}ABC-1"
     And I press the "Search" button
@@ -126,7 +126,7 @@ Feature: Super User Permission
 
     When I click on the "Clear search" link
     Then I click on the "Advanced search" link
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     Then I set "Judge's name" to "Judge {{seq}}-1"
     Then I press the "Search" button
     Then I see "We need more information to search for a case" on the page
@@ -241,7 +241,7 @@ Feature: Super User Permission
     And I set "Case ID" to "A{{seq}}001"
 
     Then I click on the "Advanced search" link
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Courtroom" to "A{{seq}}-1"
 
     And I press the "Search" button
@@ -290,7 +290,7 @@ Feature: Super User Permission
     And I see "Search for a case" on the page
     And I set "Case ID" to "A{{seq}}001"
     Then I click on the "Advanced search" link
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Courtroom" to "A{{seq}}-1"
     And I press the "Search" button
     Then I verify the HTML table contains the following values

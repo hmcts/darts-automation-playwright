@@ -49,7 +49,7 @@ Feature: Case Search
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
     And I set "Case ID" to "A{{seq}}"
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Courtroom" to "A{{seq}}-11"
     And I press the "Search" button
     And I click on "Case ID" in the table header
@@ -439,7 +439,7 @@ Feature: Case Search
     And I see "Search for a case" on the page
     And I click on the "Advanced search" link
     And I set "Case ID" to "CASE5_Event_DMP461"
-    And I set "Courthouse" to "swansea"
+    And I set "Courthouse" to "swansea" in courthouse search
     And I press the "Search" button
     And I click on the "CASE5_Event_DMP461" link
     Then I do not see "There are restrictions against this case" on the page
@@ -459,7 +459,7 @@ Feature: Case Search
     And I select the "Date range" radio button
     And I set "Enter a date from" to "{{date-7/}}"
     And I set "Enter a date to" to "{{date-0/}}"
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Judge's name" to "JUDGE NAME"
     And I press the "Search" button
     Then I do not see link with text "Previous"
@@ -481,8 +481,8 @@ Feature: Case Search
     And I click on the "Search" link
     And I click on the "Advanced search" link
     And I set "Courtroom" to "A{{seq}}-11"
-    And I set "Courthouse" to "Harrow Crown Court"
-    And I click option "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
+    # And I click option "Harrow Crown Court"
     And I press the "Search" button
     Then I see "We need more information to search for a case" on the page
 
@@ -497,7 +497,7 @@ Feature: Case Search
 
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "Harrow Crown Court"
+    And I set "Courthouse" to "Harrow Crown Court" in courthouse search
     And I set "Defendant's name" to "Def A"
     And I press the "Search" button
     Then I see "We need more information to search for a case" on the page

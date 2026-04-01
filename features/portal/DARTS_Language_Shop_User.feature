@@ -37,7 +37,7 @@ Feature: Language Shop User
     #Advanced search
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "DMP-1289-BATH"
+    And I set "Courthouse" to "DMP-1289-BATH" in courthouse search
     And I set "Courtroom" to "Courtroom SIT1"
     And I select the "Specific date" radio button
     And I set "Enter a date" to "15/01/2024"
@@ -49,7 +49,7 @@ Feature: Language Shop User
 
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "DMP-1289-BATH"
+    And I set "Courthouse" to "DMP-1289-BATH" in courthouse search
     And I set "Defendant's name" to "Joe Bloggs"
     And I set "Judge's name" to "Jane Bloggs"
     And I press the "Search" button
@@ -209,7 +209,7 @@ Feature: Language Shop User
     #Advanced search
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "LEEDS_DMP381"
+    And I set "Courthouse" to "LEEDS_DMP381" in courthouse search
     And I set "Courtroom" to "Courtroom SIT1"
     And I select the "Specific date" radio button
     And I set "Enter a date" to "23/04/2024"
@@ -221,7 +221,7 @@ Feature: Language Shop User
 
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "LEEDS_DMP381"
+    And I set "Courthouse" to "LEEDS_DMP381" in courthouse search
     And I set "Defendant's name" to "Joe Bloggs"
     And I set "Judge's name" to "Jane Bloggs"
     And I press the "Search" button
@@ -373,7 +373,7 @@ Feature: Language Shop User
     #Advanced search
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "Swansea"
+    And I set "Courthouse" to "Swansea" in courthouse search
     And I set "Courtroom" to "Courtroom SIT1"
     And I select the "Specific date" radio button
     And I set "Enter a date" to "23/04/2024"
@@ -385,7 +385,7 @@ Feature: Language Shop User
 
     When I click on the "Clear search" link
     And I click on the "Advanced search" link
-    And I set "Courthouse" to "Swansea"
+    And I set "Courthouse" to "Swansea" in courthouse search
     And I set "Defendant's name" to "Joe Bloggs"
     And I set "Judge's name" to "Jane Bloggs"
     And I press the "Search" button
