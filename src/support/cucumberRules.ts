@@ -1,7 +1,4 @@
-import {
-  setParallelCanAssign,
-  parallelCanAssignHelpers,
-} from '@cucumber/cucumber';
+import { setParallelCanAssign, parallelCanAssignHelpers } from '@cucumber/cucumber';
 
 const { atMostOnePicklePerTag } = parallelCanAssignHelpers;
 const myTagRule = atMostOnePicklePerTag(['@sequential']);
