@@ -17,7 +17,7 @@
     "test": "npm run cucumber ",
     "test:smoke": "npm run cucumber -- --tags @smoketest",
     "test:all": "npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
-    "test:fullfunctional": "SHOW_BROWSER=true npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
+    "test:fullfunctional": "xvfb-run -a env SHOW_BROWSER=true npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
     "test:sequential": "npm run cucumber -- -p sequential",
     "test:sequential:smoke": "npm run cucumber -- --tags @smoketest -p sequential"
   },
