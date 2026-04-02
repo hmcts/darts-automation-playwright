@@ -43,7 +43,7 @@
     "eslint-plugin-prettier": "5.5.5",
     "fs-extra": "11.3.4",
     "multiple-cucumber-html-reporter": "3.10.0",
-    "open": "10.2.0",
+    "open": "11.0.0",
     "prettier": "3.8.1",
     "ts-node": "10.9.2",
     "tsx": "4.21.0",
