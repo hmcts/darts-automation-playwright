@@ -128,6 +128,29 @@ export class BasePage {
     await matching.fill(value);
   }
 
+  async fillCombobox(field: string, value: string, exactFieldMatch = false) {
+    let input = this.page.getByRole('combobox', { name: /courthouse/i });
+
+    switch (field) {
+      case 'Courthouse':
+        input = this.page.getByRole('combobox', { name: /Filter by courthouse/i });
+        break;
+
+      default:
+        input = this.page.getByLabel(field, { exact: exactFieldMatch });
+        break;
+    }
+
+    await expect(input).toBeVisible();
+    await input.click();
+    await input.fill('');
+    await input.pressSequentially(value, { delay: 100 });
+    await expect(input).toHaveValue(value);
+    const listbox = this.page.getByRole('listbox');
+    await expect(listbox).toBeVisible();
+    return input;
+  }
+
   async fillTimeFields(label: string, timeValue: string) {
     const timeData = timeValue.split(':');
     const timeField = this.page.locator(`//*[text() = "${label}"]/following-sibling::*`);

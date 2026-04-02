@@ -77,15 +77,23 @@ Feature: Transcriber
     Then I press the "Confirm" button
     Then I see "Your order is complete" on the page
     And I use the Audio Request ID
-
-    Then I click on the "Return to hearing date" link
+    #Duplicate audio request
+    When I click on the "Return to hearing date" link
+    And I select the "Download" radio button
+    And I check the checkbox in the same row as "<startTime> - <endTime>" "Audio recording"
+    And  I press the "Get Audio" button
+    Then I see "Confirm your Order" on the page
+    When I press the "Confirm" button
+    Then I see "You cannot order this audio" on the page
+    And  I see "You have already ordered this audio and the request is 'pending'." on the page
+    Then I click on the "Go back" link
     # Then I wait for the audio Request ID to be ready
     Then I click on the "Your audio" link
     #    Then I wait for the requested audio file to be ready
     #      | user      | courthouse   | case_number   | hearing_date |
     #      | REQUESTER | <courthouse> | <case_number> | {{date+0/}}  |
     # Then I click on "Request ID" in the "Ready" table header
-    Then I wait for text "READY" on the same row as link "<case_number>"
+    Then I wait for text "READY" on the same row as link "<case_number>" without refreshing
     Then I click on "View" in the same row as "<case_number>"
     Then I see "<case_number>" on the page
     Then I press the "Download audio file" button to download the file
@@ -181,8 +189,18 @@ Feature: Transcriber
     And I see "Confirm your Order" on the page
     Then I press the "Confirm" button
     Then I see "Your order is complete" on the page
+    #Duplicate audio request
+    When I click on the "Return to hearing date" link
+    And I select the "Playback Only" radio button
+    And I check the checkbox in the same row as "<startTime> - <endTime>" "Audio recording"
+    And  I press the "Get Audio" button
+    Then I see "Confirm your Order" on the page
+    When I press the "Confirm" button
+    Then I see "You cannot order this audio" on the page
+    And  I see "You have already ordered this audio and the request is 'pending'." on the page
+    Then I click on the "Go back" link
 
-    Then I click on the "Return to hearing date" link
+    # Then I click on the "Return to hearing date" link
     Then I click on the "Your audio" link
 
     # Then I wait for the requested audio file to be ready
@@ -190,7 +208,7 @@ Feature: Transcriber
     #   | TRANSCRIBER | <courthouse> | <case_number> | {{date+0/}}  |
     # Then I click on "Request ID" in the "Ready" table header
 
-    Then I wait for text "READY" on the same row as link "<case_number>"
+    Then I wait for text "READY" on the same row as link "<case_number>" without refreshing
     Then I click on "View" in the same row as "<case_number>"
     Then I see "<case_number>" on the page
     Then I press the "Download audio file" button to download the file

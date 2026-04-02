@@ -1641,19 +1641,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"balanced-match@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "balanced-match@npm:3.0.1"
-  checksum: 799bc086e80c5fe6c40e5bf486340d86ec76179017601a40dd0310ac92b44beaab19c55757a38bfd22e3b1572e5c3536e6f79050898f8fa9bbb7db4cfcf9e08e
+"balanced-match@npm:^4.0.2":
+  version: 4.0.4
+  resolution: "balanced-match@npm:4.0.4"
+  checksum: fb07bb66a0959c2843fc055838047e2a95ccebb837c519614afb067ebfdf2fa967ca8d712c35ced07f2cd26fc6f07964230b094891315ad74f11eba3d53178a0
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "brace-expansion@npm:4.0.1"
+"brace-expansion@npm:^5.0.0":
+  version: 5.0.5
+  resolution: "brace-expansion@npm:5.0.5"
   dependencies:
-    balanced-match: ^3.0.0
-  checksum: e75879c6f2defba2359b8d92ab9e0c9b884ecca2a65d686f252650d5e40f40209385aec4247acbe9fb2ed274330b25d55b71bb99a02386b2122573d40b3e64d1
+    balanced-match: ^4.0.2
+  checksum: 4481b7ffa467b34c14e258167dbd8d9485a2d31d03060e8e8b38142dcde32cdc89c8f55b04d3ae7aae9304fa7eac1dfafd602787cf09c019cc45de3bb6950ffc
   languageName: node
   linkType: hard
 
@@ -1989,7 +1989,7 @@ __metadata:
     eslint-config-prettier: 10.1.8
     eslint-plugin-playwright: 2.10.1
     eslint-plugin-prettier: 5.5.5
-    fast-xml-parser: ^5.3.4
+    fast-xml-parser: ^5.5.7
     fs-extra: 11.3.4
     luxon: ^3.5.0
     md5-file: ^5.0.0
@@ -2556,7 +2556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^5.3.4":
+"fast-xml-parser@npm:^5.3.4, fast-xml-parser@npm:^5.5.7":
   version: 5.5.9
   resolution: "fast-xml-parser@npm:5.5.9"
   dependencies:
@@ -3539,16 +3539,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^3.1.1":
-  version: 3.1.2
-  resolution: "minimatch@npm:3.1.2"
-  dependencies:
-    brace-expansion: ^1.1.7
-  checksum: c154e566406683e7bcb746e000b84d74465b3a832c45d59912b9b55cd50dee66e5c4b1e5566dba26154040e51672f9aa450a9aef0c97cfc7336b78b7afb9540a
-  languageName: node
-  linkType: hard
-
-"minimatch@npm:^3.1.5":
+"minimatch@npm:^3.1.1, minimatch@npm:^3.1.5":
   version: 3.1.5
   resolution: "minimatch@npm:3.1.5"
   dependencies:
@@ -3558,11 +3549,11 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^9.0.4":
-  version: 9.0.5
-  resolution: "minimatch@npm:9.0.5"
+  version: 9.0.7
+  resolution: "minimatch@npm:9.0.7"
   dependencies:
-    brace-expansion: ^2.0.1
-  checksum: 2c035575eda1e50623c731ec6c14f65a85296268f749b9337005210bb2b34e2705f8ef1a358b188f69892286ab99dc42c8fb98a57bde55c8d81b3023c19cea28
+    brace-expansion: ^5.0.2
+  checksum: 03c871cdf51b643c3e12eac582f44ae7a10b2829e018f5d71376089db118fbfe16e992e16300fd0150ff3e353d58b5fe1507c9815b29fd871a97e749e7fe063d
   languageName: node
   linkType: hard
 

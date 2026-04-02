@@ -303,6 +303,18 @@ When(
 );
 
 When(
+  'I set {string} to {string} in courthouse search',
+  async function (this: ICustomWorld, field: string, value: string) {
+    const basePage = new BasePage(this.page!);
+    const input = await basePage.fillCombobox(field, substituteValue(value) as string);
+    // wait 500 ms for search results to update
+    await this.page!.waitForTimeout(500);
+    // blur the input
+    await input.blur();
+  },
+);
+
+When(
   'I set {string} to {string} with exact field name',
   async function (this: ICustomWorld, field: string, value: string) {
     const basePage = new BasePage(this.page!);
@@ -563,6 +575,33 @@ Then(
   },
 );
 
+Then(
+  'I wait for text {string} on the same row as link {string} without refreshing',
+  { timeout: 60 * 1000 * 6 }, // 6 minutes
+  async function (this: ICustomWorld, waitForText: string, rowValue: string) {
+    // check every 10s for up to 6 minutes
+    await wait(
+      async () => {
+        const basePage = new BasePage(this.page!);
+        try {
+          console.log(`Waiting for text "${waitForText}", on row with value "${rowValue}"`);
+          await basePage.hasValueInTableRowWith(substituteValue(waitForText) as string, [
+            substituteValue(rowValue) as string,
+          ]);
+          console.log('Found');
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          console.log('Not found, remaining on the page');
+          return false;
+        }
+      },
+      10000,
+      36,
+    );
+  },
+);
+
 Given('I refresh the page', async function (this: ICustomWorld) {
   const basePage = new BasePage(this.page!);
   await basePage.refreshPage();
@@ -597,6 +636,7 @@ Given(
 
       await basePage.fillInputField('Filter by group name', group);
       await basePage.clickCheckboxInTableRowWithOneValue(group);
+      await basePage.containsText('1 groups selected');
       await basePage.clickButton('Assign groups');
       await basePage.hasHeader(username);
       await basePage.hasLink(group);
@@ -639,4 +679,8 @@ Given('I reactivate user {string}', async function (this: ICustomWorld, username
 Given('I click on the first link in the results table', async function (this: ICustomWorld) {
   const basePage = new BasePage(this.page!);
   await basePage.clickFirstTableLink();
+});
+
+Then('I wait for {int} milliseconds', async function (this: ICustomWorld, ms: number) {
+  await this.page!.waitForTimeout(ms);
 });
