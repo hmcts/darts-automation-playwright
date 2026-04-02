@@ -482,7 +482,6 @@ Feature: Case Search
     And I click on the "Advanced search" link
     And I set "Courtroom" to "A{{seq}}-11"
     And I set "Courthouse" to "Harrow Crown Court" in courthouse search
-    # And I click option "Harrow Crown Court"
     And I press the "Search" button
     Then I see "We need more information to search for a case" on the page
 
