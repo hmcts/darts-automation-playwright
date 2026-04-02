@@ -1989,7 +1989,7 @@ __metadata:
     eslint-config-prettier: 10.1.8
     eslint-plugin-playwright: 2.10.1
     eslint-plugin-prettier: 5.5.5
-    fast-xml-parser: ^5.3.4
+    fast-xml-parser: ^5.5.7
     fs-extra: 11.3.4
     luxon: ^3.5.0
     md5-file: ^5.0.0
@@ -2556,7 +2556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:^5.3.4":
+"fast-xml-parser@npm:^5.3.4, fast-xml-parser@npm:^5.5.7":
   version: 5.5.9
   resolution: "fast-xml-parser@npm:5.5.9"
   dependencies:
