@@ -610,6 +610,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cucumber/pretty-formatter@npm:3.2.0":
+  version: 3.2.0
+  resolution: "@cucumber/pretty-formatter@npm:3.2.0"
+  dependencies:
+    "@cucumber/query": 15.0.1
+    luxon: ^3.7.2
+  peerDependencies:
+    "@cucumber/messages": "*"
+  checksum: 11f074381f6d6f0f6b1396ff821ea42ae24fdebfdb20b3f7c1b54d6baa9c6c5622d75939464408433b6bf2eca6d0df2f6253ed28692ea1c68d5bff630fc38d95
+  languageName: node
+  linkType: hard
+
+"@cucumber/query@npm:15.0.1":
+  version: 15.0.1
+  resolution: "@cucumber/query@npm:15.0.1"
+  dependencies:
+    "@teppeis/multimaps": 3.0.0
+    lodash.sortby: ^4.7.0
+  peerDependencies:
+    "@cucumber/messages": "*"
+  checksum: 86af1954d90471060ef662e28c1bcb90bde7834bbe311758d82e9b55641dfe28c3a86ad3d4c66108976b4e82d71a682afb15410d74d458aeae4bcab56a5468e6
+  languageName: node
+  linkType: hard
+
 "@cucumber/query@npm:^14.0.1":
   version: 14.7.0
   resolution: "@cucumber/query@npm:14.7.0"
@@ -1968,7 +1992,7 @@ __metadata:
     "@cucumber/cucumber": 12.7.0
     "@cucumber/html-formatter": 21.15.1
     "@cucumber/messages": ^28.0.0
-    "@cucumber/pretty-formatter": 1.0.1
+    "@cucumber/pretty-formatter": 3.2.0
     "@eslint/eslintrc": ^3.2.0
     "@eslint/js": ^9.17.0
     "@playwright/test": 1.59.1
