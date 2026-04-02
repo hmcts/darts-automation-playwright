@@ -1235,13 +1235,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/supertest@npm:^6.0.2":
-  version: 6.0.3
-  resolution: "@types/supertest@npm:6.0.3"
+"@types/supertest@npm:^7.0.0":
+  version: 7.2.0
+  resolution: "@types/supertest@npm:7.2.0"
   dependencies:
     "@types/methods": ^1.1.4
     "@types/superagent": ^8.1.0
-  checksum: 5f75e4190620bb06168cca6998c1af29168e7ca64de34abe522002573d96b37ce2611ee53a9a360b3f42d44f0bfea547d0bb258f038ab69ac50d90bd5b96fc13
+  checksum: 71a673e6daba4727294f1864025f8d85dfe1d24f63e3d3abb6ff68740258dcd9a072f447348afc2bde7c71c46c08e39414771a583165177c1b68f3521b4d0e48
   languageName: node
   linkType: hard
 
@@ -1978,7 +1978,7 @@ __metadata:
     "@types/md5-file": ^5.0.0
     "@types/memory-cache": ^0.2.6
     "@types/node": ^22.10.5
-    "@types/supertest": ^6.0.2
+    "@types/supertest": ^7.0.0
     "@types/uuid": ^11.0.0
     "@types/xml-escape": ^1.1.3
     "@typescript-eslint/eslint-plugin": 8.58.0
