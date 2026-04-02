@@ -15,9 +15,9 @@
     "report": "open reports/report.html",
     "all": "npm run cucumber features/**/*.feature",
     "test": "npm run cucumber ",
-    "test:smoke": "npm run cucumber -- --tags @smoketest",
+    "test:smoke": "SHOW_BROWSER=true npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
     "test:all": "npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
-    "test:fullfunctional": "xvfb-run -a env SHOW_BROWSER=true npm run cucumber -- --tags '@smoketest or @regression or @end2end'",
+    "test:fullfunctional": "npm run cucumber",
     "test:sequential": "npm run cucumber -- -p sequential",
     "test:sequential:smoke": "npm run cucumber -- --tags @smoketest -p sequential"
   },
