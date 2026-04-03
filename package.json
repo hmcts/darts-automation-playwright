@@ -67,7 +67,7 @@
     "memory-cache": "^0.2.0",
     "postgres": "^3.4.5",
     "supertest": "^7.0.0",
-    "uuid": "^11.0.4",
+    "uuid": "^13.0.0",
     "xml-escape": "^1.1.0"
   },
   "resolutions": {
