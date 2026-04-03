@@ -2003,7 +2003,7 @@ __metadata:
     tsx: 4.21.0
     typescript: 5.9.3
     typescript-eslint: ^8.7.0
-    uuid: ^11.0.4
+    uuid: ^13.0.0
     xml-escape: ^1.1.0
   languageName: unknown
   linkType: soft
@@ -4864,7 +4864,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:*":
+"uuid@npm:*, uuid@npm:^13.0.0":
   version: 13.0.0
   resolution: "uuid@npm:13.0.0"
   bin:
@@ -4873,7 +4873,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:11.1.0, uuid@npm:^11.0.4, uuid@npm:^11.1.0":
+"uuid@npm:11.1.0, uuid@npm:^11.1.0":
   version: 11.1.0
   resolution: "uuid@npm:11.1.0"
   bin:
