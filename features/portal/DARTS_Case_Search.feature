@@ -332,7 +332,7 @@ Feature: Case Search
     Then I see "testprosecutortwo" on the page
     And I see "testdefendertwo" on the page
 
-  # TODO (DT): This is not run due to lack of one of the following tags:  @regression @end2end
+  # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
   @DMP-1397-AC1 @sequential 
   Scenario: Hide automatic transcript request - Case file screen
     Given I am logged on to DARTS as an APPROVER user
@@ -356,7 +356,7 @@ Feature: Case Search
       | 22 Dec 2023  | *IGNORE* | *IGNORE*     | *IGNORE*     | *IGNORE* |
       | 05 Jan 2024  | *IGNORE* | *IGNORE*     | *IGNORE*     | *IGNORE* |
 
-  # TODO (DT): This is not run due to lack of one of the following tags:  @regression @end2end
+  # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
   @DMP-1397-AC2 @sequential
   Scenario: Hide automatic transcript request - Heating details screen
     Given I am logged on to DARTS as an APPROVER user
@@ -416,7 +416,7 @@ Feature: Case Search
     Then I do not see "Restriction applied: An order made under s46 of the Youth Justice and Criminal Evidence Act 1999" on the page
     And I do not see "For full details, check the hearing events." on the page
 
-  # TODO (DT): This is not run due to lack of one of the following tags:  @regression @end2end
+  # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
   @DMP-1798-AC5 @sequential
   Scenario: Restrictions banner on hearing details screen - no restrictions during hearing but others on case
     Given I am logged on to DARTS as an APPROVER user
@@ -431,7 +431,7 @@ Feature: Case Search
     Then I see "There are restrictions against this case" on the page
     And I do not see "Show restrictions" on the page
 
-  # TODO (DT): This is not run due to lack of one of the following tags:  @regression @end2end
+  # TODO (DT): This is not run due to lack of one of the following tags: @smoketest @regression @end2end
   @DMP-1798-AC6 @sequential
   Scenario: Restrictions banner on hearing details screen - No restrictions
     Given I am logged on to DARTS as an APPROVER user
