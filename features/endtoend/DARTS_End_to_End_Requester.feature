@@ -56,7 +56,7 @@ Feature: End-to-end Requester
     When I click on the "HMCTS DARTS" link
     # Wait for Requested Audio
     When I click on the "Your audio" link
-    Then I wait for text "READY" on the same row as link "<case_number>"
+    Then I wait for text "READY" on the same row as link "<case_number>" without refreshing
     # Then I click on "Request ID" in the "Ready" table header
     #   Then I wait for the requested audio file to be ready
     #      | user      | courthouse   | case_number   | hearing_date |

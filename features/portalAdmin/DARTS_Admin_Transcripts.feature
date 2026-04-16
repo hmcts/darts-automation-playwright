@@ -1,4 +1,4 @@
-@admin @admin_transcripts
+@admin @admin_transcripts @retry
 Feature: Admin portal transcripts
 
   @DMP-1265 @DMP-2525 @DMP-2538 @DMP-3133 @regression @sequential
@@ -737,6 +737,7 @@ Feature: Admin portal transcripts
     And I set "Hearing date" to ""
     And I set "Courthouse" to "Test"
     Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
+    And I set "Requested by" to "Test"
     Then I select the "Date range" radio button
     Then I set "Enter a date from" to "ddd"
     Then I see "You have not entered a recognised date in the correct format (for example 31/01/2023)" on the page
