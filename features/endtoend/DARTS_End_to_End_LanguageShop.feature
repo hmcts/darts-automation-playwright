@@ -60,7 +60,7 @@ Feature: End-to-end Language Shop User
 
     Then I click on the "Return to hearing date" link
     # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
-    # TODO revisit when DMP-5530 and relatated tickets are implemented
+    # TODO revisit when DMP-5530 and related tickets are implemented
     Given I refresh the page
     And I wait for text "Your audio" to appear
 

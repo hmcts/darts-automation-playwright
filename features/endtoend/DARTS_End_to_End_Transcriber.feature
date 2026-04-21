@@ -89,7 +89,7 @@ Feature: Transcriber
     Then I click on the "Go back" link
     # Then I wait for the audio Request ID to be ready
     # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
-    # TODO revisit when DMP-5530 and relatated tickets are implemented
+    # TODO revisit when DMP-5530 and related tickets are implemented
     Given I refresh the page
     And I wait for text "Your audio" to appear
     Then I click on the "Your audio" link
@@ -204,7 +204,7 @@ Feature: Transcriber
     And  I see "You have already ordered this audio and the request is 'pending'." on the page
     Then I click on the "Go back" link
     # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
-    # TODO revisit when DMP-5530 and relatated tickets are implemented
+    # TODO revisit when DMP-5530 and related tickets are implemented
     Given I refresh the page
     And I wait for text "Your audio" to appear
     # Then I click on the "Return to hearing date" link
