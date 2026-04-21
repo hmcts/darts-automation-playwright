@@ -190,6 +190,10 @@ Feature: Language Shop User
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
+    # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
+    # TODO revisit when DMP-5530 and relatated tickets are implemented
+    Given I refresh the page
+    And I wait for text "Your audio" to appear
     When I click on the "Your audio" link
     And I see "Current" on the page
     And I see "Expired" on the page
@@ -354,6 +358,10 @@ Feature: Language Shop User
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
+    # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
+    # TODO revisit when DMP-5530 and relatated tickets are implemented
+    Given I refresh the page
+    And I wait for text "Your audio" to appear
     When I click on the "Your audio" link
     And I see "Current" on the page
     And I see "Expired" on the page
@@ -518,6 +526,10 @@ Feature: Language Shop User
     And I see "Return to hearing date" on the page
     And I see "Back to search results" on the page
     And I click on the "Back to search results" link
+    # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
+    # TODO revisit when DMP-5530 and relatated tickets are implemented
+    Given I refresh the page
+    And I wait for text "Your audio" to appear
     When I click on the "Your audio" link
     And I see "Current" on the page
     And I see "Expired" on the page

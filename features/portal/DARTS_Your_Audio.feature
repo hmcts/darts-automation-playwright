@@ -83,7 +83,7 @@ Feature: Your Audio Screen
     And I see "<EndTime>" on the page
     And I see "<Restriction>" on the page
     When I click on the breadcrumb link "Your Audio"
-    Then I see "Your Audio" on the page
+    And I see "Your Audio" on the page
     #Then I see "<CaseID>" under ready
     #And I do not see a new audio blob
     #And I do not see a new case audio blob

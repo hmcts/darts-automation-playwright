@@ -593,6 +593,10 @@ Feature: Request Transcript
 
     When I click on the "Return to hearing date" link
     Then I see "Events and audio recordings" on the page
+    # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
+    # TODO revisit when DMP-5530 and relatated tickets are implemented
+    Given I refresh the page
+    And I wait for text "Your audio" to appear
 
     #DMP-1203-AC3 Your audio
 
