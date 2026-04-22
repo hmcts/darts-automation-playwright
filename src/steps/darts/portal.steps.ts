@@ -602,6 +602,34 @@ Then(
   },
 );
 
+Then(
+  'I wait for text {string} to appear',
+  { timeout: 30 * 1000 }, // 30 seconds
+  async function (this: ICustomWorld, waitForText: string) {
+    await wait(
+      async () => {
+        const basePage = new BasePage(this.page!);
+        try {
+          await basePage
+            .page!.locator(`text=${substituteValue(waitForText)}`)
+            .first()
+            .waitFor({
+              state: 'visible',
+              timeout: 5000,
+            });
+
+          return true;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+          return false;
+        }
+      },
+      10000,
+      3,
+    );
+  },
+);
+
 Given('I refresh the page', async function (this: ICustomWorld) {
   const basePage = new BasePage(this.page!);
   await basePage.refreshPage();

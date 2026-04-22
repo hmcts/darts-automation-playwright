@@ -88,6 +88,10 @@ Feature: Transcriber
     And  I see "You have already ordered this audio and the request is 'pending'." on the page
     Then I click on the "Go back" link
     # Then I wait for the audio Request ID to be ready
+    # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
+    # TODO revisit when DMP-5530 and related tickets are implemented
+    Given I refresh the page
+    And I wait for text "Your audio" to appear
     Then I click on the "Your audio" link
     #    Then I wait for the requested audio file to be ready
     #      | user      | courthouse   | case_number   | hearing_date |
@@ -199,7 +203,10 @@ Feature: Transcriber
     Then I see "You cannot order this audio" on the page
     And  I see "You have already ordered this audio and the request is 'pending'." on the page
     Then I click on the "Go back" link
-
+    # Refresh added due to delay on loading navigation bar which causes "Your audio" link to not be found
+    # TODO revisit when DMP-5530 and related tickets are implemented
+    Given I refresh the page
+    And I wait for text "Your audio" to appear
     # Then I click on the "Return to hearing date" link
     Then I click on the "Your audio" link
 
