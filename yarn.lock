@@ -1847,7 +1847,7 @@ __metadata:
     cucumber-html-reporter: "npm:7.2.0"
     eslint: "npm:9.39.4"
     eslint-config-prettier: "npm:10.1.8"
-    eslint-plugin-playwright: "npm:2.10.1"
+    eslint-plugin-playwright: "npm:2.10.2"
     eslint-plugin-prettier: "npm:5.5.5"
     fast-xml-parser: "npm:^5.5.7"
     fs-extra: "npm:11.3.4"
@@ -2125,14 +2125,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-playwright@npm:2.10.1":
-  version: 2.10.1
-  resolution: "eslint-plugin-playwright@npm:2.10.1"
+"eslint-plugin-playwright@npm:2.10.2":
+  version: 2.10.2
+  resolution: "eslint-plugin-playwright@npm:2.10.2"
   dependencies:
     globals: "npm:^17.3.0"
   peerDependencies:
     eslint: ">=8.40.0"
-  checksum: 10/1b74abf37c19926c0c66845229b598acc7b5730357ded30447771a8f2fa57c3261e73cee044b965d35093a598ce1a94a5bb69d71785e60963ad7472309b025ed
+  checksum: 10/513f4a97cc5331d7a23d27db19e76e4069eaf214fe757871d58c1c47f760f6408d5ed3fb9de01204284fc773f6b3ea1084303c68f6ae1c88b96bafb8c73c3524
   languageName: node
   linkType: hard
 
