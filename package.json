@@ -50,7 +50,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "^8.7.0"
   },
-  "packageManager": "yarn@4.13.0",
+  "packageManager": "yarn@4.14.1",
   "dependencies": {
     "@azure/storage-blob": "^12.26.0",
     "@eslint/eslintrc": "^3.2.0",
