@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import cache from 'memory-cache';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -142,13 +142,77 @@ export class BasePage {
     }
 
     await expect(input).toBeVisible();
-    await input.click();
-    await input.fill('');
-    await input.pressSequentially(value, { delay: 100 });
-    await expect(input).toHaveValue(value);
-    const listbox = this.page.getByRole('listbox');
-    await expect(listbox).toBeVisible();
+    await expect(input).toBeEnabled();
+    const listbox = await this.getListboxForCombobox(input);
+    await expect(listbox).toBeAttached({ timeout: 5000 });
+    await this.setComboboxValue(input, value);
+
+    if (field === 'Courthouse') {
+      await this.ensureSelectedCourthouse(input, listbox, value);
+    }
+
     return input;
+  }
+
+  private async getListboxForCombobox(input: Locator): Promise<Locator> {
+    const listboxId = await this.getComboboxListboxId(input);
+    return this.page.locator(`[id="${listboxId}"]`);
+  }
+
+  private async getComboboxListboxId(input: Locator): Promise<null | string> {
+    await expect(input).toHaveAttribute('aria-controls', /.+/, { timeout: 5000 });
+    return input.getAttribute('aria-controls');
+  }
+
+  private async setComboboxValue(input: Locator, value: string): Promise<void> {
+    await input.click();
+
+    if ((await input.inputValue()) !== '') {
+      await input.fill('');
+      await expect(input).toHaveValue('', { timeout: 1000 });
+    }
+
+    await input.fill(value);
+    await expect(input).toHaveValue(value, { timeout: 5000 });
+  }
+
+  private async ensureSelectedCourthouse(
+    input: Locator,
+    listbox: Locator,
+    value: string,
+  ): Promise<void> {
+    const selectedCourthouse = this.selectedCourthouse(value);
+
+    if (await this.isVisible(selectedCourthouse, 500)) {
+      return;
+    }
+
+    const firstOption = listbox.getByRole('option').first();
+
+    try {
+      await expect(firstOption).toBeVisible({ timeout: 5000 });
+      await firstOption.click();
+    } catch {
+      await input.blur();
+    }
+
+    await expect(selectedCourthouse).toBeVisible({ timeout: 5000 });
+  }
+
+  private selectedCourthouse(value: string): Locator {
+    return this.page
+      .locator('.selected-courthouse')
+      .filter({ has: this.page.getByText(value, { exact: true }) })
+      .first();
+  }
+
+  private async isVisible(locator: Locator, timeout: number): Promise<boolean> {
+    try {
+      await expect(locator).toBeVisible({ timeout });
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async fillTimeFields(label: string, timeValue: string) {
