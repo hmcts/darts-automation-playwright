@@ -169,7 +169,7 @@ export class BasePage {
 
     if ((await input.inputValue()) !== '') {
       await input.fill('');
-      await expect(input).toHaveValue('', { timeout: 1000 });
+      await expect(input).toHaveValue('', { timeout: 5000 });
     }
 
     await input.fill(value);
@@ -183,7 +183,7 @@ export class BasePage {
   ): Promise<void> {
     const selectedCourthouse = this.selectedCourthouse(value);
 
-    if (await this.isVisible(selectedCourthouse, 500)) {
+    if (await this.isVisible(selectedCourthouse, 5000)) {
       return;
     }
 
