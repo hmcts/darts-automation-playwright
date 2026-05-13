@@ -307,8 +307,7 @@ When(
   async function (this: ICustomWorld, field: string, value: string) {
     const basePage = new BasePage(this.page!);
     const input = await basePage.fillCombobox(field, substituteValue(value) as string);
-    // wait 500 ms for search results to update
-    await this.page!.waitForTimeout(500);
+
     // blur the input
     await input.blur();
   },
