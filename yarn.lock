@@ -550,7 +550,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cucumber/query@npm:^15.0.1":
+"@cucumber/pretty-formatter@npm:3.3.1":
+  version: 3.3.1
+  resolution: "@cucumber/pretty-formatter@npm:3.3.1"
+  dependencies:
+    "@cucumber/query": "npm:15.0.1"
+    luxon: "npm:^3.7.2"
+  peerDependencies:
+    "@cucumber/messages": "*"
+  checksum: 10/436a3cb992e089cc70627e0f5e7c5a42dd9e383bfee030b8339d99f97d88c6a10db5edcc5f8fdea7afaef244bea8e9d070cd9c09ba4810f3da5c40c92b62ea77
+  languageName: node
+  linkType: hard
+
+"@cucumber/query@npm:15.0.1, @cucumber/query@npm:^15.0.1":
   version: 15.0.1
   resolution: "@cucumber/query@npm:15.0.1"
   dependencies:
@@ -1837,7 +1849,7 @@ __metadata:
     "@cucumber/cucumber": "npm:12.9.0"
     "@cucumber/html-formatter": "npm:21.15.1"
     "@cucumber/messages": "npm:^28.0.0"
-    "@cucumber/pretty-formatter": "npm:1.0.1"
+    "@cucumber/pretty-formatter": "npm:3.3.1"
     "@eslint/eslintrc": "npm:^3.2.0"
     "@eslint/js": "npm:^9.17.0"
     "@playwright/test": "npm:1.60.0"
