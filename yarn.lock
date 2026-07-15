@@ -88,6 +88,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/core-rest-pipeline@npm:^1.24.0":
+  version: 1.25.0
+  resolution: "@azure/core-rest-pipeline@npm:1.25.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.1.2"
+    "@azure/core-auth": "npm:^1.10.0"
+    "@azure/core-tracing": "npm:^1.3.0"
+    "@azure/core-util": "npm:^1.13.0"
+    "@azure/logger": "npm:^1.3.0"
+    "@typespec/ts-http-runtime": "npm:^0.3.4"
+    tslib: "npm:^2.6.2"
+  checksum: 10/a1066040f53807f68eadaca593ba472080665df3b5cd4fcdeeddeba19690adff05b52c7ac72817de2df90f4d70870a6d44298db22e5617f588bff2688839f3ef
+  languageName: node
+  linkType: hard
+
 "@azure/core-tracing@npm:^1.2.0, @azure/core-tracing@npm:^1.3.0":
   version: 1.3.1
   resolution: "@azure/core-tracing@npm:1.3.1"
@@ -129,8 +144,8 @@ __metadata:
   linkType: hard
 
 "@azure/storage-blob@npm:^12.26.0":
-  version: 12.31.0
-  resolution: "@azure/storage-blob@npm:12.31.0"
+  version: 12.33.0
+  resolution: "@azure/storage-blob@npm:12.33.0"
   dependencies:
     "@azure/abort-controller": "npm:^2.1.2"
     "@azure/core-auth": "npm:^1.9.0"
@@ -143,27 +158,27 @@ __metadata:
     "@azure/core-util": "npm:^1.11.0"
     "@azure/core-xml": "npm:^1.4.5"
     "@azure/logger": "npm:^1.1.4"
-    "@azure/storage-common": "npm:^12.3.0"
+    "@azure/storage-common": "npm:^12.4.1"
     events: "npm:^3.0.0"
     tslib: "npm:^2.8.1"
-  checksum: 10/19d5f48b62b54e8789bc87b90ec95efea74830c2088b4582de34abced873c5a7441d5c73bee4f12345f46600d1b1bba7ff1baf7566aa8afe385eb16d9a1308e6
+  checksum: 10/43a0a37dca6abed02e21ff3cdfb0fc4b2580ba626536513d486bda61cf6b9a6f1cb6952828626cae8e07338fe8ed9775be398850d1ef8c9777e56f961df90f03
   languageName: node
   linkType: hard
 
-"@azure/storage-common@npm:^12.3.0":
-  version: 12.3.0
-  resolution: "@azure/storage-common@npm:12.3.0"
+"@azure/storage-common@npm:^12.4.1":
+  version: 12.4.1
+  resolution: "@azure/storage-common@npm:12.4.1"
   dependencies:
     "@azure/abort-controller": "npm:^2.1.2"
     "@azure/core-auth": "npm:^1.9.0"
     "@azure/core-http-compat": "npm:^2.2.0"
-    "@azure/core-rest-pipeline": "npm:^1.19.1"
+    "@azure/core-rest-pipeline": "npm:^1.24.0"
     "@azure/core-tracing": "npm:^1.2.0"
     "@azure/core-util": "npm:^1.11.0"
     "@azure/logger": "npm:^1.1.4"
     events: "npm:^3.3.0"
     tslib: "npm:^2.8.1"
-  checksum: 10/e5bb4c9395a9f5d390e0766f2b9c64b7d223c1b12704e4557025396f65c680150d36e9ebb9d85a3801337d8e09b6f2dca571233ddc5e71e8887d917b4ce17bb5
+  checksum: 10/54ffa35c9e5c709c6ee12fa8ce71c84e09671e02179bb02a00091cf1b36e40115190446a82be9c70b574c5082f2748768f4198f5917dd045946015d2c3ffc1d8
   languageName: node
   linkType: hard
 
