@@ -1884,7 +1884,7 @@ __metadata:
     md5-file: "npm:^5.0.0"
     memory-cache: "npm:^0.2.0"
     multiple-cucumber-html-reporter: "npm:3.10.0"
-    open: "npm:10.2.0"
+    open: "npm:11.0.2"
     postgres: "npm:^3.4.5"
     prettier: "npm:3.9.6"
     supertest: "npm:^7.0.0"
@@ -1923,13 +1923,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"default-browser@npm:^5.2.1":
-  version: 5.5.0
-  resolution: "default-browser@npm:5.5.0"
+"default-browser@npm:^5.5.1":
+  version: 5.5.1
+  resolution: "default-browser@npm:5.5.1"
   dependencies:
     bundle-name: "npm:^4.1.0"
     default-browser-id: "npm:^5.0.0"
-  checksum: 10/c5c5d84a4abd82850e98f06798a55dee87fc1064538bea00cc14c0fb2dccccbff5e9e07eeea80385fa653202d5d92509838b4239d610ddfa1c76a04a1f65e767
+  checksum: 10/e2a74668f0dffff543a2e207ff400a2a99a13f50e99db3c23ad288c6fbc26d6133145e13762c842350ea1d854d876ca6328abc0031e56fd9d33b8f5080ead028
   languageName: node
   linkType: hard
 
@@ -2916,6 +2916,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-in-ssh@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "is-in-ssh@npm:1.0.0"
+  checksum: 10/d55cb39afdbca0cdc94cd493da7819c00d35048ea04fc1624aabde6e0c86aa6b91ddb38b2baf73c4b5d53cc8fbf1a8dfbf2e315594a808474b751ffb6b0d3e58
+  languageName: node
+  linkType: hard
+
 "is-inside-container@npm:^1.0.0":
   version: 1.0.0
   resolution: "is-inside-container@npm:1.0.0"
@@ -3544,15 +3551,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:10.2.0":
-  version: 10.2.0
-  resolution: "open@npm:10.2.0"
+"open@npm:11.0.2":
+  version: 11.0.2
+  resolution: "open@npm:11.0.2"
   dependencies:
-    default-browser: "npm:^5.2.1"
+    default-browser: "npm:^5.5.1"
     define-lazy-prop: "npm:^3.0.0"
+    is-in-ssh: "npm:^1.0.0"
     is-inside-container: "npm:^1.0.0"
-    wsl-utils: "npm:^0.1.0"
-  checksum: 10/e6ad9474734eac3549dcc7d85e952394856ccaee48107c453bd6a725b82e3b8ed5f427658935df27efa76b411aeef62888edea8a9e347e8e7c82632ec966b30e
+    powershell-utils: "npm:^0.2.1"
+    wsl-utils: "npm:^1.0.0"
+  checksum: 10/d699a486f2da7361c0caad2b6b39c5ce9780aac189039dd300899ac9d2d6a5bd344d9782c800a89e61381c914ad053f1d77d75693bef09c4028d468844077767
   languageName: node
   linkType: hard
 
@@ -3731,6 +3740,20 @@ __metadata:
   version: 3.4.9
   resolution: "postgres@npm:3.4.9"
   checksum: 10/c6c7e85f5cfb00d455bcfee98e7af2abded43323552295044f00a602431465c9296ef6152d45d4a53bf3a72323ca00e03585b7ba6f8713367e42d1ef34d1fa5d
+  languageName: node
+  linkType: hard
+
+"powershell-utils@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "powershell-utils@npm:0.1.0"
+  checksum: 10/4cc0846bc903ef9c8ac8cc9d178185d5972160a6c8776d44cf4c27ce31c0b614fc7cd20a53e8fcaf7f5296cdb34087a5d4396bdd863492972c84f76f3cadef67
+  languageName: node
+  linkType: hard
+
+"powershell-utils@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "powershell-utils@npm:0.2.1"
+  checksum: 10/8a5b5db6af7fbaf61252c0b8627da1fdfc1c9dd111721923557460cc250373cde56cc059b34188ba8012c64a1f34cb0913b10e70bb43e73806b5974af31b1c66
   languageName: node
   linkType: hard
 
@@ -4584,12 +4607,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wsl-utils@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "wsl-utils@npm:0.1.0"
+"wsl-utils@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "wsl-utils@npm:1.0.0"
   dependencies:
     is-wsl: "npm:^3.1.0"
-  checksum: 10/de4c92187e04c3c27b4478f410a02e81c351dc85efa3447bf1666f34fc80baacd890a6698ec91995631714086992036013286aea3d77e6974020d40a08e00aec
+    powershell-utils: "npm:^0.1.0"
+  checksum: 10/18d3668e7203cf19639730c63dc3c33c90193f0c1f2089d2e3584c1c809084a011ff8a5340af5249d187eb62e31d9a98babbd1f22998daae5c8d0bbb4d730d08
   languageName: node
   linkType: hard
 
