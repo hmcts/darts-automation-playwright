@@ -33,8 +33,8 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see "This case is still open" on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -54,8 +54,8 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see "This case is still open" on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Achive Case event (Common Platform) has been added." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -200,8 +200,8 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see "This case is still open" on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Achive Case event (Common Platform) has been added." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -221,8 +221,8 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see "This case is still open" on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -325,9 +325,9 @@ Feature: Case Retention
     And I click on the "R{{seq}}AB11" link
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
+    And I see "This case is still open" on the page
     And I see "R{{seq}}AB11" on the page
-    And I see "A retention policy has yet to be applied to this case." on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
     And I see "No history to show" on the page
 
     #Close case

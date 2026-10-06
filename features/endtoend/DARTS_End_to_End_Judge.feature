@@ -42,7 +42,8 @@ Feature: End-to-end Judge
       | {{displaydate0}} | <annotation_document> | Word Document | {{displaydate0}} |          |
 
     Then I click on the "View or change" link
-    Then I see "This case is still open or was recently closed." on the page
+    Then I see "This case is still open" on the page
+    Then I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added."
     Then I see "A retention policy has yet to be applied to this case." on the page
 
     # Close the case
@@ -55,8 +56,8 @@ Feature: End-to-end Judge
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see "This case was recently closed" on the page
+    And I see "This case was recently closed in the case management system. However, the 7-day grace period for retention to be applied has not yet passed." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
