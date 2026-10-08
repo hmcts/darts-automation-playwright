@@ -36,6 +36,16 @@ Then('I do not see {string} on the page', async function (this: ICustomWorld, te
   await basePage.containsText(text, false);
 });
 
+Then('I see the retention notification banner', async function (this: ICustomWorld) {
+  const basePage = new BasePage(this.page!);
+  await basePage.retentionNotificationBannerIsVisible(true);
+});
+
+Then('I do not see the retention notification banner', async function (this: ICustomWorld) {
+  const basePage = new BasePage(this.page!);
+  await basePage.retentionNotificationBannerIsVisible(false);
+});
+
 When('I select the {string} radio button', async function (this: ICustomWorld, text: string) {
   const basePage = new BasePage(this.page!);
   await basePage.clickLabel(text);
