@@ -385,8 +385,8 @@ Feature: Super User Permission
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open" on the page
-    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
+    And I see "This case was recently closed" on the page
+    And I see "This case was recently closed in the case management system. However, the 7-day grace period for retention to be applied has not yet passed." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "A{{seq}}001" on the page

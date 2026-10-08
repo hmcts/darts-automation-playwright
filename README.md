@@ -23,7 +23,7 @@ To install `yarn`
 ```
 # using corepack
 corepack enable
-yarn set version 3.8.7
+yarn set version 4.18.0
 yarn install
 # check yarn version
 yarn --version
