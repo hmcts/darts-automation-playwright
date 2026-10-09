@@ -67,7 +67,7 @@ Feature: Case Retention
       | Date retention changed | Retention date          | Amended by | Retention policy        | Comments | Status  |
       | *NO-CHECK*             | <display_retentiondate> | *NO-CHECK* | <retention_displayname> |          | PENDING |
 
-    # Simulate retention having been applied after the grace period
+    # Simulate retention having been applied and the 7-day grace period has passed
     Then I select column "cas_id" from table "darts.court_case" where "case_number" = "<case_number>"
     Then I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 
@@ -237,7 +237,7 @@ Feature: Case Retention
       | Date retention changed | Retention date          | Amended by | Retention policy        | Comments | Status  |
       | *NO-CHECK*             | <display_retentiondate> | *NO-CHECK* | <retention_displayname> |          | PENDING |
 
-    # Simulate retention having been applied after the grace period
+    # Simulate retention having been applied and the 7-day grace period has passed
     Then I select column "cas_id" from table "darts.court_case" where "case_number" = "<case_number>"
     Then I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 
@@ -346,7 +346,7 @@ Feature: Case Retention
     Then I click on the breadcrumb link "R{{seq}}AB11"
     And I see "No date applied" on the page
 
-    # Simulate retention having been applied after the grace period
+    # Simulate retention having been applied and the 7-day grace period has passed
     And I select column "cas_id" from table "darts.court_case" where "case_number" = "R{{seq}}AB11"
     And I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 

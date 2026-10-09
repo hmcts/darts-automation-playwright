@@ -134,7 +134,7 @@ Feature: End-to-end Requester
       | message_id  | type  | sub_type | event_id   | courthouse                  | courtroom   | case_numbers  | event_text              | date_time  | case_retention_fixed_policy | case_total_sentence |
       | 2{{seq}}002 | 30300 |          | {{seq}}002 | {{upper-case-<courthouse>}} | <courtroom> | <case_number> | Case S{{seq}}009 closed | <dateTime> | <caseRetention>             | <totalSentence>     |
 
-    # Simulate retention having been applied after the grace period
+    # Simulate retention having been applied and the 7-day grace period has passed
     Then I select column "cas_id" from table "darts.court_case" where "case_number" = "<case_number>"
     Then I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 
