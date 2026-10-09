@@ -134,7 +134,7 @@ Feature: End-to-end Requester
       | message_id  | type  | sub_type | event_id   | courthouse                  | courtroom   | case_numbers  | event_text              | date_time  | case_retention_fixed_policy | case_total_sentence |
       | 2{{seq}}002 | 30300 |          | {{seq}}002 | {{upper-case-<courthouse>}} | <courtroom> | <case_number> | Case S{{seq}}009 closed | <dateTime> | <caseRetention>             | <totalSentence>     |
 
-    # 7 days Past Case Close Event
+    # Simulate retention having been applied and the 7-day grace period has passed
     Then I select column "cas_id" from table "darts.court_case" where "case_number" = "<case_number>"
     Then I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 
@@ -145,6 +145,7 @@ Feature: End-to-end Requester
     Then I see "<case_number>" on the page
 
     And I click on the "View or change" link
+    And I do not see the retention notification banner
     Then I see "Default" on the page
     And I press the "Change retention date" button
     And I select the "Retain permanently (99 years)" radio button

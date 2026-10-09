@@ -33,8 +33,9 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see the retention notification banner
+    And I see "This case is still open" on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -54,8 +55,9 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see the retention notification banner
+    And I see "This case was recently closed" on the page
+    And I see "This case was recently closed in the case management system. However, the 7-day grace period for retention to be applied has not yet passed." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -65,13 +67,14 @@ Feature: Case Retention
       | Date retention changed | Retention date          | Amended by | Retention policy        | Comments | Status  |
       | *NO-CHECK*             | <display_retentiondate> | *NO-CHECK* | <retention_displayname> |          | PENDING |
 
-    # 7 days Past Case Close Event
+    # Simulate retention having been applied and the 7-day grace period has passed
     Then I select column "cas_id" from table "darts.court_case" where "case_number" = "<case_number>"
     Then I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 
     Then I click on the breadcrumb link "<case_number>"
     And I click on the "<case_number>" link
     And I click on the "View or change" link
+    And I do not see the retention notification banner
     And I see "Change retention date" on the page
     Then I verify the HTML table "retentionTable" contains the following values
       | Date retention changed | Retention date          | Amended by | Retention policy        | Comments | Status   |
@@ -200,8 +203,9 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see the retention notification banner
+    And I see "This case is still open" on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -221,8 +225,9 @@ Feature: Case Retention
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
-    And I see "The retention date for this case cannot be changed while the case is open or while a retention policy is currently pending." on the page
+    And I see the retention notification banner
+    And I see "This case was recently closed" on the page
+    And I see "This case was recently closed in the case management system. However, the 7-day grace period for retention to be applied has not yet passed." on the page
     And I see "Case retention date" on the page
     And I see "Case details" on the page
     And I see "<case_number>" on the page
@@ -232,13 +237,14 @@ Feature: Case Retention
       | Date retention changed | Retention date          | Amended by | Retention policy        | Comments | Status  |
       | *NO-CHECK*             | <display_retentiondate> | *NO-CHECK* | <retention_displayname> |          | PENDING |
 
-    # 7 days Past Case Close Event
+    # Simulate retention having been applied and the 7-day grace period has passed
     Then I select column "cas_id" from table "darts.court_case" where "case_number" = "<case_number>"
     Then I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 
     Then I click on the breadcrumb link "<case_number>"
     And I click on the "<case_number>" link
     And I click on the "View or change" link
+    And I do not see the retention notification banner
     And I see "Change retention date" on the page
     Then I verify the HTML table "retentionTable" contains the following values
       | Date retention changed | Retention date          | Amended by | Retention policy        | Comments | Status   |
@@ -325,9 +331,10 @@ Feature: Case Retention
     And I click on the "R{{seq}}AB11" link
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see "This case is still open or was recently closed." on the page
+    And I see the retention notification banner
+    And I see "This case is still open" on the page
     And I see "R{{seq}}AB11" on the page
-    And I see "A retention policy has yet to be applied to this case." on the page
+    And I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
     And I see "No history to show" on the page
 
     #Close case
@@ -339,11 +346,12 @@ Feature: Case Retention
     Then I click on the breadcrumb link "R{{seq}}AB11"
     And I see "No date applied" on the page
 
-    # 7 days Past Case Close Event
+    # Simulate retention having been applied and the 7-day grace period has passed
     And I select column "cas_id" from table "darts.court_case" where "case_number" = "R{{seq}}AB11"
     And I set table "darts.case_retention" column "current_state" to "COMPLETE" where "cas_id" = "{{cas_id}}"
 
     And I click on the "View or change" link
+    And I do not see the retention notification banner
     And I see "R{{seq}}AB11" in summary row for "Case ID"
     And I see "A retention policy has yet to be applied to this case." on the page
     Then I verify the HTML table "retentionTable" contains the following values

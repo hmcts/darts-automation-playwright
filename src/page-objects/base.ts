@@ -37,6 +37,10 @@ export class BasePage {
     }
   }
 
+  async retentionNotificationBannerIsVisible(visible: boolean) {
+    await expect(this.page.locator('main app-notification-banner')).toBeVisible({ visible });
+  }
+
   private getTimeoutForText(text: string): number {
     return text === 'Sign in to the DARTS Portal' ? 15000 : 10000;
   }
