@@ -42,7 +42,6 @@ Feature: End-to-end Judge
       | {{displaydate0}} | <annotation_document> | Word Document | {{displaydate0}} |          |
 
     Then I click on the "View or change" link
-    Then I see the retention notification banner
     Then I see "This case is still open" on the page
     Then I see "If you expected this case to be closed, please check that a Case Closed event (XHIBIT) or Archive Case event (Common Platform) has been added." on the page
     Then I see "A retention policy has yet to be applied to this case." on the page
@@ -57,7 +56,6 @@ Feature: End-to-end Judge
     And I see "Retained until" on the page
     And I see "No date applied" on the page
     And I click on the "View or change" link
-    And I see the retention notification banner
     And I see "This case was recently closed" on the page
     And I see "This case was recently closed in the case management system. However, the 7-day grace period for retention to be applied has not yet passed." on the page
     And I see "Case retention date" on the page
@@ -76,7 +74,8 @@ Feature: End-to-end Judge
     Then I click on the breadcrumb link "<case_number>"
     And I click on the "<case_number>" link
     And I click on the "View or change" link
-    And I do not see the retention notification banner
+    And I do not see "This case is still open" on the page
+    And I do not see "This case was recently closed" on the page
     And I see "Change retention date" on the page
     Then I verify the HTML table "retentionTable" contains the following values
       | Date retention changed | Retention date | Amended by | Retention policy | Comments | Status   |

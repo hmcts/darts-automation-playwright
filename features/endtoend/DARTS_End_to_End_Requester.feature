@@ -145,7 +145,8 @@ Feature: End-to-end Requester
     Then I see "<case_number>" on the page
 
     And I click on the "View or change" link
-    And I do not see the retention notification banner
+    And I do not see "This case is still open" on the page
+    And I do not see "This case was recently closed" on the page
     Then I see "Default" on the page
     And I press the "Change retention date" button
     And I select the "Retain permanently (99 years)" radio button
