@@ -42,7 +42,7 @@
     "eslint-plugin-playwright": "2.11.0",
     "eslint-plugin-prettier": "5.5.7",
     "fs-extra": "11.4.1",
-    "multiple-cucumber-html-reporter": "3.10.0",
+    "multiple-cucumber-html-reporter": "4.6.0",
     "open": "11.0.4",
     "prettier": "3.9.10",
     "ts-node": "10.9.2",
