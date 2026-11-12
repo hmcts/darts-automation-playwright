@@ -65,6 +65,7 @@ typings/
 #reports
 functional-output
 traces/
+e2e/test-results/
 
 #build
 build

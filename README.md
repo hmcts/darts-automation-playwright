@@ -31,6 +31,17 @@ yarn --version
 
 ## Developing and running tests locally
 
+### Standalone Playwright tests
+
+Run `yarn test:e2e` to execute the tests in `e2e/tests` using
+`e2e/playwright.config.ts`. The suite runs tests in parallel with two workers,
+including tests in the same file. The initial echo tests need only `yarn install`;
+they do not require browsers, VPN access, or staging secrets.
+
+Pass Playwright options directly, for example `yarn test:e2e --list` or
+`yarn test:e2e --grep "test1"`. Results are written to `e2e/test-results`, and
+browser tests retain traces on failure.
+
 ### Prereqs
 
 To develop tests locally, first you need to ensure the following

@@ -4,6 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "test:e2e": "playwright test --config=e2e/playwright.config.ts",
     "cucumber": "tsx node_modules/.bin/cucumber-js",
     "api": "DEBUG=pw:api npm run cucumber",
     "build": "npm run format && npm run lint && tsc",
