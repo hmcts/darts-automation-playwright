@@ -81,3 +81,11 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Playwright reports and browser artifacts
+test-results/
+playwright-report/
+playwright/.cache/
+blob-report/
+all-blob-reports/
+report-results.json

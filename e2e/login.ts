@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 
 interface LoginCredentials {
   username: string | undefined;
@@ -18,7 +18,7 @@ export async function login(page: Page, { username, password }: LoginCredentials
   await page.getByLabel('Enter your email', { exact: true }).fill(username);
   await page.getByLabel('Enter your password', { exact: true }).fill(password);
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'Search for a case', exact: true })).toBeVisible({
-    timeout: 15_000,
-  });
+  await page
+    .getByRole('heading', { name: 'Search for a case', exact: true })
+    .waitFor({ state: 'visible', timeout: 15_000 });
 }
