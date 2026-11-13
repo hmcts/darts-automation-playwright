@@ -9,6 +9,7 @@ export default defineConfig({
   reporter: 'list',
   outputDir: './test-results',
   use: {
+    baseURL: process.env.DARTS_PORTAL,
     trace: 'retain-on-failure',
   },
 });

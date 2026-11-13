@@ -35,8 +35,13 @@ yarn --version
 
 Run `yarn test:e2e` to execute the tests in `e2e/tests` using
 `e2e/playwright.config.ts`. The suite runs tests in parallel with two workers,
-including tests in the same file. The initial echo tests need only `yarn install`;
-they do not require browsers, VPN access, or staging secrets.
+including tests in the same file. Both tests open `/login`, check for a successful
+HTTP response and the login-page heading, and print the page title without signing in.
+They do not require Azure access, usernames, or passwords.
+
+Install Chromium with `yarn playwright install chromium` and set `DARTS_PORTAL` to
+the target portal origin before running the suite. The target must be reachable
+from the runner; VPN access may be required.
 
 Pass Playwright options directly, for example `yarn test:e2e --list` or
 `yarn test:e2e --grep "test1"`. Results are written to `e2e/test-results`, and
