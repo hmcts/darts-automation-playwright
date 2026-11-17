@@ -75,18 +75,13 @@ test('rejected credentials produce a sanitised failure', async ({ page }) => {
 
 test('raw credential-entry errors never include the supplied password', async ({ page }) => {
   await fakeLogin(page, 'missing-password');
-  try {
-    await signInToPortal(page, portal, {
-      route: 'external',
-      username: 'synthetic@example.test',
-      password,
-    });
-    throw new Error('Expected authentication to fail.');
-  } catch (error: unknown) {
-    expect(error).toBeInstanceOf(Error);
-    expect(String(error)).toContain('Browser authentication failed');
-    expect(String(error)).not.toContain(password);
-  }
+  const attempt = signInToPortal(page, portal, {
+    route: 'external',
+    username: 'synthetic@example.test',
+    password,
+  });
+  await expect(attempt).rejects.toThrow('Browser authentication failed');
+  await expect(attempt).rejects.not.toThrow(password);
 });
 
 test('an unexpected provider is rejected before entering credentials', async ({ page }) => {

@@ -23,8 +23,6 @@ export interface HearingWithAudio extends AudioPlan {
   mediaId: number;
 }
 
-class AudioUploadError extends Error {}
-
 export function readInboundStorageUrl(
   env: Record<string, string | undefined> = process.env,
 ): string {
@@ -125,10 +123,11 @@ export class AudioDataService {
   }
 
   async upload(bytes: Buffer, plan: AudioPlan, sasUrl: string): Promise<void> {
+    let response: Response;
     try {
       const url = new URL(sasUrl);
       url.pathname = `${url.pathname.replace(/\/$/, '')}/${plan.storageGuid}`;
-      const response = await this.uploadRequest(url, {
+      response = await this.uploadRequest(url, {
         method: 'PUT',
         headers: {
           'x-ms-blob-type': 'BlockBlob',
@@ -140,15 +139,14 @@ export class AudioDataService {
         signal: AbortSignal.timeout(30_000),
         redirect: 'error',
       });
-      if (response.status !== 201) {
-        throw new AudioUploadError(
-          `Audio blob upload returned HTTP ${response.status}. Check inbound storage access and SAS expiry.`,
-        );
-      }
-    } catch (error: unknown) {
-      if (error instanceof AudioUploadError) throw error;
+    } catch {
       throw new Error(
         'Audio blob upload failed. Check inbound storage access and SAS expiry; SAS details withheld.',
+      );
+    }
+    if (response.status !== 201) {
+      throw new Error(
+        `Audio blob upload returned HTTP ${response.status}. Check inbound storage access and SAS expiry.`,
       );
     }
   }

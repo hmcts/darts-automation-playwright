@@ -59,7 +59,7 @@ for (const payload of [{}, { access_token: '' }, { access_token: 123 }, null]) {
 }
 
 test('rejects non-JSON token responses', async () => {
-  const send: typeof fetch = async () => new Response('<html>Gateway error</html>');
+  const send: typeof fetch = async () => new Response('Gateway error');
   await assert.rejects(DartsApiClient.authenticate(settings, send), /did not return a JSON/);
 });
 
