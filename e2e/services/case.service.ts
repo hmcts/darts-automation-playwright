@@ -1,22 +1,7 @@
 import { randomInt, randomUUID } from 'node:crypto';
 import { expect } from '@playwright/test';
-import { type DartsApiClient } from './client';
-
-export interface TestCaseData {
-  number: string;
-  courthouse: string;
-  courthouseDisplayName: string;
-  courtroom: string;
-  defendant: string;
-  judge: string;
-  timestamp: string;
-  messageId: string;
-  eventId: string;
-}
-
-export interface CreatedCase extends TestCaseData {
-  id: number;
-}
+import { type DartsApiClient } from './darts-api-client';
+import { type TestCaseData, type CreatedCase } from '../data/case';
 
 async function expectCreated(response: Response, operation: string): Promise<void> {
   // These setup responses contain synthetic test data, not authentication payloads.
@@ -43,59 +28,55 @@ export function requireCaseCreationTarget(
   }
 }
 
-export function selectCourthouse(
-  payload: unknown,
-  name: string,
-): { name: string; displayName: string } {
-  if (!Array.isArray(payload)) throw new Error('GET /courthouses must return a JSON array.');
-  for (const value of payload as unknown[]) {
-    if (typeof value !== 'object' || value === null) continue;
-    if (
-      'courthouse_name' in value &&
-      value.courthouse_name === name &&
-      'display_name' in value &&
-      typeof value.display_name === 'string' &&
-      value.display_name.trim()
-    ) {
-      return { name, displayName: value.display_name };
-    }
-  }
-  throw new Error(
-    `Test courthouse ${name} is unavailable. Set E2E_DATA_COURTHOUSE to an existing Crown Court.`,
+export function findHearingId(payload: unknown, courtroom: string): number {
+  if (!Array.isArray(payload)) throw new Error('Case hearings must be a JSON array.');
+  const matches = (payload as unknown[]).filter(
+    (item): item is { id: number; courtroom: string } =>
+      typeof item === 'object' &&
+      item !== null &&
+      'id' in item &&
+      typeof item.id === 'number' &&
+      Number.isSafeInteger(item.id) &&
+      item.id > 0 &&
+      'courtroom' in item &&
+      item.courtroom === courtroom,
   );
+  if (matches.length !== 1)
+    throw new Error('Expected exactly one hearing in the test-owned courtroom.');
+  return matches[0].id;
 }
 
-export function newCaseData(
-  courthouse: { name: string; displayName: string },
-  courtroom: string,
-): TestCaseData {
-  const id = randomUUID().replaceAll('-', '').toUpperCase();
-  return {
-    // /events limits case_numbers to 25 characters, even though /cases/addCase accepts more.
-    number: `PW-${id.slice(0, 22)}`,
-    courthouse: courthouse.name,
-    courthouseDisplayName: courthouse.displayName,
-    courtroom,
-    defendant: `PW defendant ${id.slice(0, 12)}`,
-    judge: 'PW test judge',
-    timestamp: new Date().toISOString(),
-    messageId: randomUUID(),
-    // The API stores source event IDs as signed 32-bit integers, despite its string contract.
-    eventId: String(randomInt(1, 2_147_483_647)),
-  };
-}
-
-export class CaseDataService {
+export class CaseService {
   constructor(private readonly api: DartsApiClient) {}
 
-  async courthouse(name: string): Promise<{ name: string; displayName: string }> {
-    const response = await this.api.get('/courthouses');
-    expect(response.status, 'GET /courthouses before creating the test case').toBe(200);
+  async get(id: number): Promise<{ id: number; number: string; defendants: string[] }> {
+    const response = await this.api.get(`/cases/${id}`);
+    expect(response.status, 'GET the test-owned case').toBe(200);
     const payload: unknown = await response.json();
-    return selectCourthouse(payload, name);
+    if (
+      typeof payload !== 'object' ||
+      payload === null ||
+      !('case_id' in payload) ||
+      payload.case_id !== id ||
+      !('case_number' in payload) ||
+      typeof payload.case_number !== 'string' ||
+      !('defendants' in payload) ||
+      !Array.isArray(payload.defendants) ||
+      !payload.defendants.every((value: unknown) => typeof value === 'string')
+    ) {
+      throw new Error('GET case returned invalid case details.');
+    }
+    return { id, number: payload.case_number, defendants: payload.defendants };
   }
 
-  async createCase(data: TestCaseData): Promise<CreatedCase> {
+  async getHearingId(courtCase: CreatedCase): Promise<number> {
+    const response = await this.api.get(`/cases/${courtCase.id}/hearings`);
+    expect(response.status, 'GET hearings for the API-created case').toBe(200);
+    const payload: unknown = await response.json();
+    return findHearingId(payload, courtCase.courtroom);
+  }
+
+  async create(data: TestCaseData): Promise<CreatedCase> {
     const response = await this.api.post('/cases/addCase', {
       courthouse: data.courthouse,
       case_number: data.number,

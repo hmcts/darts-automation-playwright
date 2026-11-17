@@ -38,11 +38,36 @@ Run `yarn test:e2e` to execute the tests in `e2e/tests` using
 including tests in the same file. The case-search example creates a unique case and
 actual hearing through the API, finds the case in the UI and checks its details.
 The transcript-request example also uploads its own sample audio and submits a
-Court Log transcript request through the UI. The remaining `test2` placeholder
-signs in and prints the page title.
+Court Log transcript request through the UI.
 
-Install Chromium with `yarn playwright install chromium`. Set these variables in
-your shell or through Jenkins secret injection before running the suite:
+See [the E2E testing approach and journey guide](e2e/doc/README.md) for
+folder responsibilities, named-user setup, journey coverage and a
+recipe for adding future tests.
+
+Local logging defaults to `INFO`. For detailed output, set `metadata.logLevel` to
+`DEBUG` in `e2e/playwright.config.ts`; this also applies to the Playwright run button.
+See the E2E guide for logged events and diagnostics guidance.
+
+Each scenario has a unique business-area ID, such as `CS_001` for case search or
+`TR_001` for transcript submission. Use it in the test title and lowercase filename;
+use the same ID in the Scenario description, for example
+`Scenario: CS_001: The Requester can find a case and open its hearing.` Allocate IDs within each area without
+renumbering existing tests. See the E2E guide for the prefix and folder conventions.
+
+Install Chromium with `yarn playwright install chromium`. Copy `e2e/.env.example`
+to `e2e/.env` and uncomment and fill in the values needed for your tests, or set
+them in your shell or through Jenkins secret injection. The Playwright configuration
+loads `e2e/.env` regardless of the working directory; existing environment variables
+take precedence. The file is Git-ignored: keep credentials out of the example and
+never commit or share the populated file. The file is optional when using injected
+variables.
+
+Both business specs select the existing external automation account through the
+`authUser` fixture option. Supply `AUTOMATION_USERNAME` and `AUTOMATION_PASSWORD`
+through environment injection or the ignored `e2e/.env` file. Other named account
+profiles remain available in the guide.
+
+The generic automation profile supports these existing variables:
 
 | Variable              | Purpose                                                              |
 | --------------------- | -------------------------------------------------------------------- |
@@ -51,56 +76,49 @@ your shell or through Jenkins secret injection before running the suite:
 | `AUTOMATION_PASSWORD` | Password, supplied through approved secret loading                   |
 | `E2E_LOGIN_ROUTE`     | `internal` for Microsoft employee login, or `external` (the default) |
 
-For an internal account, set `export E2E_LOGIN_ROUTE=internal`, then run
-`yarn test:e2e`. Account permissions such as superuser do not select the login
-route. The target must be reachable; VPN access may be required. Jenkins currently
-supplies credentials for its existing login flow; internal login needs the corresponding account credentials.
+Named accounts choose their own identity provider. `E2E_LOGIN_ROUTE` only affects
+specs that explicitly select the generic automation profile. The target must be
+reachable; VPN access may be required.
 
-A setup project logs in once per invocation (once in each shard), with tracing,
-screenshots and video disabled. It saves the session under the Git-ignored
-`e2e/test-results/.auth` directory with owner-only file permissions. Each test gets
+The authentication fixture logs in once per worker and selected user. Credential
+entry runs in a separate process without Playwright Test recording. It saves the
+session under Git-ignored `e2e/.auth` with owner-only file permissions and deletes
+the worker-owned state file on normal teardown. Files left by interrupted runs
+must be treated as credentials. Each test gets
 a fresh Playwright-managed context using that session. Browser isolation does not
 isolate server-side account data. Credential entry is excluded from traces.
 Security-registration and additional-verification prompts fail with a clear message;
 the helper does not complete those interactive steps.
 
 Pass Playwright options directly, for example `yarn test:e2e --list` or
-`yarn test:e2e --grep "case created through the API"`. Results are written to `e2e/test-results`, and
+`yarn test:e2e --grep "find a case and open its hearing"`. Results are written to `e2e/test-results`, and
 browser tests retain traces on failure. Traces can contain authenticated application
 data and should be handled accordingly.
-
-Run `yarn test:e2e:auth-checks` to check the login helper against synthetic local
-identity pages. These checks use fake credentials and require no Azure access or
-live DARTS environment.
 
 The business specs use small page objects in `e2e/pages`, supplied by typed fixtures
 as `caseSearch`, `casePage`, `hearingPage` and `transcriptRequest`. The specs describe
 the journey and its expected outcomes; page objects own locators, form interactions,
 navigation and page-specific checks. API clients and test-data setup remain in
-`e2e/api` and the data fixtures, separate from the page objects.
+`e2e/services`, `e2e/data` and `e2e/fixtures`, separate from the page objects.
 
 ### API setup for standalone Playwright tests
 
-Import `test` and `expect` from `e2e/fixtures.ts` in tests that need API data setup.
-Request the `api` fixture alongside a page-object fixture to use both services in one test:
+Import `test` and `expect` from `e2e/fixtures/test.ts` for UI journeys. Choose
+an account explicitly with `test.use({ authUser: AuthUser.AUTOMATION })` or another
+named account from `e2e/setup/users.ts`. Both examples use the existing automation
+account for Requester actions; this does not prove least-privilege Requester access.
 
-```ts
-import { test, expect } from '../fixtures';
+Keep API calls and response validation inside setup fixtures and services. Business
+specs contain UI actions and assertions. Background and Given / When / Then
+statements describe business context and outcomes; keep preparation mechanisms in
+the technical setup documentation. See the guide for the complete UI-only AAA example.
 
-test('example using the API and UI', async ({ api, caseSearch }) => {
-  const response = await api.get('/courthouses');
-  expect(response.status).toBe(200);
-  await caseSearch.open();
-});
-```
-
-The fixture authenticates only when requested. It obtains a fresh B2C functional-test
-token for each test, separate from the UI session. Its `get(path)` and `post(path, body)`
-methods return standard HTTP `Response` objects; check `response.status` and use
-`await response.json()` to read the payload. Credentials, token responses and bearer
-headers use Node's HTTP client, keeping them outside Playwright traces. Network calls
-have a 30-second timeout, reject redirects, and send the bearer token only to the
-configured API origin. Use `test.step` to describe setup operations in reports.
+The `cases`, `courthouses` and `audio` fixtures expose domain operations. Their
+shared transport authenticates lazily with a fresh B2C functional-test token for
+each test, separate from the selected UI user. Credentials, token responses and
+bearer headers use Node fetch, keeping them outside Playwright traces. Network
+calls have a 30-second timeout, reject redirects, and send the bearer token only
+to the configured API origin. Use Arrange / Act / Assert in the business specs.
 
 Supply these environment variables directly or through approved secret loading:
 
@@ -114,55 +132,41 @@ Supply these environment variables directly or through approved secret loading:
 
 This authentication uses the existing staging B2C functional-test policy. For an
 API-owned PR portal, `DARTS_API` must identify the same PR. UI-only tests do not need
-API credentials. The API readiness check does not create records.
+API credentials.
 
-To verify authentication and read courthouse reference data without browser login:
+Supply credentials through the environment or ignored `e2e/.env` file before
+running `yarn test:e2e`. The suite does not load credentials directly from Key Vault.
+Select the target explicitly with matching `DARTS_PORTAL` and `DARTS_API` values.
 
-```sh
-export DARTS_API='https://darts-api-pr-<PR-number>.dev.platform.hmcts.net'
-yarn test:e2e:api-check:vault
-```
-
-The `:vault` suffix means credentials are loaded from Key Vault; it does not select
-the test environment. `DARTS_PORTAL` and `DARTS_API` select the target. The helper
-requires Azure CLI, an authenticated Azure session with access to `darts-stg`, and
-network access to the API. It loads only missing API credentials into
-the child process; it does not print them or write a credentials file. If credentials
-are already supplied, use `yarn test:e2e:api-check` directly. No env file is loaded.
-
-The API branch's `bin/ci/playwright-e2e.groovy` supplies the matching API origin and
-the four API secrets to each shard through the existing Jenkins Key Vault integration.
-It also supplies `E2E_AUDIO_INBOUND_SAS_URL` for the transcript-request example.
-The separate API check is a readiness tool and is not added to the two-test UI demo.
-
-Run `yarn test:e2e:api-unit` for local synthetic HTTP/configuration checks and
-`yarn typecheck:e2e` for TypeScript validation. Neither command needs credentials.
+The updated `darts-api/bin/ci/playwright-e2e.groovy` runner supplies matching PR
+portal/API URLs and injects the browser credentials, four API credentials and
+inbound audio SAS explicitly for each shard. Its shell runner validates required
+variables and targets before starting Node or browsers. See the guide's CI
+integration section for labels and the remaining Jenkins verification.
+Run `yarn typecheck:e2e` and `yarn lint` for static validation. The E2E suite contains
+only the two business journey specs; there are no framework/helper test suites.
 
 ### Create a case through the API and find it in the UI
 
-`e2e/tests/case-search.spec.ts` replaces the first login-only placeholder. Its
-test-scoped `caseWithInterpreter` fixture creates one unique `PW-*` case, posts a `1100`
-hearing-start event and records an interpreter-sworn event (`20917`). The configured
-automation account has `TRANSLATION_QA`, which limits its searches to interpreter-used
-cases. Portal search also requires an actual hearing. The test checks the
+`e2e/tests/cases/cs_001-find-case-and-hearing.spec.ts` replaces the first login-only placeholder. Its
+test-scoped `caseWithInterpreter` fixture creates one unique `PW-*` case, posts a
+`1100` hearing-start event and records interpreter use. Portal search requires an
+actual hearing; the automation account's Translation QA role also requires interpreter use. The test checks the
 case ID, courthouse, courtroom and defendant in the results, then opens the result
-and verifies its URL contains the case ID returned by the API.
+and verifies its URL contains the case ID returned by the API. It then opens the
+API-created hearing and verifies its courthouse, courtroom and hearing-start event.
 
-Run it against an API-owned PR environment with staging Key Vault credentials:
+With the required credentials supplied, run against an API-owned PR environment:
 
 ```sh
 export DARTS_PORTAL='https://darts-portal-api-pr-<PR-number>.dev.platform.hmcts.net'
 export DARTS_API='https://darts-api-pr-<PR-number>.dev.platform.hmcts.net'
-yarn test:e2e:case-search:vault
+yarn test:e2e e2e/tests/cases/cs_001-find-case-and-hearing.spec.ts
 ```
 
-This command loads missing API credentials and the external automation credentials
-(`AutomationTestUserName` / `AutomationTestPassword`) from `darts-stg` into the test process. It saves an HTML report under a unique
-`playwright-report/case-search-*` directory and retains each run's artifacts under
-`e2e/test-results/runs`. With credentials already supplied, run
-`yarn test:e2e e2e/tests/case-search.spec.ts` instead. The test needs the API account
-to have the global `MID_TIER` and `CPP` or `XHIBIT` roles, and the UI account to have
-access to the selected courthouse.
+The test needs the API account to have the global `MID_TIER` and `CPP` or `XHIBIT`
+roles, and the UI account to have access to the selected courthouse. Results use the
+configured `e2e/test-results` directory.
 
 Reference data defaults to `HARROW CROWN COURT`; override this with
 `E2E_DATA_COURTHOUSE` (API courthouse name). The courthouse must already exist;
@@ -179,10 +183,10 @@ fully repeatable suite with no data accumulation.
 
 ### Submit a transcript request for a hearing with audio
 
-`e2e/tests/transcript-request.spec.ts` covers the request-submission part of
+`e2e/tests/transcripts/tr_001-submit-transcript-request.spec.ts` covers the request-submission part of
 `DARTS_Request_Transcript.feature`, scenario "Request Transcription, Court Log by
-Manually Entering Time". It uses the configured external automation account; the
-Cucumber scenario uses a requester and continues into approval and delivery.
+Manually Entering Time". It uses the existing automation account for Requester actions; the Cucumber scenario
+continues into approval and delivery.
 
 The test creates its own case and hearing, uploads a fresh copy of
 `src/testdata/sample1.mp2` under a new blob UUID, and registers the actual file size,
@@ -191,30 +195,27 @@ hearing audio metadata with a bounded timeout. The UI selects Court Log, Overnig
 and the sample's one-minute interval, submits the request, verifies the returned
 request ID, and checks the hearing lists it as Awaiting Authorisation.
 
-Supply `E2E_AUDIO_INBOUND_SAS_URL` for the inbound container used by the target API.
-Alternatively, the local Key Vault helper can load `DartsInboundStorageSasUrl` from
-the explicitly selected `E2E_AUDIO_STORAGE_VAULT`. Storage credentials are separate
-from identity credentials: changing `DARTS_API` does not retarget storage.
-Audio registration against PR 3503 was verified using the inbound SAS from `darts-stg`.
+Supply `E2E_AUDIO_INBOUND_SAS_URL` through the environment or `e2e/.env` for the
+inbound container used by the target API. Storage credentials are separate from
+identity credentials: changing `DARTS_API` does not retarget storage.
 
 ```sh
 export DARTS_PORTAL='https://darts-portal-api-pr-<PR-number>.dev.platform.hmcts.net'
 export DARTS_API='https://darts-api-pr-<PR-number>.dev.platform.hmcts.net'
-export E2E_AUDIO_STORAGE_VAULT='<vault-used-by-the-target-API-storage>'
-yarn test:e2e:transcript-request:vault
+# Supply the browser/API credentials and E2E_AUDIO_INBOUND_SAS_URL securely first.
+yarn test:e2e e2e/tests/transcripts/tr_001-submit-transcript-request.spec.ts
 ```
 
-Run `yarn test:e2e:examples:vault --workers=2` with those settings to run both business
-examples in parallel. The original `test2` placeholder is left in place and excluded
-from this convenience command. Both commands keep a separate HTML report and
-artifacts directory per invocation.
+Run `yarn test:e2e --workers=2` with those settings to run both business scenarios
+in parallel. Use Playwright's `--reporter` and `--output` options if another report
+format or artifacts directory is needed.
 
-Latest local verification against PR 3503 on 17 November 2026: both page-object-based
+Historical verification before the folder/authentication refactor, against PR 3503 on 17 November 2026: both page-object-based
 examples passed with the standard external automation account
 (`AutomationTestUserName` / `AutomationTestPassword`) and two workers in 19.0 seconds,
 including login and excluding Key Vault loading. Case search and transcript request
 took 8.4 and 11.4 seconds respectively. The JSON report records the timings.
-Case search uses an interpreter-used case to satisfy this account's `TRANSLATION_QA`
+That earlier case-search version used an interpreter-used case to satisfy the account's `TRANSLATION_QA`
 search restriction; no account permissions were changed.
 
 The upload uses HTTPS, a unique blob name and a create-only condition. SAS URLs are
@@ -228,23 +229,28 @@ the test does not delete existing data or invoke shared bulk cleanup.
 
 `--workers=2` runs tests concurrently within one Playwright invocation. Sharding
 splits the suite between independent invocations using `--shard=1/2` and
-`--shard=2/2`; each shard performs its own authentication setup.
+`--shard=2/2`; each shard creates its own worker/user authentication state.
 
 The API branch's `bin/ci/playwright-e2e.groovy` already runs two shards on separate
 Jenkins agents, checks out the same Playwright commit on both, and merges their blob
-reports into HTML/JSON results. Its runner executes the full `e2e/tests` directory,
-including the remaining `test2` placeholder. The local examples command selects
-only the two business tests.
+reports into HTML/JSON results. Its runner executes the full `e2e/tests` directory.
+The local examples command selects the two business tests. That external runner
+has not been verified as part of the folder/authentication refactor.
 
 Check how those two examples are distributed without credentials or creating data:
 
 ```sh
-yarn test:e2e e2e/tests/case-search.spec.ts e2e/tests/transcript-request.spec.ts --list --shard=1/2
-yarn test:e2e e2e/tests/case-search.spec.ts e2e/tests/transcript-request.spec.ts --list --shard=2/2
+yarn test:e2e e2e/tests/cases/cs_001-find-case-and-hearing.spec.ts e2e/tests/transcripts/tr_001-submit-transcript-request.spec.ts --list --shard=1/2
+yarn test:e2e e2e/tests/cases/cs_001-find-case-and-hearing.spec.ts e2e/tests/transcripts/tr_001-submit-transcript-request.spec.ts --list --shard=2/2
 ```
 
-The current examples have passed locally with two workers. A live run of these
-examples across two independent shards, merged-report verification, and execution
+Fresh-auth verification on 17 November 2026 against PR 3503: both current scenarios
+passed with the existing automation account and two workers in 26.5 seconds.
+`CS_001` took 11.6 seconds and `TR_001` took 14.9 seconds. Each worker signed in
+from an empty browser context; its temporary storage-state file was removed on
+teardown. Case setup creates the actual hearing before reading case details.
+
+A live run across two independent shards, merged-report verification, and execution
 of the updated tests through Jenkins remain outstanding. Parallel-worker results
 alone do not establish that the updated sharded CI path works.
 

@@ -1,4 +1,7 @@
+import { createLogger } from '../support/logger';
 import { expect, type Page } from '@playwright/test';
+
+const log = createLogger('transcript-request');
 
 interface ExpectedTranscriptRequest {
   caseNumber: string;
@@ -12,8 +15,10 @@ export class TranscriptRequestPage {
   constructor(private readonly page: Page) {}
 
   async expectAudioInterval(startTime: string, endTime: string): Promise<void> {
+    log.debug('Verify the available audio interval');
     await expect(
       this.page
+        .locator('app-request-transcript > #audio-table')
         .getByRole('row')
         .filter({ has: this.page.getByRole('cell', { name: startTime, exact: true }) })
         .filter({ has: this.page.getByRole('cell', { name: endTime, exact: true }) }),
@@ -21,8 +26,9 @@ export class TranscriptRequestPage {
   }
 
   async selectRequest(type: string, urgency: string): Promise<void> {
-    await this.page.getByLabel('Request Type', { exact: true }).selectOption({ label: type });
-    await this.page.getByLabel('Urgency', { exact: true }).selectOption({ label: urgency });
+    log.debug('Select transcript type and urgency');
+    await this.page.locator('#transcription-type').selectOption({ label: type });
+    await this.page.locator('#urgency').selectOption({ label: urgency });
     await this.page.getByRole('button', { name: 'Continue', exact: true }).click();
     await expect(
       this.page.getByRole('heading', {
@@ -33,6 +39,7 @@ export class TranscriptRequestPage {
   }
 
   async selectInterval(startTime: string, endTime: string): Promise<void> {
+    log.debug('Select the transcript time interval');
     // Stable IDs distinguish the repeated Hour/Minutes/Seconds labels in this form.
     for (const [prefix, time] of [
       ['start', startTime],
@@ -47,6 +54,7 @@ export class TranscriptRequestPage {
   }
 
   async expectDetails(expected: ExpectedTranscriptRequest): Promise<void> {
+    log.debug('Verify the request summary');
     await expect(
       this.page.getByRole('heading', {
         name: 'Check and confirm your transcript request',
@@ -61,13 +69,9 @@ export class TranscriptRequestPage {
     ).toHaveText(`Start time ${expected.startTime} - End time ${expected.endTime}`);
   }
 
-  async submit(comment: string): Promise<number> {
-    await this.page
-      .getByLabel('Comments to the Transcriber (optional)', { exact: true })
-      .fill(comment);
-    await this.page
-      .getByLabel('I confirm I have received authorisation from the judge.', { exact: true })
-      .check();
+  async submit(): Promise<number> {
+    log.debug('Confirm judge authorisation and submit the request');
+    await this.page.locator('#authorisation').check();
     const submitted = this.page.waitForResponse(
       (response) =>
         new URL(response.url()).pathname === '/api/transcriptions' &&
@@ -91,6 +95,7 @@ export class TranscriptRequestPage {
   }
 
   async expectSubmitted(requestId: number): Promise<void> {
+    log.debug('Verify request submission confirmation');
     await expect(
       this.page.getByRole('heading', { name: 'Transcript request submitted', exact: true }),
     ).toBeVisible();
@@ -98,6 +103,7 @@ export class TranscriptRequestPage {
   }
 
   async returnToHearing(): Promise<void> {
+    log.debug('Return to the hearing');
     await this.page.getByRole('link', { name: 'Return to hearing date', exact: true }).click();
   }
 }

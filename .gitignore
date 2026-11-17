@@ -66,6 +66,7 @@ typings/
 functional-output
 traces/
 e2e/test-results/
+e2e/.auth/
 
 #build
 build

@@ -1,22 +1,32 @@
-import path from 'node:path';
-import { randomUUID } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from '@playwright/test';
+import { config as loadEnv } from 'dotenv';
+import { AuthUser, type AuthOptions } from './setup/users';
+import { type LogLevel } from './support/logger';
 
-// All workers in this invocation use the same session path; concurrent shards get distinct IDs.
-const authRunId = process.env._DARTS_E2E_AUTH_RUN_ID ?? randomUUID();
-process.env._DARTS_E2E_AUTH_RUN_ID = authRunId;
-const storageState = path.resolve('e2e/test-results/.auth', `${authRunId}.json`);
+const envResult = loadEnv({ path: fileURLToPath(new URL('.env', import.meta.url)) });
+if (envResult.error && (!('code' in envResult.error) || envResult.error.code !== 'ENOENT')) {
+  throw envResult.error;
+}
 
-export default defineConfig({
+export default defineConfig<object, AuthOptions>({
   testDir: './tests',
   expect: { timeout: 15_000 },
   timeout: 60_000,
   fullyParallel: true,
   workers: 2,
   forbidOnly: !!process.env.CI,
-  reporter: 'list',
+  reporter: [
+    ['list'],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+  ],
+  metadata: {
+    logLevel: 'INFO' satisfies LogLevel,
+  },
   outputDir: './test-results',
   use: {
+    // Specs may select another named account with test.use({ authUser: ... }).
+    authUser: AuthUser.AUTOMATION,
     locale: 'en-GB',
     timezoneId: 'Europe/London',
     baseURL: process.env.DARTS_PORTAL,
@@ -24,17 +34,7 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'authenticate',
-      testDir: './auth',
-      testMatch: 'login.setup.ts',
-      metadata: { storageState },
-      // Keep credential-entry actions and their parameters out of all test artifacts.
-      use: { trace: 'off', screenshot: 'off', video: 'off' },
-    },
-    {
       name: 'chromium',
-      dependencies: ['authenticate'],
-      use: { storageState },
     },
   ],
 });

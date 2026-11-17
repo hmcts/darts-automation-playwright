@@ -1,4 +1,7 @@
-import { type ApiSettings } from './config';
+import { type ApiSettings } from '../setup/api-settings';
+import { createLogger } from '../support/logger';
+
+const log = createLogger('api');
 
 const tokenEndpoint =
   'https://hmctsstgextid.b2clogin.com/hmctsstgextid.onmicrosoft.com/B2C_1_ropc_darts_signin/oauth2/v2.0/token';
@@ -18,6 +21,7 @@ export class DartsApiClient {
     settings: ApiSettings,
     send: typeof fetch = fetch,
   ): Promise<DartsApiClient> {
+    log.debug('Authenticating the API setup account');
     let response: Response;
     try {
       response = await send(tokenEndpoint, {
@@ -59,6 +63,7 @@ export class DartsApiClient {
     ) {
       throw new ApiAuthenticationError('API authentication returned no usable access token.');
     }
+    log.debug('API setup account authenticated');
     return new DartsApiClient(settings.baseURL, body.access_token, send);
   }
 
@@ -79,8 +84,10 @@ export class DartsApiClient {
     if (!endpoint.startsWith('/') || endpoint.startsWith('//') || url.origin !== this.baseURL) {
       throw new Error('API requests must use a relative path on the configured DARTS_API origin.');
     }
+    const started = Date.now();
+    log.debug(`${method} ${url.pathname}`);
     try {
-      return await this.send(url, {
+      const response = await this.send(url, {
         method,
         headers: {
           Authorization: `Bearer ${this.token}`,
@@ -92,7 +99,10 @@ export class DartsApiClient {
         redirect: 'error',
         signal: AbortSignal.timeout(30_000),
       });
+      log.debug(`${method} ${url.pathname} -> ${response.status} (${Date.now() - started}ms)`);
+      return response;
     } catch {
+      log.debug(`${method} ${url.pathname} failed (${Date.now() - started}ms)`);
       throw new Error(`DARTS API ${method} request failed. Check API connectivity and redirects.`);
     }
   }

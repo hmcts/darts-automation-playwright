@@ -8,23 +8,6 @@ interface BrowserCredentials {
   password: string;
 }
 
-interface LoginCredentials {
-  username: string | undefined;
-  password: string | undefined;
-}
-
-export async function login(page: Page, { username, password }: LoginCredentials): Promise<void> {
-  const portal = process.env.DARTS_PORTAL;
-  const route = process.env.E2E_LOGIN_ROUTE ?? 'external';
-  if (route !== 'internal' && route !== 'external') {
-    throw new Error('E2E_LOGIN_ROUTE must be internal or external.');
-  }
-  if (!portal || !username || !password) {
-    throw new Error('DARTS_PORTAL, AUTOMATION_USERNAME and AUTOMATION_PASSWORD must be set.');
-  }
-  await signInToPortal(page, portal, { route, username, password });
-}
-
 export class AuthenticationError extends Error {}
 
 // Only enter credentials on the expected HTTPS identity-provider origins after redirects.

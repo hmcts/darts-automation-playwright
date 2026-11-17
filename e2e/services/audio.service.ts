@@ -1,27 +1,12 @@
-import { createHash, randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { expect } from '@playwright/test';
-import { DateTime } from 'luxon';
-import { type CreatedCase } from './case-data';
-import { type DartsApiClient } from './client';
+import { type CreatedCase } from '../data/case';
+import { type AudioPlan } from '../data/audio';
+import { type DartsApiClient } from './darts-api-client';
+import { createLogger } from '../support/logger';
 
-export interface AudioPlan {
-  storageGuid: string;
-  filename: string;
-  checksum: string;
-  size: number;
-  startedAt: string;
-  endedAt: string;
-  startTime: string;
-  endTime: string;
-}
-
-export interface HearingWithAudio extends AudioPlan {
-  courtCase: CreatedCase;
-  hearingId: number;
-  mediaId: number;
-}
+const log = createLogger('audio');
 
 export function readInboundStorageUrl(
   env: Record<string, string | undefined> = process.env,
@@ -45,46 +30,6 @@ export function readInboundStorageUrl(
     // Never include a malformed SAS URL in errors or Playwright artifacts.
   }
   throw new Error('Set E2E_AUDIO_INBOUND_SAS_URL to the target API inbound container SAS URL.');
-}
-
-export function planAudio(courtCase: CreatedCase, bytes: Buffer): AudioPlan {
-  // The checked-in 128 kbps MP2 sample is 60 seconds long. Use a fixed local time
-  // on this hearing's day so DST and runs near midnight cannot split the hearing.
-  const start = DateTime.fromISO(courtCase.timestamp, { zone: 'utc' })
-    .setZone('Europe/London')
-    .startOf('day')
-    .set({ hour: 10 });
-  if (!start.isValid) throw new Error('Audio setup requires a valid case timestamp.');
-  const end = start.plus({ minutes: 1 });
-  const storageGuid = randomUUID();
-  return {
-    storageGuid,
-    filename: `PW-${storageGuid}.mp2`,
-    checksum: createHash('md5').update(bytes).digest('hex'),
-    size: bytes.byteLength,
-    startedAt: start.toJSDate().toISOString(),
-    endedAt: end.toJSDate().toISOString(),
-    startTime: start.toFormat('HH:mm:ss'),
-    endTime: end.toFormat('HH:mm:ss'),
-  };
-}
-
-export function findHearingId(payload: unknown, courtroom: string): number {
-  if (!Array.isArray(payload)) throw new Error('Case hearings must be a JSON array.');
-  const matches = (payload as unknown[]).filter(
-    (item): item is { id: number; courtroom: string } =>
-      typeof item === 'object' &&
-      item !== null &&
-      'id' in item &&
-      typeof item.id === 'number' &&
-      Number.isSafeInteger(item.id) &&
-      item.id > 0 &&
-      'courtroom' in item &&
-      item.courtroom === courtroom,
-  );
-  if (matches.length !== 1)
-    throw new Error('Expected exactly one hearing in the test-owned courtroom.');
-  return matches[0].id;
 }
 
 export function findMediaId(payload: unknown, plan: AudioPlan): number | undefined {
@@ -112,17 +57,19 @@ export function findMediaId(payload: unknown, plan: AudioPlan): number | undefin
   return undefined;
 }
 
-export class AudioDataService {
+export class AudioService {
   constructor(
     private readonly api: DartsApiClient,
     private readonly uploadRequest: typeof fetch = fetch,
   ) {}
 
   async sample(): Promise<Buffer> {
+    log.debug('Reading the sample audio file');
     return readFile(fileURLToPath(new URL('../../src/testdata/sample1.mp2', import.meta.url)));
   }
 
   async upload(bytes: Buffer, plan: AudioPlan, sasUrl: string): Promise<void> {
+    log.debug(`Uploading ${bytes.byteLength} audio bytes as blob ${plan.storageGuid}`);
     let response: Response;
     try {
       const url = new URL(sasUrl);
@@ -149,6 +96,7 @@ export class AudioDataService {
         `Audio blob upload returned HTTP ${response.status}. Check inbound storage access and SAS expiry.`,
       );
     }
+    log.debug('Audio upload completed (HTTP 201)');
   }
 
   async register(courtCase: CreatedCase, plan: AudioPlan): Promise<void> {
@@ -173,14 +121,8 @@ export class AudioDataService {
     ).toBe(200);
   }
 
-  async hearingId(courtCase: CreatedCase): Promise<number> {
-    const response = await this.api.get(`/cases/${courtCase.id}/hearings`);
-    expect(response.status, 'GET hearings for the API-created case').toBe(200);
-    const payload: unknown = await response.json();
-    return findHearingId(payload, courtCase.courtroom);
-  }
-
   async waitForMetadata(hearingId: number, plan: AudioPlan): Promise<number> {
+    log.debug(`Waiting for linked audio metadata on hearing ${hearingId}`);
     let mediaId: number | undefined;
     await expect
       .poll(
