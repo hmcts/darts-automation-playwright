@@ -120,11 +120,13 @@ To verify authentication and read courthouse reference data without browser logi
 
 ```sh
 export DARTS_API='https://darts-api-pr-<PR-number>.dev.platform.hmcts.net'
-yarn test:e2e:api-check:stg
+yarn test:e2e:api-check:vault
 ```
 
-The `:stg` helper requires Azure CLI, an authenticated Azure session with access to
-`darts-stg`, and network access to the API. It loads only missing API credentials into
+The `:vault` suffix means credentials are loaded from Key Vault; it does not select
+the test environment. `DARTS_PORTAL` and `DARTS_API` select the target. The helper
+requires Azure CLI, an authenticated Azure session with access to `darts-stg`, and
+network access to the API. It loads only missing API credentials into
 the child process; it does not print them or write a credentials file. If credentials
 are already supplied, use `yarn test:e2e:api-check` directly. No env file is loaded.
 
@@ -151,7 +153,7 @@ Run it against an API-owned PR environment with staging Key Vault credentials:
 ```sh
 export DARTS_PORTAL='https://darts-portal-api-pr-<PR-number>.dev.platform.hmcts.net'
 export DARTS_API='https://darts-api-pr-<PR-number>.dev.platform.hmcts.net'
-yarn test:e2e:case-search:stg
+yarn test:e2e:case-search:vault
 ```
 
 This command loads missing API credentials and the external automation credentials
@@ -199,10 +201,10 @@ Audio registration against PR 3503 was verified using the inbound SAS from `dart
 export DARTS_PORTAL='https://darts-portal-api-pr-<PR-number>.dev.platform.hmcts.net'
 export DARTS_API='https://darts-api-pr-<PR-number>.dev.platform.hmcts.net'
 export E2E_AUDIO_STORAGE_VAULT='<vault-used-by-the-target-API-storage>'
-yarn test:e2e:transcript-request:stg
+yarn test:e2e:transcript-request:vault
 ```
 
-Run `yarn test:e2e:examples:stg --workers=2` with those settings to run both business
+Run `yarn test:e2e:examples:vault --workers=2` with those settings to run both business
 examples in parallel. The original `test2` placeholder is left in place and excluded
 from this convenience command. Both commands keep a separate HTML report and
 artifacts directory per invocation.

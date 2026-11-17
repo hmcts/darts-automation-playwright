@@ -121,6 +121,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error: unknown) => {
-  console.error(error instanceof Error ? error.message : 'Staging secret loading failed.');
+  console.error(error instanceof Error ? error.message : 'Key Vault secret loading failed.');
   process.exitCode = 1;
 });
