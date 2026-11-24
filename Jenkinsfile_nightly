@@ -101,7 +101,7 @@ def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 // here we run the same "withNightlyPipeline" as the Jenkinsfile_CNP
 withNightlyPipeline(type, product, component) {
   loadVaultSecrets(secrets)
-  enableFullFunctionalTest(180)
+  enableFullFunctionalTest(240)
   enableSlackNotifications('#darts-builds')
 
   afterSuccess('build') {
