@@ -4,12 +4,16 @@ import { CaseService } from '../services/case.service';
 import { AudioService } from '../services/audio.service';
 import { CourthouseService } from '../services/courthouse.service';
 import { readApiSettings } from '../setup/api-settings';
+import { CourtLogService } from '../services/court-log.service';
+import { EventService } from '../services/event.service';
 
 export const test = base.extend<{
   api: DartsApiClient;
   cases: CaseService;
   audio: AudioService;
   courthouses: CourthouseService;
+  courtLogs: CourtLogService;
+  events: EventService;
 }>({
   // Lazy: importing this fixture for an API-only check never starts a browser.
   // Node fetch keeps token exchanges and bearer headers out of Playwright traces.
@@ -25,5 +29,11 @@ export const test = base.extend<{
   },
   courthouses: async ({ api }, use) => {
     await use(new CourthouseService(api));
+  },
+  courtLogs: async ({ api }, use) => {
+    await use(new CourtLogService(api));
+  },
+  events: async ({ api }, use) => {
+    await use(new EventService(api));
   },
 });

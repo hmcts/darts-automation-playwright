@@ -12,23 +12,27 @@ const log = createLogger('auth');
 
 interface AuthWorkerFixtures extends AuthOptions {
   authenticatedStorageState: string;
+  authStateFor: (user: AuthUser) => Promise<string>;
 }
 
 export const test = base.extend<{ storageState: string }, AuthWorkerFixtures>({
   authUser: [AuthUser.AUTOMATION, { scope: 'worker', option: true }],
-  authenticatedStorageState: [
-    async ({ browserName, authUser }, use, workerInfo) => {
-      readBrowserAccount(authUser);
-      log.debug(`Starting fresh ${authUser} authentication in a separate process`);
-      const storageState = fileURLToPath(
-        new URL(
-          `../.auth/${authUser}-${workerInfo.workerIndex}-${randomUUID()}.json`,
-          import.meta.url,
-        ),
-      );
-      // A separate process has no Playwright Test artifact recorder. This keeps
-      // credential-entry API parameters out of traces even when setup fails.
-      try {
+  authStateFor: [
+    async ({ browserName }, use, workerInfo) => {
+      const states = new Map<AuthUser, Promise<string>>();
+      const paths: string[] = [];
+      const capture = async (authUser: AuthUser): Promise<string> => {
+        readBrowserAccount(authUser);
+        log.debug(`Starting fresh ${authUser} authentication in a separate process`);
+        const storageState = fileURLToPath(
+          new URL(
+            `../.auth/${authUser}-${workerInfo.workerIndex}-${randomUUID()}.json`,
+            import.meta.url,
+          ),
+        );
+        // A separate process has no Playwright Test artifact recorder. This keeps
+        // credential-entry API parameters out of traces even when setup fails.
+        paths.push(storageState);
         try {
           await execFileAsync(
             process.execPath,
@@ -50,12 +54,14 @@ export const test = base.extend<{ storageState: string }, AuthWorkerFixtures>({
             typeof error.stderr === 'string'
               ? error.stderr.trim()
               : '';
-          if (code === 'DARTS_AUTH_ACCOUNT_ACTION_REQUIRED') {
+          // Node warnings may precede the runner's safe sentinel on stderr.
+          const codes = code.split(/\r?\n/);
+          if (codes.includes('DARTS_AUTH_ACCOUNT_ACTION_REQUIRED')) {
             throw new Error(
               `The ${authUser} account requires security registration or MFA. Ask the account owner for an account suitable for unattended testing.`,
             );
           }
-          if (code === 'DARTS_AUTH_REJECTED') {
+          if (codes.includes('DARTS_AUTH_REJECTED')) {
             throw new Error(
               `The identity provider rejected the ${authUser} account. Check its credentials and identity configuration.`,
             );
@@ -65,11 +71,28 @@ export const test = base.extend<{ storageState: string }, AuthWorkerFixtures>({
           );
         }
         log.debug('Fresh authentication completed; storage state ready');
-        await use(storageState);
+        return storageState;
+      };
+      try {
+        await use((user) => {
+          let state = states.get(user);
+          if (!state) {
+            state = capture(user);
+            states.set(user, state);
+          }
+          return state;
+        });
       } finally {
-        await rm(storageState, { force: true });
-        log.debug('Temporary storage state removed');
+        await Promise.allSettled(states.values());
+        await Promise.all(paths.map((path) => rm(path, { force: true })));
+        log.debug('Temporary storage states removed');
       }
+    },
+    { scope: 'worker', timeout: 60_000 },
+  ],
+  authenticatedStorageState: [
+    async ({ authStateFor, authUser }, use) => {
+      await use(await authStateFor(authUser));
     },
     { scope: 'worker', timeout: 60_000 },
   ],

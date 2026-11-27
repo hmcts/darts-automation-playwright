@@ -32,7 +32,7 @@ export function newCaseData(
     courthouseDisplayName: courthouse.displayName,
     courtroom,
     defendant: `PW defendant ${id.slice(0, 12)}`,
-    judge: 'PW test judge',
+    judge: `PW JUDGE ${id.slice(0, 12)}`,
     timestamp: new Date().toISOString(),
     messageId: randomUUID(),
     // The API stores source event IDs as signed 32-bit integers, despite its string contract.

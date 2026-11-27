@@ -1,32 +1,31 @@
-// Temporary duplicate for Jenkins sharding and worker validation; remove after the parallel execution check.
 import { test } from '../../fixtures/test';
 import { AuthUser } from '../../setup/users';
 
 test.use({ authUser: AuthUser.AUTOMATION });
 
-// Timeout for the transcript-request journey.
-test.describe.configure({ timeout: 120_000 });
-
-test('TR_002: The Requester can submit a transcript request for a hearing with audio', async ({
+test('TR_009: The Requester can request a Court Log for manually entered times', async ({
   hearingPage,
   transcriptRequestFlow,
   hearingWithAudio,
 }) => {
   /**
-   * Scenario: TR_002: The Requester can submit a transcript request for a hearing with audio.
+   * Scenario: TR_009: The Requester can request a Court Log for manually entered times.
    *
    * Background
    * - The Requester is signed in and has access to the courthouse.
    *
    * Given
    * - A hearing with audio is available to the Requester.
+   * - The start and end times of the required transcript are known.
    *
    * When
    * - The Requester opens the hearing and starts a transcript request.
-   * - The Requester selects Court Log, Overnight and the available audio interval.
+   * - The Requester selects Court Log and Overnight urgency.
+   * - The Requester enters the transcript start and end times.
    * - The Requester checks the summary, confirms the judge's authorisation and submits.
    *
    * Then
+   * - The summary contains the requested type, urgency and time interval.
    * - The Requester sees confirmation with a request reference.
    * - The same hearing lists the Court Log request as Awaiting Authorisation.
    *
@@ -35,18 +34,14 @@ test('TR_002: The Requester can submit a transcript request for a hearing with a
    *   -> Hearing details
    *   -> Transcripts
    *   -> Request a new transcript
-   *   -> Request options
-   *   -> Specific times
+   *   -> Events, audio and specific times
    *   -> Check and confirm
    *   -> Submitted
    *   -> Hearing transcripts
    */
 
   // Arrange
-  const request = {
-    type: 'Court Log',
-    urgency: 'Overnight',
-  };
+  const request = { type: 'Court Log', urgency: 'Overnight' } as const;
 
   // Act
   await transcriptRequestFlow.submit(hearingWithAudio, request);

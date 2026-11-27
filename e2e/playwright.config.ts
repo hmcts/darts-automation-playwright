@@ -12,7 +12,8 @@ if (envResult.error && (!('code' in envResult.error) || envResult.error.code !==
 export default defineConfig<object, AuthOptions>({
   testDir: './tests',
   expect: { timeout: 15_000 },
-  timeout: 60_000,
+  // Allow multi-page journeys to complete on slower Jenkins agents.
+  timeout: 120_000,
   fullyParallel: true,
   workers: 2,
   forbidOnly: !!process.env.CI,

@@ -5,6 +5,7 @@ export const AuthUser = {
   REQUESTER: 'requester',
   APPROVER: 'approver',
   TRANSCRIBER: 'transcriber',
+  ADMIN: 'admin',
 } as const;
 
 export type AuthUser = (typeof AuthUser)[keyof typeof AuthUser];
@@ -22,17 +23,22 @@ const accounts = {
     route: 'external',
   },
   requester: {
-    username: 'AUTOMATION_REQUESTER_USERNAME',
+    username: 'AUTOMATION_REQUESTER_TEST_USERNAME',
     password: 'AUTOMATION_INTERNAL_PASSWORD',
     route: 'internal',
   },
   approver: {
-    username: 'AUTOMATION_APPROVER_USERNAME',
+    username: 'AUTOMATION_APPROVER_TEST_USERNAME',
     password: 'AUTOMATION_INTERNAL_PASSWORD',
     route: 'internal',
   },
   transcriber: {
     username: 'AUTOMATION_TRANSCRIBER_USERNAME',
+    password: 'AUTOMATION_EXTERNAL_PASSWORD',
+    route: 'external',
+  },
+  admin: {
+    username: 'DARTS_ADMIN_USERNAME',
     password: 'AUTOMATION_EXTERNAL_PASSWORD',
     route: 'external',
   },

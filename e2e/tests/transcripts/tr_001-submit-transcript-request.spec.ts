@@ -6,13 +6,13 @@ test.use({ authUser: AuthUser.AUTOMATION });
 // Timeout for the transcript-request journey.
 test.describe.configure({ timeout: 120_000 });
 
-test('TR_001: The Requester can submit a transcript request for a hearing with audio', async ({
+test('TR_001: The Requester can submit a Sentencing Remarks transcript request', async ({
   hearingPage,
   transcriptRequestFlow,
   hearingWithAudio,
 }) => {
   /**
-   * Scenario: TR_001: The Requester can submit a transcript request for a hearing with audio.
+   * Scenario: TR_001: The Requester can submit a Sentencing Remarks transcript request.
    *
    * Background
    * - The Requester is signed in and has access to the courthouse.
@@ -22,12 +22,12 @@ test('TR_001: The Requester can submit a transcript request for a hearing with a
    *
    * When
    * - The Requester opens the hearing and starts a transcript request.
-   * - The Requester selects Court Log, Overnight and the available audio interval.
+   * - The Requester selects Sentencing Remarks and Overnight urgency.
    * - The Requester checks the summary, confirms the judge's authorisation and submits.
    *
    * Then
    * - The Requester sees confirmation with a request reference.
-   * - The same hearing lists the Court Log request as Awaiting Authorisation.
+   * - The same hearing lists the Sentencing Remarks request as Awaiting Authorisation.
    *
    * Route
    *   Case details
@@ -35,7 +35,6 @@ test('TR_001: The Requester can submit a transcript request for a hearing with a
    *   -> Transcripts
    *   -> Request a new transcript
    *   -> Request options
-   *   -> Specific times
    *   -> Check and confirm
    *   -> Submitted
    *   -> Hearing transcripts
@@ -43,9 +42,9 @@ test('TR_001: The Requester can submit a transcript request for a hearing with a
 
   // Arrange
   const request = {
-    type: 'Court Log',
+    type: 'Sentencing remarks',
     urgency: 'Overnight',
-  };
+  } as const;
 
   // Act
   await transcriptRequestFlow.submit(hearingWithAudio, request);

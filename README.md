@@ -38,7 +38,11 @@ Run `yarn test:e2e` to execute the tests in `e2e/tests` using
 including tests in the same file. The case-search example creates a unique case and
 actual hearing through the API, finds the case in the UI and checks its details.
 The transcript-request example also uploads its own sample audio and submits a
-Court Log transcript request through the UI.
+Sentencing Remarks transcript request through the UI. The advanced-search
+scenarios (`CS_005`–`CS_008`) use the external Transcriber account and independent
+case data, covering court-log/event keywords, person details and search retention.
+Four hearing-history scenarios (`CS_009`–`CS_012`) verify date and courtroom
+sorting in both directions using separate cases with multiple hearings.
 
 See [the E2E testing approach and journey guide](e2e/doc/README.md) for
 folder responsibilities, named-user setup, journey coverage and a
@@ -54,18 +58,26 @@ use the same ID in the Scenario description, for example
 `Scenario: CS_001: The Requester can find a case and open its hearing.` Allocate IDs within each area without
 renumbering existing tests. See the E2E guide for the prefix and folder conventions.
 
-Install Chromium with `yarn playwright install chromium`. Copy `e2e/.env.example`
-to `e2e/.env` and uncomment and fill in the values needed for your tests, or set
-them in your shell or through Jenkins secret injection. The Playwright configuration
+Install Chromium with `yarn playwright install chromium`. Create the ignored
+`e2e/.env` with the variables needed for your tests, or set them in your shell
+or through Jenkins secret injection. The Playwright configuration
 loads `e2e/.env` regardless of the working directory; existing environment variables
-take precedence. The file is Git-ignored: keep credentials out of the example and
-never commit or share the populated file. The file is optional when using injected
+take precedence. The file is Git-ignored: never commit or share the populated file. The file is optional when using injected
 variables.
 
-Both business specs select the existing external automation account through the
-`authUser` fixture option. Supply `AUTOMATION_USERNAME` and `AUTOMATION_PASSWORD`
+Basic case search (`CS_001`) and transcript submission select the existing external automation
+account through the `authUser` fixture option. Supply `AUTOMATION_USERNAME` and `AUTOMATION_PASSWORD`
 through environment injection or the ignored `e2e/.env` file. Other named account
 profiles remain available in the guide.
+The advanced-search and hearing-history specs select `AuthUser.TRANSCRIBER`; supply
+`AUTOMATION_TRANSCRIBER_USERNAME` and `AUTOMATION_EXTERNAL_PASSWORD` for those tests.
+
+The Admin user-creation scenario (`AC_001`) selects `AuthUser.ADMIN`. Supply
+`DARTS_ADMIN_USERNAME` (Key Vault secret `DartsAdminUserName`) and the existing
+`AUTOMATION_EXTERNAL_PASSWORD` (`DartsExternalUsersTestPassword`). The account
+requires SUPER_ADMIN permissions in DARTS. Run this first Admin scenario alone
+with `yarn test:e2e --grep 'AC_001:'`. It passed live verification on 27 November
+2026. Admin scenarios are under `e2e/tests/admin/`.
 
 The generic automation profile supports these existing variables:
 

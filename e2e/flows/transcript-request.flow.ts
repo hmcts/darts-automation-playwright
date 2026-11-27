@@ -1,13 +1,16 @@
 import { type HearingWithAudio } from '../data/audio';
 import { type CasePage } from '../pages/case.page';
 import { type HearingPage } from '../pages/hearing.page';
-import { type TranscriptRequestPage } from '../pages/transcript-request.page';
+import {
+  type TranscriptRequestPage,
+  type TranscriptRequestType,
+} from '../pages/transcript-request.page';
 import { createLogger } from '../support/logger';
 
 const log = createLogger('transcript-request');
 
 interface TranscriptRequestOptions {
-  type: string;
+  type: TranscriptRequestType;
   urgency: string;
 }
 
@@ -41,12 +44,15 @@ export class TranscriptRequestFlow {
 
     await this.transcriptRequest.expectAudioInterval(startTime, endTime);
     await this.transcriptRequest.selectRequest(options.type, options.urgency);
-    await this.transcriptRequest.selectInterval(startTime, endTime);
+    if (options.type === 'Court Log') {
+      await this.transcriptRequest.selectInterval(startTime, endTime);
+    } else if (options.type === 'Specified Times') {
+      await this.transcriptRequest.selectIntervalFromEvents(startTime, endTime);
+    }
     await this.transcriptRequest.expectDetails({
       caseNumber: courtCase.number,
       ...options,
-      startTime,
-      endTime,
+      ...(options.type === 'Sentencing remarks' ? {} : { interval: { startTime, endTime } }),
     });
 
     const requestId = await this.transcriptRequest.submit();

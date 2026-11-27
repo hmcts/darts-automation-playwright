@@ -12,6 +12,18 @@ import { requireCaseCreationTarget } from '../services/case.service';
 import { readInboundStorageUrl } from '../services/audio.service';
 import { TranscriptRequestFlow } from '../flows/transcript-request.flow';
 import { createLogger } from '../support/logger';
+import { type SearchableHearing } from '../data/search';
+import { AdvancedSearchFlow } from '../flows/advanced-search.flow';
+import { hearingDay, planEarlierHearings, type HearingHistory } from '../data/hearing-history';
+import { HearingHistoryFlow } from '../flows/hearing-history.flow';
+import { newUserDetails, type NewUserDetails } from '../data/user';
+import { AdminUsersPage } from '../pages/admin-users.page';
+import { CreateUserFlow } from '../flows/create-user.flow';
+import { UpdateUserFlow } from '../flows/update-user.flow';
+import { AssignUserGroupFlow } from '../flows/assign-user-group.flow';
+import { UserAccessFlow } from '../flows/user-access.flow';
+import { approverGroup, type SecurityGroupDetails } from '../data/security-group';
+import { AuthUser } from '../setup/users';
 
 const log = createLogger('setup');
 
@@ -25,7 +37,116 @@ export const test = mergeTests(authTest, serviceTest).extend<{
   createdCase: CreatedHearing;
   caseWithInterpreter: CreatedHearing;
   hearingWithAudio: HearingWithAudio;
+  hearingWithAudioEvents: HearingWithAudio;
+  courtLogHearing: SearchableHearing;
+  restrictedEventHearing: SearchableHearing;
+  advancedSearchFlow: AdvancedSearchFlow;
+  hearingHistory: HearingHistory;
+  hearingHistoryFlow: HearingHistoryFlow;
+  userToCreate: NewUserDetails;
+  adminUsers: AdminUsersPage;
+  createUserFlow: CreateUserFlow;
+  userChanges: NewUserDetails;
+  updateUserFlow: UpdateUserFlow;
+  groupToAssign: SecurityGroupDetails;
+  assignUserGroupFlow: AssignUserGroupFlow;
+  userAccessFlow: UserAccessFlow;
 }>({
+  hearingWithAudioEvents: async ({ hearingWithAudio, events }, use) => {
+    await events.recordTranscriptBoundaryEvents(
+      hearingWithAudio.courtCase,
+      hearingWithAudio.startedAt,
+      hearingWithAudio.endedAt,
+    );
+    await use(hearingWithAudio);
+  },
+  userAccessFlow: async ({ adminUsers }, use) => {
+    await use(new UserAccessFlow(adminUsers));
+  },
+  groupToAssign: approverGroup,
+  assignUserGroupFlow: async ({ adminUsers }, use) => {
+    await use(new AssignUserGroupFlow(adminUsers));
+  },
+  userChanges: async ({ userToCreate }, use) => {
+    const changes = newUserDetails();
+    await use({ ...changes, fullName: `${userToCreate.fullName} Updated` });
+  },
+  updateUserFlow: async ({ adminUsers }, use) => {
+    await use(new UpdateUserFlow(adminUsers));
+  },
+  userToCreate: async ({ authUser, baseURL }, use, testInfo) => {
+    if (authUser !== AuthUser.ADMIN) throw new Error('User creation requires AuthUser.ADMIN.');
+    requireCaseCreationTarget(baseURL, process.env.DARTS_API);
+    const user = newUserDetails();
+    await testInfo.attach('planned-user', {
+      body: JSON.stringify(user),
+      contentType: 'application/json',
+    });
+    await use(user);
+  },
+  adminUsers: async ({ page }, use, testInfo) => {
+    const users = new AdminUsersPage(page);
+    try {
+      await use(users);
+    } finally {
+      await testInfo.attach('created-user-identifiers', {
+        body: JSON.stringify(users.createdUsers),
+        contentType: 'application/json',
+      });
+    }
+  },
+  createUserFlow: async ({ adminUsers }, use) => {
+    await use(new CreateUserFlow(adminUsers));
+  },
+  hearingHistory: async ({ createdCase, cases }, use, testInfo) => {
+    const hearings = [
+      {
+        id: createdCase.hearingId,
+        date: hearingDay(createdCase.timestamp),
+        courtroom: createdCase.courtroom,
+      },
+    ];
+    const plan = planEarlierHearings(createdCase);
+    await testInfo.attach('hearing-history-plan', {
+      body: JSON.stringify({ caseId: createdCase.id, hearings, planned: plan }),
+      contentType: 'application/json',
+    });
+    for (const data of plan) {
+      await cases.createHearing(data);
+      const id = await cases.getHearingId({ ...createdCase, ...data });
+      hearings.push({ id, date: hearingDay(data.timestamp), courtroom: data.courtroom });
+    }
+    log.info(`Hearing history ready for case ${createdCase.id} (${hearings.length} hearings)`);
+    await testInfo.attach('hearing-history-identifiers', {
+      body: JSON.stringify({ caseId: createdCase.id, hearings }),
+      contentType: 'application/json',
+    });
+    await use({ courtCase: createdCase, hearings });
+  },
+  hearingHistoryFlow: async ({ casePage }, use) => {
+    await use(new HearingHistoryFlow(casePage));
+  },
+  courtLogHearing: async ({ createdCase, courtLogs }, use, testInfo) => {
+    const keywords = `PW court log ${createdCase.number}`;
+    await courtLogs.create(createdCase, keywords);
+    await testInfo.attach('court-log-search-data', {
+      body: JSON.stringify({ caseId: createdCase.id, hearingId: createdCase.hearingId, keywords }),
+      contentType: 'application/json',
+    });
+    await use({ ...createdCase, keywords });
+  },
+  restrictedEventHearing: async ({ createdCase, events }, use, testInfo) => {
+    const keywords = `PW reporting restriction ${createdCase.number}`;
+    await events.recordReportingRestriction(createdCase, keywords);
+    await testInfo.attach('event-search-data', {
+      body: JSON.stringify({ caseId: createdCase.id, hearingId: createdCase.hearingId, keywords }),
+      contentType: 'application/json',
+    });
+    await use({ ...createdCase, keywords });
+  },
+  advancedSearchFlow: async ({ caseSearch, casePage }, use) => {
+    await use(new AdvancedSearchFlow(caseSearch, casePage));
+  },
   scenarioLog: [
     // eslint-disable-next-line no-empty-pattern
     async ({}, use, testInfo) => {

@@ -8,6 +8,38 @@ const tokenEndpoint =
 
 export class ApiAuthenticationError extends Error {}
 
+const transportCodes = new Set([
+  'ECONNREFUSED',
+  'ECONNRESET',
+  'EAI_AGAIN',
+  'ENETUNREACH',
+  'ENOTFOUND',
+  'ETIMEDOUT',
+  'UND_ERR_CONNECT_TIMEOUT',
+  'UND_ERR_HEADERS_TIMEOUT',
+  'UND_ERR_BODY_TIMEOUT',
+  'UND_ERR_SOCKET',
+]);
+
+function transportFailureCode(error: unknown): string {
+  if (typeof error !== 'object' || error === null) return 'UNKNOWN_TRANSPORT_ERROR';
+  const cause = 'cause' in error ? error.cause : undefined;
+  for (const value of [error, cause]) {
+    if (
+      typeof value === 'object' &&
+      value !== null &&
+      'code' in value &&
+      typeof value.code === 'string' &&
+      transportCodes.has(value.code)
+    ) {
+      return value.code;
+    }
+  }
+  if (error instanceof Error && error.name === 'TimeoutError') return 'REQUEST_TIMEOUT';
+  if (error instanceof Error && error.name === 'AbortError') return 'REQUEST_ABORTED';
+  return 'UNKNOWN_TRANSPORT_ERROR';
+}
+
 // Node's HTTP client keeps credential forms and bearer headers out of Playwright traces.
 // Transport injection lets local checks exercise failures without contacting Azure/DARTS.
 export class DartsApiClient {
@@ -38,9 +70,11 @@ export class DartsApiClient {
         redirect: 'error',
         signal: AbortSignal.timeout(30_000),
       });
-    } catch {
+    } catch (error: unknown) {
       // Do not include underlying errors: they can contain credential forms or headers.
-      throw new ApiAuthenticationError('API token request failed. Check Azure connectivity.');
+      throw new ApiAuthenticationError(
+        `API token request failed (${transportFailureCode(error)}). Check Azure connectivity.`,
+      );
     }
     if (!response.ok) {
       throw new ApiAuthenticationError(
@@ -101,9 +135,11 @@ export class DartsApiClient {
       });
       log.debug(`${method} ${url.pathname} -> ${response.status} (${Date.now() - started}ms)`);
       return response;
-    } catch {
-      log.debug(`${method} ${url.pathname} failed (${Date.now() - started}ms)`);
-      throw new Error(`DARTS API ${method} request failed. Check API connectivity and redirects.`);
+    } catch (error: unknown) {
+      // Only allowlisted codes are exposed; raw fetch errors can contain secrets.
+      const failure = `${method} ${url.pathname} failed after ${Date.now() - started}ms (${transportFailureCode(error)})`;
+      log.info(failure);
+      throw new Error(`DARTS API ${failure}. Check API connectivity and redirects.`);
     }
   }
 }

@@ -3,12 +3,13 @@ import { expect, type Page } from '@playwright/test';
 
 const log = createLogger('transcript-request');
 
+export type TranscriptRequestType = 'Court Log' | 'Sentencing remarks' | 'Specified Times';
+
 interface ExpectedTranscriptRequest {
   caseNumber: string;
-  type: string;
+  type: TranscriptRequestType;
   urgency: string;
-  startTime: string;
-  endTime: string;
+  interval?: { startTime: string; endTime: string };
 }
 
 export class TranscriptRequestPage {
@@ -25,14 +26,17 @@ export class TranscriptRequestPage {
     ).toBeVisible();
   }
 
-  async selectRequest(type: string, urgency: string): Promise<void> {
+  async selectRequest(type: TranscriptRequestType, urgency: string): Promise<void> {
     log.debug('Select transcript type and urgency');
     await this.page.locator('#transcription-type').selectOption({ label: type });
     await this.page.locator('#urgency').selectOption({ label: urgency });
     await this.page.getByRole('button', { name: 'Continue', exact: true }).click();
     await expect(
       this.page.getByRole('heading', {
-        name: 'Events, audio and specific times requests',
+        name:
+          type === 'Sentencing remarks'
+            ? 'Check and confirm your transcript request'
+            : 'Events, audio and specific times requests',
         exact: true,
       }),
     ).toBeVisible();
@@ -53,6 +57,32 @@ export class TranscriptRequestPage {
     await this.page.getByRole('button', { name: 'Continue', exact: true }).click();
   }
 
+  async selectIntervalFromEvents(startTime: string, endTime: string): Promise<void> {
+    log.debug('Select hearing events to populate the transcript time interval');
+    const events = this.page.locator('app-request-times #event-table');
+    for (const [time, name] of [
+      [startTime, 'Hearing started'],
+      [endTime, 'Hearing ended'],
+    ] as const) {
+      const row = events
+        .getByRole('row')
+        .filter({ has: this.page.getByRole('cell', { name: time, exact: true }) })
+        .filter({ has: this.page.getByRole('cell', { name, exact: true }) });
+      await expect(row).toHaveCount(1);
+      await row.getByRole('checkbox').check();
+    }
+    for (const [prefix, time] of [
+      ['start', startTime],
+      ['end', endTime],
+    ] as const) {
+      const [hour, minutes, seconds] = time.split(':');
+      await expect(this.page.locator(`#${prefix}-hour-input`)).toHaveValue(hour);
+      await expect(this.page.locator(`#${prefix}-minutes-input`)).toHaveValue(minutes);
+      await expect(this.page.locator(`#${prefix}-seconds-input`)).toHaveValue(seconds);
+    }
+    await this.page.getByRole('button', { name: 'Continue', exact: true }).click();
+  }
+
   async expectDetails(expected: ExpectedTranscriptRequest): Promise<void> {
     log.debug('Verify the request summary');
     await expect(
@@ -64,9 +94,12 @@ export class TranscriptRequestPage {
     for (const value of [expected.caseNumber, expected.type, expected.urgency]) {
       await expect(this.page.getByRole('definition').filter({ hasText: value })).toHaveText(value);
     }
-    await expect(
-      this.page.getByRole('definition').filter({ hasText: `Start time ${expected.startTime}` }),
-    ).toHaveText(`Start time ${expected.startTime} - End time ${expected.endTime}`);
+    if (expected.interval) {
+      const { startTime, endTime } = expected.interval;
+      await expect(
+        this.page.getByRole('definition').filter({ hasText: `Start time ${startTime}` }),
+      ).toHaveText(`Start time ${startTime} - End time ${endTime}`);
+    }
   }
 
   async submit(): Promise<number> {
